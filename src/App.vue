@@ -1,11 +1,12 @@
 <script setup>
+import SideNav from './components/SideNav.vue';
 </script>
 
 <template>
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+  <main class="w-full h-screen">
+    <SideNav />
+    <router-view></router-view>
+  </main>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
