@@ -1,19 +1,26 @@
 <script setup>
-//select the div with dropdown class
-// const dropdown = document.querySelector('.dropdown');
-// const burger = document.querySelector('#hamburger');
-// burger.addEventListener('click', () => {
-//   dropdown.classList.toggle('hidden');
-// });
-
+  document.addEventListener('DOMContentLoaded', () => {
+    //select the div with dropdown class
+    const dropdown = document.querySelector('.dropdown');
+    const hamburger = document.querySelector('.hamburger');
+    //add event listener to the hamburger icon
+    hamburger.addEventListener('click', () => {
+      //toggle the hidden class
+      dropdown.classList.toggle('hidden');
+      //change fa-solid fa-bars to fa-solid fa-xmark
+      hamburger.classList.toggle('fa-bars');
+      hamburger.classList.toggle('fa-xmark');
+    });
+  });
 </script>
+
     
 <template>
   <div class="">
     <div class="w-full h-15 bg-red-200 flex justify-between p-5">
       <!-- Quintt: dit is voorbeeld, voeg eigen routes toe. -->
       <img src="" alt="logo icon" />
-      <i class="fa-solid fa-bars self-center" id="hamburger"></i>
+      <i class="hamburger fa-solid fa-bars self-center"></i>
     </div>
     <div class="dropdown hidden">
       <div class="w-full bg-red-300 p-5">
