@@ -42,52 +42,37 @@ onMounted(() => {
       </div>
 
       <div class="hidden xl:block">
-        <div
-          class="pl-5 ml-5 py-[12px] rounded-l-[5px]"
-          :class="{ 'bg-[#9EBDFF]': currentRoute === '/home' }"
-        >
-          <router-link to="/home" :class="{'font-normal': currentRoute !== '/home', 'font-bold': currentRoute === '/home'}">
-            <i
-              class="pr-3"
-              :class="{
-                'fa-regular': currentRoute !== '/home',
-                'fa-solid': currentRoute === '/home',
-                'fa-building': true,
-              }"
-            ></i>
+        <div class="pl-5 ml-5 py-[12px] rounded-l-[5px]" :class="{ 'bg-[#9EBDFF]': currentRoute === '/home' }">
+          <router-link to="/home"
+            :class="{ 'font-normal': currentRoute !== '/home', 'font-bold': currentRoute === '/home' }">
+            <i class="pr-3" :class="{
+              'fa-regular': currentRoute !== '/home',
+              'fa-solid': currentRoute === '/home',
+              'fa-building': true,
+            }"></i>
 
             Home
           </router-link>
         </div>
-        <div
-          class="p-5 ml-5 mt-4 py-[12px] rounded-l-[5px]"
-          :class="{ 'bg-[#9EBDFF]': currentRoute === '/bewaard' }"
-        >
-          <router-link to="/bewaard" :class="{'font-normal': currentRoute !== '/bewaard', 'font-bold': currentRoute === '/bewaard'}">
-            <i
-              class="pr-3"
-              :class="{
-                'fa-regular': currentRoute !== '/bewaard',
-                'fa-solid': currentRoute === '/bewaard',
-                'fa-bookmark': true,
-              }"
-            ></i>
+        <div class="p-5 ml-5 mt-4 py-[12px] rounded-l-[5px]" :class="{ 'bg-[#9EBDFF]': currentRoute === '/bewaard' }">
+          <router-link to="/bewaard"
+            :class="{ 'font-normal': currentRoute !== '/bewaard', 'font-bold': currentRoute === '/bewaard' }">
+            <i class="pr-3" :class="{
+              'fa-regular': currentRoute !== '/bewaard',
+              'fa-solid': currentRoute === '/bewaard',
+              'fa-bookmark': true,
+            }"></i>
             Bewaard
           </router-link>
         </div>
-        <div
-          class="p-5 ml-5 mt-4 py-[12px] rounded-l-[5px]"
-          :class="{ 'bg-[#9EBDFF]': currentRoute === '/account' }"
-        >
-          <router-link to="/account" :class="{'font-normal': currentRoute !== '/account', 'font-bold': currentRoute === '/account'}">
-            <i
-              class="pr-3"
-              :class="{
-                'fa-regular': currentRoute !== '/account',
-                'fa-solid': currentRoute === '/account',
-                'fa-user': true,
-              }"
-            ></i>
+        <div class="p-5 ml-5 mt-4 py-[12px] rounded-l-[5px]" :class="{ 'bg-[#9EBDFF]': currentRoute === '/account' }">
+          <router-link to="/account"
+            :class="{ 'font-normal': currentRoute !== '/account', 'font-bold': currentRoute === '/account' }">
+            <i class="pr-3" :class="{
+              'fa-regular': currentRoute !== '/account',
+              'fa-solid': currentRoute === '/account',
+              'fa-user': true,
+            }"></i>
             Account
           </router-link>
         </div>
@@ -99,51 +84,35 @@ onMounted(() => {
       </div>
     </div>
     <div class="dropdown bg-[#EDF0F5] hidden">
-      <div
-        class="w-full p-5"
-        :class="{ 'bg-[#9EBDFF]': currentRoute === '/home' }"
-      >
-        <router-link to="/home" :class="{'font-normal': currentRoute !== '/home', 'font-bold': currentRoute === '/home'}">
-          <i
-            class="pr-3"
-            :class="{
-              'fa-regular': currentRoute !== '/home',
-              'fa-solid': currentRoute === '/home',
-              'fa-building': true,
-            }"
-          ></i>
+      <div class="w-full p-5" :class="{ 'bg-[#9EBDFF]': currentRoute === '/home' }">
+        <router-link to="/home" :class="{ 'font-normal': currentRoute !== '/home', 'font-bold': currentRoute === '/home' }">
+          <i class="pr-3" :class="{
+            'fa-regular': currentRoute !== '/home',
+            'fa-solid': currentRoute === '/home',
+            'fa-building': true,
+          }"></i>
           Home
         </router-link>
       </div>
-      <div
-        class="w-full p-5"
-        :class="{ 'bg-[#9EBDFF]': currentRoute === '/bewaard' }"
-      >
-        <router-link to="/bewaard" :class="{'font-normal': currentRoute !== '/bewaard', 'font-bold': currentRoute === '/bewaard'}">
-          <i
-            class="pr-3"
-            :class="{
-              'fa-regular': currentRoute !== '/bewaard',
-              'fa-solid': currentRoute === '/bewaard',
-              'fa-bookmark': true,
-            }"
-          ></i>
+      <div class="w-full p-5" :class="{ 'bg-[#9EBDFF]': currentRoute === '/bewaard' }">
+        <router-link to="/bewaard"
+          :class="{ 'font-normal': currentRoute !== '/bewaard', 'font-bold': currentRoute === '/bewaard' }">
+          <i class="pr-3" :class="{
+            'fa-regular': currentRoute !== '/bewaard',
+            'fa-solid': currentRoute === '/bewaard',
+            'fa-bookmark': true,
+          }"></i>
           Bewaard
         </router-link>
       </div>
-      <div
-        class="w-full p-5"
-        :class="{ 'bg-[#9EBDFF]': currentRoute === '/account' }"
-      >
-        <router-link to="/account" :class="{'font-normal': currentRoute !== '/account', 'font-bold': currentRoute === '/account'}">
-          <i
-            class="pr-3"
-            :class="{
-              'fa-regular': currentRoute !== '/account',
-              'fa-solid': currentRoute === '/account',
-              'fa-user': true,
-            }"
-          ></i>
+      <div class="w-full p-5" :class="{ 'bg-[#9EBDFF]': currentRoute === '/account' }">
+        <router-link to="/account"
+          :class="{ 'font-normal': currentRoute !== '/account', 'font-bold': currentRoute === '/account' }">
+          <i class="pr-3" :class="{
+            'fa-regular': currentRoute !== '/account',
+            'fa-solid': currentRoute === '/account',
+            'fa-user': true,
+          }"></i>
           Account
         </router-link>
       </div>
