@@ -1,16 +1,17 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import index from "./pages/IndexPage.vue";
 import bewaard from "./pages/BewaardPage.vue";
 import account from "./pages/AccountPage.vue";
 import home from "./pages/HomePage.vue";
-// import login from "./pages/LoginPage.vue";
+import login from "./pages/LoginPage.vue"; // no navigation
+import test from "./pages/TestPage.vue"; // no navigation
+import SideNav from "./components/SideNav.vue";
 
 const routes = [
-  { path: "/", component: index },
-  // { path: "/login", component: login},
-  { path: "/bewaard", component: bewaard},
-  { path: "/account", component: account},
-  { path: "/home", component: home}
+  { path: "/", components: { default: home, sidebar: SideNav } },
+  { path: "/bewaard", components: { default: bewaard, sidebar: SideNav } },
+  { path: "/account", components: { default: account, sidebar: SideNav } },
+  { path: "/login", components: { default: login } }, // no sidebar
+  { path: "/test", components: { default: test } }, // no sidebar
 ];
 
 const router = createRouter({

@@ -1,12 +1,12 @@
 <script setup>
-import SideNav from './components/SideNav.vue';
 </script>
 
 <template>
   <main class="w-full h-screen">
-    <SideNav />
+    <router-view name="sidebar"></router-view>
     <router-view></router-view>
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
