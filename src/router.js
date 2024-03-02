@@ -6,11 +6,6 @@ import login from "./pages/LoginPage.vue"; // no navigation
 import test from "./pages/TestPage.vue"; // no navigation
 import sideNav from "./components/SideNav.vue";
 import topNav from "./components/TopNav.vue";
-// import everything from "./pages/EverythingPage.vue";
-// import suggestions from "./pages/SuggestionsPage.vue";
-// import inProgress from "./pages/InProgressPage.vue";
-// import done from "./pages/DonePage.vue";
-// import login from "./pages/LoginPage.vue";
 
 const routes = [
   { path: "/", components: { default: home, sidebar: sideNav, topNav: topNav } },
