@@ -17,30 +17,32 @@ function toggleActiveLink() {
 </script>
 
 <template>
-  <div class="mt-4 xl:ml-10 xl:mr-10"> <!-- Add margin top here -->
-    <div class="pl-5 mt-2 flex items-center justify-between">
-      <h1 class="text-lg font-bold mb-2">Home</h1>
-      <router-link to="#" class="flex items-center ml-2 pr-5">
-        <i class="fa-solid fa-gear"></i>
-      </router-link>
-    </div>
+  <div class="xl:w-full bg-[#FDFDFD]">
+    <div class="mt-4 xl:ml-10 xl:mr-10"> <!-- Add margin top here -->
+      <div class="pl-5 mt-2 flex items-center justify-between">
+        <h1 class="text-lg font-bold mb-2">Home</h1>
+        <router-link to="#" class="flex items-center ml-2 pr-5">
+          <i class="fa-solid fa-gear"></i>
+        </router-link>
+      </div>
 
-    <div class="pl-5 mt-2 flex gap-6 md:gap-24 overflow-x-auto xl:mt-4">
-       <router-link to="/everything" class="flex" :class="{ 'text-blue-500': isRouteActive('/everything') }"
-        custom-class="active">
-        <span :class="{ 'border-b-2 border-blue-500 mb-2': isRouteActive('/everything') }">Alles</span>
-      </router-link>
-      <router-link to="/suggestions" class="flex" :class="{ 'text-blue-500': isRouteActive('/suggestions') }"
-        custom-class="active">
-        <span :class="{ 'border-b-2 border-blue-500 mb-2': isRouteActive('/suggestions') }">Suggesties</span>
-      </router-link>
-      <router-link to="/inProgress" class="flex" :class="{ 'text-blue-500': isRouteActive('/inProgress') }"
-        custom-class="active">
-        <span :class="{ 'border-b-2 border-blue-500 mb-2': isRouteActive('/inProgress') }">Meebezig</span>
-      </router-link>
-      <router-link to="/done" class="flex" :class="{ 'text-blue-500': isRouteActive('/done') }" custom-class="active">
-        <span :class="{ 'border-b-2 border-blue-500 mb-2': isRouteActive('/done') }">Klaar</span>
-      </router-link>
+      <div class="pl-5 mt-2 flex gap-6 md:gap-[30px] overflow-x-auto xl:mt-4">
+        <router-link to="/everything" class="flex" :class="{ 'text-blue-500': isRouteActive('/everything') }"
+          custom-class="active">
+          <span :class="{ 'border-b-2 border-blue-500 mb-2': isRouteActive('/everything') }">Alles</span>
+        </router-link>
+        <router-link to="/suggestions" class="flex" :class="{ 'text-blue-500': isRouteActive('/suggestions') }"
+          custom-class="active">
+          <span :class="{ 'border-b-2 border-blue-500 mb-2': isRouteActive('/suggestions') }">Suggesties</span>
+        </router-link>
+        <router-link to="/inProgress" class="flex" :class="{ 'text-blue-500': isRouteActive('/inProgress') }"
+          custom-class="active">
+          <span :class="{ 'border-b-2 border-blue-500 mb-2': isRouteActive('/inProgress') }">Meebezig</span>
+        </router-link>
+        <router-link to="/done" class="flex" :class="{ 'text-blue-500': isRouteActive('/done') }" custom-class="active">
+          <span :class="{ 'border-b-2 border-blue-500 mb-2': isRouteActive('/done') }">Klaar</span>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>

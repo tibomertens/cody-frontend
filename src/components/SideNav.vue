@@ -34,7 +34,7 @@ onMounted(() => {
 
 <template>
   <div class="w-full xl:w-[20%]">
-    <div class="w-full h-[20%] bg-[#EDF0F5]  xl:h-screen">
+    <div class="w-full h-[20%] bg-[#FDFDFD]  xl:h-screen">
       <!-- Quintt: dit is voorbeeld, voeg eigen routes toe. -->
       <div class="flex justify-between p-5">
         <img src="" alt="logo icon" />
@@ -42,15 +42,14 @@ onMounted(() => {
       </div>
 
       <div class="hidden xl:block">
-        <div class="pl-5 ml-5 py-[12px] rounded-l-[5px]" :class="{ 'bg-[#9EBDFF]': currentRoute === '/home' }">
-          <router-link to="/home"
-            :class="{ 'font-normal': currentRoute !== '/home', 'font-bold': currentRoute === '/home' }">
+        <div class="pl-5 ml-5 py-[12px] rounded-l-[5px]" :class="{ 'bg-[#9EBDFF]': currentRoute === '/' }">
+          <router-link to="/"
+            :class="{ 'font-normal': currentRoute !== '/', 'font-bold': currentRoute === '/' }">
             <i class="pr-3" :class="{
-              'fa-regular': currentRoute !== '/home',
-              'fa-solid': currentRoute === '/home',
+              'fa-regular': currentRoute !== '/',
+              'fa-solid': currentRoute === '/',
               'fa-building': true,
             }"></i>
-
             Home
           </router-link>
         </div>
