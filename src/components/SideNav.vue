@@ -84,11 +84,11 @@ onMounted(() => {
       </div>
     </div>
     <div class="dropdown bg-[#EDF0F5] hidden">
-      <div class="w-full p-5" :class="{ 'bg-[#9EBDFF]': currentRoute === '/home' }">
-        <router-link to="/home" :class="{ 'font-normal': currentRoute !== '/home', 'font-bold': currentRoute === '/home' }">
+      <div class="w-full p-5" :class="{ 'bg-[#9EBDFF]': currentRoute === '/' }">
+        <router-link to="/" :class="{ 'font-normal': currentRoute !== '/', 'font-bold': currentRoute === '/' }">
           <i class="pr-3" :class="{
-            'fa-regular': currentRoute !== '/home',
-            'fa-solid': currentRoute === '/home',
+            'fa-regular': currentRoute !== '/',
+            'fa-solid': currentRoute === '/',
             'fa-building': true,
           }"></i>
           Home
