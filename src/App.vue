@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <main class="w-full h-screen">
+  <main class="w-full h-screen bg-offWhite-dark">
     <div class="xl:flex">
       <router-view name="sidebar"></router-view>
       <router-view name="topNav"></router-view>
