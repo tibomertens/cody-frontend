@@ -33,8 +33,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="">
-    <div class="w-full h-15 bg-[#EDF0F5] xl:w-[20%] xl:h-screen">
+  <div class="w-full xl:w-[20%]">
+    <div class="w-full h-[20%] bg-[#EDF0F5]  xl:h-screen">
       <!-- Quintt: dit is voorbeeld, voeg eigen routes toe. -->
       <div class="flex justify-between p-5">
         <img src="" alt="logo icon" />
