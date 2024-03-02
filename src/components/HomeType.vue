@@ -21,7 +21,6 @@ const handleItemSelected = (itemName) => {
         <label for="surface">Bewoonbare oppervlakte</label>
         <input type="text" name="surface" id="surface">
       </div>
-      <p>Selected Item: {{ selectedItem }}</p>
     </section>
 </template>
   
