@@ -34,7 +34,7 @@ onMounted(() => {
 
 <template>
   <div class="w-full xl:w-[20%]">
-    <div class="w-full h-[20%] bg-[#FDFDFD]  xl:h-screen">
+    <div class="w-full h-[20%] bg-offWhite-light xl:h-screen">
       <!-- Quintt: dit is voorbeeld, voeg eigen routes toe. -->
       <div class="flex justify-between p-5">
         <img src="" alt="logo icon" />
@@ -42,7 +42,7 @@ onMounted(() => {
       </div>
 
       <div class="hidden xl:block">
-        <div class="pl-5 ml-5 py-[12px] rounded-l-[5px]" :class="{ 'bg-[#9EBDFF]': currentRoute === '/' }">
+        <div class="pl-5 ml-5 py-[12px] rounded-l-[5px]" :class="{ 'bg-primary-light': currentRoute === '/' }">
           <router-link to="/"
             :class="{ 'font-normal': currentRoute !== '/', 'font-bold': currentRoute === '/' }">
             <i class="pr-3" :class="{
@@ -53,7 +53,7 @@ onMounted(() => {
             Home
           </router-link>
         </div>
-        <div class="p-5 ml-5 mt-4 py-[12px] rounded-l-[5px]" :class="{ 'bg-[#9EBDFF]': currentRoute === '/bewaard' }">
+        <div class="p-5 ml-5 mt-4 py-[12px] rounded-l-[5px]" :class="{ 'bg-primary-light': currentRoute === '/bewaard' }">
           <router-link to="/bewaard"
             :class="{ 'font-normal': currentRoute !== '/bewaard', 'font-bold': currentRoute === '/bewaard' }">
             <i class="pr-3" :class="{
@@ -64,7 +64,7 @@ onMounted(() => {
             Bewaard
           </router-link>
         </div>
-        <div class="p-5 ml-5 mt-4 py-[12px] rounded-l-[5px]" :class="{ 'bg-[#9EBDFF]': currentRoute === '/account' }">
+        <div class="p-5 ml-5 mt-4 py-[12px] rounded-l-[5px]" :class="{ 'bg-primary-light': currentRoute === '/account' }">
           <router-link to="/account"
             :class="{ 'font-normal': currentRoute !== '/account', 'font-bold': currentRoute === '/account' }">
             <i class="pr-3" :class="{
@@ -82,8 +82,8 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div class="dropdown bg-[#EDF0F5] hidden">
-      <div class="w-full p-5" :class="{ 'bg-[#9EBDFF]': currentRoute === '/' }">
+    <div class="dropdown bg-offWhite-light hidden">
+      <div class="w-full p-5" :class="{ 'bg-primary-light': currentRoute === '/' }">
         <router-link to="/" :class="{ 'font-normal': currentRoute !== '/', 'font-bold': currentRoute === '/' }">
           <i class="pr-3" :class="{
             'fa-regular': currentRoute !== '/',
@@ -93,7 +93,7 @@ onMounted(() => {
           Home
         </router-link>
       </div>
-      <div class="w-full p-5" :class="{ 'bg-[#9EBDFF]': currentRoute === '/bewaard' }">
+      <div class="w-full p-5" :class="{ 'bg-primary-light': currentRoute === '/bewaard' }">
         <router-link to="/bewaard"
           :class="{ 'font-normal': currentRoute !== '/bewaard', 'font-bold': currentRoute === '/bewaard' }">
           <i class="pr-3" :class="{
@@ -104,7 +104,7 @@ onMounted(() => {
           Bewaard
         </router-link>
       </div>
-      <div class="w-full p-5" :class="{ 'bg-[#9EBDFF]': currentRoute === '/account' }">
+      <div class="w-full p-5" :class="{ 'bg-primary-light': currentRoute === '/account' }">
         <router-link to="/account"
           :class="{ 'font-normal': currentRoute !== '/account', 'font-bold': currentRoute === '/account' }">
           <i class="pr-3" :class="{
