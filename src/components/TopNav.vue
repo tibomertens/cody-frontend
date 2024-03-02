@@ -18,29 +18,28 @@ function toggleActiveLink() {
 
 <template>
   <div class="xl:w-full bg-offWhite-light">
-    <div class="mt-4 xl:ml-10 xl:mr-10"> <!-- Add margin top here -->
-      <div class="pl-5 mt-2 flex items-center justify-between">
-        <h1 class="text-lg font-bold mb-2">Home</h1>
+    <div class="xl:ml-10 xl:mr-10 pl-[24px] xl:pl-0"> <!-- Add margin top here -->
+      <div class="pt-[24px] flex items-center justify-between">
+        <h1 class="text-[2rem] font-bold mb-2">Home</h1>
         <router-link to="#" class="flex items-center ml-2 pr-5">
           <i class="fa-solid fa-gear"></i>
         </router-link>
       </div>
-
-      <div class="pl-5 mt-2 flex gap-6 md:gap-[2rem] overflow-x-auto xl:mt-4">
-        <router-link to="/everything" class="flex" :class="{ 'text-primary-light': isRouteActive('/everything') }"
-          custom-class="active">
-          <span :class="{ 'border-b-2 border-primary-light mb-2': isRouteActive('/everything') }">Alles</span>
+      <div class="flex gap-6 md:gap-[2rem] overflow-x-auto xl:mt-[12px] font-bold text-[1.2rem]">
+        <router-link to="/" class="flex" :class="{ 'text-primary-medium': isRouteActive('/') }" custom-class="active">
+          <span :class="{ 'border-b-4 border-primary-medium mb-2': isRouteActive('/') }">Alles</span>
         </router-link>
-        <router-link to="/suggestions" class="flex" :class="{ 'text-primary-light': isRouteActive('/suggestions') }"
+        <router-link to="/" class="flex" :class="{ 'text-primary-medium': isRouteActive('/suggestions') }"
           custom-class="active">
-          <span :class="{ 'border-b-2 border-primary-light mb-2': isRouteActive('/suggestions') }">Suggesties</span>
+          <span :class="{ 'border-b-4 border-primary-medium mb-2': isRouteActive('/suggestions') }">Suggesties</span>
         </router-link>
-        <router-link to="/inProgress" class="flex" :class="{ 'text-primary-light': isRouteActive('/inProgress') }"
+        <router-link to="/" class="flex" :class="{ 'text-primary-medium': isRouteActive('/inProgress') }"
           custom-class="active">
-          <span :class="{ 'border-b-2 border-primary-light mb-2': isRouteActive('/inProgress') }">Meebezig</span>
+          <span :class="{ 'border-b-4 border-primary-medium mb-2': isRouteActive('/inProgress') }">Meebezig</span>
         </router-link>
-        <router-link to="/done" class="flex" :class="{ 'text-primary-light': isRouteActive('/done') }" custom-class="active">
-          <span :class="{ 'border-b-2 border-primary-light mb-2': isRouteActive('/done') }">Klaar</span>
+        <router-link to="/" class="flex" :class="{ 'text-primary-medium': isRouteActive('/done') }"
+          custom-class="active">
+          <span :class="{ 'border-b-4 border-primary-medium mb-2': isRouteActive('/done') }">Klaar</span>
         </router-link>
       </div>
     </div>
