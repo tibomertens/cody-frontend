@@ -17,7 +17,7 @@ function toggleActiveLink() {
 </script>
 
 <template>
-  <div class="xl:w-full bg-offWhite-light">
+  <div class="xl:w-[85vw] bg-offWhite-light">
     <div class="xl:ml-10 xl:mr-10 pl-[24px] xl:pl-0"> <!-- Add margin top here -->
       <div class="pt-[24px] flex items-center justify-between">
         <h1 class="text-[2rem] font-bold mb-2">Home</h1>
@@ -27,19 +27,19 @@ function toggleActiveLink() {
       </div>
       <div class="flex gap-6 md:gap-[2rem] overflow-x-auto xl:mt-[12px] font-bold text-[1.2rem]">
         <router-link to="/" class="flex" :class="{ 'text-primary-medium': isRouteActive('/') }" custom-class="active">
-          <span :class="{ 'border-b-4 border-primary-medium mb-2': isRouteActive('/') }">Alles</span>
+          <span :class="{ 'border-b-4 border-primary-medium': isRouteActive('/') }">Alles</span>
         </router-link>
         <router-link to="/" class="flex" :class="{ 'text-primary-medium': isRouteActive('/suggestions') }"
           custom-class="active">
-          <span :class="{ 'border-b-4 border-primary-medium mb-2': isRouteActive('/suggestions') }">Suggesties</span>
+          <span :class="{ 'border-b-4 border-primary-medium': isRouteActive('/suggestions') }">Suggesties</span>
         </router-link>
         <router-link to="/" class="flex" :class="{ 'text-primary-medium': isRouteActive('/inProgress') }"
           custom-class="active">
-          <span :class="{ 'border-b-4 border-primary-medium mb-2': isRouteActive('/inProgress') }">Meebezig</span>
+          <span :class="{ 'border-b-4 border-primary-medium': isRouteActive('/inProgress') }">Meebezig</span>
         </router-link>
         <router-link to="/" class="flex" :class="{ 'text-primary-medium': isRouteActive('/done') }"
           custom-class="active">
-          <span :class="{ 'border-b-4 border-primary-medium mb-2': isRouteActive('/done') }">Klaar</span>
+          <span :class="{ 'border-b-4 border-primary-medium': isRouteActive('/done') }">Klaar</span>
         </router-link>
       </div>
     </div>

@@ -33,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full xl:w-[20%]">
+  <div class="w-full xl:w-[15%]">
     <div class="w-full h-[20%] bg-offWhite-light xl:h-screen">
       <!-- Quintt: dit is voorbeeld, voeg eigen routes toe. -->
       <div class="flex justify-between p-5">
@@ -41,7 +41,7 @@ onMounted(() => {
         <i class="hamburger fa-solid fa-bars self-center xl:hidden"></i>
       </div>
 
-      <div class="hidden xl:block mt-[56px]">
+      <div class="hidden xl:block mt-[60px]">
         <div class="pl-5 ml-5 py-[12px] rounded-l-[5px]" :class="{ 'bg-primary-light': currentRoute === '/' }">
           <router-link to="/"
             :class="{ 'font-normal': currentRoute !== '/', 'font-bold': currentRoute === '/' }">
