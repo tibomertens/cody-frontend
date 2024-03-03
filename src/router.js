@@ -8,11 +8,11 @@ import sideNav from "./components/SideNav.vue";
 import topNav from "./components/TopNav.vue";
 
 const routes = [
-  { path: "/", components: { default: home, sidebar: sideNav, topNav: topNav } },
-  { path: "/bewaard", components: { default: bewaard, sidebar: sideNav, topNav: topNav } },
-  { path: "/account", components: { default: account, sidebar: sideNav, topNav: topNav } },
-  { path: "/login", components: { default: login } }, // no sidebar
-  { path: "/test", components: { default: test } }, // no sidebar
+  { path: "/", components: { default: home, sidebar: sideNav, topNav: topNav }, meta: { sidebar: true } },
+  { path: "/bewaard", components: { default: bewaard, sidebar: sideNav, topNav: topNav }, meta: { sidebar: true } },
+  { path: "/account", components: { default: account, sidebar: sideNav, topNav: topNav }, meta: { sidebar: true } },
+  { path: "/login", components: { default: login }, meta: { sidebar: false } }, // no sidebar
+  { path: "/test", components: { default: test }, meta: { sidebar: false } }, // no sidebar
 ];
 
 const router = createRouter({
