@@ -12,7 +12,7 @@ const handleItemSelected = (itemName) => {
 
 <template>
   <section>
-    <h2>Woningkenmerken</h2>
+    <h2 class="text-subtitle font-bold mt-[24px] mb-[12px]">Woningkenmerken</h2>
     <div class="grid grid-cols-1 gap-[32px] xs:grid-cols-2 md:grid-cols-3">
       <Type :item-name="'Open bebouwing'" :image-url="'../src/assets/openBebouwing.svg'" :selected="selectedItem"
         @itemSelected="handleItemSelected" />
