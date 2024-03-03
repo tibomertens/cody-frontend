@@ -14,12 +14,12 @@ const handleItemSelected = (itemName) => {
   <section>
     <h2 class="text-subtitle font-bold mt-[24px] mb-[12px]">Woningkenmerken</h2>
     <div class="grid grid-cols-1 gap-[32px] xs:grid-cols-2 ml:grid-cols-3">
-      <Type :item-name="'Open bebouwing'" :image-url="'../src/assets/openBebouwing.svg'" :selected="selectedItem"
+      <Type :item-name="'Open bebouwing'" :image-url="'/openBebouwing.svg'" :selected="selectedItem"
         @itemSelected="handleItemSelected" />
-      <Type :item-name="'Halfopen bebouwing'" :image-url="'../src/assets/halfopenBebouwing.svg'"
+      <Type :item-name="'Halfopen bebouwing'" :image-url="'/halfopenBebouwing.svg'"
         :selected="selectedItem" @itemSelected="handleItemSelected" />
       <div class="xs:col-span-2 ml:col-span-1">
-        <Type :item-name="'Gesloten bebouwing'" :image-url="'../src/assets/geslotenBebouwing.svg'"
+        <Type :item-name="'Gesloten bebouwing'" :image-url="'/geslotenBebouwing.svg'"
           :selected="selectedItem" @itemSelected="handleItemSelected" />
       </div>
     </div>
