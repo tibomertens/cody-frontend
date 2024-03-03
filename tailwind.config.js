@@ -22,7 +22,16 @@ export default {
           dark: "#EDF0F5",
         },
         offBlack: "#262626"
-      }
+      },
+      screens: {
+        'xs': '516px',
+      },
+      fontSize: {
+        "title": "1.6rem",
+        "subtitle": "1.4rem",
+        "body": "1rem",
+        "xs": "0.6rem",
+      },
     },
   },
   plugins: [],
