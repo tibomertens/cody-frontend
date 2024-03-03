@@ -25,7 +25,13 @@ export default {
       },
       screens: {
         'xs': '516px',
-      }
+      },
+      fontSize: {
+        "title": "1.6rem",
+        "subtitle": "1.4rem",
+        "body": "1rem",
+        "xs": "0.6rem",
+      },
     },
   },
   plugins: [],
