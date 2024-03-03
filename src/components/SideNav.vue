@@ -41,7 +41,7 @@ onMounted(() => {
         <i class="hamburger fa-solid fa-bars self-center xl:hidden"></i>
       </div>
 
-      <div class="hidden xl:block mt-[60px]">
+      <div class="hidden xl:block mt-[51px]">
         <div class="pl-5 ml-5 py-[12px] rounded-l-[5px]" :class="{ 'bg-primary-light': currentRoute === '/' }">
           <router-link to="/"
             :class="{ 'font-normal': currentRoute !== '/', 'font-bold': currentRoute === '/' }">
