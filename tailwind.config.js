@@ -22,6 +22,9 @@ export default {
           dark: "#EDF0F5",
         },
         offBlack: "#262626"
+      },
+      screens: {
+        'xs': '516px',
       }
     },
   },
