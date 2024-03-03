@@ -32,7 +32,7 @@ watch(() => props.selected, (newVal) => {
 </script>
 
 <template>
-    <div @click="selectItem" :class="{ 'border-2 border-primary-dark': isSelected }" class="bg-[#FDFDFD] h-[215px] rounded-[5px] flex flex-col justify-center items-center">
+    <div @click="selectItem" :class="{ 'border-2 border-primary-dark': isSelected }" class="bg-[#FDFDFD] h-[230px] rounded-[5px] flex flex-col justify-center items-center">
         <div class="mb-[24px]">
             <img :src="imageUrl" :alt="itemName">
         </div>

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <section class="ml-[32px] mr-[32px] pt-[40px] md:ml-[10%] md:mr-[10%] lg:ml-[20%] lg:mr-[20%]">
+    <section class="ml-[32px] mr-[32px] pt-[40px] md:ml-[10%] md:mr-[10%] xl:ml-[20%] xl:mr-[20%]">
         <div class="head">
             <div class="goBackArrow"></div>
             <h1 class="text-title font-bold">Indicatieve test</h1>
