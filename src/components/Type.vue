@@ -20,7 +20,7 @@ const selectItem = () => {
 </script>
 
 <template>
-    <div @click="selectItem" class="bg-[#FDFDFD] w-[215px] h-[215px] rounded-[5px] flex flex-col justify-center items-center">
+    <div @click="selectItem" class="bg-[#FDFDFD] h-[215px] rounded-[5px] flex flex-col justify-center items-center">
         <div class="mb-[24px]">
             <img :src="imageUrl" :alt="itemName">
         </div>

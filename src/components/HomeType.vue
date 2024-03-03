@@ -5,25 +5,29 @@ import { ref } from 'vue';
 const selectedItem = ref('');
 
 const handleItemSelected = (itemName) => {
-    selectedItem.value = itemName;
-    console.log(selectedItem.value);
+  selectedItem.value = itemName;
+  console.log(selectedItem.value);
 }
 </script>
 
 <template>
-    <section class="home-characteristics">
-      <h2>Woningkenmerken</h2>
-      <Type :item-name="'Open bebouwing'" :image-url="'../src/assets/openBebouwing.svg'" @itemSelected="handleItemSelected" />
-      <Type :item-name="'Halfopen bebouwing'" :image-url="'../src/assets/halfopenBebouwing.svg'" @itemSelected="handleItemSelected" />
-      <Type :item-name="'Gesloten bebouwing'" :image-url="'../src/assets/geslotenBebouwing.svg'" @itemSelected="handleItemSelected" />
-      <!-- <Type :item-name="'Appartement'" :image-url="'../src/assets/openBebouwing.svg'" @itemSelected="handleItemSelected" /> -->
-      <div>
-        <label for="surface">Bewoonbare oppervlakte</label>
-        <input type="text" name="surface" id="surface">
+  <section>
+    <h2>Woningkenmerken</h2>
+    <div class="grid grid-cols-1 gap-[32px] xs:grid-cols-2 md:grid-cols-3">
+      <Type :item-name="'Open bebouwing'" :image-url="'../src/assets/openBebouwing.svg'"
+        @itemSelected="handleItemSelected" />
+      <Type :item-name="'Halfopen bebouwing'" :image-url="'../src/assets/halfopenBebouwing.svg'"
+        @itemSelected="handleItemSelected" />
+      <div class="xs:col-span-2 md:col-span-1">
+        <Type :item-name="'Gesloten bebouwing'" :image-url="'../src/assets/geslotenBebouwing.svg'"
+          @itemSelected="handleItemSelected" />
       </div>
-    </section>
+    </div>
+    <div class="mt-[32px]">
+      <label for="surface">Bewoonbare oppervlakte</label>
+      <input type="text" name="surface" id="surface">
+    </div>
+  </section>
 </template>
-  
-<style scoped>
-</style>
-  
+
+<style scoped></style>
