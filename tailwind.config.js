@@ -31,7 +31,7 @@ export default {
         "title": "1.6rem",
         "subtitle": "1.4rem",
         "body": "1rem",
-        "xs": "0.6rem",
+        "xs": "0.8rem",
       },
     },
   },
