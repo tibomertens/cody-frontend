@@ -1,12 +1,24 @@
 <script setup>
 import LoginForm from "../components/LoginForm.vue";
+import Mascot from "../components/Mascot.vue";
 </script>
 
 <template>
-  <h1 class="text-title">Login</h1>
-    <LoginForm />
-    <p>Heb je nog geen account?</p>
-    <a href="#">Registreer</a>
+    <div class="flex">
+        <Mascot />
+        <div class="w-full sm:w-1/2 h-screen flex justify-center items-center">
+            <div class="w-[60%]">
+                <div>
+                    <h1 class="text-title">Login</h1>
+                    <LoginForm />
+                    <div class="flex justify-center gap-2">
+                        <p class="text-sm ">Heb je nog geen account?</p>
+                        <a href="#" class="text-sm underline">Registreer</a> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
   
 </template>
 
