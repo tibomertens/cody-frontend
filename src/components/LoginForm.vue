@@ -1,12 +1,33 @@
 <script setup>
 import Input from "../components/Input.vue";
+
+// Import necessary functions from 'vue' for script setup
+import { ref } from 'vue';
+
+// Create refs for email and password
+const updatedEmail = ref('');
+const updatedPassword = ref('');
+
+// Event handlers to update email and password
+const updateEmail = (value) => {
+  updatedEmail.value = value;
+};
+
+const updatePassword = (value) => {
+  updatedPassword.value = value;
+};
+const login = () => {
+    console.log('Email:', updatedEmail.value);
+    console.log('Password:', updatedPassword.value);
+    // Add your login logic here
+  };
 </script>
 
 <template>
   <form>
-    <Input :label="'Email'" :type="'text'"></Input>
-    <Input :label="'Password'" :type="'password'"></Input>
-    <a href="#" class="text-body flex w-full justify-center text-offWhite-light bg-primary-dark rounded-md p-2 mt-8 mb-4 font-bold">Login</a>
+    <Input :label="'Email'" :type="'text'" @input-change="updateEmail"></Input>
+    <Input :label="'Password'" :type="'password'" @input-change="updatePassword"></Input>
+    <a href="#" class="text-body flex w-full justify-center text-offWhite-light bg-primary-dark rounded-md p-2 mt-8 mb-4 font-bold" @click="login" >Login</a>
     <div class="flex items-center justify-between">
       <div class="flex-grow h-px bg-black m-2"></div>
       <span class="mx-2 text-sm font-bold">Of</span>
