@@ -3,10 +3,14 @@ import Input from "../components/Input.vue";
 
 // Import necessary functions from 'vue' for script setup
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 // Create refs for email and password
 const updatedEmail = ref('');
 const updatedPassword = ref('');
+const error = ref(null);
 
 // Event handlers to update email and password
 const updateEmail = (value) => {
@@ -16,10 +20,41 @@ const updateEmail = (value) => {
 const updatePassword = (value) => {
   updatedPassword.value = value;
 };
-const login = () => {
+const login = async() => {
     console.log('Email:', updatedEmail.value);
     console.log('Password:', updatedPassword.value);
     // Add your login logic here
+    let apiEndpoint = 'http://localhost:3000/api/v1/users/login';
+
+    try {
+    // Make a request to your API to check the credentials
+    const response = await fetch(apiEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: updatedEmail.value, password: updatedPassword.value }),
+      
+    });
+    // Assuming the API returns a JSON object with a 'success' property
+    const result = await response.json();
+
+    if (result.status==='success') {
+      // Handle successful login, e.g., show a success message or redirect to another screen
+      // Save the JWT token in the local storage
+      localStorage.setItem('token', result.data.token);
+      // Redirect to the orders page
+      router.push('/');
+
+    } else {
+      // Handle authentication error
+      error.value = 'Invalid email or password';
+    }
+  } catch (e) {
+    console.error('Error during login:', e);
+    // Handle other errors
+    error.value = 'An error occurred during login';
+  }
   };
 </script>
 
@@ -27,7 +62,7 @@ const login = () => {
   <form>
     <Input :label="'Email'" :type="'text'" @input-change="updateEmail"></Input>
     <Input :label="'Password'" :type="'password'" @input-change="updatePassword"></Input>
-    <a href="#" class="text-body flex w-full justify-center text-offWhite-light bg-primary-dark rounded-md p-2 mt-8 mb-4 font-bold" @click="login" >Login</a>
+    <a href="#" class="text-body flex w-full justify-center text-offWhite-light bg-primary-dark rounded-md p-2 mt-8 mb-4 font-bold" @click.prevent="login" >Login</a>
     <div class="flex items-center justify-between">
       <div class="flex-grow h-px bg-black m-2"></div>
       <span class="mx-2 text-sm font-bold">Of</span>
