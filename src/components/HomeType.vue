@@ -1,12 +1,14 @@
 <script setup>
 import Type from "../components/Type.vue";
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
+
+const emit = defineEmits(['itemSelected']);
 
 const selectedItem = ref('');
 
 const handleItemSelected = (itemName) => {
   selectedItem.value = itemName;
-  console.log(selectedItem.value);
+  emit('itemSelected', itemName); // Emit the event further upwards
 }
 </script>
 
@@ -30,4 +32,5 @@ const handleItemSelected = (itemName) => {
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>

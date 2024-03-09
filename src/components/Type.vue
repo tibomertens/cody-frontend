@@ -28,7 +28,6 @@ const selectItem = () => {
 watch(() => props.selected, (newVal) => {
     isSelected.value = newVal === props.itemName;
 });
-
 </script>
 
 <template>

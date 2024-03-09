@@ -1,6 +1,13 @@
 <script setup>
-    import HomeType from "../components/HomeType.vue";
-    import Heating from "../components/Heating.vue";
+import HomeType from "../components/HomeType.vue";
+import Heating from "../components/Heating.vue";
+import { ref } from 'vue';
+
+const selectedItemFromType = ref('');
+
+const handleItemSelectedFromType = (itemName) => {
+  selectedItemFromType.value = itemName;
+}
 </script>
 
 <template>
@@ -9,10 +16,11 @@
             <div class="goBackArrow"></div>
             <h1 class="text-title font-bold">Indicatieve test</h1>
         </div>
-        <HomeType />
+        <HomeType @itemSelected="handleItemSelectedFromType" />
         <Heating />
         <a href=""></a>
         <div class="h-[100px] w-screen"></div>
+        <!-- Now you can use selectedItemFromType here -->
     </section>
 </template>
 
