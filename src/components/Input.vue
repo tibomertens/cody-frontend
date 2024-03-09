@@ -19,7 +19,6 @@ const updateInput = () => {
         <a href="#" class="text-xs underline" :class="{'block': type === 'password', 'hidden': type !== 'password'}">Wachtwoord vergeten?</a>
     </div>
     <input :type="type" class="w-[100%] p-2 rounded-md border-2 focus:border-primary-dark focus:outline-none" v-model='InputValue' @input="updateInput"/>
-    <p>{{ InputValue }}</p>
   </div>
 </template>
 

@@ -42,7 +42,8 @@ const login = async() => {
     if (result.status==='success') {
       // Handle successful login, e.g., show a success message or redirect to another screen
       // Save the JWT token in the local storage
-      localStorage.setItem('token', result.data.token);
+      localStorage.setItem('token', result.token);
+      console.log('Token:', result.token);
       // Redirect to the orders page
       router.push('/');
 
