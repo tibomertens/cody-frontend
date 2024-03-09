@@ -1,5 +1,5 @@
 <script setup>
-import Input from "../components/Input.vue";
+import Input from "../UI/Input.vue";
 
 // Import necessary functions from 'vue' for script setup
 import { ref } from "vue";

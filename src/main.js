@@ -3,7 +3,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import "./style.css";
 import router from "./router.js";
-import Type from "./components/Type.vue";
+import Type from "./components/UI/Type.vue";
 
 const app = createApp(App);
 

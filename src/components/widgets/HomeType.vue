@@ -1,6 +1,6 @@
 <script setup>
-import Type from "../components/Type.vue";
-import Dropdown from "./Dropdown.vue";
+import Type from "../UI/Type.vue";
+import Dropdown from "../UI/Dropdown.vue";
 import { ref, defineEmits } from 'vue';
 
 const emit = defineEmits(['itemSelected', 'selectedSurface']);

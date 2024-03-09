@@ -1,6 +1,5 @@
 <script setup>
-import Type from "../components/Type.vue";
-import Dropdown from "./Dropdown.vue";
+import Dropdown from "../UI/Dropdown.vue";
 import { ref, defineEmits } from 'vue';
 
 const emit = defineEmits(['selectedVentilation']);

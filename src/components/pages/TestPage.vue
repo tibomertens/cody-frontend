@@ -1,11 +1,11 @@
 <script setup>
-import HomeType from "../components/HomeType.vue";
-import Heating from "../components/Heating.vue";
-import RoofIsolation from "../components/RoofIsolation.vue";
-import FloorIsolation from "../components/FloorIsolation.vue";
-import WallIsolation from "../components/WallIsolation.vue";
-import Ventilation from "../components/Ventilation.vue";
-import Button from "../components/Button.vue";
+import HomeType from "../widgets/HomeType.vue";
+import Heating from "../widgets/Heating.vue";
+import RoofIsolation from "../widgets/RoofIsolation.vue";
+import FloorIsolation from "../widgets/FloorIsolation.vue";
+import WallIsolation from "../widgets/WallIsolation.vue";
+import Ventilation from "../widgets/Ventilation.vue";
+import Button from "../UI/Button.vue";
 
 import { ref } from 'vue';
 

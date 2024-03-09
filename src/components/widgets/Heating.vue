@@ -1,6 +1,6 @@
 <script setup>
-import Dropdown from './Dropdown.vue';
-import Checkbox from './Checkbox.vue';
+import Dropdown from '../UI/Dropdown.vue';
+import Checkbox from '../UI/Checkbox.vue';
 import { ref } from 'vue';
 
 const choices = [
