@@ -33,7 +33,7 @@ watch(
     </div>
     <input
       :type="type"
-      :class="{ 'border-red-500': hasError, 'border-2': !hasError }"
+      :class="{ 'border-2 border-secondary-red': hasError, 'border-2': !hasError }"
       class="w-[100%] p-2 rounded-md focus:border-primary-dark focus:outline-none"
       v-model="inputValue"
       @input="updateInput"
