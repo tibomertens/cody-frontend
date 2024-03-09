@@ -35,7 +35,7 @@ watch(() => props.selected, (newVal) => {
         <div class="mb-[24px]">
             <img :src="imageUrl" :alt="itemName">
         </div>
-        <p class="mb-[12px]">{{ itemName }}</p>
+        <p class="mb-[12px] text-btn">{{ itemName }}</p>
         <div class="w-[15px] h-[15px] rounded-full" :class="{ 'bg-primary-dark': isSelected, 'bg-offWhite-dark': !isSelected }"></div>
     </div>
 </template>
