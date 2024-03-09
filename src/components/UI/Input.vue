@@ -2,7 +2,7 @@
 import { ref, defineProps, watch, defineEmits } from "vue";
 
 const props = defineProps(["label", "type", "error"]);
-const { emit } = defineEmits();
+const emit = defineEmits(['input-change']);
 
 let inputValue = ref("");
 let hasError = ref(props.error);

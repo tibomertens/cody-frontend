@@ -22,6 +22,7 @@ const updateEmail = (value) => {
 const updatePassword = (value) => {
   updatedPassword.value = value;
 };
+
 const login = async () => {
   console.log("Email:", updatedEmail.value);
   console.log("Password:", updatedPassword.value);
