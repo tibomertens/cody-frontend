@@ -1,5 +1,6 @@
 <script setup>
 import Input from "../UI/Input.vue";
+import Btn from "../UI/Btn.vue";
 
 // Import necessary functions from 'vue' for script setup
 import { ref } from "vue";
@@ -78,12 +79,9 @@ const login = async () => {
       :error="hasError"
     ></Input>
     <div v-if="error" class="text-secondary-red">{{ error }}</div>
-    <a
-      href="#"
-      class="text-body flex w-full justify-center text-offWhite-light bg-primary-dark rounded-md p-2 mt-8 mb-4 font-bold"
-      @click.prevent="login"
-      >Login</a
-    >
+    <div class="mt-8 mb-4">
+      <Btn :name="'Login'" @click="login" :width="'full'" />
+    </div>
     <div class="flex items-center justify-between">
       <div class="flex-grow h-px bg-black m-2"></div>
       <span class="mx-2 text-sm font-bold">Of</span>
