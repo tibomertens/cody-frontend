@@ -28,7 +28,7 @@ export default {
         'ml': '904px',
       },
       fontSize: {
-        "title": "1.6rem",
+        "title": "1.8rem",
         "subtitle": "1.4rem",
         "btn": "1.2rem",
         "body": "1rem",
