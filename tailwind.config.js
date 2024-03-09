@@ -32,7 +32,7 @@ export default {
         "subtitle": "1.4rem",
         "btn": "1.2rem",
         "body": "1rem",
-        "xs": "0.6rem",
+        "xs": "0.8rem",
       },
     },
   },
