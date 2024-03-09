@@ -14,7 +14,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <a href="#" :class="{ 'w-full' : props.width='full', 'max-w-[400px]': props.width != 'full' }" class="inline-block h-[48px] bg-primary-dark rounded-[5px] text-white font-bold text-btn text-center"><p class="relative top-[7px]">{{ props.name }}</p></a>
+  <a href="#" @click.prevent :class="{ 'w-full' : props.width='full', 'max-w-[400px]': props.width != 'full' }" class="inline-block h-[48px] bg-primary-dark rounded-[5px] text-white font-bold text-btn text-center"><p class="relative top-[7px]">{{ props.name }}</p></a>
 </template>
 
 <style scoped></style>
