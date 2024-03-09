@@ -35,10 +35,10 @@ const handleWindows = (selectedItem) => {
 <template>
   <section class="mt-[64px]">
     <h2 class="text-subtitle font-bold mt-[24px] mb-[12px]">Muur isolatie</h2>
-    <div class="flex gap-[24px]">
+    <div class="xs:flex gap-[24px]">
       <Dropdown :width="'full'" :label="'Mijn buitenmuur is:'" :items="wallsOptions" @itemSelected="handleWalls" />
       <Dropdown :width="'full'" :label="'De beglazing van mijn vensters is:'" :items="WindowsOptions"
-        @itemSelected="handleWindows" />
+        @itemSelected="handleWindows" class="mt-[24px] xs:mt-0" />
     </div>
   </section>
 </template>

@@ -51,9 +51,9 @@ const handleCellar = (selectedItem) => {
           @itemSelected="handleItemSelected" />
       </div>
     </div>
-    <div class="mt-[32px] flex gap-[24px]">
+    <div class="mt-[32px] xs:flex gap-[24px]">
       <Dropdown :width="'full'" :label="'Hellend dak'" :items="noCellarOptions" @itemSelected="handleNoCellar" />
-      <Dropdown :width="'full'" :label="'Plat dak:'" :items="CellarOptions" @itemSelected="handleCellar" />
+      <Dropdown :width="'full'" :label="'Plat dak:'" :items="CellarOptions" @itemSelected="handleCellar" class="mt-[24px] xs:mt-0" />
     </div>
   </section>
 </template>
