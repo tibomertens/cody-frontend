@@ -61,7 +61,7 @@ const handleSolarPanels = (selectedItem) => {
 </script>
 
 <template>
-  <section>
+  <section class="mt-[64px]">
     <h2 class="text-subtitle font-bold mt-[24px] mb-[12px]">Verwarming</h2>
     <div>
       <div class="xs:flex gap-[24px] mb-[24px]">
