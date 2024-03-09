@@ -5,6 +5,7 @@ import RoofIsolation from "../components/RoofIsolation.vue";
 import FloorIsolation from "../components/FloorIsolation.vue";
 import WallIsolation from "../components/WallIsolation.vue";
 import Ventilation from "../components/Ventilation.vue";
+import Button from "../components/Button.vue";
 
 import { ref } from 'vue';
 
@@ -55,7 +56,9 @@ const handleSelectedItems = (key, value) => {
         <Ventilation @selectedVentilation="handleSelectedItems('ventilation', $event)" />
         <FloorIsolation @itemSelected="handleSelectedItems('floorType', $event)" @noCellar="handleSelectedItems('noCellar', $event)" @cellar="handleSelectedItems('cellar', $event)" />
         <WallIsolation @walls="handleSelectedItems('walls', $event)" @windows="handleSelectedItems('windows', $event)" />
-        <div class="h-[100px] w-screen"></div>
+        <div class="flex justify-center mt-[64px] pb-[64px]">
+            <Button :name="'Doorgaan'" />
+        </div>
     </section>
 </template>
 
