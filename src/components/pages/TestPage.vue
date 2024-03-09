@@ -54,8 +54,10 @@ const handleSelectedItems = (key, value) => {
             @pitchedRoof="handleSelectedItems('pitchedRoof', $event)"
             @flatRoof="handleSelectedItems('flatRoof', $event)" />
         <Ventilation @selectedVentilation="handleSelectedItems('ventilation', $event)" />
-        <FloorIsolation @itemSelected="handleSelectedItems('floorType', $event)" @noCellar="handleSelectedItems('noCellar', $event)" @cellar="handleSelectedItems('cellar', $event)" />
-        <WallIsolation @walls="handleSelectedItems('walls', $event)" @windows="handleSelectedItems('windows', $event)" />
+        <FloorIsolation @itemSelected="handleSelectedItems('floorType', $event)"
+            @noCellar="handleSelectedItems('noCellar', $event)" @cellar="handleSelectedItems('cellar', $event)" />
+        <WallIsolation @walls="handleSelectedItems('walls', $event)"
+            @windows="handleSelectedItems('windows', $event)" />
         <div class="flex justify-center mt-[64px] pb-[64px]">
             <Btn :name="'Doorgaan'" />
         </div>

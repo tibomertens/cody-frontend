@@ -80,7 +80,7 @@ const handleSolarPanels = (selectedItem) => {
       <h3 class="text-btn font-bold">Mijn hernieuwbare systemen</h3>
       <div class="mt-[12px]">
         <Checkbox :label="'Zonneboiler'" @selectedItem="handleSolarBoiler" class="mb-[12px]" />
-        <Checkbox :label="'Zonnepanelen'" @selectedItem="handleSolarPanels"/>
+        <Checkbox :label="'Zonnepanelen'" @selectedItem="handleSolarPanels" />
       </div>
     </div>
   </section>

@@ -24,10 +24,10 @@ const handleSelectedVentilation = (selectedItem) => {
   <section class="mt-[64px]">
     <h2 class="text-subtitle font-bold mt-[24px] mb-[12px]">Ventilatie</h2>
     <div class="">
-      <Dropdown :label="'Mijn woning is geventileerd met:'" :items="ventilationOptions" @itemSelected="handleSelectedVentilation" />
+      <Dropdown :label="'Mijn woning is geventileerd met:'" :items="ventilationOptions"
+        @itemSelected="handleSelectedVentilation" />
     </div>
   </section>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

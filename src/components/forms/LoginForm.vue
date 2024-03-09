@@ -66,18 +66,8 @@ const login = async () => {
 
 <template>
   <form>
-    <Input
-      :label="'Email'"
-      :type="'text'"
-      @input-change="updateEmail"
-      :error="hasError"
-    ></Input>
-    <Input
-      :label="'Password'"
-      :type="'password'"
-      @input-change="updatePassword"
-      :error="hasError"
-    ></Input>
+    <Input :label="'Email'" :type="'text'" @input-change="updateEmail" :error="hasError"></Input>
+    <Input :label="'Password'" :type="'password'" @input-change="updatePassword" :error="hasError"></Input>
     <div v-if="error" class="text-secondary-red">{{ error }}</div>
     <div class="mt-8 mb-4">
       <Btn :name="'Login'" @click="login" :width="'full'" />
@@ -87,15 +77,11 @@ const login = async () => {
       <span class="mx-2 text-sm font-bold">Of</span>
       <div class="flex-grow h-px bg-black m-2"></div>
     </div>
-    <div
-      class="flex w-full justify-center gap-4 border-2 border-primary-dark rounded-md p-2 mb-4 mt-4"
-    >
+    <div class="flex w-full justify-center gap-4 border-2 border-primary-dark rounded-md p-2 mb-4 mt-4">
       <img src="/google-icon.svg" alt="google icon" />
       <a href="#" class="text-body font-bold">Registreer met Google</a>
     </div>
-    <div
-      class="flex w-full justify-center gap-4 border-2 border-primary-dark rounded-md p-2 mb-4"
-    >
+    <div class="flex w-full justify-center gap-4 border-2 border-primary-dark rounded-md p-2 mb-4">
       <img src="/fb-icon.svg" alt="fb icon" />
       <a href="#" class="text-body font-bold">Registreer met Facebook</a>
     </div>

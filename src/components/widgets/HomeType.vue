@@ -31,11 +31,11 @@ const handleSelectedSurface = (selectedItem) => {
     <div class="grid grid-cols-1 gap-[32px] xs:grid-cols-2 ml:grid-cols-3">
       <Type :item-name="'Open bebouwing'" :image-url="'/openBebouwing.svg'" :selected="selectedItem"
         @itemSelected="handleItemSelected" />
-      <Type :item-name="'Halfopen bebouwing'" :image-url="'/halfopenBebouwing.svg'"
-        :selected="selectedItem" @itemSelected="handleItemSelected" />
+      <Type :item-name="'Halfopen bebouwing'" :image-url="'/halfopenBebouwing.svg'" :selected="selectedItem"
+        @itemSelected="handleItemSelected" />
       <div class="xs:col-span-2 ml:col-span-1">
-        <Type :item-name="'Gesloten bebouwing'" :image-url="'/geslotenBebouwing.svg'"
-          :selected="selectedItem" @itemSelected="handleItemSelected" />
+        <Type :item-name="'Gesloten bebouwing'" :image-url="'/geslotenBebouwing.svg'" :selected="selectedItem"
+          @itemSelected="handleItemSelected" />
       </div>
     </div>
     <div class="mt-[32px]">
@@ -44,5 +44,4 @@ const handleSelectedSurface = (selectedItem) => {
   </section>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
