@@ -29,7 +29,7 @@ select {
   background-position: right 32px top 50%;
 }
 
-h1, h2, h3, h4, h5, h6, p, a, img, span {
+h1, h2, h3, h4, h5, h6, p, a, img, span, label {
   font-family: 'Sarabun', sans-serif;
 }
 

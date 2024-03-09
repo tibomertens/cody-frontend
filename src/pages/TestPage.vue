@@ -8,6 +8,8 @@ const selectedHeatingType = ref('');
 const selectedHeatingSystem = ref('');
 const selectedWaterHeatingSystem = ref('');
 const selectedSurface = ref('');
+const solarBoiler = ref(false);
+const solarPanels = ref(false);
 
 const handleItemSelectedFromType = (itemName) => {
     selectedItemFromType.value = itemName;
@@ -28,6 +30,14 @@ const handleSelectedWaterHeatingSystem = (selectedItem) => {
 const handleSelectedSurface = (selectedItem) => {
     selectedSurface.value = selectedItem;
 }
+
+const handleSolarBoiler = (selectedItem) => {
+    solarBoiler.value = selectedItem;
+}
+
+const handleSolarPanels = (selectedItem) => {
+    solarPanels.value = selectedItem;
+}
 </script>
 
 <template>
@@ -38,7 +48,7 @@ const handleSelectedSurface = (selectedItem) => {
         </div>
         <HomeType @itemSelected="handleItemSelectedFromType" @selectedSurface="handleSelectedSurface" />
         <Heating @selectedHeatingType="handleSelectedHeatingType" @selectedHeatingSystem="handleSelectedHeatingSystem"
-            @selectedWaterHeatingSystem="handleSelectedWaterHeatingSystem" />
+            @selectedWaterHeatingSystem="handleSelectedWaterHeatingSystem" @solarBoiler="handleSolarBoiler" @solarPanels="handleSolarPanels" />
         <a href=""></a>
         <div class="h-[100px] w-screen"></div>
         <!-- Now you can use selectedItemFromType here -->

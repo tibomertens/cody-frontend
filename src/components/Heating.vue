@@ -1,5 +1,6 @@
 <script setup>
 import Dropdown from './Dropdown.vue';
+import Checkbox from './Checkbox.vue';
 import { ref } from 'vue';
 
 const choices = [
@@ -25,11 +26,13 @@ const choices3 = [
   'Warmtepompboiler'
 ];
 
-const emit = defineEmits(['selectedHeatingType', 'selectedHeatingSystem', 'selectedWaterHeatingSytem']);
+const emit = defineEmits(['selectedHeatingType', 'selectedHeatingSystem', 'selectedWaterHeatingSytem', 'solarBoiler', 'solarPanels']);
 
 const selectedHeatingType = ref('');
 const selectedHeatingSystem = ref('');
 const selectedWaterHeatingSystem = ref('');
+const solarBoiler = ref(false);
+const solarPanels = ref(false);
 
 const handleSelectedHeatingType = (selectedItem) => {
   selectedHeatingType.value = selectedItem;
@@ -44,6 +47,16 @@ const handleSelectedHeatingSystem = (selectedItem) => {
 const handleSelectedWaterHeatingSystem = (selectedItem) => {
   selectedWaterHeatingSystem.value = selectedItem;
   emit('selectedWaterHeatingSystem', selectedItem);
+}
+
+const handleSolarBoiler = (selectedItem) => {
+  solarBoiler.value = !solarBoiler.value;
+  emit('solarBoiler', solarBoiler.value);
+}
+
+const handleSolarPanels = (selectedItem) => {
+  solarPanels.value = !solarPanels.value;
+  emit('solarPanels', solarPanels.value);
 }
 </script>
 
@@ -63,9 +76,12 @@ const handleSelectedWaterHeatingSystem = (selectedItem) => {
         <Dropdown :label="'Mijn woning wordt verwarmd met'" :width="'full'" :items="choices3" class="dirtyFix" />
       </div>
     </div>
-    <h3>Mijn hernieuwbare systemen</h3>
-    <div>
-
+    <div class="mt-[32px]">
+      <h3 class="text-btn font-bold">Mijn hernieuwbare systemen</h3>
+      <div class="mt-[12px]">
+        <Checkbox :label="'Zonneboiler'" @selectedItem="handleSolarBoiler" class="mb-[12px]" />
+        <Checkbox :label="'Zonnepanelen'" @selectedItem="handleSolarPanels"/>
+      </div>
     </div>
   </section>
 </template>
