@@ -26,11 +26,11 @@ const selectItem = (event) => {
 
 <template>
   <!-- dropdown with the items from the array items as options -->
-  <div :class="{ 'w-full': props.width === 'full', 'w-[400px]': props.width === undefined }">
+  <div :class="{ 'w-full': props.width === 'full', 'w-[430px]': props.width === undefined }">
     <label :for="props.label" class="font-normal">{{ props.label }}</label>
     <select @change="selectItem" :id="props.label"
-      :class="{ 'w-full': props.width === 'full', 'w-[400px]': props.width === undefined }"
-      class="mt-[12px] block px-[32px] h-[48px] border-2 border-primary-dark rounded-[5px] text-primary-dark font-bold text-body focus:outline-none">
+      :class="{ 'w-full': props.width === 'full', 'w-[430px]': props.width === undefined }"
+      class="mt-[12px] block px-[24px] h-[48px] border-2 border-primary-dark rounded-[5px] text-primary-dark font-bold text-body focus:outline-none">
       <option value="default" selected disabled>Maak een keuze</option>
       <option v-for="item in props.items" :key="item" class="text-black hover:bg-offWhite-dark">{{ item }}</option>
     </select>

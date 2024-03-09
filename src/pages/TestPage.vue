@@ -2,6 +2,7 @@
 import HomeType from "../components/HomeType.vue";
 import Heating from "../components/Heating.vue";
 import Isolation from "../components/Isolation.vue";
+import Ventilation from "../components/Ventilation.vue";
 
 import { ref } from 'vue';
 
@@ -16,7 +17,8 @@ const selectedItems = ref({
     solarBoiler: false,
     solarPanels: false,
     pitchedRoof: '',
-    flatRoof: ''
+    flatRoof: '',
+    ventilation: '',
 });
 
 // Function to update selected items
@@ -43,6 +45,7 @@ const handleSelectedItems = (key, value) => {
         <Isolation @itemSelected="handleSelectedItems('roofType', $event)"
             @pitchedRoof="handleSelectedItems('pitchedRoof', $event)"
             @flatRoof="handleSelectedItems('flatRoof', $event)" />
+        <Ventilation @selectedVentilation="handleSelectedItems('ventilation', $event)" />
         <div class="h-[100px] w-screen"></div>
     </section>
 </template>
