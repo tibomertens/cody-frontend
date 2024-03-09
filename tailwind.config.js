@@ -24,12 +24,13 @@ export default {
         offBlack: "#262626"
       },
       screens: {
-        'xs': '516px',
+        'xs': '590px',
         'ml': '904px',
       },
       fontSize: {
-        "title": "1.6rem",
+        "title": "1.8rem",
         "subtitle": "1.4rem",
+        "btn": "1.2rem",
         "body": "1rem",
         "xs": "0.6rem",
       },

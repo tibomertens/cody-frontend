@@ -1,12 +1,27 @@
 <script setup>
 import Type from "../components/Type.vue";
-import { ref } from 'vue';
+import Dropdown from "./Dropdown.vue";
+import { ref, defineEmits } from 'vue';
+
+const emit = defineEmits(['itemSelected', 'selectedSurface']);
 
 const selectedItem = ref('');
+const selectedSurface = ref('');
+
+const surfaceOptions = [
+  'Klein (~150m²)',
+  'Gemiddeld (~200m²)',
+  'Groot (~280m²)',
+]
 
 const handleItemSelected = (itemName) => {
   selectedItem.value = itemName;
-  console.log(selectedItem.value);
+  emit('itemSelected', itemName); // Emit the event further upwards
+}
+
+const handleSelectedSurface = (selectedItem) => {
+  selectedSurface.value = selectedItem;
+  emit('selectedSurface', selectedItem); // Emit the event further upwards
 }
 </script>
 
@@ -24,10 +39,10 @@ const handleItemSelected = (itemName) => {
       </div>
     </div>
     <div class="mt-[32px]">
-      <label for="surface">Bewoonbare oppervlakte</label>
-      <input type="text" name="surface" id="surface">
+      <Dropdown :label="'Bewoonbare oppervlakte:'" :items="surfaceOptions" @itemSelected="handleSelectedSurface" />
     </div>
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
