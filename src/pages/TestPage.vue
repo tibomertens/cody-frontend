@@ -7,6 +7,7 @@ const selectedItemFromType = ref('');
 const selectedHeatingType = ref('');
 const selectedHeatingSystem = ref('');
 const selectedWaterHeatingSystem = ref('');
+const selectedSurface = ref('');
 
 const handleItemSelectedFromType = (itemName) => {
     selectedItemFromType.value = itemName;
@@ -14,17 +15,18 @@ const handleItemSelectedFromType = (itemName) => {
 
 const handleSelectedHeatingType = (selectedItem) => {
     selectedHeatingType.value = selectedItem;
-    console.log(selectedHeatingType.value);
 }
 
 const handleSelectedHeatingSystem = (selectedItem) => {
     selectedHeatingSystem.value = selectedItem;
-    console.log(selectedHeatingSystem.value);
 }
 
 const handleSelectedWaterHeatingSystem = (selectedItem) => {
     selectedWaterHeatingSystem.value = selectedItem;
-    console.log(selectedWaterHeatingSystem.value);
+}
+
+const handleSelectedSurface = (selectedItem) => {
+    selectedSurface.value = selectedItem;
 }
 </script>
 
@@ -34,7 +36,7 @@ const handleSelectedWaterHeatingSystem = (selectedItem) => {
             <div class="goBackArrow"></div>
             <h1 class="text-title font-bold">Indicatieve test</h1>
         </div>
-        <HomeType @itemSelected="handleItemSelectedFromType" />
+        <HomeType @itemSelected="handleItemSelectedFromType" @selectedSurface="handleSelectedSurface" />
         <Heating @selectedHeatingType="handleSelectedHeatingType" @selectedHeatingSystem="handleSelectedHeatingSystem"
             @selectedWaterHeatingSystem="handleSelectedWaterHeatingSystem" />
         <a href=""></a>
