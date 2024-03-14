@@ -8,9 +8,9 @@ const router = useRouter();
 const token = localStorage.getItem("token");
 let userData = ref({});
 
-onMounted(() => {
+onMounted( async () => {
   if (isValidToken(token)) {
-    userData = getUser(token);
+    userData = await getUser(token);
     console.log(userData);
   } else {
     router.push("/login");

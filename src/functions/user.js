@@ -8,24 +8,27 @@ export const isValidToken = (token) => {
   }
 };
 
-export const getUser = (token) => {
+export const getUser = async (token) => {
   const decoded = jwtDecode(token);
   let userId = decoded.id;
-  //get user by id
   let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}`;
-  return fetch(apiEndpoint, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("User:", data);
-      return data; // returning data for further processing if needed
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      throw error;
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch user data");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
 };
