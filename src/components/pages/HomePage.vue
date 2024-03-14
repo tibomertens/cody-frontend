@@ -1,21 +1,19 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { checkToken, getUser } from "../../functions/user.js";
+import { isValidToken, getUser } from "../../functions/user.js";
 
 const router = useRouter();
 
 const token = localStorage.getItem("token");
-
-let loggedIn = ref(false);
 let userData = ref({});
 
 onMounted(() => {
-  loggedIn = checkToken(token, router);
-
-  if (loggedIn) {
+  if (isValidToken(token)) {
     userData = getUser(token);
     console.log(userData);
+  } else {
+    router.push("/login");
   }
 });
 </script>

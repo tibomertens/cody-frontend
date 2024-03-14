@@ -1,9 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 
-export const checkToken = (token, router) => {
+export const isValidToken = (token) => {
   if (!token) {
-    // Redirect to the login page if the token is invalid
-    router.push("/login");
     return false;
   } else {
     return true;
