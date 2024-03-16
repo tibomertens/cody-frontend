@@ -33,10 +33,12 @@ const selectedHeatingSystem = ref('');
 const selectedWaterHeatingSystem = ref('');
 const solarBoiler = ref(false);
 const solarPanels = ref(false);
+const hideDropdowns = ref(false);
 
 const handleSelectedHeatingType = (selectedItem) => {
   selectedHeatingType.value = selectedItem;
   emit('selectedHeatingType', selectedItem);
+  hideDropdowns.value = selectedItem === 'Warmtenet';
 }
 
 const handleSelectedHeatingSystem = (selectedItem) => {
@@ -70,7 +72,7 @@ const handleSolarPanels = (selectedItem) => {
         <Dropdown :label="'Mijn verwarming is:'" :width="'full'" :items="choices2"
           @itemSelected="handleSelectedHeatingSystem" />
       </div>
-      <div class="xs:flex gap-[24px]">
+      <div v-if="!hideDropdowns" class="xs:flex gap-[24px]">
         <Dropdown :label="'Ik verwarm mijn sanitair water met:'" :width="'full'" :items="choices3"
           @itemSelected="handleSelectedWaterHeatingSystem" />
         <Dropdown :label="'Mijn woning wordt verwarmd met'" :width="'full'" :items="choices3" class="dirtyFix" />

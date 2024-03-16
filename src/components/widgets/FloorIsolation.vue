@@ -52,8 +52,8 @@ const handleCellar = (selectedItem) => {
       </div>
     </div>
     <div class="mt-[32px] xs:flex gap-[24px]">
-      <Dropdown :width="'full'" :label="'Hellend dak'" :items="noCellarOptions" @itemSelected="handleNoCellar" />
-      <Dropdown :width="'full'" :label="'Plat dak:'" :items="CellarOptions" @itemSelected="handleCellar" class="mt-[24px] xs:mt-0" />
+      <Dropdown v-if="selectedItem !== 'Vloer boven kelder'" :width="selectedItem !== 'Vloer op volle grond' ? 'full' : ''" :label="'Volle grond:'" :items="noCellarOptions" @itemSelected="handleNoCellar" />
+      <Dropdown v-if="selectedItem !== 'Vloer op volle grond'" :width="selectedItem !== 'Vloer boven kelder' ? 'full' : ''" :label="'Met kelder:'" :items="CellarOptions" @itemSelected="handleCellar" class="mt-[24px] xs:mt-0" />
     </div>
   </section>
 </template>

@@ -52,8 +52,8 @@ const handleFlatRoof = (selectedItem) => {
       </div>
     </div>
     <div class="mt-[32px] xs:flex gap-[24px]">
-      <Dropdown :width="'full'" :label="'Hellend dak'" :items="PithedRoofOptions" @itemSelected="handlePitchedRoof" />
-      <Dropdown :width="'full'" :label="'Plat dak:'" :items="FlatRoofOptions" @itemSelected="handleFlatRoof" class="mt-[24px] xs:mt-0" />
+      <Dropdown v-if="selectedItem !== 'Plat dak'" :width="selectedItem !== 'Hellend dak' ? 'full' : ''" :label="'Hellend dak:'" :items="PithedRoofOptions" @itemSelected="handlePitchedRoof" />
+      <Dropdown v-if="selectedItem !== 'Hellend dak'" :width="selectedItem !== 'Plat dak' ? 'full' : ''" :label="'Plat dak:'" :items="FlatRoofOptions" @itemSelected="handleFlatRoof" class="mt-[24px] xs:mt-0" />
     </div>
   </section>
 </template>
