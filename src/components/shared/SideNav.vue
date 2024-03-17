@@ -33,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full xl:w-[15%]">
+  <div class="w-full xl:w-[20%]">
     <div class="w-full h-[20%] bg-offWhite-light xl:h-screen">
       <!-- Quintt: dit is voorbeeld, voeg eigen routes toe. -->
       <div class="flex justify-between p-5">
