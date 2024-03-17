@@ -1,33 +1,35 @@
 <script setup>
 import Project from '../widgets/Project.vue';
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, reactive, onMounted, onBeforeUnmount, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { isValidToken, getUser } from '../../functions/user.js';
-import { getRenovations } from '../../functions/renovation.js';
+import { getRenovations, getRecommendedRenovations, getActiveRenovations, getSavedRenovations, getCompletedRenovations } from '../../functions/renovation.js';
 
+const route = useRoute();
 const router = useRouter();
 
 const token = localStorage.getItem('token');
 
-let userData = ref({});
-let renovations = ref({});
+let userData = reactive({});
+let renovations = reactive([]);
 
 const screenWidth = ref(window.innerWidth);
 
-onMounted(() => {
-  fetchData();
-
-  window.addEventListener('resize', handleResize);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', handleResize);
-});
-
 const fetchData = async () => {
   if (isValidToken(token)) {
-    userData = await getUser(token);
-    renovations = await getRenovations();
+    userData.value = await getUser(token);
+    const userId = userData.value._id;
+    if (route.path === '/projects/recommended') {
+      renovations.value = await getRecommendedRenovations(userId);
+    } else if (route.path === '/projects/active') {
+      renovations.value = await getActiveRenovations(userId);
+    } else if (route.path === '/projects/completed') {
+      renovations.value = await getCompletedRenovations(userId);
+    } else if (route.path === '/projects/saved') {
+      renovations.value = await getSavedRenovations(userId);
+    } else {
+      renovations.value = await getRenovations();
+    }
   } else {
     router.push('/login');
   }
@@ -36,6 +38,19 @@ const fetchData = async () => {
 const handleResize = () => {
   screenWidth.value = window.innerWidth;
 };
+
+onMounted(() => {
+  fetchData();
+  window.addEventListener('resize', handleResize);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize);
+});
+
+watch(route, () => {
+  fetchData();
+});
 
 const labelArray = [
   'Impact',
@@ -73,10 +88,10 @@ const truncateDescription = (description) => {
 
 <template>
   <section class="m-[40px]">
-    <div v-for="(renovation, i) in renovations" :key="i">
+    <div v-for="(renovation, i) in renovations.value" :key="i">
       <p></p>
-      <Project :name="renovation.title" :desc="truncateDescription(renovation.description)" :src="getSrcArray(renovation)" :label="labelArray"
-        :text="getTextArray(renovation)" />
+      <Project :name="renovation.title" :desc="truncateDescription(renovation.description)"
+        :src="getSrcArray(renovation)" :label="labelArray" :text="getTextArray(renovation)" />
     </div>
   </section>
 </template>
