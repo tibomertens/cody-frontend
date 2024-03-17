@@ -12,7 +12,7 @@ const routeHasSidebar = (route) => {
   <main class="w-full bg-offWhite-dark">
     <div :class="{ 'xl:flex': routeHasSidebar($route) }">
       <router-view name="sidebar"></router-view>
-      <div>
+      <div class="w-full">
         <router-view name="topNav"></router-view>
         <router-view></router-view>
       </div>
