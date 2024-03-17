@@ -10,11 +10,13 @@ const routeHasSidebar = (route) => {
 
 <template>
   <main class="w-full bg-offWhite-dark">
-    <div :class="{ 'xl:flex': routeHasSidebar($route) }">
+    <div :class="{ 'xl:flex xl:pl-[20%]': routeHasSidebar($route) }">
       <router-view name="sidebar"></router-view>
-      <div class="w-full">
+      <div class="xl:flex-1">
         <router-view name="topNav"></router-view>
-        <router-view></router-view>
+        <div class="xl:pt-[115px]">
+          <router-view></router-view>
+        </div>
       </div>
     </div>
   </main>

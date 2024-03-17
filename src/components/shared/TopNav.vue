@@ -17,7 +17,7 @@ function toggleActiveLink() {
 </script>
 
 <template>
-  <div class="bg-offWhite-light">
+  <div class="bg-offWhite-light xl:fixed xl:w-[80%]">
     <div class="xl:ml-10 xl:mr-10 pl-[24px] xl:pl-0"> <!-- Add margin top here -->
       <div class="pt-[24px] flex items-center justify-between">
         <h1 class="text-title font-bold mb-2">Home</h1>
