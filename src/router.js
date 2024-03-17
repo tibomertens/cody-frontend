@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import bewaard from "./components/pages/BewaardPage.vue";
+import bewaard from "./components/pages/SavedPage.vue";
 import account from "./components/pages/AccountPage.vue";
 import home from "./components/pages/HomePage.vue";
 import login from "./components/pages/LoginPage.vue"; // no navigation
@@ -15,7 +15,7 @@ const routes = [
     meta: { sidebar: true },
   },
   {
-    path: "/bewaard",
+    path: "/saved",
     components: { default: bewaard, sidebar: sideNav, topNav: topNav },
     meta: { sidebar: true },
   },

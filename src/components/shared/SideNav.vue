@@ -53,15 +53,15 @@ onMounted(() => {
             Home
           </div>
         </router-link>
-        <router-link to="/bewaard" :class="{
-          'font-normal': currentRoute !== '/bewaard',
-          'font-bold': currentRoute === '/bewaard',
+        <router-link to="/saved" :class="{
+          'font-normal': currentRoute !== '/saved',
+          'font-bold': currentRoute === '/saved',
         }">
           <div class="p-5 ml-5 mt-4 py-[12px] rounded-l-[5px]"
-            :class="{ 'bg-primary-light': currentRoute === '/bewaard' }">
+            :class="{ 'bg-primary-light': currentRoute === '/saved' }">
             <i class="pr-3 w-[20px]" :class="{
-          'fa-regular': currentRoute !== '/bewaard',
-          'fa-solid': currentRoute === '/bewaard',
+          'fa-regular': currentRoute !== '/saved',
+          'fa-solid': currentRoute === '/saved',
           'fa-bookmark': true,
         }"></i>
             Bewaard
