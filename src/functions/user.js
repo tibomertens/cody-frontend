@@ -26,7 +26,7 @@ export const getUser = async (token) => {
     }
 
     const data = await response.json();
-    return data;
+    return data.data;
   } catch (error) {
     console.error("Error:", error);
     throw error;

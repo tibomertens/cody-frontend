@@ -8,20 +8,14 @@ import { getRenovations } from '../../functions/renovation.js';
 const router = useRouter();
 
 const token = localStorage.getItem('token');
+
 let userData = ref({});
 let renovations = ref({});
+
 const screenWidth = ref(window.innerWidth);
 
-onMounted(async () => {
-  if (isValidToken(token)) {
-    const userResponse = await getUser(token);
-    const renovationResponse = await getRenovations();
-    renovations = renovationResponse.data;
-    userData = userResponse.data;
-    console.log(renovations);
-  } else {
-    router.push('/login');
-  }
+onMounted(() => {
+  fetchData();
 
   window.addEventListener('resize', handleResize);
 });
@@ -29,6 +23,15 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize);
 });
+
+const fetchData = async () => {
+  if (isValidToken(token)) {
+    userData = await getUser(token);
+    renovations = await getRenovations();
+  } else {
+    router.push('/login');
+  }
+};
 
 const handleResize = () => {
   screenWidth.value = window.innerWidth;
@@ -71,7 +74,7 @@ const truncateDescription = (description) => {
 <template>
   <section class="m-[40px]">
     <div v-for="(renovation, i) in renovations" :key="i">
-      <!-- <p></p> -->
+      <p></p>
       <Project :name="renovation.title" :desc="truncateDescription(renovation.description)" :src="getSrcArray(renovation)" :label="labelArray"
         :text="getTextArray(renovation)" />
     </div>
