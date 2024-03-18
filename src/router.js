@@ -7,6 +7,7 @@ import test from "./components/pages/TestPage.vue"; // no navigation
 import sideNav from "./components/shared/SideNav.vue";
 import topNav from "./components/shared/TopNav.vue";
 import Projects from "./components/pages/ProjectsPage.vue";
+import checklist from "./components/pages/ChecklistPage.vue";
 
 const routes = [
   {
@@ -26,6 +27,7 @@ const routes = [
   },
   { path: "/login", components: { default: login }, meta: { sidebar: false } },
   { path: "/test", components: { default: test }, meta: { sidebar: false } },
+  { path: "/checklist", components: { default: checklist }, meta: { sidebar: false } },
   {
     path: "/projects",
     components: { default: Projects, sidebar: sideNav, topNav: topNav },
