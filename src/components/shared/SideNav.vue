@@ -41,7 +41,7 @@ onMounted(() => {
         <i class="hamburger fa-solid fa-bars self-center xl:hidden"></i>
       </div>
 
-      <div class="hidden xl:block mt-[51px]">
+      <div class="hidden xl:block mt-[56px]">
         <router-link to="/" :class="{
           'font-normal': currentRoute !== '/',
           'font-bold': currentRoute === '/',
@@ -50,28 +50,62 @@ onMounted(() => {
             <div class="pr-3">
               <img :src="currentRoute !== '/' ? '/home.svg' : '/homeSelect.svg'" alt="home icon" class="w-[20px]" />
             </div>
-            Home
+            Dashboard
           </div>
         </router-link>
-        <router-link to="/bewaard" :class="{
-          'font-normal': currentRoute !== '/bewaard',
-          'font-bold': currentRoute === '/bewaard',
+
+        <router-link to="/projects" :class="{
+          'font-normal': currentRoute !== '/projects',
+          'font-bold': currentRoute === '/projects',
         }">
-          <div class="p-5 ml-5 mt-4 py-[12px] rounded-l-[5px]"
-            :class="{ 'bg-primary-light': currentRoute === '/bewaard' }">
-            <i class="pr-3 w-[20px]" :class="{
-          'fa-regular': currentRoute !== '/bewaard',
-          'fa-solid': currentRoute === '/bewaard',
-          'fa-bookmark': true,
-        }"></i>
-            Bewaard
+          <div class="pl-5 ml-5 py-[12px] rounded-l-[5px] flex" :class="{ 'bg-primary-light': currentRoute === '/projects' }">
+            <div class="pr-3">
+              <img :src="currentRoute !== '/projects' ? '/hammer.svg' : '/hammerFill.svg'" alt="hammer icon" class="w-[20px]" />
+            </div>
+            Projects
+          </div>
+        </router-link>
+
+        <router-link to="/projects/recommended" :class="{
+          'font-normal': currentRoute !== '/projects/recommended',
+          'font-bold': currentRoute === '/projects/recommended',
+        }">
+          <div class="pl-5 ml-[70px] py-[12px] rounded-l-[5px] flex text-[0.9rem]" :class="{ 'bg-primary-light': currentRoute === '/projects/recommended' }">
+            Aanbevolen
+          </div>
+        </router-link>
+
+        <router-link to="/projects/active" :class="{
+          'font-normal': currentRoute !== '/projects/active',
+          'font-bold': currentRoute === '/projects/active',
+        }">
+          <div class="pl-5 ml-[70px] py-[12px] rounded-l-[5px] flex text-[0.9rem]" :class="{ 'bg-primary-light': currentRoute === '/projects/active' }">
+            Actief
+          </div>
+        </router-link>
+
+        <router-link to="/projects/completed" :class="{
+          'font-normal': currentRoute !== '/projects/completed',
+          'font-bold': currentRoute === '/projects/completed',
+        }">
+          <div class="pl-5 ml-[70px] py-[12px] rounded-l-[5px] flex text-[0.9rem]" :class="{ 'bg-primary-light': currentRoute === '/projects/completed' }">
+            Voltooid
+          </div>
+        </router-link>
+
+        <router-link to="/projects/saved" :class="{
+          'font-normal': currentRoute !== '/projects/saved',
+          'font-bold': currentRoute === '/projects/saved',
+        }">
+          <div class="pl-5 ml-[70px] py-[12px] rounded-l-[5px] flex text-[0.9rem]" :class="{ 'bg-primary-light': currentRoute === '/projects/saved' }">
+            Opgeslagen
           </div>
         </router-link>
         <router-link to="/account" :class="{
           'font-normal': currentRoute !== '/account',
           'font-bold': currentRoute === '/account',
         }">
-          <div class="p-5 ml-5 mt-4 py-[12px] rounded-l-[5px]"
+          <div class="p-5 ml-5 py-[12px] rounded-l-[5px]"
             :class="{ 'bg-primary-light': currentRoute === '/account' }">
             <i class="pr-3 w-[20px]" :class="{
           'fa-regular': currentRoute !== '/account',
@@ -88,6 +122,7 @@ onMounted(() => {
         </router-link>
       </div>
     </div>
+
     <div class="dropdown bg-offWhite-light hidden">
       <router-link to="/" :class="{
           'font-normal': currentRoute !== '/',
@@ -100,19 +135,55 @@ onMounted(() => {
           Home
         </div>
       </router-link>
-      <router-link to="/bewaard" :class="{
-          'font-normal': currentRoute !== '/bewaard',
-          'font-bold': currentRoute === '/bewaard',
+
+      <router-link to="/projects" :class="{
+          'font-normal': currentRoute !== '/projects',
+          'font-bold': currentRoute === '/projects',
         }">
-        <div class="w-full p-5" :class="{ 'bg-primary-light': currentRoute === '/bewaard' }">
-          <i class="pr-3 w-[20px]" :class="{
-          'fa-regular': currentRoute !== '/bewaard',
-          'fa-solid': currentRoute === '/bewaard',
-          'fa-bookmark': true,
-        }"></i>
-          Bewaard
+        <div class="w-full p-5 flex" :class="{ 'bg-primary-light': currentRoute === '/projects' }">
+          <div class="pr-3">
+            <img :src="currentRoute !== '/projects' ? '/hammer.svg' : '/hammerFill.svg'" alt="hammer icon" class="w-[20px]" />
+          </div>
+          Projects
         </div>
       </router-link>
+
+      <router-link to="/projects/recommended" :class="{
+          'font-normal': currentRoute !== '/projects/recommended',
+          'font-bold': currentRoute === '/projects/recommended',
+        }">
+        <div class="w-full p-5 text-[0.9rem] pl-[70px]" :class="{ 'bg-primary-light': currentRoute === '/projects/recommended' }">
+          Aanbevolen
+        </div>
+      </router-link>
+
+      <router-link to="/projects/active" :class="{
+          'font-normal': currentRoute !== '/projects/active',
+          'font-bold': currentRoute === '/projects/active',
+        }">
+        <div class="w-full p-5 text-[0.9rem] pl-[70px]" :class="{ 'bg-primary-light': currentRoute === '/projects/active' }">
+          Actief
+        </div>
+      </router-link>
+
+      <router-link to="/projects/completed" :class="{
+          'font-normal': currentRoute !== '/projects/completed',
+          'font-bold': currentRoute === '/projects/completed',
+        }">
+        <div class="w-full p-5 text-[0.9rem] pl-[70px]" :class="{ 'bg-primary-light': currentRoute === '/projects/completed' }">
+          Voltooid
+        </div>
+      </router-link>
+
+      <router-link to="/projects/saved" :class="{
+          'font-normal': currentRoute !== '/projects/saved',
+          'font-bold': currentRoute === '/projects/saved',
+        }">
+        <div class="w-full p-5 text-[0.9rem] pl-[70px]" :class="{ 'bg-primary-light': currentRoute === '/projects/saved' }">
+          Opgeslagen
+        </div>
+      </router-link>
+  
       <router-link to="/account" :class="{
           'font-normal': currentRoute !== '/account',
           'font-bold': currentRoute === '/account',
