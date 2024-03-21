@@ -51,6 +51,10 @@ const routes = [
     components: { default: Projects, sidebar: sideNav, topNav: topNav },
     meta: { sidebar: true },
   },
+  {
+    path: '/:catchAll(.*)',
+    redirect: '/', 
+  },
 ];
 
 const router = createRouter({
