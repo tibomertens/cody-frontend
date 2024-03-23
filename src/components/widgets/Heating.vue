@@ -9,10 +9,6 @@ const verwarmingEnergieDrager = [
     name: 'Gas'
   },
   {
-    title: 'Elektriciteit/warmtepomp',
-    name: 'Elektriciteit'
-  },
-  {
     title: 'Stookolie',
     name: 'Stookolie'
   },
