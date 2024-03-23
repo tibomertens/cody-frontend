@@ -32,7 +32,7 @@ const selectItem = (event) => {
       :class="{ 'w-full': props.width === 'full', 'w-full xs:w-[415px]': props.width != 'full' }"
       class="mt-[12px] block px-[24px] h-[48px] border-2 border-primary-dark rounded-[5px] text-primary-dark font-bold text-body focus:outline-none">
       <option value="default" selected disabled>Maak een keuze</option>
-      <option v-for="item in props.items" :key="item" class="text-black hover:bg-offWhite-dark">{{ item }}</option>
+      <option v-for="item in props.items" :key="item" :value="item.name" class="text-black hover:bg-offWhite-dark">{{ item.title }}</option>
     </select>
   </div>
 </template>

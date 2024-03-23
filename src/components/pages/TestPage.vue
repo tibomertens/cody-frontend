@@ -11,22 +11,22 @@ import { ref } from 'vue';
 
 // Object to hold selected items
 const selectedItems = ref({
-    homeType: '',
-    roofType: '',
-    heatingType: '',
-    heatingSystem: '',
-    waterHeatingSystem: '',
-    surface: '',
-    solarBoiler: false,
-    solarPanels: false,
-    pitchedRoof: '',
-    flatRoof: '',
-    ventilation: '',
-    floorType: '',
-    noCellar: '',
-    cellar: '',
-    walls: '',
-    windows: '',
+    typeWoning: null,
+    typeGeometrie: null,
+    typeDak: null,
+    typeVerwarming: null,
+    verwarmingEnergiedrager: null,
+    verwarmSanitairWarmWaterMet: null,
+    zonneboilerAanwezig: false,
+    pvAanwezig: false,
+    typeHellendDakIsolatie: 'niet',
+    typePlatDakIsolatie: 'niet',
+    typeVentilatie: null,
+    typeVloer: null,
+    typeVloerOpVolleGrondIsolatie: 'niet',
+    typeVloerBovenKelderIsolatie: 'niet',
+    typeGevelIsolatie: null,
+    typeVenster: null,
 });
 
 // Function to update selected items
@@ -43,21 +43,21 @@ const handleSelectedItems = (key, value) => {
             <div class="goBackArrow"></div>
             <h1 class="text-title font-bold">Indicatieve test</h1>
         </div>
-        <HomeType @itemSelected="handleSelectedItems('homeType', $event)"
-            @selectedSurface="handleSelectedItems('surface', $event)" />
-        <Heating @selectedHeatingType="handleSelectedItems('heatingType', $event)"
-            @selectedHeatingSystem="handleSelectedItems('heatingSystem', $event)"
-            @selectedWaterHeatingSystem="handleSelectedItems('waterHeatingSystem', $event)"
-            @solarBoiler="handleSelectedItems('solarBoiler', $event)"
-            @solarPanels="handleSelectedItems('solarPanels', $event)" />
-        <RoofIsolation @itemSelected="handleSelectedItems('roofType', $event)"
-            @pitchedRoof="handleSelectedItems('pitchedRoof', $event)"
-            @flatRoof="handleSelectedItems('flatRoof', $event)" />
-        <Ventilation @selectedVentilation="handleSelectedItems('ventilation', $event)" />
-        <FloorIsolation @itemSelected="handleSelectedItems('floorType', $event)"
-            @noCellar="handleSelectedItems('noCellar', $event)" @cellar="handleSelectedItems('cellar', $event)" />
-        <WallIsolation @walls="handleSelectedItems('walls', $event)"
-            @windows="handleSelectedItems('windows', $event)" />
+        <HomeType @itemSelected="handleSelectedItems('typeWoning', $event)"
+            @selectedSurface="handleSelectedItems('typeGeometrie', $event)" />
+        <Heating @selectedHeatingType="handleSelectedItems('typeVerwarming', $event)"
+            @selectedHeatingSystem="handleSelectedItems('verwarmingEnergiedrager', $event)"
+            @selectedWaterHeatingSystem="handleSelectedItems('verwarmSanitairWarmWaterMet', $event)"
+            @solarBoiler="handleSelectedItems('zonneboilerAanwezig', $event)"
+            @solarPanels="handleSelectedItems('pvAanwezig', $event)" />
+        <RoofIsolation @itemSelected="handleSelectedItems('typeDak', $event)"
+            @pitchedRoof="handleSelectedItems('typeHellendDakIsolatie', $event)"
+            @flatRoof="handleSelectedItems('typePlatDakIsolatie', $event)" />
+        <Ventilation @selectedVentilation="handleSelectedItems('typeVentilatie', $event)" />
+        <FloorIsolation @itemSelected="handleSelectedItems('typeVloer', $event)"
+            @noCellar="handleSelectedItems('typeVloerOpVolleGrondIsolatie', $event)" @cellar="handleSelectedItems('typeVloerBovenKelderIsolatie', $event)" />
+        <WallIsolation @walls="handleSelectedItems('typeGevelIsolatie', $event)"
+            @windows="handleSelectedItems('typeVenster', $event)" />
         <div class="flex justify-center mt-[64px] pb-[64px]">
             <Btn :name="'Doorgaan'" />
         </div>
