@@ -7,7 +7,16 @@ import WallIsolation from "../widgets/WallIsolation.vue";
 import Ventilation from "../widgets/Ventilation.vue";
 import Btn from "../UI/Btn.vue";
 
-import { ref } from 'vue';
+import { calculateLabel } from "../../functions/label";
+
+import { ref, reactive } from 'vue';
+
+let labelData = reactive({});
+
+
+const calculate = async (items) => {
+    labelData = await calculateLabel(items);
+}
 
 // Object to hold selected items
 const selectedItems = ref({
@@ -32,8 +41,6 @@ const selectedItems = ref({
 // Function to update selected items
 const handleSelectedItems = (key, value) => {
     selectedItems.value[key] = value;
-    console.log(selectedItems.value[key]);
-    console.log(selectedItems.value);
 }
 </script>
 
@@ -59,9 +66,9 @@ const handleSelectedItems = (key, value) => {
         <WallIsolation @walls="handleSelectedItems('typeGevelIsolatie', $event)"
             @windows="handleSelectedItems('typeVenster', $event)" />
         <div class="flex justify-center mt-[64px] pb-[64px]">
-            <Btn :name="'Doorgaan'" />
+            <Btn :name="'Doorgaan'" @click="calculate(selectedItems)" />
         </div>
     </section>
 </template>
 
-<style scoped></style>../UI/Btn.vue
+<style scoped></style>
