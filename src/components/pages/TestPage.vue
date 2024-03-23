@@ -1,4 +1,5 @@
 <script setup>
+//import components
 import HomeType from "../widgets/HomeType.vue";
 import Heating from "../widgets/Heating.vue";
 import RoofIsolation from "../widgets/RoofIsolation.vue";
@@ -7,15 +8,25 @@ import WallIsolation from "../widgets/WallIsolation.vue";
 import Ventilation from "../widgets/Ventilation.vue";
 import Btn from "../UI/Btn.vue";
 
+//import modals
+import CalculatedLabelModal from "../modals/CalculatedLabel.vue";
+
+//import functions
 import { calculateLabel } from "../../functions/label";
 
+//import vue functions
 import { ref, reactive } from 'vue';
 
 let labelData = reactive({});
-
+let showModal = ref(false);
 
 const calculate = async (items) => {
     labelData = await calculateLabel(items);
+    showModal.value = true;
+}
+
+const closeModal = () => {
+    showModal.value = false;
 }
 
 // Object to hold selected items
@@ -62,12 +73,14 @@ const handleSelectedItems = (key, value) => {
             @flatRoof="handleSelectedItems('typePlatDakIsolatie', $event)" />
         <Ventilation @selectedVentilation="handleSelectedItems('typeVentilatie', $event)" />
         <FloorIsolation @itemSelected="handleSelectedItems('typeVloer', $event)"
-            @noCellar="handleSelectedItems('typeVloerOpVolleGrondIsolatie', $event)" @cellar="handleSelectedItems('typeVloerBovenKelderIsolatie', $event)" />
+            @noCellar="handleSelectedItems('typeVloerOpVolleGrondIsolatie', $event)"
+            @cellar="handleSelectedItems('typeVloerBovenKelderIsolatie', $event)" />
         <WallIsolation @walls="handleSelectedItems('typeGevelIsolatie', $event)"
             @windows="handleSelectedItems('typeVenster', $event)" />
         <div class="flex justify-center mt-[64px] pb-[64px]">
             <Btn :name="'Doorgaan'" @click="calculate(selectedItems)" />
         </div>
+        <CalculatedLabelModal :showModal="showModal" :labelData="labelData" @closeModal="closeModal" />
     </section>
 </template>
 
