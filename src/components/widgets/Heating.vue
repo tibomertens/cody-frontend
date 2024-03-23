@@ -28,8 +28,8 @@ const verwarmingEnergieDrager = [
 
 const typeVerwarming = [
   {
-    title: 'Hybride waterpomp',
-    name: 'Hybride waterpomp'
+    title: 'Hybride warmtepomp',
+    name: 'hybride warmtepomp'
   },
   {
     title: 'Condenserende ketel',
