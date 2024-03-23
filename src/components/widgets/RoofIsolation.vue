@@ -48,7 +48,6 @@ const FlatRoofOptions = [
 
 const handleItemSelected = (itemAlias) => {
   selectedItem.value = itemAlias;
-  console.log(selectedItem);
   emit('itemSelected', itemAlias); // Emit the event further upwards
 }
 

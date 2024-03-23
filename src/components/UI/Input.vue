@@ -1,7 +1,7 @@
 <script setup>
 import { ref, defineProps, watch, defineEmits } from "vue";
 
-const props = defineProps(["label", "type", "error"]);
+const props = defineProps(["label", "type", "error", "placeholder"]);
 const emit = defineEmits(['input-change']);
 
 let inputValue = ref("");
@@ -28,8 +28,8 @@ watch(
         :class="{ block: type === 'password', hidden: type !== 'password' }">Wachtwoord vergeten?</a>
     </div>
     <input :type="type" :class="{ 'border-2 border-secondary-red': hasError, 'border-2': !hasError }"
-      class="w-[100%] p-2 rounded-md focus:border-primary-dark focus:outline-none" v-model="inputValue"
-      @input="updateInput" />
+      class="w-[100%] p-2 rounded-md focus:border-primary-dark focus:outline-none pl-[24px]" v-model="inputValue"
+      @input="updateInput" :placeholder="props.placeholder"/>
   </div>
 </template>
 

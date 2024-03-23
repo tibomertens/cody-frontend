@@ -13,6 +13,10 @@ const props = defineProps({
   label: {
     type: String,
     required: true
+  },
+  bold: {
+    type: Boolean,
+    required: false
   }
 });
 
@@ -27,7 +31,7 @@ const selectItem = (event) => {
 <template>
   <!-- dropdown with the items from the array items as options -->
   <div :class="{ 'w-full': props.width === 'full', 'w-full xs:w-[415px]': props.width != 'full' }">
-    <label :for="props.label" class="font-normal">{{ props.label }}</label>
+    <label :for="props.label" :class="{ 'font-bold': props.bold === true, 'font-normal': props.bold !== true }">{{ props.label }}</label>
     <select @change="selectItem" :id="props.label"
       :class="{ 'w-full': props.width === 'full', 'w-full xs:w-[415px]': props.width != 'full' }"
       class="mt-[12px] block px-[24px] h-[48px] border-2 border-primary-dark rounded-[5px] text-primary-dark font-bold text-body focus:outline-none">
