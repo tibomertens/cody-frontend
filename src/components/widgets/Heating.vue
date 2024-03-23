@@ -68,7 +68,7 @@ const verwarmSanitairWarmWaterMet = [
   }
 ];
 
-const emit = defineEmits(['selectedHeatingType', 'selectedHeatingSystem', 'selectedWaterHeatingSytem', 'solarBoiler', 'solarPanels']);
+const emit = defineEmits(['selectedHeatingType', 'selectedHeatingSystem', 'selectedWaterHeatingSystem', 'solarBoiler', 'solarPanels']);
 
 const selectedHeatingType = ref('');
 const selectedHeatingSystem = ref('');
@@ -86,7 +86,6 @@ const handleSelectedHeatingSystem = (selectedItem) => {
   selectedHeatingSystem.value = selectedItem;
   emit('selectedHeatingSystem', selectedItem);
   hideDropdowns.value = selectedItem === 'Warmtenet';
-  console.log(hideDropdowns);
 }
 
 const handleSelectedWaterHeatingSystem = (selectedItem) => {
@@ -118,7 +117,7 @@ const handleSolarPanels = (selectedItem) => {
       <div v-if="!hideDropdowns" class="xs:flex gap-[24px]">
         <Dropdown :label="'Mijn verwarming is:'" :width="'full'" :items="typeVerwarming"
           @itemSelected="handleSelectedHeatingType" />
-        <Dropdown :label="'Mijn woning wordt verwarmd met'" :width="'full'" :items="choices3" class="dirtyFix" />
+        <Dropdown :label="'Mijn woning wordt verwarmd met'" :width="'full'" :items="typeVerwarming" class="dirtyFix" />
       </div>
     </div>
     <div class="mt-[32px]">
