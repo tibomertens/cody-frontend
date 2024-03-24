@@ -3,6 +3,9 @@ import { ref, onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { isValidToken, getUser } from "../../functions/user.js";
 import ChecklistFrame from "../widgets/Checklist-frame.vue";
+import Dropdown from "../UI/Dropdown.vue";
+import Btn from "../UI/Btn.vue";
+import BackArrow from "../UI/Back-arrow.vue";
 
 const router = useRouter();
 
@@ -29,12 +32,39 @@ const addSelectedItem = (selectedItem) => {
   console.log(selectedItems);
 }
 
+const emit = defineEmits(['selectedSurface']);
+
+const selectedSurface = ref('');
+
+const surfaceOptions = [
+  'Label A+',
+  'Label A',
+  'Label B',
+  'Label C',
+  'Label D',
+  'Label E',
+  'Label F',
+]
+
+const handleSelectedSurface = (selectedItem) => {
+  selectedSurface.value = selectedItem;
+  emit('selectedSurface', selectedItem); // Emit the event further upwards
+}
 </script>
 
 <template>
     <div>
-        <h1 class="text-title font-bold text-center pt-[62px] pb-[20px] xl:text-left xl:ml-[20%]">Checklist</h1>
+      <div class="flex items-center pt-[64px] pb-[20px] ml-[10%] xl:ml-[20%]">
+        <div class="mr-[20px]">
+          <Back-arrow />
+        </div>
+        <h1 class="text-title font-bold text-center">Checklist</h1>
+      </div>
         <p class="text-body w-[80%] xl:w-[60%] ml-[10%] xl:ml-[20%] pb-[32px]">Duid in volgende lijst aan welke verbeterpunten op jouw EPC rapport staan.</p>
+        <h2 class="text-subtitle font-bold ml-[10%] xl:ml-[20%] pb-[12px]">Huidig label</h2>
+         <div class="ml-[10%] mr-[10%] xl:ml-[20%] pb-[32px]">
+          <Dropdown :items="surfaceOptions" @itemSelected="handleSelectedSurface"/>
+        </div>
         <h2 class="text-subtitle font-bold ml-[10%] xl:ml-[20%] pb-[20px]">Duid aan</h2>
         <ChecklistFrame @select="addSelectedItem" :title="'Dak-isolatie'" :paragraph="'Verbeter de energie-efficiëntie van je woning door te investeren in hoogwaardige dakisolatie, waardoor warmteverlies wordt geminimaliseerd.'" />
         <ChecklistFrame @select="addSelectedItem" :title="'Vloer-isolatie'" :paragraph="'Verhoog het comfort en de duurzaamheid van je huis met vloerisolatie, waardoor koude vanuit de grond wordt tegengehouden en de energieprestaties verbeteren.'" />
@@ -45,6 +75,9 @@ const addSelectedItem = (selectedItem) => {
         <ChecklistFrame @select="addSelectedItem" :title="'Ventilatie'" :paragraph="'Optimaliseer de luchtkwaliteit in je woning door middel van doeltreffende ventilatiesystemen, die zorgen voor een gezond en comfortabel binnenklimaat.'" />
         <ChecklistFrame @select="addSelectedItem" :title="'Sanitair warm water'" :paragraph="'Bespaar energie en kosten door te investeren in geavanceerde systemen voor sanitair warm water, die efficiëntie en duurzaamheid bevorderen.'" />
         <ChecklistFrame @select="addSelectedItem" :title="'Beglazing'" :paragraph="'Verhoog de isolatiewaarde van je huis door energiezuinige beglazing te installeren, waardoor warmteverlies wordt verminderd en de energie-efficiëntie toeneemt.'" /> 
+        <div class="flex justify-center pb-[32px]">
+          <Btn :name="'Doorgaan'" />
+        </div>
     </div>
 </template>
 
