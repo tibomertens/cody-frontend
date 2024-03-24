@@ -24,6 +24,9 @@ const router = useRouter();
 const token = localStorage.getItem("token");
 let userData = ref({});
 let userId = ref(null);
+let labelData = reactive({});
+let showModal = ref(false);
+let error = ref(null);
 
 onMounted( async () => {
   if (isValidToken(token)) {
@@ -33,10 +36,6 @@ onMounted( async () => {
     router.push("/login");
   }
 });
-
-let labelData = reactive({});
-let showModal = ref(false);
-let error = ref(null);
 
 const calculate = async (items) => {
     labelData = await calculateLabel(items);
