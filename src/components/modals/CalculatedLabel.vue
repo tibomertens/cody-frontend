@@ -18,8 +18,9 @@
             <div>
                 <h2 class="text-subtitle font-bold mt-4 mb-4">Doel instellen</h2>
                 <Dropdown :label="'Energielabel'" :width="'full'" :items="goals" :bold="true"
-                    @itemSelected="handleLabelGoal" />
-                <Input :label="'Doeljaar'" :width="'full'" :placeholder="'Bv. 2036'" @input-change="updateGoalYear" />
+                    @itemSelected="handleLabelGoal" :error="dropdownHasError" :errorMessage="goalError" />
+                <Input :label="'Doeljaar'" :width="'full'" :placeholder="'Bv. 2036'" @input-change="updateGoalYear"
+                    :error="inputHasError" />
                 <p v-if="yearError" class="text-secondary-red">{{ yearError }}</p>
             </div>
             <div class="mt-[46px] flex justify-end">
@@ -52,6 +53,9 @@ const showModal = ref(false);
 let goalValue = ref(null);
 let goalYear = ref(null);
 let yearError = ref(null);
+let goalError = ref(null);
+let inputHasError = ref(false);
+let dropdownHasError = ref(false);
 
 const emit = defineEmits(['closeModal']);
 
@@ -94,16 +98,21 @@ const updateGoalYear = (year) => {
 };
 
 const addLabelToUser = async () => {
-    if (!/^\d{4}$/.test(goalYear.value)) {
+    const currentYear = new Date().getFullYear();
+
+    if (!/^\d{4}$/.test(goalYear.value) || goalYear.value < currentYear || goalYear.value === '') {
         yearError = 'Vul een geldig jaartal in';
+        inputHasError.value = true;
+    } else if (goalValue.value === null) {
+        goalError = 'Kies een doel';
+        dropdownHasError.value = true;
     } else {
         const items = {
             goalLabel: goalValue.value,
             goalLabel_by_year: goalYear.value,
         };
-
         const labelAdded = await addLabel(items, props.userId);
-        
+
         if (labelAdded) {
             router.push('/');
         }
