@@ -13,9 +13,26 @@ import CalculatedLabelModal from "../modals/CalculatedLabel.vue";
 
 //import functions
 import { calculateLabel } from "../../functions/label";
+import { isValidToken, getUser } from "../../functions/user.js";
 
 //import vue functions
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const token = localStorage.getItem("token");
+let userData = ref({});
+let userId = ref(null);
+
+onMounted( async () => {
+  if (isValidToken(token)) {
+    userData = await getUser(token);
+    userId = userData._id;
+  } else {
+    router.push("/login");
+  }
+});
 
 let labelData = reactive({});
 let showModal = ref(false);
@@ -92,7 +109,7 @@ const handleSelectedItems = (key, value) => {
                 <p v-if="error" class="text-secondary-red">{{ error }}</p>
             </div>
         </div>
-        <CalculatedLabelModal :showModal="showModal" :labelData="labelData" @closeModal="closeModal" />
+        <CalculatedLabelModal :showModal="showModal" :labelData="labelData" :userId="userId" @closeModal="closeModal" />
     </section>
 </template>
 

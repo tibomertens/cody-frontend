@@ -6,7 +6,8 @@
                 <div class="flex justify-between">
                     <h2 class="text-subtitle font-bold mb-4">Berekend label</h2>
                     <p @click="toggleDisclaimer"
-                        class="disclaimer font-light text-sm cursor-pointer underline text-primary-dark relative top-[5px]">Disclaimer
+                        class="disclaimer font-light text-sm cursor-pointer underline text-primary-dark relative top-[5px]">
+                        Disclaimer
                     </p>
                 </div>
                 <div class="flex justify-center items-center">
@@ -16,11 +17,13 @@
             </div>
             <div>
                 <h2 class="text-subtitle font-bold mt-4 mb-4">Doel instellen</h2>
-                <Dropdown :label="'Energielabel'" :width="'full'" :items="doelen" :bold="true" />
-                <Input :label="'Doeljaar'" :width="'full'" :placeholder="'Bv. 2036'" />
+                <Dropdown :label="'Energielabel'" :width="'full'" :items="goals" :bold="true"
+                    @itemSelected="handleLabelGoal" />
+                <Input :label="'Doeljaar'" :width="'full'" :placeholder="'Bv. 2036'" @input-change="updateGoalYear" />
+                <p v-if="yearError" class="text-secondary-red">{{ yearError }}</p>
             </div>
             <div class="mt-[46px] flex justify-end">
-                <Btn name="Opslaan" :width="'full'" />
+                <Btn name="Opslaan" :width="'full'" @click="addLabelToUser" />
             </div>
         </div>
     </div>
@@ -31,11 +34,17 @@ import Btn from '../UI/Btn.vue';
 import Dropdown from '../UI/Dropdown.vue';
 import Input from '../UI/Input.vue';
 
+import { addLabel } from '../../functions/label'
+
 import { ref, watch } from 'vue';
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const props = defineProps({
     showModal: Boolean,
     labelData: Object,
+    userId: String,
 });
 
 const showDisclaimer = ref(false);
@@ -44,7 +53,7 @@ function toggleDisclaimer() {
     showDisclaimer.value = !showDisclaimer.value;
 }
 
-const doelen = [
+const goals = [
     { name: 'A+', title: 'A+' },
     { name: 'A', title: 'A' },
     { name: 'B', title: 'B' },
@@ -55,6 +64,9 @@ const doelen = [
 ];
 
 const showModal = ref(false);
+let goalValue = ref(null);
+let goalYear = ref(null);
+let yearError = ref(null);
 
 const emit = defineEmits(['closeModal']);
 
@@ -66,6 +78,31 @@ const closeModal = () => {
 const handleOutsideClick = (event) => {
     if (event.target === event.currentTarget) {
         closeModal();
+    }
+};
+
+const handleLabelGoal = (selectedGoal) => {
+    goalValue.value = selectedGoal;
+};
+
+const updateGoalYear = (year) => {
+    goalYear.value = year;
+};
+
+const addLabelToUser = async () => {
+    if (!/^\d{4}$/.test(goalYear.value)) {
+        yearError = 'Vul een geldig jaartal in';
+    } else {
+        const items = {
+            goalLabel: goalValue.value,
+            goalLabel_by_year: goalYear.value,
+        };
+
+        const labelAdded = await addLabel(items, props.userId);
+        
+        if (labelAdded) {
+            router.push('/');
+        }
     }
 };
 

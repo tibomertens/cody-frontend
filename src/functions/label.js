@@ -22,3 +22,25 @@ export const calculateLabel = async (items) => {
     throw error;
   }
 };
+
+export const addLabel = async (items, userId) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/v1/users/${userId}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify(items),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
