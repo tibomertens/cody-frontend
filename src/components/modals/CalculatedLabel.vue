@@ -25,6 +25,7 @@
             </div>
             <div class="mt-[46px] flex justify-end">
                 <Btn name="Opslaan" :width="'full'" @click="addLabelToUser" />
+                <p v-if="error" class="text-secondary-red">{{ error }}</p>
             </div>
         </div>
     </div>
@@ -35,7 +36,7 @@ import Btn from '../UI/Btn.vue';
 import Dropdown from '../UI/Dropdown.vue';
 import Input from '../UI/Input.vue';
 
-import { addLabel } from '../../functions/label'
+import { addLabel, updateRecommendations } from '../../functions/label'
 
 import { ref, watch } from 'vue';
 import { useRouter } from "vue-router";
@@ -46,6 +47,7 @@ const props = defineProps({
     showModal: Boolean,
     labelData: Object,
     userId: String,
+    items: Object,
 });
 
 const showDisclaimer = ref(false);
@@ -54,6 +56,7 @@ let goalValue = ref(null);
 let goalYear = ref(null);
 let yearError = ref(null);
 let goalError = ref(null);
+let error = ref(null);
 let inputHasError = ref(false);
 let dropdownHasError = ref(false);
 
@@ -114,7 +117,12 @@ const addLabelToUser = async () => {
         const labelAdded = await addLabel(items, props.userId);
 
         if (labelAdded) {
-            router.push('/');
+            const update = await updateRecommendations(props.items, props.userId);
+            if (update) {
+                router.push('/');
+            } else {
+                error.value = 'Er is iets misgegaan, probeer het later opnieuw';
+            }
         }
     }
 };

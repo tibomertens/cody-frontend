@@ -108,7 +108,7 @@ const handleSelectedItems = (key, value) => {
                 <p v-if="error" class="text-secondary-red">{{ error }}</p>
             </div>
         </div>
-        <CalculatedLabelModal :showModal="showModal" :labelData="labelData" :userId="userId" @closeModal="closeModal" />
+        <CalculatedLabelModal :showModal="showModal" :labelData="labelData" :userId="userId" :items="selectedItems" @closeModal="closeModal" />
     </section>
 </template>
 
