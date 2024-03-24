@@ -7,6 +7,7 @@ import test from "./components/pages/TestPage.vue"; // no navigation
 import sideNav from "./components/shared/SideNav.vue";
 import topNav from "./components/shared/TopNav.vue";
 import Projects from "./components/pages/ProjectsPage.vue";
+import Settings from "./components/pages/SettingsPage.vue";
 
 const routes = [
   {
@@ -49,6 +50,11 @@ const routes = [
   {
     path: "/projects/saved",
     components: { default: Projects, sidebar: sideNav, topNav: topNav },
+    meta: { sidebar: true },
+  },
+  {
+    path: "/settings",
+    components: { default: Settings, sidebar:sideNav, topNav: topNav },
     meta: { sidebar: true },
   },
 ];
