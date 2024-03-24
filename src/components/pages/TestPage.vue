@@ -19,10 +19,17 @@ import { ref, reactive } from 'vue';
 
 let labelData = reactive({});
 let showModal = ref(false);
+let error = ref(null);
 
 const calculate = async (items) => {
     labelData = await calculateLabel(items);
-    showModal.value = true;
+    if (labelData.status === 400) {
+        error.value = 'Gelieve alle velden in te vullen';
+    } else if (labelData.status === 500) {
+        error.value = 'Er is iets misgegaan, probeer het later opnieuw';
+    } else {
+        showModal.value = true;
+    }
 }
 
 const closeModal = () => {
@@ -77,8 +84,13 @@ const handleSelectedItems = (key, value) => {
             @cellar="handleSelectedItems('typeVloerBovenKelderIsolatie', $event)" />
         <WallIsolation @walls="handleSelectedItems('typeGevelIsolatie', $event)"
             @windows="handleSelectedItems('typeVenster', $event)" />
-        <div class="flex justify-center mt-[64px] pb-[64px]">
-            <Btn :name="'Doorgaan'" @click="calculate(selectedItems)" />
+        <div>
+            <div class="flex justify-center mt-[64px]">
+                <Btn :name="'Doorgaan'" @click="calculate(selectedItems)" />
+            </div>
+            <div class="pt-[12px] pb-[64px] flex justify-center">
+                <p v-if="error" class="text-secondary-red">{{ error }}</p>
+            </div>
         </div>
         <CalculatedLabelModal :showModal="showModal" :labelData="labelData" @closeModal="closeModal" />
     </section>
