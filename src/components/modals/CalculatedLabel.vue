@@ -48,10 +48,12 @@ const props = defineProps({
 });
 
 const showDisclaimer = ref(false);
+const showModal = ref(false);
+let goalValue = ref(null);
+let goalYear = ref(null);
+let yearError = ref(null);
 
-function toggleDisclaimer() {
-    showDisclaimer.value = !showDisclaimer.value;
-}
+const emit = defineEmits(['closeModal']);
 
 const goals = [
     { name: 'A+', title: 'A+' },
@@ -63,12 +65,14 @@ const goals = [
     { name: 'F', title: 'F' },
 ];
 
-const showModal = ref(false);
-let goalValue = ref(null);
-let goalYear = ref(null);
-let yearError = ref(null);
+const toggleDisclaimer = () => {
+    showDisclaimer.value = !showDisclaimer.value;
+}
 
-const emit = defineEmits(['closeModal']);
+// watch to see if showModal prop changes
+watch(() => props.showModal, (value) => {
+    showModal.value = value;
+});
 
 const closeModal = () => {
     showModal.value = false;
@@ -105,9 +109,4 @@ const addLabelToUser = async () => {
         }
     }
 };
-
-// watch to see if showModal prop changes
-watch(() => props.showModal, (value) => {
-    showModal.value = value;
-});
 </script>
