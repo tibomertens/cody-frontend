@@ -3,30 +3,68 @@ import Dropdown from '../UI/Dropdown.vue';
 import Checkbox from '../UI/Checkbox.vue';
 import { ref } from 'vue';
 
-const choices = [
-  'Gas',
-  'Elektriciteit/warmtepomp',
-  'Stookolie',
-  'Pellets',
-  'Hout',
-  'Warmtenet'
+const verwarmingEnergieDrager = [
+  {
+    title: 'Gas',
+    name: 'Gas'
+  },
+  {
+    title: 'Stookolie',
+    name: 'Stookolie'
+  },
+  {
+    title: 'Pellets',
+    name: 'Pellets'
+  },
+  {
+    title: 'Hout',
+    name: 'Hout (overig)'
+  },
+  {
+    title: 'Warmtenet',
+    name: 'Warmtenet'
+  }
 ];
 
-const choices2 = [
-  'Hybride waterpomp',
-  'condenserende ketel',
-  'Niet-condenserende ketel',
-  'Kachel(s)'
+const typeVerwarming = [
+  {
+    title: 'Hybride warmtepomp',
+    name: 'hybride warmtepomp'
+  },
+  {
+    title: 'Condenserende ketel',
+    name: 'Condenserende ketel'
+  },
+  {
+    title: 'Niet-condenserende ketel',
+    name: 'Niet-condenserende ketel'
+  },
+  {
+    title: 'Kachel(s)',
+    name: 'Kachel'
+  }
 ];
 
-const choices3 = [
-  'Gas',
-  'Stookolie',
-  'Elektrische boiler',
-  'Warmtepompboiler'
+const verwarmSanitairWarmWaterMet = [
+  {
+    title: 'Gas',
+    name: 'gas'
+  },
+  {
+    title: 'Stookolie',
+    name: 'stookolie'
+  },
+  {
+    title: 'Elektrische boiler',
+    name: 'elektrische boiler'
+  },
+  {
+    title: 'Warmtepompboiler',
+    name: 'warmtepompboiler'
+  }
 ];
 
-const emit = defineEmits(['selectedHeatingType', 'selectedHeatingSystem', 'selectedWaterHeatingSytem', 'solarBoiler', 'solarPanels']);
+const emit = defineEmits(['selectedHeatingType', 'selectedHeatingSystem', 'selectedWaterHeatingSystem', 'solarBoiler', 'solarPanels']);
 
 const selectedHeatingType = ref('');
 const selectedHeatingSystem = ref('');
@@ -38,12 +76,12 @@ const hideDropdowns = ref(false);
 const handleSelectedHeatingType = (selectedItem) => {
   selectedHeatingType.value = selectedItem;
   emit('selectedHeatingType', selectedItem);
-  hideDropdowns.value = selectedItem === 'Warmtenet';
 }
 
 const handleSelectedHeatingSystem = (selectedItem) => {
   selectedHeatingSystem.value = selectedItem;
   emit('selectedHeatingSystem', selectedItem);
+  hideDropdowns.value = selectedItem === 'Warmtenet';
 }
 
 const handleSelectedWaterHeatingSystem = (selectedItem) => {
@@ -67,15 +105,15 @@ const handleSolarPanels = (selectedItem) => {
     <h2 class="text-subtitle font-bold mt-[24px] mb-[12px]">Verwarming</h2>
     <div>
       <div class="xs:flex gap-[24px] mb-[24px]">
-        <Dropdown :label="'Mijn woning wordt verwarmd met:'" :width="'full'" :items="choices" class="mb-[24px] xs:mb-0"
-          @itemSelected="handleSelectedHeatingType" />
-        <Dropdown :label="'Mijn verwarming is:'" :width="'full'" :items="choices2"
+        <Dropdown :label="'Mijn woning wordt verwarmd met:'" :width="'full'" :items="verwarmingEnergieDrager" class="mb-[24px] xs:mb-0"
           @itemSelected="handleSelectedHeatingSystem" />
+          <Dropdown :label="'Ik verwarm mijn sanitair water met:'" :width="'full'" :items="verwarmSanitairWarmWaterMet"
+          @itemSelected="handleSelectedWaterHeatingSystem" />
       </div>
       <div v-if="!hideDropdowns" class="xs:flex gap-[24px]">
-        <Dropdown :label="'Ik verwarm mijn sanitair water met:'" :width="'full'" :items="choices3"
-          @itemSelected="handleSelectedWaterHeatingSystem" />
-        <Dropdown :label="'Mijn woning wordt verwarmd met'" :width="'full'" :items="choices3" class="dirtyFix" />
+        <Dropdown :label="'Mijn verwarming is:'" :width="'full'" :items="typeVerwarming"
+          @itemSelected="handleSelectedHeatingType" />
+        <Dropdown :label="'Mijn woning wordt verwarmd met'" :width="'full'" :items="typeVerwarming" class="dirtyFix" />
       </div>
     </div>
     <div class="mt-[32px]">

@@ -1,4 +1,5 @@
 <script setup>
+//import components
 import HomeType from "../widgets/HomeType.vue";
 import Heating from "../widgets/Heating.vue";
 import RoofIsolation from "../widgets/RoofIsolation.vue";
@@ -7,33 +8,50 @@ import WallIsolation from "../widgets/WallIsolation.vue";
 import Ventilation from "../widgets/Ventilation.vue";
 import Btn from "../UI/Btn.vue";
 
-import { ref } from 'vue';
+//import modals
+import CalculatedLabelModal from "../modals/CalculatedLabel.vue";
+
+//import functions
+import { calculateLabel } from "../../functions/label";
+
+//import vue functions
+import { ref, reactive } from 'vue';
+
+let labelData = reactive({});
+let showModal = ref(false);
+
+const calculate = async (items) => {
+    labelData = await calculateLabel(items);
+    showModal.value = true;
+}
+
+const closeModal = () => {
+    showModal.value = false;
+}
 
 // Object to hold selected items
 const selectedItems = ref({
-    homeType: '',
-    roofType: '',
-    heatingType: '',
-    heatingSystem: '',
-    waterHeatingSystem: '',
-    surface: '',
-    solarBoiler: false,
-    solarPanels: false,
-    pitchedRoof: '',
-    flatRoof: '',
-    ventilation: '',
-    floorType: '',
-    noCellar: '',
-    cellar: '',
-    walls: '',
-    windows: '',
+    typeWoning: null,
+    typeGeometrie: null,
+    typeDak: null,
+    typeVerwarming: null,
+    verwarmingEnergiedrager: null,
+    verwarmSanitairWarmWaterMet: null,
+    zonneboilerAanwezig: false,
+    pvAanwezig: false,
+    typeHellendDakIsolatie: 'niet',
+    typePlatDakIsolatie: 'niet',
+    typeVentilatie: null,
+    typeVloer: null,
+    typeVloerOpVolleGrondIsolatie: 'niet',
+    typeVloerBovenKelderIsolatie: 'niet',
+    typeGevelIsolatie: null,
+    typeVenster: null,
 });
 
 // Function to update selected items
 const handleSelectedItems = (key, value) => {
     selectedItems.value[key] = value;
-    console.log(selectedItems.value[key]);
-    console.log(selectedItems.value);
 }
 </script>
 
@@ -43,25 +61,27 @@ const handleSelectedItems = (key, value) => {
             <div class="goBackArrow"></div>
             <h1 class="text-title font-bold">Indicatieve test</h1>
         </div>
-        <HomeType @itemSelected="handleSelectedItems('homeType', $event)"
-            @selectedSurface="handleSelectedItems('surface', $event)" />
-        <Heating @selectedHeatingType="handleSelectedItems('heatingType', $event)"
-            @selectedHeatingSystem="handleSelectedItems('heatingSystem', $event)"
-            @selectedWaterHeatingSystem="handleSelectedItems('waterHeatingSystem', $event)"
-            @solarBoiler="handleSelectedItems('solarBoiler', $event)"
-            @solarPanels="handleSelectedItems('solarPanels', $event)" />
-        <RoofIsolation @itemSelected="handleSelectedItems('roofType', $event)"
-            @pitchedRoof="handleSelectedItems('pitchedRoof', $event)"
-            @flatRoof="handleSelectedItems('flatRoof', $event)" />
-        <Ventilation @selectedVentilation="handleSelectedItems('ventilation', $event)" />
-        <FloorIsolation @itemSelected="handleSelectedItems('floorType', $event)"
-            @noCellar="handleSelectedItems('noCellar', $event)" @cellar="handleSelectedItems('cellar', $event)" />
-        <WallIsolation @walls="handleSelectedItems('walls', $event)"
-            @windows="handleSelectedItems('windows', $event)" />
+        <HomeType @itemSelected="handleSelectedItems('typeWoning', $event)"
+            @selectedSurface="handleSelectedItems('typeGeometrie', $event)" />
+        <Heating @selectedHeatingType="handleSelectedItems('typeVerwarming', $event)"
+            @selectedHeatingSystem="handleSelectedItems('verwarmingEnergiedrager', $event)"
+            @selectedWaterHeatingSystem="handleSelectedItems('verwarmSanitairWarmWaterMet', $event)"
+            @solarBoiler="handleSelectedItems('zonneboilerAanwezig', $event)"
+            @solarPanels="handleSelectedItems('pvAanwezig', $event)" />
+        <RoofIsolation @itemSelected="handleSelectedItems('typeDak', $event)"
+            @pitchedRoof="handleSelectedItems('typeHellendDakIsolatie', $event)"
+            @flatRoof="handleSelectedItems('typePlatDakIsolatie', $event)" />
+        <Ventilation @selectedVentilation="handleSelectedItems('typeVentilatie', $event)" />
+        <FloorIsolation @itemSelected="handleSelectedItems('typeVloer', $event)"
+            @noCellar="handleSelectedItems('typeVloerOpVolleGrondIsolatie', $event)"
+            @cellar="handleSelectedItems('typeVloerBovenKelderIsolatie', $event)" />
+        <WallIsolation @walls="handleSelectedItems('typeGevelIsolatie', $event)"
+            @windows="handleSelectedItems('typeVenster', $event)" />
         <div class="flex justify-center mt-[64px] pb-[64px]">
-            <Btn :name="'Doorgaan'" />
+            <Btn :name="'Doorgaan'" @click="calculate(selectedItems)" />
         </div>
+        <CalculatedLabelModal :showModal="showModal" :labelData="labelData" @closeModal="closeModal" />
     </section>
 </template>
 
-<style scoped></style>../UI/Btn.vue
+<style scoped></style>
