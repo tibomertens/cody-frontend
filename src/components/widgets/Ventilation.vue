@@ -7,11 +7,26 @@ const emit = defineEmits(['selectedVentilation']);
 const selectedVentilation = ref('');
 
 const ventilationOptions = [
-  'Ik heb geen ventilatiesysteem',
-  'Natuurlijke ventilatie via roosters',
-  'Mechanische afvoer',
-  'Mechanische afvoer met vraagsturing',
-  'Mechanische afvoer met warmteterugwinning',
+  {
+    title: 'Ik heb geen ventilatiesysteem',
+    name: 'geen'
+  },
+  {
+    title: 'Natuurlijke ventilatie via roosters',
+    name: 'DWTW'
+  },
+  {
+    title: 'Mechanische afvoer',
+    name: 'CWTW'
+  },
+  {
+    title: 'Mechanische afvoer met vraagsturing',
+    name: 'A'
+  },
+  {
+    title: 'Mechanische afvoer met warmteterugwinning',
+    name: 'C'
+  }
 ]
 
 const handleSelectedVentilation = (selectedItem) => {

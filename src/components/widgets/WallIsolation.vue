@@ -7,18 +7,45 @@ const emit = defineEmits(['walls', 'windows']);
 const selectedOption = ref('');
 
 const wallsOptions = [
-  'Niet geïsoleerd, ik heb geen spouw',
-  'Niet geïsoleerd, ik heb een spouw',
-  'Licht geïsoleerd (rond 3cm isolatie)',
-  'Matig geïsoleerd (rond 7cm isolatie)',
-  'Goed geïsoleerd (rond 16cm isolatie)',
+  {
+    title: 'Niet geïsoleerd, ik heb geen spouw',
+    name: 'nietZonderSpouw'
+  },
+  {
+    title: 'Niet geïsoleerd, ik heb een spouw',
+    name: 'nietMetSpouw'
+  },
+  {
+    title: 'Licht geïsoleerd (rond 3cm isolatie)',
+    name: 'licht'
+  },
+  {
+    title: 'Matig geïsoleerd (rond 7cm isolatie)',
+    name: 'matig'
+  },
+  {
+    title: 'Goed geïsoleerd (rond 16cm isolatie)',
+    name: 'sterk'
+  }
 ]
 
 const WindowsOptions = [
-  'Enkel glas',
-  'Dubbel glas (U-waarde = 2.8)',
-  'Hoogrendementsglas (U-waarde = 1.0 of 1.1)',
-  'Driedubbel glas (U-waarde = 0.8)',
+  {
+    title: 'Enkel glas',
+    name: 'enkel'
+  },
+  {
+    title: 'Dubbel glas (U-waarde = 2.8)',
+    name: 'dubbel'
+  },
+  {
+    title: 'Hoogrendementsglas (U-waarde = 1.0 of 1.1)',
+    name: 'HR'
+  },
+  {
+    title: 'Driedubbel glas (U-waarde = 0.8)',
+    name: 'driedubbel'
+  }
 ]
 
 const handleWalls = (selectedItem) => {

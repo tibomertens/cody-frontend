@@ -13,20 +13,24 @@ const props = defineProps({
     selected: {
         type: String, // The name of the currently selected item
         default: ''
-    }
+    },
+    itemAlias: {
+        type: String,
+        required: true
+    } 
 });
 
 const emit = defineEmits(['itemSelected']);
 
-const isSelected = ref(props.selected === props.itemName);
+const isSelected = ref(props.selected === props.itemAlias);
 
 const selectItem = () => {
-    emit('itemSelected', props.itemName);
+    emit('itemSelected', props.itemAlias);
 }
 
 // Update isSelected whenever selected prop changes
 watch(() => props.selected, (newVal) => {
-    isSelected.value = newVal === props.itemName;
+    isSelected.value = newVal === props.itemAlias;
 });
 </script>
 

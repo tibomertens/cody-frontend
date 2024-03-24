@@ -9,22 +9,46 @@ const selectedItem = ref('');
 const selectedSurface = ref('');
 
 const PithedRoofOptions = [
-  'Niet geïsoleerd',
-  'Licht geïsoleerd (rond 5cm isolatie)',
-  'Matig geïsoleerd (rond 14cm isolatie)',
-  'Goed geïsoleerd (rond 25cm isolatie)',
+  {
+    title: 'Niet geïsoleerd',
+    name: 'niet'
+  },
+  {
+    title: 'Licht geïsoleerd (rond 5cm isolatie)',
+    name: 'licht'
+  },
+  {
+    title: 'Matig geïsoleerd (rond 14cm isolatie)',
+    name: 'matig'
+  },
+  {
+    title: 'Goed geïsoleerd (rond 25cm isolatie)',
+    name: 'sterk'
+  }
 ]
 
 const FlatRoofOptions = [
-  'Niet geïsoleerd',
-  'Licht geïsoleerd (rond 3cm isolatie)',
-  'Matig geïsoleerd (rond 8cm isolatie)',
-  'Goed geïsoleerd (rond 15cm isolatie)',
+  {
+    title: 'Niet geïsoleerd',
+    name: 'niet'
+  },
+  {
+    title: 'Licht geïsoleerd (rond 3cm isolatie)',
+    name: 'licht'
+  },
+  {
+    title: 'Matig geïsoleerd (rond 8cm isolatie)',
+    name: 'matig'
+  },
+  {
+    title: 'Goed geïsoleerd (rond 15cm isolatie)',
+    name: 'sterk'
+  }
 ]
 
-const handleItemSelected = (itemName) => {
-  selectedItem.value = itemName;
-  emit('itemSelected', itemName); // Emit the event further upwards
+const handleItemSelected = (itemAlias) => {
+  selectedItem.value = itemAlias;
+  emit('itemSelected', itemAlias); // Emit the event further upwards
 }
 
 const handlePitchedRoof = (selectedItem) => {
@@ -43,17 +67,17 @@ const handleFlatRoof = (selectedItem) => {
     <h2 class="text-subtitle font-bold mt-[24px] mb-[12px]">Dak isolatie</h2>
     <div class="grid grid-cols-1 gap-[32px] xs:grid-cols-2 ml:grid-cols-3">
       <Type :item-name="'Hellend dak'" :image-url="'/hellendDak.svg'" :selected="selectedItem"
-        @itemSelected="handleItemSelected" />
+        @itemSelected="handleItemSelected" item-alias="Dak_hellend"/>
       <Type :item-name="'Plat dak'" :image-url="'/platDak.svg'" :selected="selectedItem"
-        @itemSelected="handleItemSelected" />
+        @itemSelected="handleItemSelected" item-alias="Dak_plat" />
       <div class="xs:col-span-2 ml:col-span-1">
         <Type :item-name="'Gemengd dak'" :image-url="'/gemengdDak.svg'" :selected="selectedItem"
-          @itemSelected="handleItemSelected" />
+          @itemSelected="handleItemSelected" item-alias="gemengd" />
       </div>
     </div>
     <div class="mt-[32px] xs:flex gap-[24px]">
-      <Dropdown v-if="selectedItem !== 'Plat dak'" :width="selectedItem !== 'Hellend dak' ? 'full' : ''" :label="'Hellend dak:'" :items="PithedRoofOptions" @itemSelected="handlePitchedRoof" />
-      <Dropdown v-if="selectedItem !== 'Hellend dak'" :width="selectedItem !== 'Plat dak' ? 'full' : ''" :label="'Plat dak:'" :items="FlatRoofOptions" @itemSelected="handleFlatRoof" class="mt-[24px] xs:mt-0" />
+      <Dropdown v-if="selectedItem !== 'Dak_plat'" :width="selectedItem !== 'Dak_hellend' ? 'full' : ''" :label="'Hellend dak:'" :items="PithedRoofOptions" @itemSelected="handlePitchedRoof" />
+      <Dropdown v-if="selectedItem !== 'Dak_hellend'" :width="selectedItem !== 'Dak_plat' ? 'full' : ''" :label="'Plat dak:'" :items="FlatRoofOptions" @itemSelected="handleFlatRoof" class="mt-[24px] xs:mt-0" />
     </div>
   </section>
 </template>
