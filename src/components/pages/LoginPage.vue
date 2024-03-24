@@ -7,7 +7,7 @@ import Mascot from "../shared/Mascot.vue";
     <div class="flex">
         <Mascot />
         <div class="w-full lg:w-1/2 h-screen flex justify-center items-center">
-            <div class="w-[60%]">
+            <div class="w-[80%] lg:w-[80%]">
                 <div>
                     <h1 class="text-title font-bold">Login</h1>
                     <LoginForm />
