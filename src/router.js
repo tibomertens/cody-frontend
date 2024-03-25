@@ -3,7 +3,7 @@ import bewaard from "./components/pages/SavedPage.vue";
 import account from "./components/pages/AccountPage.vue";
 import home from "./components/pages/HomePage.vue";
 import login from "./components/pages/LoginPage.vue"; // no navigation
-import test from "./components/pages/TestPage.vue"; // no navigation
+import berekenIndicatief from "./components/pages/TestPage.vue"; // no navigation
 import sideNav from "./components/shared/SideNav.vue";
 import topNav from "./components/shared/TopNav.vue";
 import Projects from "./components/pages/ProjectsPage.vue";
@@ -28,7 +28,8 @@ const routes = [
     meta: { sidebar: true },
   },
   { path: "/login", components: { default: login }, meta: { sidebar: false } },
-  { path: "/test", components: { default: test }, meta: { sidebar: false } },
+  { path: "/test/berekenIndicatief", components: { default: berekenIndicatief }, meta: { sidebar: false } },
+  { path: "/rapport/berekenIndicatief", components: { default: berekenIndicatief }, meta: { sidebar: false } },
   { path: "/checklist", components: { default: checklist }, meta: { sidebar: false } },
   {
     path: "/projects",
