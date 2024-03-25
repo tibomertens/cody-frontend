@@ -30,7 +30,7 @@ const routes = [
   { path: "/login", components: { default: login }, meta: { sidebar: false } },
   { path: "/test/berekenIndicatief", components: { default: berekenIndicatief }, meta: { sidebar: false } },
   { path: "/rapport/berekenIndicatief", components: { default: berekenIndicatief }, meta: { sidebar: false } },
-  { path: "/checklist", components: { default: checklist }, meta: { sidebar: false } },
+  { path: "/rapport/checklist", components: { default: checklist }, meta: { sidebar: false } },
   {
     path: "/projects",
     components: { default: Projects, sidebar: sideNav, topNav: topNav },
