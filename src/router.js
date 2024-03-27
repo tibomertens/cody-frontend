@@ -8,7 +8,8 @@ import sideNav from "./components/shared/SideNav.vue";
 import topNav from "./components/shared/TopNav.vue";
 import Projects from "./components/pages/ProjectsPage.vue";
 import checklist from "./components/pages/ChecklistPage.vue";
-import Settings from "./components/pages/SettingsPage.vue";
+import settings from "./components/pages/SettingsPage.vue";
+import promotors from "./components/pages/PromotorsPage.vue";
 
 
 const routes = [
@@ -58,12 +59,17 @@ const routes = [
   },
   {
     path: "/settings",
-    components: { default: Settings, sidebar:sideNav, topNav: topNav },
+    components: { default: settings, sidebar:sideNav, topNav: topNav },
     meta: { sidebar: true },
   },
   {
     path: '/:catchAll(.*)',
     redirect: '/', 
+  },
+  {
+    path: "/promotors",
+    components: { default: promotors, sidebar: sideNav, topNav: topNav },
+    meta: { sidebar: true },
   },
 ];
 
