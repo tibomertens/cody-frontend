@@ -33,7 +33,7 @@ onMounted( async () => {
     userData = await getUser(token);
     userId = userData._id;
   } else {
-    router.push("/login");
+    // router.push("/login");
   }
 });
 
