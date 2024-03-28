@@ -102,7 +102,7 @@ const handleSelectedItems = (key, value) => {
             @windows="handleSelectedItems('typeVenster', $event)" />
         <div>
             <div class="flex justify-center mt-[64px]">
-                <Btn :name="'Doorgaan'" @click="calculate(selectedItems)" />
+                <Btn :name="'yhj,k'" @click="calculate(selectedItems)" />
             </div>
             <div class="pt-[12px] pb-[64px] flex justify-center">
                 <p v-if="error" class="text-secondary-red">{{ error }}</p>
