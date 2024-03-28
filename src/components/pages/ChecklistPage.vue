@@ -107,7 +107,7 @@ const handleSelectedLabel = (itemAlias) => {
     <ChecklistFrame @select="addSelectedItem" :title="'Beglazing'"
       :paragraph="'Verhoog de isolatiewaarde van je huis door energiezuinige beglazing te installeren, waardoor warmteverlies wordt verminderd en de energie-efficiëntie toeneemt.'" />
     <div class="flex justify-center pb-[32px]">
-      <Btn :name="'Doorgaan'" />
+      <Btn :name="'Doorgaan'" :width="''" />
     </div>
   </div>
 </template>

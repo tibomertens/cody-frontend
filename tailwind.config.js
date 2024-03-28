@@ -4,6 +4,9 @@ export default {
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
+  safelist: [
+    'w-[400px]',
+  ],
   theme: {
     extend: {
       colors: {
