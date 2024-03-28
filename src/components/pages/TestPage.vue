@@ -28,14 +28,14 @@ let labelData = reactive({});
 let showModal = ref(false);
 let error = ref(null);
 
-onMounted( async () => {
-  if (isValidToken(token)) {
-    userData = await getUser(token);
-    userId = userData._id;
-  } else {
-    // router.push("/login");
-  }
-});
+// onMounted( async () => {
+//   if (isValidToken(token)) {
+//     userData = await getUser(token);
+//     userId = userData._id;
+//   } else {
+//     // router.push("/login");
+//   }
+// });
 
 const calculate = async (items) => {
     labelData = await calculateLabel(items);

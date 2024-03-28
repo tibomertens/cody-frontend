@@ -14,14 +14,14 @@ let userData = ref({});
 
 const selectedItems = reactive([]);
 
-onMounted( async () => {
-  if (isValidToken(token)) {
-    userData = await getUser(token);
-    console.log(userData);
-  } else {
-    router.push("/login");
-  }
-});
+// onMounted( async () => {
+//   if (isValidToken(token)) {
+//     userData = await getUser(token);
+//     console.log(userData);
+//   } else {
+//     router.push("/login");
+//   }
+// });
 
 const addSelectedItem = (selectedItem) => {
   if (selectedItems.includes(selectedItem)) {
