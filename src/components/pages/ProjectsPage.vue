@@ -1,7 +1,10 @@
 <script setup>
 import Project from '../widgets/Project.vue';
+import Searchbar from '../UI/Searchbar.vue';
+
 import { ref, reactive, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+
 import { isValidToken, getUser } from '../../functions/user.js';
 import { getRenovations, getRecommendedRenovations, getActiveRenovations, getSavedRenovations, getCompletedRenovations } from '../../functions/renovation.js';
 
@@ -88,8 +91,10 @@ const truncateDescription = (description) => {
 
 <template>
   <section class="m-[40px]">
+    <div class="mb-[40px] mt-[-16px]">
+      <Searchbar />
+    </div>
     <div v-for="(renovation, i) in renovations.value" :key="i">
-      <p></p>
       <Project :name="renovation.title" :desc="truncateDescription(renovation.description)"
         :src="getSrcArray(renovation)" :label="labelArray" :text="getTextArray(renovation)" />
     </div>
