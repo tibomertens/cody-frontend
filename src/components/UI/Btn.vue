@@ -11,13 +11,12 @@ const props = defineProps({
     required: false
   }
 });
-console.log(props.width);
 </script>
 
 <template>
   <a href="#" @click.prevent :class="{ 'w-full': props.width === 'full', 'w-[400px]': props.width !== 'full' }"
     class="inline-block h-[48px] bg-primary-dark rounded-[5px] text-white font-bold text-btn text-center">
-    <p class="relative top-[7px]">{{ props.name }}</p>
+    <p class="relative top-[8px]">{{ props.name }}</p>
   </a>
 </template>
 
