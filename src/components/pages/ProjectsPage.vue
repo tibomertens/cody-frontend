@@ -92,9 +92,9 @@ const truncateDescription = (description) => {
 
 <template>
   <section class="m-[32px] md:m-[40px]">
-    <div class="mb-[32px] md:mb-[40px] grid grid-cols-1 md:grid-cols-3 gap-[32px] md:gap-[40px]">
-      <Searchbar class="md:col-span-2"/>
-      <AdvancedFilter class="md:col-span-1" />
+    <div class="mb-[32px] md:mb-[40px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] md:gap-[40px]">
+      <Searchbar class="lg:col-span-2"/>
+      <AdvancedFilter class="lg:col-span-1" />
     </div>
     <div v-for="(renovation, i) in renovations.value" :key="i">
       <Project :name="renovation.title" :desc="truncateDescription(renovation.description)"
