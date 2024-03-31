@@ -17,7 +17,7 @@
                     @item-selected="handleType" />
                 <Btn :name="'Filters toepassen'" :width="'full'" class="mt-[12px] text-[1rem]" @click="applyFilters" />
                 <div class="flex justify-center">
-                    <p class="text-secondary-red underline text-[0.9em]">Wis filters</p>
+                    <p class="text-secondary-red underline text-[0.9em]" @click="deleteFilters">Wis filters</p>
                 </div>
             </div>
         </div>
@@ -97,6 +97,14 @@ const applyFilters = () => {
   }
 
   console.log(filteredRenovations.value)
+  emit('filtered', filteredRenovations.value);
+};
+
+const deleteFilters = () => {
+  addedValue.value = '';
+  type.value = '';
+  budget.value = '';
+  filteredRenovations.value = [...originalRenovations.value];
   emit('filtered', filteredRenovations.value);
 };
 

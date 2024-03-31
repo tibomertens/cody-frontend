@@ -94,8 +94,6 @@ const truncateDescription = (description) => {
 const handleFilter = (filteredRenovations) => {
   renovations.value = filteredRenovations;
 };
-
-console.log(renovations);
 </script>
 
 <template>
