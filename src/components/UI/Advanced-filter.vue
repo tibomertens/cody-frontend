@@ -101,6 +101,8 @@ const applyFilters = () => {
 
     console.log(filteredRenovations.value)
     emit('filtered', filteredRenovations.value);
+
+    toggleDropdown();
 };
 
 const deleteFilters = () => {
