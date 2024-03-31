@@ -3,7 +3,7 @@
         <div class="w-full h-[48px] bg-offWhite-light rounded-[5px] border-2 border-primary-dark flex items-center justify-between"
             @click="toggleDropdown" :class="{ 'rounded-b-[0] border-b-0': isDropdownOpen }">
             <p class="text-primary-dark font-bold text-btn ml-[24px] relative bottom-[1px]">Filters</p>
-            <img :class="{ 'rotate-180': isDropdownOpen }" src="/public/dropdownIcon.svg" alt="dropdown icon"
+            <img :class="{ 'rotate-180': isDropdownOpen }" src="/dropdownIcon.svg" alt="dropdown icon"
                 class="mr-[24px]">
         </div>
         <div v-if="isDropdownOpen"
