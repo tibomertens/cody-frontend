@@ -35,6 +35,18 @@ const fetchData = async () => {
     } else {
       renovations.value = await getRenovations();
     }
+    
+    // sort the renovations based on the impact
+    renovations.value.sort((a, b) => {
+      if (a.impact === 'Hoogste impact' && b.impact !== 'Hoogste impact') {
+        return -1;
+      } else if (a.impact !== 'Hoogste impact' && b.impact === 'Hoogste impact') {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
     renovationsLoaded.value = true;
   } else {
     router.push('/login');
