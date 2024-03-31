@@ -25,10 +25,15 @@ const props = defineProps({
   errorMessage: {
     type: String,
     required: false
+  },
+  default: {
+    type: String,
+    required: false,
+    default: 'Maak een keuze'
   }
 });
 
-const emit = defineEmits(['itemSelected']);
+const emit = defineEmits(['itemSelected', 'alias']);
 
 const selectItem = (event) => {
   const selectedItem = event.target.value;
@@ -39,12 +44,14 @@ const selectItem = (event) => {
 <template>
   <!-- dropdown with the items from the array items as options -->
   <div :class="{ 'w-full': props.width === 'full', 'w-full xs:w-[415px]': props.width != 'full' }">
-    <label :for="props.label" :class="{ 'font-bold': props.bold === true, 'font-normal': props.bold !== true }">{{ props.label }}</label>
+    <label :for="props.label" :class="{ 'font-bold': props.bold === true, 'font-normal': props.bold !== true }">{{
+    props.label }}</label>
     <select @change="selectItem" :id="props.label"
       :class="{ 'w-full': props.width === 'full', 'w-full xs:w-[415px]': props.width != 'full', 'border-2 border-secondary-red': props.error === true }"
       class="mt-[12px] block px-[24px] h-[48px] border-2 border-primary-dark rounded-[5px] text-primary-dark font-bold text-body focus:outline-none">
-      <option value="default" selected disabled>Maak een keuze</option>
-      <option v-for="item in props.items" :key="item" :value="item.name" class="text-black hover:bg-offWhite-dark">{{ item.title }}</option>
+      <option value="default" selected disabled>{{ props.default }}</option>
+      <option v-for="item in props.items" :key="item" :value="item.name" class="text-black hover:bg-offWhite-dark">{{
+    item.title }}</option>
     </select>
     <p v-if="props.error" class="text-secondary-red">{{ props.errorMessage }}</p>
   </div>
