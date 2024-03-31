@@ -16,6 +16,7 @@ const token = localStorage.getItem('token');
 
 let userData = reactive({});
 let renovations = reactive([]);
+let renovationsLoaded = ref(false);
 
 const screenWidth = ref(window.innerWidth);
 
@@ -34,6 +35,7 @@ const fetchData = async () => {
     } else {
       renovations.value = await getRenovations();
     }
+    renovationsLoaded.value = true;
   } else {
     router.push('/login');
   }
@@ -92,13 +94,17 @@ const truncateDescription = (description) => {
 const handleFilter = (filteredRenovations) => {
   renovations.value = filteredRenovations;
 };
+
+console.log(renovations);
 </script>
 
 <template>
   <section class="m-[32px] md:m-[40px]">
     <div class="mb-[32px] md:mb-[40px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] md:gap-[40px]">
-      <Searchbar class="lg:col-span-2"/>
-      <AdvancedFilter class="lg:col-span-1" :renovations="renovations.value" @filtered="handleFilter" :active-added-value-filter="'Hoog'" :active-type-filter="'Isolatie'" />
+      <Searchbar class="lg:col-span-2" />
+      <div v-if="renovationsLoaded">
+        <AdvancedFilter class="lg:col-span-1" :renovations="renovations.value" @filtered="handleFilter" />
+      </div>
     </div>
     <div v-for="(renovation, i) in renovations.value" :key="i">
       <Project :name="renovation.title" :desc="truncateDescription(renovation.description)"
