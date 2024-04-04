@@ -117,6 +117,7 @@ const addLabelToUser = async () => {
         const items = {
             goalLabel: goalValue.value,
             goalLabel_by_year: goalYear.value,
+            indicatiefLabel: props.labelData.label,
         };
         const labelAdded = await addLabel(items, props.userId);
         console.log(labelAdded);
@@ -133,6 +134,7 @@ const addLabelToUser = async () => {
         const items = {
             goalLabel: goalValue.value,
             goalLabel_by_year: goalYear.value,
+            indicatiefLabel: props.labelData.label,
         };
         const labelAdded = await addLabel(items, props.userId);
 
