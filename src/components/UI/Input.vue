@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, watch, defineEmits } from "vue";
+import { ref, defineProps, watch, defineEmits, onMounted } from "vue";
 
 const props = defineProps(["label", "type", "error", "placeholder", "preFix", "value"]);
 const emit = defineEmits(['input-change']);
@@ -16,6 +16,23 @@ watch(
   (newVal) => {
     hasError.value = newVal;
     console.log("Error:", hasError.value);
+  }
+);
+
+onMounted(() => {
+  if (props.value !== false) {
+    inputValue.value = props.value;
+  }
+});
+
+watch(
+  () => props.value,
+  (newVal) => {
+    if (newVal !== false) {
+      inputValue.value = newVal;
+    } else {
+      inputValue.value = "";
+    }
   }
 );
 </script>

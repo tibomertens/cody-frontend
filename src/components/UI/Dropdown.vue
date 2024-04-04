@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, watch } from 'vue';
 
 const props = defineProps({
   items: {
@@ -46,6 +46,10 @@ const deleteFilter = (event) => {
   dropdown.selectedIndex = 0;
   emit('itemSelected', ''); // Emit the default option 
 }
+
+watch(() => props.default, (newValue, oldValue) => {
+  props.default = newValue;
+});
 </script>
 
 <template>
