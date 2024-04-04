@@ -1,7 +1,7 @@
 <script setup>
-import { ref, defineProps, watch, defineEmits } from "vue";
+import { ref, defineProps, watch, defineEmits, onMounted } from "vue";
 
-const props = defineProps(["label", "type", "error", "placeholder"]);
+const props = defineProps(["label", "type", "error", "placeholder", "preFix", "value"]);
 const emit = defineEmits(['input-change']);
 
 let inputValue = ref("");
@@ -18,6 +18,23 @@ watch(
     console.log("Error:", hasError.value);
   }
 );
+
+onMounted(() => {
+  if (props.value !== false) {
+    inputValue.value = props.value;
+  }
+});
+
+watch(
+  () => props.value,
+  (newVal) => {
+    if (newVal !== false) {
+      inputValue.value = newVal;
+    } else {
+      inputValue.value = "";
+    }
+  }
+);
 </script>
 
 <template>
@@ -27,9 +44,14 @@ watch(
       <a href="#" class="text-xs underline"
         :class="{ block: type === 'password', hidden: type !== 'password' }">Wachtwoord vergeten?</a>
     </div>
-    <input :type="type" :class="{ 'border-2 border-secondary-red': hasError, 'border-2': !hasError }"
-      class="w-[100%] p-2 rounded-md focus:border-primary-dark focus:outline-none pl-[24px]" v-model="inputValue"
-      @input="updateInput" :placeholder="props.placeholder"/>
+    <div class="relative">
+      <input :type="type"
+        :class="{ 'border-2 border-secondary-red': hasError, 'border-2': !hasError, 'pl-[48px]': props.preFix }"
+        class="w-[100%] p-2 rounded-md focus:border-primary-dark focus:outline-none pl-[24px]" v-model="inputValue"
+        @input="updateInput" :placeholder="props.placeholder" />
+      <p v-if="props.preFix" class="font-bold absolute inset-y-0 left-0 pl-[24px] pt-[9.5px] pointer-events-none">{{
+        props.preFix }}</p>
+    </div>
   </div>
 </template>
 

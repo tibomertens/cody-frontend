@@ -1,7 +1,11 @@
 <script setup>
 import Project from '../widgets/Project.vue';
+import Searchbar from '../UI/Searchbar.vue';
+import AdvancedFilter from '../UI/Advanced-filter.vue';
+
 import { ref, reactive, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+
 import { isValidToken, getUser } from '../../functions/user.js';
 import { getRenovations, getRecommendedRenovations, getActiveRenovations, getSavedRenovations, getCompletedRenovations } from '../../functions/renovation.js';
 
@@ -12,6 +16,7 @@ const token = localStorage.getItem('token');
 
 let userData = reactive({});
 let renovations = reactive([]);
+let renovationsLoaded = ref(false);
 
 const screenWidth = ref(window.innerWidth);
 
@@ -30,6 +35,19 @@ const fetchData = async () => {
     } else {
       renovations.value = await getRenovations();
     }
+    
+    // sort the renovations based on the impact
+    renovations.value.sort((a, b) => {
+      if (a.impact === 'Hoogste impact' && b.impact !== 'Hoogste impact') {
+        return -1;
+      } else if (a.impact !== 'Hoogste impact' && b.impact === 'Hoogste impact') {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    renovationsLoaded.value = true;
   } else {
     router.push('/login');
   }
@@ -84,12 +102,21 @@ const truncateDescription = (description) => {
     return description;
   }
 };
+
+const handleFilter = (filteredRenovations) => {
+  renovations.value = filteredRenovations;
+};
 </script>
 
 <template>
-  <section class="m-[40px]">
+  <section class="m-[32px] md:m-[40px]">
+    <div class="mb-[32px] md:mb-[40px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] md:gap-[40px]">
+      <Searchbar class="lg:col-span-2" />
+      <div v-if="renovationsLoaded">
+        <AdvancedFilter class="lg:col-span-1" :renovations="renovations.value" @filtered="handleFilter" />
+      </div>
+    </div>
     <div v-for="(renovation, i) in renovations.value" :key="i">
-      <p></p>
       <Project :name="renovation.title" :desc="truncateDescription(renovation.description)"
         :src="getSrcArray(renovation)" :label="labelArray" :text="getTextArray(renovation)" />
     </div>
