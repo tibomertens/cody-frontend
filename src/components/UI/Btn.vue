@@ -11,7 +11,6 @@ const props = defineProps({
     required: false
   }
 });
-console.log(props.width);
 </script>
 
 <template>

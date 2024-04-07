@@ -15,7 +15,6 @@ export const calculateLabel = async (items) => {
     );
 
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error:", error);
@@ -37,7 +36,6 @@ export const addLabel = async (items, userId) => {
     );
 
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error:", error);
@@ -97,7 +95,6 @@ export const updateRecommendations = async (items, userId) => {
       );
 
       const data = await response.json();
-      console.log(data);
       return data;
     });
 
@@ -129,7 +126,6 @@ export const updateChecklistRecommendations = async (items, userId) => {
         );
 
         const data = await response.json();
-        console.log(data);
         return data;
       } catch (error) {
         console.error("Error updating renovation:", error);

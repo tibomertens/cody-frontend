@@ -146,15 +146,12 @@ const addLabelToUser = async () => {
     goalError = "Kies een doel";
     dropdownHasError.value = true;
   } else if (router.currentRoute.value.path === "/rapport/checklist") {
-    console.log(router.currentRoute.value.path);
-    console.log(props.userId);
     const items = {
       goalLabel: goalValue.value,
       goalLabel_by_year: goalYear.value,
       indicatiefLabel: props.labelData.label,
     };
     const labelAdded = await addLabel(items, props.userId);
-    console.log(labelAdded);
     if (labelAdded) {
       const update = await updateChecklistRecommendations(
         props.items,

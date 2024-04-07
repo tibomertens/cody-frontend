@@ -34,7 +34,6 @@ onMounted(async () => {
   if (isValidToken(token)) {
     userData = await getUser(token);
     userId = userData._id;
-    console.log(userData);
   } else {
     router.push("/login");
   }
@@ -46,7 +45,6 @@ const addSelectedItem = (selectedItem) => {
   } else {
     selectedItems.push(selectedItem);
   }
-  console.log(selectedItems);
 };
 
 const emit = defineEmits(["selectedSurface"]);
@@ -92,7 +90,6 @@ const labelOptions = [
 
 const handleSelectedLabel = (itemAlias) => {
   selectedLabel.value = itemAlias;
-  console.log(selectedLabel.value);
 };
 
 const checkLabelNotEmpty = async () => {
