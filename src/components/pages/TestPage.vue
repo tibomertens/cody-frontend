@@ -7,6 +7,7 @@ import FloorIsolation from "../widgets/FloorIsolation.vue";
 import WallIsolation from "../widgets/WallIsolation.vue";
 import Ventilation from "../widgets/Ventilation.vue";
 import Btn from "../UI/Btn.vue";
+import BackArrow from "../UI/Back-arrow.vue";
 
 //import modals
 import CalculatedLabelModal from "../modals/CalculatedLabel.vue";
@@ -80,8 +81,8 @@ const handleSelectedItems = (key, value) => {
 
 <template>
     <section class="ml-[32px] mr-[32px] pt-[40px] md:ml-[10%] md:mr-[10%] xl:ml-[25%] xl:mr-[25%]">
-        <div class="head">
-            <div class="goBackArrow"></div>
+        <div class="flex gap-[24px] align-middle">
+            <BackArrow />
             <h1 class="text-title font-bold">Indicatieve test</h1>
         </div>
         <HomeType @itemSelected="handleSelectedItems('typeWoning', $event)"
