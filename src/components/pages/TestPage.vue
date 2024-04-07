@@ -28,14 +28,14 @@ let labelData = reactive({});
 let showModal = ref(false);
 let error = ref(null);
 
-// onMounted( async () => {
-//   if (isValidToken(token)) {
-//     userData = await getUser(token);
-//     userId = userData._id;
-//   } else {
-//     // router.push("/login");
-//   }
-// });
+onMounted( async () => {
+  if (isValidToken(token)) {
+    userData = await getUser(token);
+    userId = userData._id;
+  } else {
+    router.push("/login");
+  }
+});
 
 const calculate = async (items) => {
     labelData = await calculateLabel(items);
@@ -102,7 +102,7 @@ const handleSelectedItems = (key, value) => {
             @windows="handleSelectedItems('typeVenster', $event)" />
         <div>
             <div class="flex justify-center mt-[64px]">
-                <Btn :name="'yhj,k'" @click="calculate(selectedItems)" :width="''" />
+                <Btn :name="'Doorgaan'" @click="calculate(selectedItems)" :width="''" />
             </div>
             <div class="pt-[12px] pb-[64px] flex justify-center">
                 <p v-if="error" class="text-secondary-red">{{ error }}</p>
