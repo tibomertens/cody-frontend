@@ -94,7 +94,7 @@ const handleSelectedLabel = (itemAlias) => {
 
 const checkLabelNotEmpty = async () => {
   if (!selectedLabel.value) {
-    error.value = "Please select a label";
+    error.value = "Selecteer een label om door te gaan.";
     return;
   } else if (selectedItems.length !== 9) {
     showModal.value = true;
