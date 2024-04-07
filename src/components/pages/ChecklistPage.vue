@@ -103,11 +103,11 @@ const checkLabelNotEmpty = async () => {
       error.value = 'Please select a label';
       return;
     }
-    else if (labelData.status === 500) {
-        error.value = 'Er is iets misgegaan, probeer het later opnieuw';
-    } else {
+    else if (selectedItems.length !== 9){
+        showModal.value = true;
+    }
+    else {
         showConfirm.value = true;
-        console.log(labelData);
     }
 }
 
