@@ -101,6 +101,20 @@ onMounted(() => {
             Opgeslagen
           </div>
         </router-link>
+        <router-link to="/renovatoren" :class="{
+          'font-normal': currentRoute !== '/renovatoren',
+          'font-bold': currentRoute === '/renovatoren',
+        }">
+          <div class="p-5 ml-5 py-[12px] rounded-l-[5px]"
+            :class="{ 'bg-primary-light': currentRoute === '/renovatoren' }">
+            <i class="pr-3 w-[20px]" :class="{
+          'fa-regular': currentRoute !== '/renovatoren',
+          'fa-solid': currentRoute === '/renovatoren',
+          'fa-building': true,
+        }"></i>
+        Renovatoren
+          </div>
+        </router-link>
         <router-link to="/account" :class="{
           'font-normal': currentRoute !== '/account',
           'font-bold': currentRoute === '/account',
@@ -184,6 +198,19 @@ onMounted(() => {
         </div>
       </router-link>
   
+      <router-link to="/renovatoren" :class="{
+        'font-normal': currentRoute !== '/renovatoren',
+        'font-bold': currentRoute === '/renovatoren',
+      }">
+      <div class="w-full p-5" :class="{ 'bg-primary-light': currentRoute === '/renovatoren' }">
+        <i class="pr-3 w-[20px]" :class="{
+        'fa-regular': currentRoute !== '/renovatoren',
+        'fa-solid': currentRoute === '/renovatoren',
+        'fa-building': true,
+      }"></i>
+        Renovatoren
+      </div>
+    </router-link>
       <router-link to="/account" :class="{
           'font-normal': currentRoute !== '/account',
           'font-bold': currentRoute === '/account',
