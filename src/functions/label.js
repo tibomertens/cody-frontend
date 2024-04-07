@@ -15,7 +15,6 @@ export const calculateLabel = async (items) => {
     );
 
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error:", error);
@@ -37,7 +36,6 @@ export const addLabel = async (items, userId) => {
     );
 
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error:", error);
@@ -51,34 +49,34 @@ export const updateRecommendations = async (items, userId) => {
 
     // Check conditions for each item using if statements
     if (items.zonneboilerAanwezig === true) {
-      renovationsToUpdate.push('Zonneboiler');
+      renovationsToUpdate.push("Zonneboiler");
     }
-    if (items.typePlatDakIsolatie === 'sterk') {
-      renovationsToUpdate.push('Dak-isolatie');
+    if (items.typePlatDakIsolatie === "sterk") {
+      renovationsToUpdate.push("Dak-isolatie");
     }
-    if (items.typeHellendDakIsolatie === 'sterk') {
-      renovationsToUpdate.push('Dak-isolatie');
+    if (items.typeHellendDakIsolatie === "sterk") {
+      renovationsToUpdate.push("Dak-isolatie");
     }
-    if (items.typeVloerBovenKelderIsolatie === 'sterk') {
-      renovationsToUpdate.push('Vloer-isolatie');
+    if (items.typeVloerBovenKelderIsolatie === "sterk") {
+      renovationsToUpdate.push("Vloer-isolatie");
     }
-    if (items.typeVloerOpVolleGrondIsolatie === 'sterk') {
-      renovationsToUpdate.push('Vloer-isolatie');
+    if (items.typeVloerOpVolleGrondIsolatie === "sterk") {
+      renovationsToUpdate.push("Vloer-isolatie");
     }
-    if (items.typeGevelIsolatie === 'sterk') {
-      renovationsToUpdate.push('Muur-isolatie');
+    if (items.typeGevelIsolatie === "sterk") {
+      renovationsToUpdate.push("Muur-isolatie");
     }
     if (items.pvAanwezig === true) {
-      renovationsToUpdate.push('Zonnepanelen');
+      renovationsToUpdate.push("Zonnepanelen");
     }
-    if (items.typeVenster === 'driedubbel') {
-      renovationsToUpdate.push('Driedubbele beglazing');
+    if (items.typeVenster === "driedubbel") {
+      renovationsToUpdate.push("Driedubbele beglazing");
     }
-    if (items.typeVenster === 'dubbel') {
-      renovationsToUpdate.push('Dubbele beglazing');
+    if (items.typeVenster === "dubbel") {
+      renovationsToUpdate.push("Dubbele beglazing");
     }
-    if (items.typeVenster === 'HR') {
-      renovationsToUpdate.push('HR-beglazing');
+    if (items.typeVenster === "HR") {
+      renovationsToUpdate.push("HR-beglazing");
     }
 
     // Make API calls to update status for each renovation
@@ -86,18 +84,17 @@ export const updateRecommendations = async (items, userId) => {
       const response = await fetch(
         `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationTitle}`,
         {
-          method: 'PATCH',
+          method: "PATCH",
           body: JSON.stringify({
-            status: 'extra',
+            status: "extra",
           }),
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
 
       const data = await response.json();
-      console.log(data);
       return data;
     });
 
@@ -105,13 +102,12 @@ export const updateRecommendations = async (items, userId) => {
     const updatedRenovations = await Promise.all(updatePromises);
     return updatedRenovations;
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
     throw error;
   }
 };
 
 export const updateChecklistRecommendations = async (items, userId) => {
-
   try {
     // Make API calls to update status for each item
     const updatePromises = items.map(async (renovationTitle) => {
@@ -119,21 +115,20 @@ export const updateChecklistRecommendations = async (items, userId) => {
         const response = await fetch(
           `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationTitle}`,
           {
-            method: 'PATCH',
+            method: "PATCH",
             body: JSON.stringify({
-              status: 'extra',
+              status: "extra",
             }),
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
         );
 
         const data = await response.json();
-        console.log(data);
         return data;
       } catch (error) {
-        console.error('Error updating renovation:', error);
+        console.error("Error updating renovation:", error);
         throw error;
       }
     });
@@ -142,7 +137,7 @@ export const updateChecklistRecommendations = async (items, userId) => {
     const updatedRenovations = await Promise.all(updatePromises);
     return updatedRenovations;
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
     throw error;
   }
-}
+};
