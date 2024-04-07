@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive, defineProps } from "vue";
 import { useRouter } from "vue-router";
 import { isValidToken, getUser } from "../../functions/user.js";
 import ChecklistFrame from "../widgets/Checklist-frame.vue";
@@ -7,21 +7,38 @@ import Dropdown from "../UI/Dropdown.vue";
 import Btn from "../UI/Btn.vue";
 import BackArrow from "../UI/Back-arrow.vue";
 
+//import label functions
+import CalculatedLabelModal from "../modals/CalculatedLabel.vue";
+import Confirm from "../modals/Confirm.vue";
+
 const router = useRouter();
+const currentPath = ref('');
 
 const token = localStorage.getItem("token");
 let userData = ref({});
+let userId = ref(null);
 
-const selectedItems = reactive([]);
+const selectedItems = reactive([
+    'Dak-isolatie', 
+    'Vloer-isolatie',
+    'Muur-isolatie', 
+    'Zonne-energie', 
+    'Verwarming', 
+    'Koeling', 
+    'Ventilatie', 
+    'Sanitair-warm-water', 
+    'Beglazing'
+]);
 
-// onMounted( async () => {
-//   if (isValidToken(token)) {
-//     userData = await getUser(token);
-//     console.log(userData);
-//   } else {
-//     router.push("/login");
-//   }
-// });
+onMounted( async () => {
+  if (isValidToken(token)) {
+    userData = await getUser(token);
+    userId = userData._id;
+    console.log(userData);
+  } else {
+    router.push("/login");
+  }
+});
 
 const addSelectedItem = (selectedItem) => {
   if (selectedItems.includes(selectedItem)) {
@@ -34,7 +51,15 @@ const addSelectedItem = (selectedItem) => {
 
 const emit = defineEmits(['selectedSurface']);
 
+
+
 const selectedLabel = ref('');
+let labelData = ref({
+  label: selectedLabel,
+});
+let showModal = ref(false);
+let showConfirm = ref(false);
+let error = ref(null);
 
 const labelOptions = [
   {
@@ -71,6 +96,31 @@ const handleSelectedLabel = (itemAlias) => {
   selectedLabel.value = itemAlias;
   console.log(selectedLabel.value);
 }
+
+
+const checkLabelNotEmpty = async () => {
+    if ( !selectedLabel.value) {
+      error.value = 'Please select a label';
+      return;
+    }
+    else if (labelData.status === 500) {
+        error.value = 'Er is iets misgegaan, probeer het later opnieuw';
+    } else {
+        showConfirm.value = true;
+        console.log(labelData);
+    }
+}
+
+const closeModal = () => {
+    showModal.value = false;
+}
+const closeConfirm = () => {
+    showConfirm.value = false;
+}
+
+onMounted(() => {
+  currentPath.value = router.currentRoute.value.path;
+});
 </script>
 
 <template>
@@ -85,7 +135,7 @@ const handleSelectedLabel = (itemAlias) => {
       verbeterpunten op jouw EPC rapport staan.</p>
     <h2 class="text-subtitle font-bold ml-[10%] xl:ml-[20%] pb-[12px]">Huidig label</h2>
     <div class="ml-[10%] mr-[10%] xl:ml-[20%] pb-[32px]">
-      <Dropdown :items="labelOptions" @itemSelected="handleSelectedLabel" />
+      <Dropdown :items="labelOptions" :labelData="labelData" @itemSelected="handleSelectedLabel" />
     </div>
     <h2 class="text-subtitle font-bold ml-[10%] xl:ml-[20%] pb-[20px]">Duid aan</h2>
     <ChecklistFrame @select="addSelectedItem" :title="'Dak-isolatie'"
@@ -107,9 +157,10 @@ const handleSelectedLabel = (itemAlias) => {
     <ChecklistFrame @select="addSelectedItem" :title="'Beglazing'"
       :paragraph="'Verhoog de isolatiewaarde van je huis door energiezuinige beglazing te installeren, waardoor warmteverlies wordt verminderd en de energie-efficiëntie toeneemt.'" />
     <div class="flex justify-center pb-[32px]">
-      <Btn :name="'Doorgaan'" :width="''" />
+      <Btn :name="'Doorgaan'" @click="checkLabelNotEmpty()" :width="''" />
     </div>
+    <CalculatedLabelModal :showModal="showModal" :labelData="labelData" :items="selectedItems" :userId="userId" @closeModal="closeModal" :path="currentPath"/>
+    <div v-if="error" class="text-red-500 text-center pb-[32px]">{{ error }}</div>
+    <Confirm :showConfirm="showConfirm" :title="'Weet je zeker dat je niets wilt aanduiden?'" @closeConfirm="closeConfirm" @confirmAction="showModal = true" />
   </div>
 </template>
-
-<style scoped></style>

@@ -109,3 +109,40 @@ export const updateRecommendations = async (items, userId) => {
     throw error;
   }
 };
+
+export const updateChecklistRecommendations = async (items, userId) => {
+
+  try {
+    // Make API calls to update status for each item
+    const updatePromises = items.map(async (renovationTitle) => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationTitle}`,
+          {
+            method: 'PATCH',
+            body: JSON.stringify({
+              status: 'extra',
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        const data = await response.json();
+        console.log(data);
+        return data;
+      } catch (error) {
+        console.error('Error updating renovation:', error);
+        throw error;
+      }
+    });
+
+    // Wait for all API calls to complete
+    const updatedRenovations = await Promise.all(updatePromises);
+    return updatedRenovations;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}

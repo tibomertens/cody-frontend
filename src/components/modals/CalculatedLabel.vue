@@ -36,10 +36,11 @@ import Btn from '../UI/Btn.vue';
 import Dropdown from '../UI/Dropdown.vue';
 import Input from '../UI/Input.vue';
 
-import { addLabel, updateRecommendations } from '../../functions/label'
+import { addLabel, updateRecommendations, updateChecklistRecommendations } from '../../functions/label'
 
 import { ref, watch } from 'vue';
 import { useRouter } from "vue-router";
+import { defineProps, defineEmits } from 'vue';
 
 const router = useRouter();
 
@@ -48,6 +49,7 @@ const props = defineProps({
     labelData: Object,
     userId: String,
     items: Object,
+    path: String,
 });
 
 const showDisclaimer = ref(false);
@@ -109,10 +111,30 @@ const addLabelToUser = async () => {
     } else if (goalValue.value === null) {
         goalError = 'Kies een doel';
         dropdownHasError.value = true;
-    } else {
+    } else if(router.currentRoute.value.path === '/rapport/checklist') {
+        console.log(router.currentRoute.value.path);
+        console.log(props.userId);
         const items = {
             goalLabel: goalValue.value,
             goalLabel_by_year: goalYear.value,
+            indicatiefLabel: props.labelData.label,
+        };
+        const labelAdded = await addLabel(items, props.userId);
+        console.log(labelAdded);
+        if (labelAdded) {
+            const update = await updateChecklistRecommendations(props.items, props.userId);
+            if (update) {
+                router.push('/');
+            } else {
+                error.value = 'Er is iets misgegaan, probeer het later opnieuw';
+            }
+        }
+    }
+    else if(router.currentRoute.value.path === '/test/berekenIndicatief') {
+        const items = {
+            goalLabel: goalValue.value,
+            goalLabel_by_year: goalYear.value,
+            indicatiefLabel: props.labelData.label,
         };
         const labelAdded = await addLabel(items, props.userId);
 
