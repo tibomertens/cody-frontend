@@ -8,7 +8,7 @@
       <h2>{{ title }}</h2>
       <div class="mt-10">
         <div class="w-full">
-          <Btn @click="closeConfirm" name="Annuleer" />
+          <Btn @click="closeConfirm" name="Annuleren" />
         </div>
         <div class="w-full mt-4">
           <Btn @click="confirmAction" name="Doorgaan" />
