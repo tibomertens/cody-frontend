@@ -18,7 +18,7 @@
         <div class="flex justify-center items-center">
           <img
             class="w-[150px]"
-            :src="props.labelData.label + '-label.svg'"
+            :src="'/' + props.labelData.label + '-label.svg'"
             alt="Your label"
           />
         </div>
