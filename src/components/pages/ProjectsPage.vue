@@ -115,7 +115,7 @@ const handleFilter = (filteredRenovations) => {
     <div class="mb-[32px] md:mb-[40px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] md:gap-[40px]">
       <Searchbar class="lg:col-span-2" />
       <div v-if="renovationsLoaded">
-        <AdvancedFilter class="lg:col-span-1" :renovations="renovations.value" @filtered="handleFilter" />
+        <AdvancedFilter class="lg:col-span-1" :renovations="renovations.value" @filtered="handleFilter" :userBudget="budget" />
       </div>
     </div>
     <div v-for="(renovation, i) in renovations.value" :key="i">
