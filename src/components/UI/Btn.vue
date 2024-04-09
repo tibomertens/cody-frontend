@@ -14,7 +14,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <a :class="{ 'w-full': props.width === 'full', 'w-[400px]': props.width !== 'full' }"
+  <a :class="{ 'w-full': props.width === 'full', 'w-full xs:w-[400px]': props.width !== 'full' }"
     class="h-[48px] bg-primary-dark rounded-[5px] text-white font-bold text-btn text-center flex items-center justify-center">
     <p class="relative bottom-[1px]">{{ props.name }}</p>
   </a>
