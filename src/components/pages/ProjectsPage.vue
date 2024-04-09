@@ -17,12 +17,14 @@ const token = localStorage.getItem('token');
 let userData = reactive({});
 let renovations = reactive([]);
 let renovationsLoaded = ref(false);
+let budget = ref('€' + 0);
 
 const screenWidth = ref(window.innerWidth);
 
 const fetchData = async () => {
   if (isValidToken(token)) {
     userData.value = await getUser(token);
+    budget.value = '€' +  userData.value.budget;
     const userId = userData.value._id;
     if (route.path === '/projects/recommended') {
       renovations.value = await getRecommendedRenovations(userId);
@@ -90,7 +92,7 @@ const getTextArray = (renovation) => {
   return [
     renovation.impact,
     renovation.estimated_cost,
-    '€2.000'
+    budget.value
   ];
 };
 
