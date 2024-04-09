@@ -4,7 +4,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 import { getUserRenovationById } from '../../functions/renovation';
 import { isValidToken, getUser } from '../../functions/user.js';
@@ -15,6 +15,8 @@ let renovation = ref({});
 let userRenovation = ref({});
 let userData = ref({});
 let userId = ref('');
+
+const router = useRouter();
 
 const token = localStorage.getItem('token');
 
