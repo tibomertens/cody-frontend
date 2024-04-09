@@ -110,3 +110,49 @@ export const getSavedRenovations = async (userId) => {
     throw error;
   }
 };
+
+export const getRenovationById = async (renovationId) => {
+  try {
+    let apiEndpoint = `http://localhost:3000/api/v1/renovations/${renovationId}`;
+
+    const response = await fetch(apiEndpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch renovation data");
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const getUserRenovationById = async (userId, renovationId) => {
+  try {
+    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationId}`;
+
+    const response = await fetch(apiEndpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch renovation data");
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}

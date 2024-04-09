@@ -24,7 +24,7 @@ const screenWidth = ref(window.innerWidth);
 const fetchData = async () => {
   if (isValidToken(token)) {
     userData.value = await getUser(token);
-    budget.value = '€' +  userData.value.budget;
+    budget.value = '€' + userData.value.budget;
     const userId = userData.value._id;
     if (route.path === '/projects/recommended') {
       renovations.value = await getRecommendedRenovations(userId);
@@ -37,7 +37,7 @@ const fetchData = async () => {
     } else {
       renovations.value = await getRenovations();
     }
-    
+
     // sort the renovations based on the impact
     renovations.value.sort((a, b) => {
       if (a.impact === 'Hoogste impact' && b.impact !== 'Hoogste impact') {
@@ -115,12 +115,15 @@ const handleFilter = (filteredRenovations) => {
     <div class="mb-[32px] md:mb-[40px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] md:gap-[40px]">
       <Searchbar class="lg:col-span-2" />
       <div v-if="renovationsLoaded">
-        <AdvancedFilter class="lg:col-span-1" :renovations="renovations.value" @filtered="handleFilter" :userBudget="budget" />
+        <AdvancedFilter class="lg:col-span-1" :renovations="renovations.value" @filtered="handleFilter"
+          :userBudget="budget" />
       </div>
     </div>
     <div v-for="(renovation, i) in renovations.value" :key="i">
-      <Project :name="renovation.title" :desc="truncateDescription(renovation.description)"
-        :src="getSrcArray(renovation)" :label="labelArray" :text="getTextArray(renovation)" />
+      <router-link :to="'/projects/' + renovation._id">
+        <Project :name="renovation.title" :desc="truncateDescription(renovation.description)"
+          :src="getSrcArray(renovation)" :label="labelArray" :text="getTextArray(renovation)" />
+      </router-link>
     </div>
   </section>
 </template>
