@@ -9,6 +9,7 @@ import topNav from "./components/shared/TopNav.vue";
 import Projects from "./components/pages/ProjectsPage.vue";
 import checklist from "./components/pages/ChecklistPage.vue";
 import Settings from "./components/pages/SettingsPage.vue";
+import DetermineLabelChoicePage from "./components/pages/DetermineLabelChoicePage.vue";
 
 
 const routes = [
@@ -28,6 +29,7 @@ const routes = [
     meta: { sidebar: true },
   },
   { path: "/login", components: { default: login }, meta: { sidebar: false } },
+  { path: "/determinelabelchoice", components: { default: DetermineLabelChoicePage }, meta: { sidebar: false } },
   { path: "/test/berekenIndicatief", components: { default: berekenIndicatief }, meta: { sidebar: false } },
   { path: "/rapport/berekenIndicatief", components: { default: berekenIndicatief }, meta: { sidebar: false } },
   { path: "/rapport/checklist", components: { default: checklist }, meta: { sidebar: false } },
