@@ -25,7 +25,7 @@ const props = defineProps({
     <div class="rounded-[5px] flex-1"
         :class="{ 'bg-offWhite-light': props.light === true, 'bg-offWhite-dark': props.light !== true }">
         <div class="flex gap-[32px] justify-center py-[32px]">
-            <img :src="src" alt="icon">
+            <div class="w-[46px] h-[46px]"><img class="w-full h-full" :src="src" alt="icon"></div>
             <div>
                 <p class="font-bold text-[1.1em]">{{ label }}</p>
                 <p class="font-light text-[0.9em]">{{ text }}</p>
