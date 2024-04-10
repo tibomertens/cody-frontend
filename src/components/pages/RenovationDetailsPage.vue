@@ -31,12 +31,21 @@
                     <h2 class="text-subtitle font-bold">Gegevens</h2>
                     <div class="relative top-[2px]"><img src="/edit_no_fill.svg" alt="Edit icon"></div>
                 </div>
-                <div class="mt-[20px] grid gap-[20px]">
-                    <div v-if="renovation" v-for="(label, i) in labelArray" :key="i" class="">
-                        <ProjectInfo :light="true" :src="getSrcArray(renovation)[i]"
-                            :text="getTextArray(renovation, userRenovation)[i]" :label="label" />
+                <div class="mt-[20px] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-[20px]">
+                    <div class="grid gap-[20px]">
+                        <ProjectInfo :light="true" :label="labelArray[0]" :src="getSrcArray(renovation)[0]"
+                            :text="getTextArray(renovation, userRenovation)[0]" />
+                        <ProjectInfo :light="true" :label="labelArray[1]" :src="getSrcArray(renovation)[1]"
+                            :text="getTextArray(renovation, userRenovation)[1]" />
                     </div>
-                    <div v-if="currentState !== 'Aanbevolen'" class="grid grid-rows-[3fr,1fr] h-[232px] gap-[20px]">
+                    <div class="grid gap-[20px]">
+                        <ProjectInfo :light="true" :label="labelArray[2]" :src="getSrcArray(renovation)[2]"
+                            :text="getTextArray(renovation, userRenovation)[2]" />
+                        <ProjectInfo :light="true" :label="labelArray[3]" :src="getSrcArray(renovation)[3]"
+                            :text="getTextArray(renovation, userRenovation)[3]" />
+                    </div>
+                    <div v-if="currentState !== 'Aanbevolen'"
+                        class="grid grid-rows-[3fr,1fr] h-[244px] gap-[20px] xs:col-span-2 lg:col-span-1">
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">CONTENT</div>
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
                             <p class="mr-[24px]">Gerenoveerd:</p>
@@ -106,7 +115,7 @@ let renovation = ref({});
 let userRenovation = ref({});
 let userData = ref({});
 let userId = ref('');
-let currentState = ref();
+let currentState = ref('Actief');
 let stateBtnName = ref('Start de renovatie');
 let currentAmount = ref(0);
 let totalAmount = ref(0);
@@ -172,6 +181,6 @@ const fetchUser = async () => {
 const fetchData = async () => {
     userRenovation.value = await getUserRenovationById(userId.value, renovationId.value);
     renovation.value = userRenovation.value.renovation;
-    currentState.value = userRenovation.value.status;
+    // currentState.value = userRenovation.value.status;
 };
 </script>
