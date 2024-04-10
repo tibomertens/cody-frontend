@@ -30,13 +30,20 @@
                     <h2 class="text-subtitle font-bold">Gegevens</h2>
                     <div class="relative top-[2px]"><img src="/edit_no_fill.svg" alt="Edit icon"></div>
                 </div>
-                <div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                <div class="mt-[20px] grid gap-[20px]">
+                    <div v-for="(label, i) in labelArray" :key="i" class="">
+                        <ProjectInfo :light="true" :src="getSrcArray(renovation)[i]"
+                            :text="getTextArray(renovation, userRenovation)[i]" :label="label" />
+                    </div>
+                    <div class="grid grid-rows-[3fr,1fr] h-[232px] gap-[20px]">
+                        <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">CONTENT</div>
+                        <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
+                            <p class="mr-[24px]">Gerenoveerd:</p>
+                            <div class="mr-[12px]"><img src="/minus_solid.svg" alt="minus icon"></div>
+                            <p>{{ currentAmount }} / {{ totalAmount }}</p>
+                            <div class="ml-[12px]"><img src="/plus_solid.svg" alt="plus icon"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>
@@ -63,7 +70,8 @@
             </div>
             <div class="mt-[32px] md:mt-[40px]">
                 <h2 class="text-subtitle font-bold mb-[20px]">Waar hulp vinden</h2>
-                <p class="font-light text-body mb-[32px]">Ontdek moeiteloos de perfecte partner voor jouw renovatieproject met ons uitgebreide netwerk van
+                <p class="font-light text-body mb-[32px]">Ontdek moeiteloos de perfecte partner voor jouw
+                    renovatieproject met ons uitgebreide netwerk van
                     gerenommeerde renovatiebedrijven. Vereenvoudig je renovatie-ervaring met onze betrouwbare en ervaren
                     aannemers.
                 </p>
@@ -71,7 +79,6 @@
             </div>
             <div class="mt-[32px] md:mt-[40px]">
                 <h2 class="text-subtitle font-bold mb-[20px]">Soortgelijke suggesties</h2>
-                <!-- <Project /> -->
             </div>
         </div>
     </section>
@@ -86,7 +93,7 @@ import { isValidToken, getUser } from '../../functions/user.js';
 
 import BackArrow from '../UI/Back-arrow.vue';
 import Btn from '../UI/Btn.vue';
-import Project from '../widgets/Project.vue';
+import ProjectInfo from '../UI/Project-info.vue';
 
 let route = useRoute();
 let renovationId = ref('');
@@ -96,10 +103,40 @@ let userData = ref({});
 let userId = ref('');
 let currentState = ref('Aanbevolen');
 let stateBtnName = ref('Start de renovatie');
+let currentAmount = ref(0);
+let totalAmount = ref(0);
 
 const router = useRouter();
 
 const token = localStorage.getItem('token');
+
+const labelArray = [
+    'Impact',
+    'Geschatte kost',
+    'Huidige budget',
+    'Startdatum',
+];
+
+const getSrcArray = (renovation) => {
+    // Logic for generating srcArray based on renovation data
+    return [
+        renovation.impact === 'Hoogste impact' ? '/highImpact.svg' : '/lowImpact.svg',
+        renovation.cost === 'high' ? '/highCost.svg' : '/lowCost.svg',
+        '/budgetBlue.svg',
+        '/calendar.svg'
+    ];
+};
+
+const getTextArray = (renovation, userRenovation) => {
+    // Logic for generating textArray based on renovation data
+    console.log(userRenovation)
+    return [
+        renovation.impact,
+        renovation.estimated_cost,
+        '€' + userRenovation.budget,
+        userRenovation.start_date
+    ];
+};
 
 onMounted(async () => {
     renovationId.value = route.params.id;
