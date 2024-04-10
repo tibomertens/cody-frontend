@@ -50,3 +50,15 @@ h1, h2, h3, h4, h5, h6, p, a, img, span, label {
     visibility: hidden;
   }
 }
+
+.inner {
+  margin-left: 32px;
+  margin-right: 32px;
+}
+
+@media (min-width: 1024px) {
+  .inner {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+}

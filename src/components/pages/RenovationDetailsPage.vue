@@ -1,13 +1,92 @@
 <template>
-
+    <section>
+        <div class="inner">
+            <div class="mt-[32px] lg:mt-[40px]">
+                <div class="md:flex gap-[24px] items-center">
+                    <div class="mb-[12px] relative md:top-[6px]">
+                        <BackArrow />
+                    </div>
+                    <div class="flex gap-[24px] items-center flex-wrap">
+                        <h1 class="text-[1.5rem] md:text-title font-bold relative bottom-[1px]">{{ renovation.title }}
+                        </h1>
+                        <div class="flex gap-[24px] items-center">
+                            <a @click.prevent href="#"
+                                class="px-[16px] pt-[6px] pb-[8px] font-bold bg-offWhite-light inline-block rounded-[5px]"
+                                :class="{ 'text-primary-dark border-2 border-primary-dark': currentState === 'Aanbevolen', 'text-secondary-yellow border-2 border-secondary-yellow': currentState === 'Actief', 'text-secondary-green border-2 border-secondary-green': currentState === 'Klaar' }">{{
+                                    currentState }}</a>
+                            <div class="w-[20px] h-[20px]"><img class="w-full h-full" src="/pin_no_fill.svg"
+                                    alt="Pin icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-[16px] mb-[32px]">
+                    <p class="font-light">{{ renovation.description }}</p>
+                </div>
+                <Btn :name="stateBtnName" />
+            </div>
+            <div class="mt-[32px] md:mt-[40px] mb-[20px]">
+                <div class="flex gap-[6px] items-center">
+                    <h2 class="text-subtitle font-bold">Gegevens</h2>
+                    <div class="relative top-[2px]"><img src="/edit_no_fill.svg" alt="Edit icon"></div>
+                </div>
+                <div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div>
+                <div class="flex gap-[20px] items-center mb-[20px]">
+                    <h2 class="text-subtitle font-bold">Notities</h2>
+                    <div class="flex gap-[10px] items-center">
+                        <div class="relative top-[2px]"><img src="/switch_no_fill.svg" alt="Switch icon"></div>
+                        <p class="text-xs font-light relative top-[1px]">Verander naar checklist</p>
+                    </div>
+                </div>
+                <div>
+                    <input class="w-full rounded-[5px] h-[300px]" type="textarea">
+                </div>
+            </div>
+            <div class="mt-[32px] md:mt-[40px]">
+                <h2 class="text-subtitle font-bold mb-[20px]">Subsidies</h2>
+                <ul class="list-disc ml-[32px] md:ml-[40px]">
+                    <li v-for="grant in renovation.grants" class="pl-[12px] font-light text-body">{{ grant }}</li>
+                </ul>
+            </div>
+            <div class="mt-[32px] md:mt-[40px]">
+                <h2 class="text-subtitle font-bold mb-[20px]">Hoe start ik?</h2>
+                <p class="font-light text-body" v-html="renovation.startup_info"></p>
+            </div>
+            <div class="mt-[32px] md:mt-[40px]">
+                <h2 class="text-subtitle font-bold mb-[20px]">Waar hulp vinden</h2>
+                <p class="font-light text-body mb-[32px]">Ontdek moeiteloos de perfecte partner voor jouw renovatieproject met ons uitgebreide netwerk van
+                    gerenommeerde renovatiebedrijven. Vereenvoudig je renovatie-ervaring met onze betrouwbare en ervaren
+                    aannemers.
+                </p>
+                <Btn :name="'Lijst bekijken'" />
+            </div>
+            <div class="mt-[32px] md:mt-[40px]">
+                <h2 class="text-subtitle font-bold mb-[20px]">Soortgelijke suggesties</h2>
+                <!-- <Project /> -->
+            </div>
+        </div>
+    </section>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 import { getUserRenovationById } from '../../functions/renovation';
 import { isValidToken, getUser } from '../../functions/user.js';
+
+import BackArrow from '../UI/Back-arrow.vue';
+import Btn from '../UI/Btn.vue';
+import Project from '../widgets/Project.vue';
 
 let route = useRoute();
 let renovationId = ref('');
@@ -15,6 +94,8 @@ let renovation = ref({});
 let userRenovation = ref({});
 let userData = ref({});
 let userId = ref('');
+let currentState = ref('Aanbevolen');
+let stateBtnName = ref('Start de renovatie');
 
 const router = useRouter();
 
@@ -38,5 +119,6 @@ const fetchUser = async () => {
 const fetchData = async () => {
     userRenovation.value = await getUserRenovationById(userId.value, renovationId.value);
     renovation.value = userRenovation.value.renovation;
+    console.log(renovation.value);
 };
 </script>
