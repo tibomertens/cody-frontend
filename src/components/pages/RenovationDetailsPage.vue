@@ -7,7 +7,8 @@
                         <BackArrow />
                     </div>
                     <div class="flex gap-[24px] items-center flex-wrap">
-                        <h1 class="text-[1.5rem] md:text-title font-bold relative bottom-[1px]">{{ renovation.title }}
+                        <h1 v-if="renovation.title" class="text-[1.5rem] md:text-title font-bold relative bottom-[1px]">
+                            {{ renovation.title }}
                         </h1>
                         <div class="flex gap-[24px] items-center">
                             <a @click.prevent href="#"
@@ -21,9 +22,9 @@
                     </div>
                 </div>
                 <div class="mt-[16px] mb-[32px]">
-                    <p class="font-light">{{ renovation.description }}</p>
+                    <p v-if="renovation.description" class="font-light">{{ renovation.description }}</p>
                 </div>
-                <Btn :name="stateBtnName" />
+                <Btn :name="stateBtnName" @click="changeState" />
             </div>
             <div class="mt-[32px] md:mt-[40px] mb-[20px]">
                 <div class="flex gap-[6px] items-center">
@@ -31,11 +32,11 @@
                     <div class="relative top-[2px]"><img src="/edit_no_fill.svg" alt="Edit icon"></div>
                 </div>
                 <div class="mt-[20px] grid gap-[20px]">
-                    <div v-for="(label, i) in labelArray" :key="i" class="">
+                    <div v-if="renovation" v-for="(label, i) in labelArray" :key="i" class="">
                         <ProjectInfo :light="true" :src="getSrcArray(renovation)[i]"
                             :text="getTextArray(renovation, userRenovation)[i]" :label="label" />
                     </div>
-                    <div class="grid grid-rows-[3fr,1fr] h-[232px] gap-[20px]">
+                    <div v-if="currentState !== 'Aanbevolen'" class="grid grid-rows-[3fr,1fr] h-[232px] gap-[20px]">
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">CONTENT</div>
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
                             <p class="mr-[24px]">Gerenoveerd:</p>
@@ -61,12 +62,13 @@
             <div class="mt-[32px] md:mt-[40px]">
                 <h2 class="text-subtitle font-bold mb-[20px]">Subsidies</h2>
                 <ul class="list-disc ml-[32px] md:ml-[40px]">
-                    <li v-for="grant in renovation.grants" class="pl-[12px] font-light text-body">{{ grant }}</li>
+                    <li v-if="renovation.grants" v-for="grant in renovation.grants"
+                        class="pl-[12px] font-light text-body">{{ grant }}</li>
                 </ul>
             </div>
             <div class="mt-[32px] md:mt-[40px]">
                 <h2 class="text-subtitle font-bold mb-[20px]">Hoe start ik?</h2>
-                <p class="font-light text-body" v-html="renovation.startup_info"></p>
+                <p v-if="renovation.startup_info" class="font-light text-body" v-html="renovation.startup_info"></p>
             </div>
             <div class="mt-[32px] md:mt-[40px]">
                 <h2 class="text-subtitle font-bold mb-[20px]">Waar hulp vinden</h2>
@@ -81,6 +83,7 @@
                 <h2 class="text-subtitle font-bold mb-[20px]">Soortgelijke suggesties</h2>
             </div>
         </div>
+        <ActiveRenovation :showModal="showActiveModal" @closeModal="closeModal" />
     </section>
 </template>
 
@@ -95,16 +98,20 @@ import BackArrow from '../UI/Back-arrow.vue';
 import Btn from '../UI/Btn.vue';
 import ProjectInfo from '../UI/Project-info.vue';
 
+import ActiveRenovation from '../modals/ActiveRenovation.vue';
+
 let route = useRoute();
 let renovationId = ref('');
 let renovation = ref({});
 let userRenovation = ref({});
 let userData = ref({});
 let userId = ref('');
-let currentState = ref('Aanbevolen');
+let currentState = ref();
 let stateBtnName = ref('Start de renovatie');
 let currentAmount = ref(0);
 let totalAmount = ref(0);
+let showActiveModal = ref(false);
+let showDoneModal = ref(false);
 
 const router = useRouter();
 
@@ -129,7 +136,6 @@ const getSrcArray = (renovation) => {
 
 const getTextArray = (renovation, userRenovation) => {
     // Logic for generating textArray based on renovation data
-    console.log(userRenovation)
     return [
         renovation.impact,
         renovation.estimated_cost,
@@ -144,6 +150,16 @@ onMounted(async () => {
     fetchData();
 });
 
+const changeState = async () => {
+    if (currentState.value === 'Aanbevolen') {
+        showActiveModal.value = true;
+    }
+};
+
+const closeModal = () => {
+    showModal.value = false;
+}
+
 const fetchUser = async () => {
     if (isValidToken(token)) {
         userData.value = await getUser(token);
@@ -156,6 +172,6 @@ const fetchUser = async () => {
 const fetchData = async () => {
     userRenovation.value = await getUserRenovationById(userId.value, renovationId.value);
     renovation.value = userRenovation.value.renovation;
-    console.log(renovation.value);
+    currentState.value = userRenovation.value.status;
 };
 </script>
