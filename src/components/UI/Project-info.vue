@@ -12,13 +12,18 @@ const props = defineProps({
     label: {
         type: String,
         required: true
+    },
+    light: {
+        type: Boolean,
+        required: false
     }
 });
 
 </script>
 
 <template>
-    <div class="bg-offWhite-dark rounded-[5px] flex-1">
+    <div class="rounded-[5px] flex-1"
+        :class="{ 'bg-offWhite-light': props.light === true, 'bg-offWhite-dark': props.light !== true }">
         <div class="flex gap-[32px] justify-center py-[32px]">
             <img :src="src" alt="icon">
             <div>
