@@ -96,15 +96,6 @@ const getTextArray = (renovation) => {
   ];
 };
 
-const truncateDescription = (description) => {
-  const maxLength = screenWidth.value < 768 ? 100 : 200; // Adjust the max length based on screen width
-  if (description.length > maxLength) {
-    return description.slice(0, maxLength) + '...';
-  } else {
-    return description;
-  }
-};
-
 const handleFilter = (filteredRenovations) => {
   renovations.value = filteredRenovations;
 };
@@ -121,7 +112,7 @@ const handleFilter = (filteredRenovations) => {
     </div>
     <div v-for="(renovation, i) in renovations.value" :key="i">
       <router-link :to="'/projects/' + renovation._id">
-        <Project :name="renovation.title" :desc="truncateDescription(renovation.description)"
+        <Project :name="renovation.title" :desc="renovation.description"
           :src="getSrcArray(renovation)" :label="labelArray" :text="getTextArray(renovation)" />
       </router-link>
     </div>

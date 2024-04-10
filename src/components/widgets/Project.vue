@@ -34,8 +34,10 @@ const props = defineProps({
         <div class="p-[32px]">
             <div>
                 <h2 class="font-bold text-subtitle">{{ name }}</h2>
-                <p class="mt-[12px] font-light">{{ desc }} <span class="text-primary-dark font-bold">Read more</span>
-                </p>
+                <div class="mt-[12px]">
+                    <p class="font-light overflow-hidden line-clamp-2">{{ desc }}</p>
+                    <span class="text-primary-dark font-bold">Read more</span>
+                </div>
             </div>
             <div class="grid grid-cols-1 xs:grid-cols-2 ml:grid-cols-3 gap-[32px] mt-[32px]">
                 <ProjectInfo :src="src[0]" :text="text[0]" :label="label[0]" />

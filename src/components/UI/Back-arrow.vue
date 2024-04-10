@@ -10,9 +10,9 @@ const goBack = () => {
 </script>
 
 <template>
-    <div class="w-[32px] xl:w-[48px]">
+    <div class="w-[32px] h-[32px] xl:w-[48px] xl:h-[48px]">
         <a href="#" @click="goBack">
-            <img src="/backArrow.svg" alt="arrow back">
+            <img class="w-full h-full" src="/backArrow.svg" alt="arrow back">
         </a>
     </div>
 </template>
