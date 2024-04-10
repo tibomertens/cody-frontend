@@ -86,7 +86,9 @@
                     gerenommeerde renovatiebedrijven. Vereenvoudig je renovatie-ervaring met onze betrouwbare en ervaren
                     aannemers.
                 </p>
-                <Btn :name="'Lijst bekijken'" />
+                <router-link to="/promotors">
+                    <Btn :name="'Lijst bekijken'" />
+                </router-link>
             </div>
             <div class="mt-[32px] md:mt-[40px]">
                 <h2 class="text-subtitle font-bold mb-[20px]">Soortgelijke suggesties</h2>
@@ -115,7 +117,7 @@ let renovation = ref({});
 let userRenovation = ref({});
 let userData = ref({});
 let userId = ref('');
-let currentState = ref('Actief');
+let currentState = ref('');
 let stateBtnName = ref('Start de renovatie');
 let currentAmount = ref(0);
 let totalAmount = ref(0);
@@ -181,6 +183,6 @@ const fetchUser = async () => {
 const fetchData = async () => {
     userRenovation.value = await getUserRenovationById(userId.value, renovationId.value);
     renovation.value = userRenovation.value.renovation;
-    // currentState.value = userRenovation.value.status;
+    currentState.value = userRenovation.value.status;
 };
 </script>
