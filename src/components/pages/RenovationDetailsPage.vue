@@ -13,7 +13,7 @@
                         <div class="flex gap-[24px] items-center">
                             <a @click.prevent href="#"
                                 class="px-[16px] pt-[6px] pb-[8px] font-bold bg-offWhite-light inline-block rounded-[5px]"
-                                :class="{ 'text-primary-dark border-2 border-primary-dark': currentState === 'Aanbevolen', 'text-secondary-yellow border-2 border-secondary-yellow': currentState === 'Actief', 'text-secondary-green border-2 border-secondary-green': currentState === 'Klaar' }">{{
+                                :class="{ 'text-primary-dark border-2 border-primary-dark': currentState === 'Aanbevolen', 'text-secondary-yellow border-2 border-secondary-yellow': currentState === 'Actief' || currentState === 'Gepauzeerd', 'text-secondary-green border-2 border-secondary-green': currentState === 'Klaar' }">{{
                                     currentState }}</a>
                             <div class="w-[20px] h-[20px]"><img class="w-full h-full" src="/pin_no_fill.svg"
                                     alt="Pin icon">
@@ -26,7 +26,7 @@
                 </div>
                 <div v-if="currentState === 'Actief'" class="flex flex-col xs:flex-row gap-[16px] xs:gap-[20px]">
                     <Btn :name="stateBtnName" @click="changeState" :width="'full'" />
-                    <GhostBtn :name="'Stop de renovatie'" :width="'full'" />
+                    <GhostBtn :name="'Pauzeer de renovatie'" :width="'full'" @click="pauseRenovation" />
                 </div>
                 <div v-else>
                     <Btn :name="stateBtnName" @click="changeState" />
@@ -35,7 +35,7 @@
             <div class="mt-[32px] md:mt-[40px] mb-[20px]">
                 <div class="flex gap-[6px] items-center">
                     <h2 class="text-subtitle font-bold">Gegevens</h2>
-                    <div class="relative top-[2px]"><img src="/edit_no_fill.svg" alt="Edit icon"></div>
+                    <div v-if="currentState === 'Actief'" class="relative top-[2px]"><img src="/edit_no_fill.svg" alt="Edit icon"></div>
                 </div>
                 <div class="mt-[20px] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-[20px]">
                     <div class="grid gap-[20px]">
@@ -119,6 +119,8 @@ import ProjectInfo from '../UI/Project-info.vue';
 
 import ActiveRenovation from '../modals/ActiveRenovation.vue';
 
+import { updateState } from "../../functions/renovation";
+
 let route = useRoute();
 let renovationId = ref('');
 let renovation = ref({});
@@ -180,7 +182,28 @@ onMounted(async () => {
 const changeState = async () => {
     if (currentState.value === 'Aanbevolen') {
         showActiveModal.value = true;
+    } else if (currentState.value === 'Gepauzeerd') {
+        let body = {
+            startDate: userRenovation.value.startDate,
+            budget: userRenovation.value.budget,
+            amount_total: userRenovation.value.amount_total,
+            status: "Actief"
+        };
+        await updateState(userId.value, renovationId.value, body);
+        fetchData();
     }
+};
+
+const pauseRenovation = async () => {
+    let body = {
+        startDate: userRenovation.value.startDate,
+        budget: userRenovation.value.budget,
+        amount_total: userRenovation.value.amount_total,
+        status: "Gepauzeerd"
+    };
+    console.log(body);
+    await updateState(userId.value, renovationId.value, body);
+    fetchData();
 };
 
 const closeModal = () => {
@@ -205,7 +228,10 @@ const fetchData = async () => {
     userRenovation.value = await getUserRenovationById(userId.value, renovationId.value);
     renovation.value = userRenovation.value.renovation;
     currentState.value = userRenovation.value.status;
+    setStrings();
+};
 
+const setStrings = () => {
     if (currentState.value === 'Aanbevolen') {
         currentBudget.value = userRenovation.value.user.budget
         stateBtnName.value = 'Start de renovatie';
@@ -213,6 +239,14 @@ const fetchData = async () => {
     } else if (currentState.value === 'Actief') {
         currentBudget.value = userRenovation.value.budget;
         stateBtnName.value = 'Markeer als klaar';
+        startDate.value = userRenovation.value.startDate;
+    } else if (currentState.value === 'Gepauzeerd') {
+        currentBudget.value = userRenovation.value.budget;
+        stateBtnName.value = 'Hervat de renovatie';
+        startDate.value = userRenovation.value.startDate;
+    } else if (currentState.value === 'Klaar') {
+        currentBudget.value = userRenovation.value.budget;
+        stateBtnName.value = 'Heropen de renovatie';
         startDate.value = userRenovation.value.startDate;
     }
 };
