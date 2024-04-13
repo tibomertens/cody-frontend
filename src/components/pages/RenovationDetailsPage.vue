@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="mt-[32px] md:mt-[40px]">
                 <div class="flex gap-[20px] items-center mb-[20px]">
                     <h2 class="text-subtitle font-bold">Notities</h2>
                     <div class="flex gap-[10px] items-center">
@@ -94,7 +94,8 @@
                 <h2 class="text-subtitle font-bold mb-[20px]">Soortgelijke suggesties</h2>
             </div>
         </div>
-        <ActiveRenovation :showModal="showActiveModal" @closeModal="closeModal" />
+        <ActiveRenovation :renovationId="renovationId" :userId="userId" :showModal="showActiveModal"
+            @closeModal="closeModal" @updateState="handleUpdatedState" />
     </section>
 </template>
 
@@ -123,6 +124,7 @@ let currentAmount = ref(0);
 let totalAmount = ref(0);
 let showActiveModal = ref(false);
 let showDoneModal = ref(false);
+let currentBudget = ref(0);
 
 const router = useRouter();
 
@@ -131,7 +133,7 @@ const token = localStorage.getItem('token');
 const labelArray = [
     'Impact',
     'Geschatte kost',
-    'Huidige budget',
+    'Huidig budget',
     'Startdatum',
 ];
 
@@ -146,11 +148,11 @@ const getSrcArray = (renovation) => {
 };
 
 const getTextArray = (renovation, userRenovation) => {
-    // Logic for generating textArray based on renovation data
+    // Logic for generating textArray based on renovation data);
     return [
         renovation.impact,
         renovation.estimated_cost,
-        '€' + userRenovation.budget,
+        '€ ' + currentBudget.value,
         userRenovation.start_date
     ];
 };
@@ -168,8 +170,13 @@ const changeState = async () => {
 };
 
 const closeModal = () => {
-    showModal.value = false;
+    showActiveModal.value = false;
 }
+
+const handleUpdatedState = (newState) => {
+    currentState.value = newState;
+    currentBudget.value = userRenovation.value.budget;
+};
 
 const fetchUser = async () => {
     if (isValidToken(token)) {
@@ -184,5 +191,11 @@ const fetchData = async () => {
     userRenovation.value = await getUserRenovationById(userId.value, renovationId.value);
     renovation.value = userRenovation.value.renovation;
     currentState.value = userRenovation.value.status;
+
+    if (currentState.value === 'Aanbevolen') {
+        currentBudget.value = userRenovation.value.user.budget
+    } else if (currentState.value === 'Actief') {
+        currentBudget.value = userRenovation.value.budget;
+    }
 };
 </script>
