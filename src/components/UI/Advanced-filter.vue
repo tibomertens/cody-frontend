@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref } from 'vue';
 import Input from '../UI/Input.vue';
 import Dropdown from '../UI/Dropdown.vue';
 import Btn from '../UI/Btn.vue';

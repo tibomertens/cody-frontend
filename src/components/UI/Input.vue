@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, watch, defineEmits, onMounted } from "vue";
+import { ref, watch, onMounted } from "vue";
 
 const props = defineProps(["label", "type", "error", "placeholder", "preFix", "value"]);
 const emit = defineEmits(['input-change']);
