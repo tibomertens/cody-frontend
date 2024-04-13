@@ -61,6 +61,7 @@ const routes = [
   {
     path: "/projects/:id",
     components: { default: RenovationDetailPage, sidebar: sideNav, topNav: topNav },
+    name: "Renovatiedetails",
     meta: { sidebar: true },
   },
   {
