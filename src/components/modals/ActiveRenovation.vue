@@ -54,7 +54,7 @@ let amount = ref("");
 let error = ref("");
 let inputHasError = ref(false);
 
-const emit = defineEmits(["closeModal, updateState"]);
+const emit = defineEmits(["closeModal", "updateState"]);
 
 const updateDate = (x) => {
     filledInDate.value = x;
@@ -97,7 +97,7 @@ const updateStateToActive = async () => {
         status: "Actief"
     };
     await updateState(props.userId, props.renovationId, body);
-    emit("updateState", "Actief");
+    emit("updateState");
     closeModal();
 };
 

@@ -24,7 +24,13 @@
                 <div class="mt-[16px] mb-[32px]">
                     <p v-if="renovation.description" class="font-light">{{ renovation.description }}</p>
                 </div>
-                <Btn :name="stateBtnName" @click="changeState" />
+                <div v-if="currentState === 'Actief'" class="flex flex-col xs:flex-row gap-[16px] xs:gap-[20px]">
+                    <Btn :name="stateBtnName" @click="changeState" :width="'full'" />
+                    <GhostBtn :name="'Stop de renovatie'" :width="'full'" />
+                </div>
+                <div v-else>
+                    <Btn :name="stateBtnName" @click="changeState" />
+                </div>
             </div>
             <div class="mt-[32px] md:mt-[40px] mb-[20px]">
                 <div class="flex gap-[6px] items-center">
@@ -108,6 +114,7 @@ import { isValidToken, getUser } from '../../functions/user.js';
 
 import BackArrow from '../UI/Back-arrow.vue';
 import Btn from '../UI/Btn.vue';
+import GhostBtn from '../UI/Ghost-btn.vue';
 import ProjectInfo from '../UI/Project-info.vue';
 
 import ActiveRenovation from '../modals/ActiveRenovation.vue';
@@ -125,6 +132,7 @@ let totalAmount = ref(0);
 let showActiveModal = ref(false);
 let showDoneModal = ref(false);
 let currentBudget = ref(0);
+let startDate = ref('');
 
 const router = useRouter();
 
@@ -149,11 +157,17 @@ const getSrcArray = (renovation) => {
 
 const getTextArray = (renovation, userRenovation) => {
     // Logic for generating textArray based on renovation data);
+    if (userRenovation.startDate) {
+        startDate.value = userRenovation.startDate;
+    } else {
+        startDate.value = 'Nog niet gestart';
+    }
+
     return [
         renovation.impact,
         renovation.estimated_cost,
         '€ ' + currentBudget.value,
-        userRenovation.start_date
+        startDate.value
     ];
 };
 
@@ -173,9 +187,9 @@ const closeModal = () => {
     showActiveModal.value = false;
 }
 
-const handleUpdatedState = (newState) => {
-    currentState.value = newState;
-    currentBudget.value = userRenovation.value.budget;
+const handleUpdatedState = () => {
+    fetchData();
+
 };
 
 const fetchUser = async () => {
@@ -194,8 +208,12 @@ const fetchData = async () => {
 
     if (currentState.value === 'Aanbevolen') {
         currentBudget.value = userRenovation.value.user.budget
+        stateBtnName.value = 'Start de renovatie';
+        startDate.value = 'Nog niet gestart';
     } else if (currentState.value === 'Actief') {
         currentBudget.value = userRenovation.value.budget;
+        stateBtnName.value = 'Markeer als klaar';
+        startDate.value = userRenovation.value.startDate;
     }
 };
 </script>
