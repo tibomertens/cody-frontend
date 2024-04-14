@@ -23,7 +23,7 @@ const props = defineProps({
         required: true
     },
     suggestion: {
-        type: String,
+        type: Boolean,
         required: false,
         default: false
     }
