@@ -35,8 +35,8 @@
             <div class="mt-[32px] md:mt-[40px] mb-[20px]">
                 <div class="flex gap-[6px] items-center">
                     <h2 class="text-subtitle font-bold">Gegevens</h2>
-                    <div v-if="currentState === 'Actief'" class="relative top-[2px]"><img src="/edit_no_fill.svg"
-                            alt="Edit icon"></div>
+                    <div v-if="currentState === 'Actief'" class="relative top-[2px] cursor-pointer"
+                        @click="updateUserData"><img src="/edit_no_fill.svg" alt="Edit icon"></div>
                 </div>
                 <div class="mt-[20px] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-[20px]">
                     <div class="grid gap-[20px]">
@@ -56,9 +56,11 @@
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">CONTENT</div>
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
                             <p class="mr-[24px]">Gerenoveerd:</p>
-                            <div class="p-[12px] cursor-pointer" @click="lowerAmount"><img src="/minus_solid.svg" alt="minus icon"></div>
+                            <div class="p-[12px] cursor-pointer" @click="lowerAmount"><img src="/minus_solid.svg"
+                                    alt="minus icon"></div>
                             <p>{{ currentAmount }} / {{ totalAmount }}</p>
-                            <div class="p-[12px] cursor-pointer" @click="upAmount"><img src="/plus_solid.svg" alt="plus icon"></div>
+                            <div class="p-[12px] cursor-pointer" @click="upAmount"><img src="/plus_solid.svg"
+                                    alt="plus icon"></div>
                         </div>
                     </div>
                 </div>
@@ -103,6 +105,9 @@
         </div>
         <ActiveRenovation :renovationId="renovationId" :userId="userId" :showModal="showActiveModal"
             @closeModal="closeModal" @updateState="handleUpdatedState" />
+        <UpdateRenovationDetails :renovationId="renovationId" :userId="userId" :showModal="showUpdateModal"
+            :amountTotal="totalAmount" :budget="currentBudget" :startDate="startDate" @closeModal="closeModal"
+            @updateData="updateData" />
     </section>
 </template>
 
@@ -119,6 +124,7 @@ import GhostBtn from '../UI/Ghost-btn.vue';
 import ProjectInfo from '../UI/Project-info.vue';
 
 import ActiveRenovation from '../modals/ActiveRenovation.vue';
+import UpdateRenovationDetails from '../modals/UpdateRenovationDetails.vue';
 
 import { updateState, updateAmount } from "../../functions/renovation";
 
@@ -134,6 +140,7 @@ let currentAmount = ref(0);
 let totalAmount = ref(0);
 let showActiveModal = ref(false);
 let showDoneModal = ref(false);
+let showUpdateModal = ref(false);
 let currentBudget = ref(0);
 let startDate = ref('');
 
@@ -180,6 +187,14 @@ onMounted(async () => {
     fetchData();
 });
 
+const updateUserData = () => {
+    showUpdateModal.value = true;
+};
+
+const updateData = async () => {
+    fetchData();
+};
+
 const changeState = async () => {
     if (currentState.value === 'Aanbevolen') {
         showActiveModal.value = true;
@@ -202,7 +217,6 @@ const pauseRenovation = async () => {
         amount_total: userRenovation.value.amount_total,
         status: "Gepauzeerd"
     };
-    console.log(body);
     await updateState(userId.value, renovationId.value, body);
     fetchData();
 };
@@ -225,13 +239,13 @@ const upAmount = async () => {
             amount_done: currentAmount.value
         };
         let update = await updateAmount(userId.value, renovationId.value, body);
-        console.log(update);
         fetchData();
     }
 };
 
 const closeModal = () => {
     showActiveModal.value = false;
+    showUpdateModal.value = false;
 }
 
 const handleUpdatedState = () => {
