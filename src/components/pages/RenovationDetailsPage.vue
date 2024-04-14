@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div>
-                    <input class="w-full rounded-[5px] h-[300px]" type="textarea">
+                    <textarea class="w-full rounded-lg h-[250px] pl-[12px] pt-[12px] resize-none bg-offWhite-light border-2 outline-none border-offWhite-light focus:border-primary-dark" v-model="notes" @input="updateNotesVal"></textarea>
                 </div>
             </div>
             <div class="mt-[32px] md:mt-[40px]">
@@ -129,7 +129,7 @@ import ActiveRenovation from '../modals/ActiveRenovation.vue';
 import UpdateRenovationDetails from '../modals/UpdateRenovationDetails.vue';
 import DoneRenovation from '../modals/DoneRenovation.vue';
 
-import { updateState, updateAmount, updateSavedRenovation } from "../../functions/renovation";
+import { updateState, updateAmount, updateSavedRenovation, updateNotes } from "../../functions/renovation";
 
 let route = useRoute();
 let renovationId = ref('');
@@ -148,6 +148,7 @@ let currentBudget = ref(0);
 let startDate = ref('');
 let pinnedIcon = ref('/pin_no_fill.svg');
 let isPinned = ref(false);
+let notes = ref('');
 
 const router = useRouter();
 
@@ -201,6 +202,13 @@ const getTextArray = (renovation, userRenovation) => {
     ];
 };
 
+const updateNotesVal = () => {
+    let body = {
+        notes: notes.value
+    };
+    updateNotes(userId.value, renovationId.value, body);
+};
+
 onMounted(async () => {
     renovationId.value = route.params.id;
     await fetchUser();
@@ -210,11 +218,11 @@ onMounted(async () => {
 const pinRenovation = async () => {
     if (isPinned.value) {
         pinnedIcon.value = '/pin_no_fill.svg';
-        await updateSavedRenovation(userId.value, renovationId.value, {saved: false});
+        await updateSavedRenovation(userId.value, renovationId.value, { saved: false });
         fetchData();
     } else {
         pinnedIcon.value = '/pin_fill.svg';
-        await updateSavedRenovation(userId.value, renovationId.value, {saved: true});
+        await updateSavedRenovation(userId.value, renovationId.value, { saved: true });
         fetchData();
     }
 };
@@ -364,6 +372,10 @@ const setStrings = () => {
         pinnedIcon.value = '/pin_fill.svg';
     } else {
         pinnedIcon.value = '/pin_no_fill.svg';
+    }
+
+    if (userRenovation.value.notes) {
+        notes.value = userRenovation.value.notes;
     }
 };
 </script>
