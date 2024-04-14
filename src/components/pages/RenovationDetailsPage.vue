@@ -222,24 +222,32 @@ const pauseRenovation = async () => {
 };
 
 const lowerAmount = async () => {
-    if (currentAmount.value > 0) {
-        currentAmount.value--;
-        let body = {
-            amount_done: currentAmount.value
-        };
-        await updateAmount(userId.value, renovationId.value, body);
-        fetchData();
+    if (currentState.value === 'Actief') {
+        if (currentAmount.value > 0) {
+            currentAmount.value--;
+            let body = {
+                amount_done: currentAmount.value
+            };
+            await updateAmount(userId.value, renovationId.value, body);
+            fetchData();
+        }
+    } else {
+        alert('Je kan het aantal niet verlagen als de renovatie niet actief is');
     }
 };
 
 const upAmount = async () => {
-    if (currentAmount.value < totalAmount.value) {
-        currentAmount.value++;
-        let body = {
-            amount_done: currentAmount.value
-        };
-        let update = await updateAmount(userId.value, renovationId.value, body);
-        fetchData();
+    if (currentState.value === 'Actief') {
+        if (currentAmount.value < totalAmount.value) {
+            currentAmount.value++;
+            let body = {
+                amount_done: currentAmount.value
+            };
+            let update = await updateAmount(userId.value, renovationId.value, body);
+            fetchData();
+        }
+    } else {
+        alert('Je kan het aantal niet verhogen als de renovatie niet actief is');
     }
 };
 
