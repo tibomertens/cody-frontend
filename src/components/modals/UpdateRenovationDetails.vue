@@ -66,7 +66,6 @@ const emit = defineEmits(["closeModal", "updateData"]);
 
 const updateDate = (x) => {
     filledInDate.value = x;
-    console.log(filledInDate.value);
 };
 
 const updateBudget = (x) => {
