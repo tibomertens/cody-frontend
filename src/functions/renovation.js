@@ -276,3 +276,27 @@ export const updateNotes = async (userId, renovationId, body) => {
     throw error;
   }
 };
+
+export const updateChecklist = async (userId, renovationId, body) => {
+  try {
+    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationId}/updateChecklist`;
+
+    const response = await fetch(apiEndpoint, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ checklist: body }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update checklist");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};

@@ -68,13 +68,18 @@
             <div class="mt-[32px] md:mt-[40px]">
                 <div class="flex gap-[20px] items-center mb-[20px]">
                     <h2 class="text-subtitle font-bold">Notities</h2>
-                    <div class="flex gap-[10px] items-center">
+                    <div class="flex gap-[10px] items-center cursor-pointer" @click="updateNoteType">
                         <div class="relative top-[2px]"><img src="/switch_no_fill.svg" alt="Switch icon"></div>
-                        <p class="text-xs font-light relative top-[1px]">Verander naar checklist</p>
+                        <p class="text-xs font-light relative top-[1px]">Verander naar {{ notSelectedNoteType }}</p>
                     </div>
                 </div>
-                <div>
-                    <textarea class="w-full rounded-lg h-[250px] pl-[12px] pt-[12px] resize-none bg-offWhite-light border-2 outline-none border-offWhite-light focus:border-primary-dark" v-model="notes" @input="updateNotesVal"></textarea>
+                <div v-if="selectedNoteType === 'notes'">
+                    <textarea
+                        class="w-full rounded-lg h-[250px] pl-[12px] pt-[12px] resize-none bg-offWhite-light border-2 outline-none border-offWhite-light focus:border-primary-dark"
+                        v-model="notes" @input="updateNotesVal"></textarea>
+                </div>
+                <div v-else>
+                    <CheckList :items="checklistItems" :userId="userId" :renovationId="renovationId" />
                 </div>
             </div>
             <div class="mt-[32px] md:mt-[40px]">
@@ -130,6 +135,7 @@ import UpdateRenovationDetails from '../modals/UpdateRenovationDetails.vue';
 import DoneRenovation from '../modals/DoneRenovation.vue';
 
 import { updateState, updateAmount, updateSavedRenovation, updateNotes } from "../../functions/renovation";
+import CheckList from '../widgets/CheckList.vue';
 
 let route = useRoute();
 let renovationId = ref('');
@@ -148,11 +154,24 @@ let currentBudget = ref(0);
 let startDate = ref('');
 let pinnedIcon = ref('/pin_no_fill.svg');
 let isPinned = ref(false);
+let selectedNoteType = ref('notes');
+let notSelectedNoteType = ref('checklist');
 let notes = ref('');
+let checklistItems = ref([]);
 
 const router = useRouter();
 
 const token = localStorage.getItem('token');
+
+const updateNoteType = () => {
+    if (selectedNoteType.value === 'notes') {
+        selectedNoteType.value = 'checklist';
+        notSelectedNoteType.value = 'notes';
+    } else {
+        selectedNoteType.value = 'notes';
+        notSelectedNoteType.value = 'checklist';
+    }
+};
 
 const getLabelArray = () => {
     if (currentState.value === 'Voltooid') {
@@ -376,6 +395,10 @@ const setStrings = () => {
 
     if (userRenovation.value.notes) {
         notes.value = userRenovation.value.notes;
+    }
+
+    if (userRenovation.value.checklist) {
+        checklistItems.value = userRenovation.value.checklist;
     }
 };
 </script>
