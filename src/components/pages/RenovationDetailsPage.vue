@@ -56,9 +56,9 @@
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">CONTENT</div>
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
                             <p class="mr-[24px]">Gerenoveerd:</p>
-                            <div class="mr-[12px]"><img src="/minus_solid.svg" alt="minus icon"></div>
+                            <div class="p-[12px] cursor-pointer" @click="lowerAmount"><img src="/minus_solid.svg" alt="minus icon"></div>
                             <p>{{ currentAmount }} / {{ totalAmount }}</p>
-                            <div class="ml-[12px]"><img src="/plus_solid.svg" alt="plus icon"></div>
+                            <div class="p-[12px] cursor-pointer" @click="upAmount"><img src="/plus_solid.svg" alt="plus icon"></div>
                         </div>
                     </div>
                 </div>
@@ -120,7 +120,7 @@ import ProjectInfo from '../UI/Project-info.vue';
 
 import ActiveRenovation from '../modals/ActiveRenovation.vue';
 
-import { updateState } from "../../functions/renovation";
+import { updateState, updateAmount } from "../../functions/renovation";
 
 let route = useRoute();
 let renovationId = ref('');
@@ -207,6 +207,29 @@ const pauseRenovation = async () => {
     fetchData();
 };
 
+const lowerAmount = async () => {
+    if (currentAmount.value > 0) {
+        currentAmount.value--;
+        let body = {
+            amount_done: currentAmount.value
+        };
+        await updateAmount(userId.value, renovationId.value, body);
+        fetchData();
+    }
+};
+
+const upAmount = async () => {
+    if (currentAmount.value < totalAmount.value) {
+        currentAmount.value++;
+        let body = {
+            amount_done: currentAmount.value
+        };
+        let update = await updateAmount(userId.value, renovationId.value, body);
+        console.log(update);
+        fetchData();
+    }
+};
+
 const closeModal = () => {
     showActiveModal.value = false;
 }
@@ -231,12 +254,13 @@ const fetchUser = async () => {
 
 const fetchData = async () => {
     userRenovation.value = await getUserRenovationById(userId.value, renovationId.value);
-    renovation.value = userRenovation.value.renovation;
-    currentState.value = userRenovation.value.status;
     setStrings();
 };
 
 const setStrings = () => {
+    renovation.value = userRenovation.value.renovation;
+    currentState.value = userRenovation.value.status;
+
     if (currentState.value === 'Aanbevolen') {
         currentBudget.value = userRenovation.value.user.budget
         stateBtnName.value = 'Start de renovatie';
@@ -253,6 +277,14 @@ const setStrings = () => {
         currentBudget.value = userRenovation.value.budget;
         stateBtnName.value = 'Heropen de renovatie';
         startDate.value = userRenovation.value.startDate;
+    }
+
+    if (userRenovation.value.amount_total) {
+        totalAmount.value = userRenovation.value.amount_total;
+    }
+
+    if (userRenovation.value.amount_done) {
+        currentAmount.value = userRenovation.value.amount_done;
     }
 };
 </script>
