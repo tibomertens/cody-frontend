@@ -125,7 +125,7 @@
             :amountTotal="totalAmount" :budget="currentBudget" :startDate="startDate" @closeModal="closeModal"
             @updateData="updateData" />
         <DoneRenovation :renovationId="renovationId" :userId="userId" :showModal="showDoneModal" :budget="currentBudget"
-            :amountTotal="totalAmount" @updateState="handleUpdatedState" />
+            :amountTotal="totalAmount" @updateState="handleUpdatedState" @closeModal="closeModal" />
     </section>
 </template>
 
@@ -272,7 +272,6 @@ onMounted(async () => {
     await fetchUser();
     await fetchData();
     suggestions.value = await getSuggestions(renovationtype.value);
-    console.log(suggestions.value);
 });
 
 const pinRenovation = async () => {
@@ -351,6 +350,9 @@ const upAmount = async () => {
     if (currentState.value === 'Actief') {
         if (currentAmount.value < totalAmount.value) {
             currentAmount.value++;
+            if (currentAmount.value === totalAmount.value) {
+                showDoneModal.value = true;
+            }
             let body = {
                 amount_done: currentAmount.value
             };
