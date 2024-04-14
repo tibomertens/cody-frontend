@@ -9,7 +9,7 @@
         <div v-if="isDropdownOpen"
             class="absolute top-[48px] left-0 w-full bg-offWhite-light z-50 border-2 border-t-0 border-primary-dark rounded-b-[5px]">
             <div class="p-[24px] pt-0 flex flex-col gap-[16px]">
-                <Input :label="'Budget:'" :placeholder="'5000'" :pre-fix="'€'" class="mt-1" @input-change="updateBudget"
+                <Input :label="'Budget:'" :placeholder="props.userBudget.replace('€', '')" :pre-fix="'€'" class="mt-1" @input-change="updateBudget"
                     :value="activeBudgetFilter" />
                 <Dropdown :width="'full'" :label="'Meerwaarde voor label:'" :bold="true" :items="addedValueArray"
                     :default="activeAddedValueFilter" @item-selected="handleAddedValue" />
@@ -26,13 +26,14 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref } from 'vue';
 import Input from '../UI/Input.vue';
 import Dropdown from '../UI/Dropdown.vue';
 import Btn from '../UI/Btn.vue';
 
 const props = defineProps({
     renovations: Array,
+    userBudget: String,
 });
 
 const emit = defineEmits(['filtered']);

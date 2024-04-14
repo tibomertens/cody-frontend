@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, reactive, defineProps } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { isValidToken, getUser } from "../../functions/user.js";
 import ChecklistFrame from "../widgets/Checklist-frame.vue";

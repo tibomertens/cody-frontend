@@ -10,6 +10,7 @@ import Projects from "./components/pages/ProjectsPage.vue";
 import checklist from "./components/pages/ChecklistPage.vue";
 import Settings from "./components/pages/SettingsPage.vue";
 import DetermineLabelChoicePage from "./components/pages/DetermineLabelChoicePage.vue";
+import RenovationDetailPage from "./components/pages/RenovationDetailsPage.vue";
 
 const routes = [
   {
@@ -73,6 +74,12 @@ const routes = [
     path: "/projects/saved",
     components: { default: Projects, sidebar: sideNav, topNav: topNav },
     name: "Opgeslagen projecten",
+    meta: { sidebar: true },
+  },
+  {
+    path: "/projects/:id",
+    components: { default: RenovationDetailPage, sidebar: sideNav, topNav: topNav },
+    name: "Renovatiedetails",
     meta: { sidebar: true },
   },
   {

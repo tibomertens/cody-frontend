@@ -17,25 +17,33 @@ const token = localStorage.getItem('token');
 let userData = reactive({});
 let renovations = reactive([]);
 let renovationsLoaded = ref(false);
+let budget = ref('€' + 0);
+let userId = ref('');
 
 const screenWidth = ref(window.innerWidth);
 
 const fetchData = async () => {
   if (isValidToken(token)) {
     userData.value = await getUser(token);
-    const userId = userData.value._id;
+    if (userData.value !== null) {
+      budget.value = '€' + userData.value.budget;
+      userId.value = userData.value._id;
+    } else {
+      router.push('/login');
+    }
+
     if (route.path === '/projects/recommended') {
-      renovations.value = await getRecommendedRenovations(userId);
+      renovations.value = await getRecommendedRenovations(userId.value);
     } else if (route.path === '/projects/active') {
-      renovations.value = await getActiveRenovations(userId);
+      renovations.value = await getActiveRenovations(userId.value);
     } else if (route.path === '/projects/completed') {
-      renovations.value = await getCompletedRenovations(userId);
+      renovations.value = await getCompletedRenovations(userId.value);
     } else if (route.path === '/projects/saved') {
-      renovations.value = await getSavedRenovations(userId);
+      renovations.value = await getSavedRenovations(userId.value);
     } else {
       renovations.value = await getRenovations();
     }
-    
+
     // sort the renovations based on the impact
     renovations.value.sort((a, b) => {
       if (a.impact === 'Hoogste impact' && b.impact !== 'Hoogste impact') {
@@ -90,17 +98,8 @@ const getTextArray = (renovation) => {
   return [
     renovation.impact,
     renovation.estimated_cost,
-    '€2.000'
+    budget.value
   ];
-};
-
-const truncateDescription = (description) => {
-  const maxLength = screenWidth.value < 768 ? 100 : 200; // Adjust the max length based on screen width
-  if (description.length > maxLength) {
-    return description.slice(0, maxLength) + '...';
-  } else {
-    return description;
-  }
 };
 
 const handleFilter = (filteredRenovations) => {
@@ -113,12 +112,15 @@ const handleFilter = (filteredRenovations) => {
     <div class="mb-[32px] md:mb-[40px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] md:gap-[40px]">
       <Searchbar class="lg:col-span-2" />
       <div v-if="renovationsLoaded">
-        <AdvancedFilter class="lg:col-span-1" :renovations="renovations.value" @filtered="handleFilter" />
+        <AdvancedFilter class="lg:col-span-1" :renovations="renovations.value" @filtered="handleFilter"
+          :userBudget="budget" />
       </div>
     </div>
     <div v-for="(renovation, i) in renovations.value" :key="i">
-      <Project :name="renovation.title" :desc="truncateDescription(renovation.description)"
-        :src="getSrcArray(renovation)" :label="labelArray" :text="getTextArray(renovation)" />
+      <router-link :to="'/projects/' + renovation._id">
+        <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
+          :label="labelArray" :text="getTextArray(renovation)" />
+      </router-link>
     </div>
   </section>
 </template>

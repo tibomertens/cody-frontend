@@ -19,7 +19,6 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
 import Btn from "../UI/Btn.vue";
 
 const props = defineProps({

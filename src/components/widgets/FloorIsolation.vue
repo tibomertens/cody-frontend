@@ -1,7 +1,7 @@
 <script setup>
 import Type from "../UI/Type.vue";
 import Dropdown from "../UI/Dropdown.vue";
-import { ref, defineEmits } from 'vue';
+import { ref } from 'vue';
 
 const emit = defineEmits(['itemSelected', 'noCellar', 'cellar']);
 

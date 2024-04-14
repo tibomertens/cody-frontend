@@ -11,7 +11,11 @@ let userData = ref({});
 onMounted( async () => {
   if (isValidToken(token)) {
     userData = await getUser(token);
-    console.log(userData);
+    if (userData.value !== null) {
+      
+    } else {
+      router.push('/login');
+    }
   } else {
     router.push("/login");
   }
