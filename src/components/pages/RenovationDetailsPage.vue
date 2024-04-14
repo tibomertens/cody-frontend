@@ -53,7 +53,9 @@
                     </div>
                     <div v-if="currentState !== 'Aanbevolen'"
                         class="grid grid-rows-[3fr,1fr] h-[244px] gap-[20px] xs:col-span-2 lg:col-span-1">
-                        <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">CONTENT</div>
+                        <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
+                            <DonutChart :percent="percentRenovated" />
+                        </div>
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
                             <p class="mr-[24px]">Gerenoveerd:</p>
                             <div class="p-[12px] cursor-pointer" @click="lowerAmount"><img src="/minus_solid.svg"
@@ -129,6 +131,7 @@ import BackArrow from '../UI/Back-arrow.vue';
 import Btn from '../UI/Btn.vue';
 import GhostBtn from '../UI/Ghost-btn.vue';
 import ProjectInfo from '../UI/Project-info.vue';
+import DonutChart from '../widgets/DonutChart.vue';
 
 import ActiveRenovation from '../modals/ActiveRenovation.vue';
 import UpdateRenovationDetails from '../modals/UpdateRenovationDetails.vue';
@@ -158,6 +161,7 @@ let selectedNoteType = ref('notes');
 let notSelectedNoteType = ref('checklist');
 let notes = ref('');
 let checklistItems = ref([]);
+let percentRenovated = ref(0);
 
 const router = useRouter();
 
@@ -385,6 +389,10 @@ const setStrings = () => {
 
     if (userRenovation.value.amount_done) {
         currentAmount.value = userRenovation.value.amount_done;
+    }
+
+    if (userRenovation.value.amount_total && userRenovation.value.amount_done) {
+        percentRenovated.value = Math.round((currentAmount.value / totalAmount.value) * 100);
     }
 
     if (isPinned.value) {
