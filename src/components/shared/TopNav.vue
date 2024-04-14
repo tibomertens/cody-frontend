@@ -10,6 +10,10 @@ const isRouteActive = (link) => {
   return route.path === link;
 };
 
+const currentRouteName = () => {
+  return route.name;
+};
+
 function toggleActiveLink() {
   activeLink.value = !activeLink.value;
 }
@@ -25,7 +29,7 @@ onMounted(() => {
   <div class="bg-offWhite-light xl:fixed xl:w-[80%]">
     <div class="xl:ml-10 xl:mr-10 pl-[24px] xl:pl-0"> <!-- Add margin top here -->
       <div class="pt-[24px] flex items-center justify-between">
-        <h1 class="text-title font-bold mb-2">Dashboard</h1>
+        <h1 class="text-title font-bold mb-2">{{ currentRouteName() }}</h1>
         <router-link to="/settings" class="flex items-center ml-2 pr-5">
           <img src="/settings.svg" alt="settings">
         </router-link>
