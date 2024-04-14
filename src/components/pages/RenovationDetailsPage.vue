@@ -15,8 +15,8 @@
                                 class="px-[16px] pt-[6px] pb-[8px] font-bold bg-offWhite-light inline-block rounded-[5px]"
                                 :class="{ 'text-primary-dark border-2 border-primary-dark': currentState === 'Aanbevolen', 'text-secondary-yellow border-2 border-secondary-yellow': currentState === 'Actief' || currentState === 'Gepauzeerd', 'text-secondary-green border-2 border-secondary-green': currentState === 'Voltooid' }">{{
                                     currentState }}</a>
-                            <div class="w-[20px] h-[20px]"><img class="w-full h-full" src="/pin_no_fill.svg"
-                                    alt="Pin icon">
+                            <div class="w-[20px] h-[20px] cursor-pointer" @click="pinRenovation"><img
+                                    class="w-full h-full" :src="pinnedIcon" alt="Pin icon">
                             </div>
                         </div>
                     </div>
@@ -129,7 +129,7 @@ import ActiveRenovation from '../modals/ActiveRenovation.vue';
 import UpdateRenovationDetails from '../modals/UpdateRenovationDetails.vue';
 import DoneRenovation from '../modals/DoneRenovation.vue';
 
-import { updateState, updateAmount } from "../../functions/renovation";
+import { updateState, updateAmount, updateSavedRenovation } from "../../functions/renovation";
 
 let route = useRoute();
 let renovationId = ref('');
@@ -146,6 +146,8 @@ let showDoneModal = ref(false);
 let showUpdateModal = ref(false);
 let currentBudget = ref(0);
 let startDate = ref('');
+let pinnedIcon = ref('/pin_no_fill.svg');
+let isPinned = ref(false);
 
 const router = useRouter();
 
@@ -204,6 +206,18 @@ onMounted(async () => {
     await fetchUser();
     fetchData();
 });
+
+const pinRenovation = async () => {
+    if (isPinned.value) {
+        pinnedIcon.value = '/pin_no_fill.svg';
+        await updateSavedRenovation(userId.value, renovationId.value, {saved: false});
+        fetchData();
+    } else {
+        pinnedIcon.value = '/pin_fill.svg';
+        await updateSavedRenovation(userId.value, renovationId.value, {saved: true});
+        fetchData();
+    }
+};
 
 const updateUserData = () => {
     showUpdateModal.value = true;
@@ -318,6 +332,7 @@ const fetchData = async () => {
 const setStrings = () => {
     renovation.value = userRenovation.value.renovation;
     currentState.value = userRenovation.value.status;
+    isPinned.value = userRenovation.value.saved;
 
     if (currentState.value === 'Aanbevolen') {
         currentBudget.value = userRenovation.value.user.budget
@@ -343,6 +358,12 @@ const setStrings = () => {
 
     if (userRenovation.value.amount_done) {
         currentAmount.value = userRenovation.value.amount_done;
+    }
+
+    if (isPinned.value) {
+        pinnedIcon.value = '/pin_fill.svg';
+    } else {
+        pinnedIcon.value = '/pin_no_fill.svg';
     }
 };
 </script>

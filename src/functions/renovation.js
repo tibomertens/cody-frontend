@@ -228,3 +228,27 @@ export const updateUserData = async (userId, renovationId, body) => {
     throw error;
   }
 };
+
+export const updateSavedRenovation = async (userId, renovationId, body) => {
+  try {
+    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationId}/updateSaved`;
+
+    const response = await fetch(apiEndpoint, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update saved renovation");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
