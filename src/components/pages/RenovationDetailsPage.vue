@@ -35,7 +35,8 @@
             <div class="mt-[32px] md:mt-[40px] mb-[20px]">
                 <div class="flex gap-[6px] items-center">
                     <h2 class="text-subtitle font-bold">Gegevens</h2>
-                    <div v-if="currentState === 'Actief'" class="relative top-[2px]"><img src="/edit_no_fill.svg" alt="Edit icon"></div>
+                    <div v-if="currentState === 'Actief'" class="relative top-[2px]"><img src="/edit_no_fill.svg"
+                            alt="Edit icon"></div>
                 </div>
                 <div class="mt-[20px] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-[20px]">
                     <div class="grid gap-[20px]">
@@ -218,7 +219,11 @@ const handleUpdatedState = () => {
 const fetchUser = async () => {
     if (isValidToken(token)) {
         userData.value = await getUser(token);
-        userId.value = userData.value._id;
+        if (userData.value !== null) {
+            userId.value = userData.value._id;
+        } else {
+            router.push('/login');
+        }
     } else {
         router.push('/login');
     }

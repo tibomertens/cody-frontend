@@ -18,14 +18,20 @@ let userData = reactive({});
 let renovations = reactive([]);
 let renovationsLoaded = ref(false);
 let budget = ref('€' + 0);
+let userId = ref('');
 
 const screenWidth = ref(window.innerWidth);
 
 const fetchData = async () => {
   if (isValidToken(token)) {
     userData.value = await getUser(token);
-    budget.value = '€' + userData.value.budget;
-    const userId = userData.value._id;
+    if (userData.value !== null) {
+      budget.value = '€' + userData.value.budget;
+      userId.value = userData.value._id;
+    } else {
+      router.push('/login');
+    }
+
     if (route.path === '/projects/recommended') {
       renovations.value = await getRecommendedRenovations(userId);
     } else if (route.path === '/projects/active') {
@@ -112,8 +118,8 @@ const handleFilter = (filteredRenovations) => {
     </div>
     <div v-for="(renovation, i) in renovations.value" :key="i">
       <router-link :to="'/projects/' + renovation._id">
-        <Project :name="renovation.title" :desc="renovation.description"
-          :src="getSrcArray(renovation)" :label="labelArray" :text="getTextArray(renovation)" />
+        <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
+          :label="labelArray" :text="getTextArray(renovation)" />
       </router-link>
     </div>
   </section>
