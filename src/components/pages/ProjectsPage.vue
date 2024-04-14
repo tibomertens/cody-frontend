@@ -33,13 +33,13 @@ const fetchData = async () => {
     }
 
     if (route.path === '/projects/recommended') {
-      renovations.value = await getRecommendedRenovations(userId);
+      renovations.value = await getRecommendedRenovations(userId.value);
     } else if (route.path === '/projects/active') {
-      renovations.value = await getActiveRenovations(userId);
+      renovations.value = await getActiveRenovations(userId.value);
     } else if (route.path === '/projects/completed') {
-      renovations.value = await getCompletedRenovations(userId);
+      renovations.value = await getCompletedRenovations(userId.value);
     } else if (route.path === '/projects/saved') {
-      renovations.value = await getSavedRenovations(userId);
+      renovations.value = await getSavedRenovations(userId.value);
     } else {
       renovations.value = await getRenovations();
     }
