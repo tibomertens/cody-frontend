@@ -108,6 +108,15 @@
             </div>
             <div class="mt-[32px] md:mt-[40px]">
                 <h2 class="text-subtitle font-bold mb-[20px]">Soortgelijke suggesties</h2>
+                <div class="flex gap-[24px] overflow-x-auto">
+                    <div v-for="renovation in suggestions" class="flex-none w-full max-w-[550px]">
+                        <router-link :to="'/projects/' + renovation._id">
+                            <Project :suggestion="true" :name="renovation.title" :desc="renovation.description"
+                                :src="getSuggestionsSrcArray(renovation)" :label="suggestionsLabelArray"
+                                :text="getSuggestionsTextArray(renovation)" />
+                        </router-link>
+                    </div>
+                </div>
             </div>
         </div>
         <ActiveRenovation :renovationId="renovationId" :userId="userId" :showModal="showActiveModal"
@@ -124,7 +133,7 @@
 import { onMounted, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
-import { getUserRenovationById } from '../../functions/renovation';
+import { updateState, updateAmount, updateSavedRenovation, updateNotes, getSuggestions, getUserRenovationById } from "../../functions/renovation";
 import { isValidToken, getUser } from '../../functions/user.js';
 
 import BackArrow from '../UI/Back-arrow.vue';
@@ -132,12 +141,12 @@ import Btn from '../UI/Btn.vue';
 import GhostBtn from '../UI/Ghost-btn.vue';
 import ProjectInfo from '../UI/Project-info.vue';
 import DonutChart from '../widgets/DonutChart.vue';
+import Project from '../widgets/Project.vue';
 
 import ActiveRenovation from '../modals/ActiveRenovation.vue';
 import UpdateRenovationDetails from '../modals/UpdateRenovationDetails.vue';
 import DoneRenovation from '../modals/DoneRenovation.vue';
 
-import { updateState, updateAmount, updateSavedRenovation, updateNotes } from "../../functions/renovation";
 import CheckList from '../widgets/CheckList.vue';
 
 let route = useRoute();
@@ -162,10 +171,36 @@ let notSelectedNoteType = ref('checklist');
 let notes = ref('');
 let checklistItems = ref([]);
 let percentRenovated = ref(0);
+let suggestions = ref([]);
+let renovationtype = ref('');
 
 const router = useRouter();
 
 const token = localStorage.getItem('token');
+
+const suggestionsLabelArray = [
+    'Impact',
+    'Geschatte kost',
+    'Jouw budget'
+];
+
+const getSuggestionsSrcArray = (renovation) => {
+    // Logic for generating srcArray based on renovation data
+    return [
+        renovation.impact === 'Hoogste impact' ? '/highImpact.svg' : '/lowImpact.svg',
+        renovation.cost === 'high' ? '/highCost.svg' : '/lowCost.svg',
+        '/budgetBlue.svg'
+    ];
+};
+
+const getSuggestionsTextArray = (renovation) => {
+    // Logic for generating textArray based on renovation data
+    return [
+        renovation.impact,
+        renovation.estimated_cost,
+        userRenovation.value.user.budget
+    ];
+};
 
 const updateNoteType = () => {
     if (selectedNoteType.value === 'notes') {
@@ -235,7 +270,9 @@ const updateNotesVal = () => {
 onMounted(async () => {
     renovationId.value = route.params.id;
     await fetchUser();
-    fetchData();
+    await fetchData();
+    suggestions.value = await getSuggestions(renovationtype.value);
+    console.log(suggestions.value);
 });
 
 const pinRenovation = async () => {
@@ -364,6 +401,7 @@ const setStrings = () => {
     renovation.value = userRenovation.value.renovation;
     currentState.value = userRenovation.value.status;
     isPinned.value = userRenovation.value.saved;
+    renovationtype.value = userRenovation.value.renovation.type;
 
     if (currentState.value === 'Aanbevolen') {
         currentBudget.value = userRenovation.value.user.budget

@@ -300,3 +300,26 @@ export const updateChecklist = async (userId, renovationId, body) => {
     throw error;
   }
 };
+
+export const getSuggestions = async (type) => {
+  try {
+    let apiEndpoint = `http://localhost:3000/api/v1/renovations/type/${type}`;
+
+    const response = await fetch(apiEndpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch suggestions");
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
