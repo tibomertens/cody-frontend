@@ -2,6 +2,7 @@
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import PromotorCard from "../widgets/Promotor-card.vue";
+import PromotorCardPremium from "../widgets/Promotor-card-premium.vue";
 
 // put all information of the promotors in object using a get all promotors api call
 const promotors = ref([]);
@@ -25,11 +26,14 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="">
-        <ul class="">
-            <li v-for="promotor in promotors" class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] mx-[40px] py-[12px] px-[32px] rounded-md">
+    <div>
+        <ul v-for="promotor in promotors">
+            <li v-if="promotor.is_big===false" class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] mx-[40px] py-[12px] px-[32px] rounded-md">
                <Promotor-card :promotor="promotor"/>
             </li> 
+            <li v-if="promotor.is_big===true" class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] mx-[40px] py-[12px] px-[32px] rounded-md">
+              <Promotor-card-premium :promotor="promotor"/>
+            </li>
         </ul>
     </div>
 </template>
