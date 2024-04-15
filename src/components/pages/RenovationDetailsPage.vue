@@ -453,7 +453,6 @@ const fetchUser = async () => {
 
 const fetchData = async () => {
     userRenovation.value = await getUserRenovationById(userId.value, renovationId.value);
-    console.log(userRenovation.value);
     setStrings();
 };
 
