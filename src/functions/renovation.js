@@ -323,3 +323,26 @@ export const getSuggestions = async (type) => {
     throw error;
   }
 };
+
+export const getUserRenovation = async (userId, renovationId) => {
+  try {
+    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationId}`;
+
+    const response = await fetch(apiEndpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get data");
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};

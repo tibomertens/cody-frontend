@@ -3,11 +3,11 @@ import Project from '../widgets/Project.vue';
 import Searchbar from '../UI/Searchbar.vue';
 import AdvancedFilter from '../UI/Advanced-filter.vue';
 
-import { ref, reactive, onMounted, onBeforeUnmount, watch } from 'vue';
+import { ref, reactive, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { isValidToken, getUser } from '../../functions/user.js';
-import { getRenovations, getRecommendedRenovations, getActiveRenovations, getSavedRenovations, getCompletedRenovations } from '../../functions/renovation.js';
+import { getRenovations, getRecommendedRenovations, getActiveRenovations, getSavedRenovations, getCompletedRenovations, getUserRenovation } from '../../functions/renovation.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -84,12 +84,38 @@ const labelArray = [
   'Jouw budget'
 ];
 
+const activeLabelArray = [
+  'Budget',
+  'Startdatum'
+];
+
+const doneLabelArray = [
+  'Budget',
+  'Einddatum'
+];
+
 const getSrcArray = (renovation) => {
   // Logic for generating srcArray based on renovation data
   return [
     renovation.impact === 'Hoogste impact' ? '/highImpact.svg' : '/lowImpact.svg',
     renovation.cost === 'high' ? '/highCost.svg' : '/lowCost.svg',
     '/budgetBlue.svg'
+  ];
+};
+
+const getActiveSrcArray = (renovation) => {
+  // Logic for generating srcArray based on renovation data
+  return [
+    '/budgetBlue.svg',
+    '/calendar.svg'
+  ];
+};
+
+const getDoneSrcArray = (renovation) => {
+  // Logic for generating srcArray based on renovation data
+  return [
+    '/budgetBlue.svg',
+    '/calendar.svg'
   ];
 };
 
@@ -100,6 +126,32 @@ const getTextArray = (renovation) => {
     renovation.estimated_cost,
     budget.value
   ];
+};
+
+const getActiveTextArray = async (renovation) => {
+  // Logic for generating textArray based on renovation data
+  let data = await getUserRenovation(userId.value, renovation._id);
+  return [
+    '€' + data.budget,
+    data.startDate,
+    data.amount_total,
+    data.amount_done
+  ];
+};
+
+const getDoneTextArray = async (renovation) => {
+  let data = await getUserRenovation(userId.value, renovation._id);
+  return [
+    '€' + data.budget,
+    data.endDate,
+    data.amount_total,
+    data.amount_done
+  ];
+};
+
+const getStateFetcher = (renovation) => async () => {
+  let data = await getUserRenovation(userId.value, renovation._id);
+  return data.status;
 };
 
 const handleFilter = (filteredRenovations) => {
@@ -116,10 +168,13 @@ const handleFilter = (filteredRenovations) => {
           :userBudget="budget" />
       </div>
     </div>
-    <div v-for="(renovation, i) in renovations.value" :key="i">
-      <router-link :to="'/projects/' + renovation._id">
+    <div v-if="renovationsLoaded">
+      <router-link v-for="(renovation, i) in renovations.value" :key="i" :to="'/projects/' + renovation._id">
         <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
-          :label="labelArray" :text="getTextArray(renovation)" />
+          :activeSrc="getActiveSrcArray(renovation)" :doneSrc="getDoneSrcArray(renovation)" :label="labelArray"
+          :activeLabel="activeLabelArray" :doneLabel="doneLabelArray" :text="getTextArray(renovation)"
+          :activeText="getActiveTextArray(renovation)" :doneText="getDoneTextArray(renovation)"
+          :stateFetcher="getStateFetcher(renovation)" />
       </router-link>
     </div>
   </section>

@@ -54,7 +54,7 @@
                     <div v-if="currentState !== 'Aanbevolen'"
                         class="grid grid-rows-[3fr,1fr] h-[244px] gap-[20px] xs:col-span-2 lg:col-span-1">
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
-                            <DonutChart :percent="percentRenovated" />
+                            <DonutChart :percent="percentRenovated" :bg="'#EDF0F5'" />
                         </div>
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
                             <p class="mr-[24px]">Gerenoveerd:</p>
@@ -111,9 +111,13 @@
                 <div class="flex gap-[24px] overflow-x-auto">
                     <div v-for="renovation in suggestions" class="flex-none w-full max-w-[550px]">
                         <router-link :to="'/projects/' + renovation._id">
-                            <Project :suggestion="true" :name="renovation.title" :desc="renovation.description"
-                                :src="getSuggestionsSrcArray(renovation)" :label="suggestionsLabelArray"
-                                :text="getSuggestionsTextArray(renovation)" />
+                            <Project :name="renovation.title" :desc="renovation.description"
+                                :src="getSuggSrcArray(renovation)" :activeSrc="getActiveSrcArray(renovation)"
+                                :doneSrc="getDoneSrcArray(renovation)" :label="labelArray"
+                                :activeLabel="activeLabelArray" :doneLabel="doneLabelArray"
+                                :text="getSuggTextArray(renovation)" :activeText="getActiveTextArray(renovation)"
+                                :doneText="getDoneTextArray(renovation)" :stateFetcher="getStateFetcher(renovation)"
+                                :suggestion="true" />
                         </router-link>
                     </div>
                 </div>
@@ -122,10 +126,11 @@
         <ActiveRenovation :renovationId="renovationId" :userId="userId" :showModal="showActiveModal"
             @closeModal="closeModal" @updateState="handleUpdatedState" />
         <UpdateRenovationDetails :renovationId="renovationId" :userId="userId" :showModal="showUpdateModal"
-            :amountTotal="totalAmount" :budget="currentBudget" :startDate="startDate" @closeModal="closeModal"
+            :amountTotal="totalAmount" :budget="parseInt(currentBudget)" :startDate="startDate" @closeModal="closeModal"
             @updateData="updateData" />
-        <DoneRenovation :renovationId="renovationId" :userId="userId" :showModal="showDoneModal" :budget="currentBudget"
-            :amountTotal="totalAmount" @updateState="handleUpdatedState" @closeModal="closeModal" />
+        <DoneRenovation :renovationId="renovationId" :userId="userId" :showModal="showDoneModal"
+            :budget="parseInt(currentBudget)" :amountTotal="totalAmount" @updateState="handleUpdatedState"
+            @closeModal="closeModal" />
     </section>
 </template>
 
@@ -133,7 +138,7 @@
 import { onMounted, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
-import { updateState, updateAmount, updateSavedRenovation, updateNotes, getSuggestions, getUserRenovationById } from "../../functions/renovation";
+import { updateState, updateAmount, updateSavedRenovation, updateNotes, getSuggestions, getUserRenovationById, getUserRenovation } from "../../functions/renovation";
 import { isValidToken, getUser } from '../../functions/user.js';
 
 import BackArrow from '../UI/Back-arrow.vue';
@@ -178,13 +183,65 @@ const router = useRouter();
 
 const token = localStorage.getItem('token');
 
-const suggestionsLabelArray = [
+const getStateFetcher = (renovation) => async () => {
+    let data = await getUserRenovation(userId.value, renovation._id);
+    return data.status;
+};
+
+const getActiveTextArray = async (renovation) => {
+    // Logic for generating textArray based on renovation data
+    let data = await getUserRenovation(userId.value, renovation._id);
+    return [
+        '€' + data.budget,
+        data.startDate,
+        data.amount_total,
+        data.amount_done
+    ];
+};
+
+const getDoneTextArray = async (renovation) => {
+    let data = await getUserRenovation(userId.value, renovation._id);
+    return [
+        '€' + data.budget,
+        data.endDate,
+        data.amount_total,
+        data.amount_done
+    ];
+};
+
+const getActiveSrcArray = (renovation) => {
+    // Logic for generating srcArray based on renovation data
+    return [
+        '/budgetBlue.svg',
+        '/calendar.svg'
+    ];
+};
+
+const getDoneSrcArray = (renovation) => {
+    // Logic for generating srcArray based on renovation data
+    return [
+        '/budgetBlue.svg',
+        '/calendar.svg'
+    ];
+};
+
+const activeLabelArray = [
+    'Budget',
+    'Startdatum'
+];
+
+const doneLabelArray = [
+    'Budget',
+    'Einddatum'
+];
+
+const labelArray = [
     'Impact',
     'Geschatte kost',
     'Jouw budget'
 ];
 
-const getSuggestionsSrcArray = (renovation) => {
+const getSuggSrcArray = (renovation) => {
     // Logic for generating srcArray based on renovation data
     return [
         renovation.impact === 'Hoogste impact' ? '/highImpact.svg' : '/lowImpact.svg',
@@ -193,7 +250,7 @@ const getSuggestionsSrcArray = (renovation) => {
     ];
 };
 
-const getSuggestionsTextArray = (renovation) => {
+const getSuggTextArray = (renovation) => {
     // Logic for generating textArray based on renovation data
     return [
         renovation.impact,
@@ -396,6 +453,7 @@ const fetchUser = async () => {
 
 const fetchData = async () => {
     userRenovation.value = await getUserRenovationById(userId.value, renovationId.value);
+    console.log(userRenovation.value);
     setStrings();
 };
 

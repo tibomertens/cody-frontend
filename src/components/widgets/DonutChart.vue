@@ -1,7 +1,7 @@
 <template>
     <div class="donut-chart" :style="{ width: size + 'px', height: size + 'px' }">
         <svg viewBox="0 0 100 100">
-            <circle :stroke="'#EDF0F5'" class="donut" :cx="center" :cy="center" :r="radius" :stroke-width="strokeWidth"
+            <circle :stroke="props.bg" class="donut" :cx="center" :cy="center" :r="radius" :stroke-width="strokeWidth"
                 :stroke-dasharray="circumference" :stroke-dashoffset="0" />
             <circle :stroke="currentColor" class="donut-ring" :cx="center" :cy="center" :r="radius" :stroke-width="strokeWidth"
                 :stroke-dasharray="circumference" :stroke-dashoffset="offset" :style="{ transition: 'stroke-dashoffset 0.5s ease-in-out' }" />
@@ -16,6 +16,7 @@ import { ref, watch, computed } from 'vue';
 
 const props = defineProps({
     percent: Number,
+    bg: String,
 });
 
 let percent = ref(props.percent);
