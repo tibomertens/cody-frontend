@@ -25,12 +25,12 @@ const props = defineProps(["promotor"]);
             </div>
             <div>
                 <div
-                    class="flex justify-center pt-[10px] pb-[10px] items-center sm:justify-start lg:justify-end gap-[10px] sm:w-[50%] lg:w-[100%] lg:text-right">
+                    class="mt-[16px] flex justify-center pt-[10px] pb-[10px] items-center sm:justify-start lg:justify-end gap-[10px] sm:w-[50%] lg:w-[100%] lg:text-right">
                     <div class="sm:min-w-[153px]"><img src="/4stars.svg" alt="4 stars"></div>
                     <p>5/5</p>
                     <a href="#" class="underline">Reviews</a>
                 </div>
-                <div class="flex justify-center align-middle sm:w-full lg:w-full">
+                <div class="mt-[16px] mb-[16px] flex justify-center align-middle sm:w-full lg:w-full">
                     <Btn text="Ga naar website" />
                 </div>
             </div>

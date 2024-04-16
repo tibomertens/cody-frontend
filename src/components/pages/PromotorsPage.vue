@@ -3,12 +3,10 @@ import { ref, onMounted } from "vue";
 import PromotorCard from "../widgets/Promotor-card.vue";
 import PromotorCardPremium from "../widgets/Promotor-card-premium.vue";
 import Dropdown from "../UI/Dropdown.vue";
+import { getAllPromotors, getAllLocations } from "../../functions/promotor";
 
 const promotors = ref([]);
-const locations = ref([
-  { title: "Boortmeerbeek", name: "Boortmeerbeek" },
-  { title: "Bertem", name: "Bertem" }
-]);
+const locations = ref([]);
 
 const selectedLocation = ref(null); // Keep track of the selected location
 
@@ -19,18 +17,15 @@ const handleSelectedLocation = (location) => {
   filterPromotors();
 };
 
-const getAllPromotors = async () => {
-  try {
-    const response = await fetch("http://localhost:3000/api/v1/promotors");
-    promotors.value = (await response.json()).data;
-    console.log(promotors.value);
-  } catch (error) {
-    console.error(error);
-  }
+const populateLocations = (data) => {
+  locations.value = data.map(location => ({ title: location.name, name: location.name }));
+
 };
 
 onMounted( async() => {
-  await getAllPromotors();
+  let fetchedLocations = await getAllLocations();
+  populateLocations(fetchedLocations);
+  promotors.value= await getAllPromotors();
   filterPromotors();
 });
 
