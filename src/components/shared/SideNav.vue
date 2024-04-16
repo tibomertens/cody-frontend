@@ -101,18 +101,15 @@ onMounted(() => {
             Opgeslagen
           </div>
         </router-link>
-        <router-link to="/renovatoren" :class="{
-          'font-normal': currentRoute !== '/renovatoren',
-          'font-bold': currentRoute === '/renovatoren',
+        <router-link to="/promotors" :class="{
+          'font-normal': currentRoute !== '/promotors',
+          'font-bold': currentRoute === '/promotors',
         }">
-          <div class="p-5 ml-5 py-[12px] rounded-l-[5px]"
-            :class="{ 'bg-primary-light': currentRoute === '/renovatoren' }">
-            <i class="pr-3 w-[20px]" :class="{
-          'fa-regular': currentRoute !== '/renovatoren',
-          'fa-solid': currentRoute === '/renovatoren',
-          'fa-building': true,
-        }"></i>
-        Renovatoren
+          <div class="pl-5 ml-5 py-[12px] rounded-l-[5px] flex" :class="{ 'bg-primary-light': currentRoute === '/promotors' }">
+            <div class="pr-3">
+              <img :src="currentRoute !== '/promotors' ? '/helmetFill.svg' : '/helmetNoFill.svg'" alt="helmet icon" class="w-[20px]" />
+            </div>
+            Renovatoren
           </div>
         </router-link>
         <router-link to="/account" :class="{
@@ -198,16 +195,14 @@ onMounted(() => {
         </div>
       </router-link>
   
-      <router-link to="/renovatoren" :class="{
-        'font-normal': currentRoute !== '/renovatoren',
-        'font-bold': currentRoute === '/renovatoren',
+      <router-link to="/promotors" :class="{
+        'font-normal': currentRoute !== '/promotors',
+        'font-bold': currentRoute === '/promotors',
       }">
-      <div class="w-full p-5" :class="{ 'bg-primary-light': currentRoute === '/renovatoren' }">
-        <i class="pr-3 w-[20px]" :class="{
-        'fa-regular': currentRoute !== '/renovatoren',
-        'fa-solid': currentRoute === '/renovatoren',
-        'fa-building': true,
-      }"></i>
+      <div class="w-full p-5 flex" :class="{ 'bg-primary-light': currentRoute === '/promotors' }">
+        <div class="pr-3">
+          <img :src="currentRoute !== '/promotors' ? '/helmetFill.svg' : '/helmetNoFill.svg'" alt="helmet icon" class="w-[20px]" />
+        </div>
         Renovatoren
       </div>
     </router-link>
