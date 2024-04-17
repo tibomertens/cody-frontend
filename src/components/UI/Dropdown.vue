@@ -14,6 +14,11 @@ const props = defineProps({
     type: String,
     required: true
   },
+  displayLabel: {
+    type: Boolean,
+    default: true,
+    required: false
+  },
   bold: {
     type: Boolean,
     required: false
@@ -56,7 +61,7 @@ watch(() => props.default, (newValue, oldValue) => {
   <!-- dropdown with the items from the array items as options -->
   <div :class="{ 'w-full': props.width === 'full', 'w-full xs:w-[415px]': props.width != 'full' }">
     <div class="flex justify-between">
-      <label :for="props.label" :class="{ 'font-bold': props.bold === true, 'font-normal': props.bold !== true }">{{
+      <label :for="props.label" :class="{ 'font-bold': props.bold === true, 'font-normal': props.bold !== true, 'invisible': props.displayLabel === false }">{{
     props.label }}</label>
       <p class="text-secondary-red underline cursor-pointer text-[0.9rem]" @click="deleteFilter">Verwijder</p>
     </div>
