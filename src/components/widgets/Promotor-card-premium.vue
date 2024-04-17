@@ -31,7 +31,7 @@ const props = defineProps(["promotor"]);
                     <a href="#" class="underline">Reviews</a>
                 </div>
                 <div class="mt-[16px] mb-[16px] flex justify-center align-middle sm:w-full lg:w-full">
-                    <Btn text="Ga naar website" />
+                    <Btn :name="'Ga naar website'" :width="'full'" />
                 </div>
             </div>
         </div>
