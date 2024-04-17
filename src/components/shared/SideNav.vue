@@ -106,7 +106,7 @@ onMounted(() => {
           'font-bold': currentRoute === '/promotors',
         }">
           <div class="pl-5 ml-5 py-[12px] rounded-l-[5px] flex" :class="{ 'bg-primary-light': currentRoute === '/promotors' }">
-            <div class="pr-3">
+            <div class="pr-3 self-center">
               <img :src="currentRoute !== '/promotors' ? '/helmetFill.svg' : '/helmetNoFill.svg'" alt="helmet icon" class="w-[20px]" />
             </div>
             Renovatoren
@@ -200,7 +200,7 @@ onMounted(() => {
         'font-bold': currentRoute === '/promotors',
       }">
       <div class="w-full p-5 flex" :class="{ 'bg-primary-light': currentRoute === '/promotors' }">
-        <div class="pr-3">
+        <div class="pr-3 self-center">
           <img :src="currentRoute !== '/promotors' ? '/helmetFill.svg' : '/helmetNoFill.svg'" alt="helmet icon" class="w-[20px]" />
         </div>
         Renovatoren
