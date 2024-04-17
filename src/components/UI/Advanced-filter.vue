@@ -85,7 +85,6 @@ const updateBudget = (value) => {
 
 const applyFilters = () => {
     filteredRenovations.value = [...originalRenovations.value]; // Reset filtered array
-    console.log(filteredRenovations.value)
 
     // Apply budget filter
     if (budget.value) {
