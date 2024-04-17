@@ -2,10 +2,10 @@
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 
-const activeLink = ref(true); // Standaard actief
+const activeLink = ref(true); // Standard actief
 const route = useRoute();
 
-// Functie om te controleren of de huidige route overeenkomt met de gegeven link
+// Function to check if the current route matches the given link
 const isRouteActive = (link) => {
   return route.path === link;
 };
@@ -19,7 +19,7 @@ function toggleActiveLink() {
 }
 
 onMounted(() => {
-  // Stel de initiële staat van activeLink in op basis van de huidige route
+ // Set the initial state of activeLink based on the current route
   activeLink.value = isRouteActive('/settings');
 });
 
