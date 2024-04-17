@@ -11,7 +11,7 @@ const props = defineProps(["promotor"]);
         <div class="w-full sm:w-[50%] lg:w-[33%] flex justify-center p-[20px] lg:justify-start">
             <img src="/kelder.svg" alt="">
         </div>
-        <div class="sm:w-[50%] lg:flex lg:w-[66%] h-full lg:justify-between lg:items-center">
+        <div class="sm:w-[50%] lg:flex md:w-[66%] h-full lg:justify-between lg:items-center">
             <div>
                 <div class="flex justify-center sm:justify-start pt-[10px] font-bold sm:w-[50%] lg:w-full">
                     {{ promotor.name }}
