@@ -25,7 +25,7 @@ export const calculateLabel = async (items) => {
 export const addLabel = async (items, userId) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/v1/users/${userId}`,
+      `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}`,
       {
         method: "PATCH",
         body: JSON.stringify(items),
@@ -82,7 +82,7 @@ export const updateRecommendations = async (items, userId) => {
     // Make API calls to update status for each renovation
     const updatePromises = renovationsToUpdate.map(async (renovationTitle) => {
       const response = await fetch(
-        `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationTitle}`,
+        `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationTitle}`,
         {
           method: "PATCH",
           body: JSON.stringify({
@@ -113,7 +113,7 @@ export const updateChecklistRecommendations = async (items, userId) => {
     const updatePromises = items.map(async (renovationTitle) => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationTitle}`,
+          `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationTitle}`,
           {
             method: "PATCH",
             body: JSON.stringify({

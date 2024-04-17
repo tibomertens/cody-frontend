@@ -11,7 +11,7 @@ export const isValidToken = (token) => {
 export const getUser = async (token) => {
   const decoded = jwtDecode(token);
   let userId = decoded.id;
-  let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}`;
+  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}`;
 
   try {
     const response = await fetch(apiEndpoint, {

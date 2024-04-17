@@ -1,6 +1,6 @@
 export const getRenovations = async () => {
   try {
-    const response = await fetch(`http://localhost:3000/api/v1/renovations`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/renovations`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -21,7 +21,7 @@ export const getRenovations = async () => {
 
 export const getRecommendedRenovations = async (userId) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/recommended`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/recommended`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
@@ -44,7 +44,7 @@ export const getRecommendedRenovations = async (userId) => {
 
 export const getActiveRenovations = async (userId) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/active`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/active`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
@@ -67,7 +67,7 @@ export const getActiveRenovations = async (userId) => {
 
 export const getCompletedRenovations = async (userId) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/completed`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/completed`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
@@ -90,7 +90,7 @@ export const getCompletedRenovations = async (userId) => {
 
 export const getSavedRenovations = async (userId) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/saved`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/saved`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
@@ -113,7 +113,7 @@ export const getSavedRenovations = async (userId) => {
 
 export const getRenovationById = async (renovationId) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/renovations/${renovationId}`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/renovations/${renovationId}`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
@@ -136,7 +136,7 @@ export const getRenovationById = async (renovationId) => {
 
 export const getUserRenovationById = async (userId, renovationId) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationId}`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
@@ -159,7 +159,7 @@ export const getUserRenovationById = async (userId, renovationId) => {
 
 export const updateState = async (userId, renovationId, body) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationId}/updateState`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}/updateState`;
 
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
@@ -183,7 +183,7 @@ export const updateState = async (userId, renovationId, body) => {
 
 export const updateAmount = async (userId, renovationId, body) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationId}/updateAmount`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}/updateAmount`;
 
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
@@ -207,7 +207,7 @@ export const updateAmount = async (userId, renovationId, body) => {
 
 export const updateUserData = async (userId, renovationId, body) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationId}/updateUserData`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}/updateUserData`;
 
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
@@ -231,7 +231,7 @@ export const updateUserData = async (userId, renovationId, body) => {
 
 export const updateSavedRenovation = async (userId, renovationId, body) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationId}/updateSaved`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}/updateSaved`;
 
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
@@ -255,7 +255,7 @@ export const updateSavedRenovation = async (userId, renovationId, body) => {
 
 export const updateNotes = async (userId, renovationId, body) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationId}/updateNotes`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}/updateNotes`;
 
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
@@ -279,7 +279,7 @@ export const updateNotes = async (userId, renovationId, body) => {
 
 export const updateChecklist = async (userId, renovationId, body) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationId}/updateChecklist`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}/updateChecklist`;
 
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
@@ -303,7 +303,7 @@ export const updateChecklist = async (userId, renovationId, body) => {
 
 export const getSuggestions = async (type) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/renovations/type/${type}`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/renovations/type/${type}`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
@@ -326,7 +326,7 @@ export const getSuggestions = async (type) => {
 
 export const getUserRenovation = async (userId, renovationId) => {
   try {
-    let apiEndpoint = `http://localhost:3000/api/v1/users/${userId}/renovations/${renovationId}`;
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",

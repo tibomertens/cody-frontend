@@ -1,6 +1,8 @@
+import "dotenv";
+
 export const getAllPromotors = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/v1/promotors");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/promotors`);
       let data = await response.json();
       return data.data;
     } catch (error) {
@@ -10,7 +12,7 @@ export const getAllPromotors = async () => {
   
 export const getAllLocations = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/v1/locations");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/locations`);
   
       if (!response.ok) {
         throw new Error("Failed to fetch renovation data");
