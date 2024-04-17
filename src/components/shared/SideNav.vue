@@ -101,6 +101,17 @@ onMounted(() => {
             Opgeslagen
           </div>
         </router-link>
+        <router-link to="/promotors" :class="{
+          'font-normal': currentRoute !== '/promotors',
+          'font-bold': currentRoute === '/promotors',
+        }">
+          <div class="pl-5 ml-5 py-[12px] rounded-l-[5px] flex" :class="{ 'bg-primary-light': currentRoute === '/promotors' }">
+            <div class="pr-3">
+              <img :src="currentRoute !== '/promotors' ? '/helmetFill.svg' : '/helmetNoFill.svg'" alt="helmet icon" class="w-[20px]" />
+            </div>
+            Renovatoren
+          </div>
+        </router-link>
         <router-link to="/account" :class="{
           'font-normal': currentRoute !== '/account',
           'font-bold': currentRoute === '/account',
@@ -184,6 +195,17 @@ onMounted(() => {
         </div>
       </router-link>
   
+      <router-link to="/promotors" :class="{
+        'font-normal': currentRoute !== '/promotors',
+        'font-bold': currentRoute === '/promotors',
+      }">
+      <div class="w-full p-5 flex" :class="{ 'bg-primary-light': currentRoute === '/promotors' }">
+        <div class="pr-3">
+          <img :src="currentRoute !== '/promotors' ? '/helmetFill.svg' : '/helmetNoFill.svg'" alt="helmet icon" class="w-[20px]" />
+        </div>
+        Renovatoren
+      </div>
+    </router-link>
       <router-link to="/account" :class="{
           'font-normal': currentRoute !== '/account',
           'font-bold': currentRoute === '/account',
