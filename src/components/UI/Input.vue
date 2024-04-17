@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 
-const props = defineProps(["label", "type", "error", "placeholder", "preFix", "value"]);
+const props = defineProps(["label", "type", "error", "placeholder", "preFix", "value", "dark"]);
 const emit = defineEmits(['input-change']);
 
 let inputValue = ref("");
@@ -46,7 +46,7 @@ watch(
     </div>
     <div class="relative">
       <input :type="type"
-        :class="{ 'border-2 border-secondary-red': hasError, 'border-2 border-offWhite-light': !hasError, 'pl-[48px]': props.preFix }"
+        :class="{ 'border-2 border-secondary-red': hasError, 'border-2 border-offWhite-light': !hasError, 'pl-[48px]': props.preFix, 'bg-offWhite-dark': props.dark === true }"
         class="w-[100%] p-2 rounded-md focus:border-primary-dark focus:outline-none pl-[24px]" v-model="inputValue"
         @input="updateInput" :placeholder="props.placeholder" />
       <p v-if="props.preFix" class="font-bold absolute inset-y-0 left-0 pl-[24px] pt-[9.5px] pointer-events-none">{{

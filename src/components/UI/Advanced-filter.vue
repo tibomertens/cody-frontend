@@ -10,7 +10,7 @@
             class="absolute top-[48px] left-0 w-full bg-offWhite-light z-50 border-2 border-t-0 border-primary-dark rounded-b-[5px]">
             <div class="p-[24px] pt-0 flex flex-col gap-[16px]">
                 <Input :label="'Budget:'" :placeholder="props.userBudget.replace('€', '')" :pre-fix="'€'" class="mt-1" @input-change="updateBudget"
-                    :value="activeBudgetFilter" />
+                    :value="activeBudgetFilter" :dark="true" />
                 <Dropdown :width="'full'" :label="'Meerwaarde voor label:'" :bold="true" :items="addedValueArray"
                     :default="activeAddedValueFilter" @item-selected="handleAddedValue" />
                 <Dropdown :width="'full'" :label="'Type renovatie:'" :bold="true" :items="typeArray"
