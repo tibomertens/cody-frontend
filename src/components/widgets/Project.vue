@@ -66,6 +66,7 @@ let srcs = ref([]);
 let texts = ref([]);
 let percentRenovated = ref(0);
 let paused = ref(false);
+let loaded = ref(false);
 
 onMounted(() => {
     setItems();
@@ -79,21 +80,28 @@ const setItems = () => {
             paused.value = false;
         }
 
-        if (state.value === 'Actief' || 'Gepauzeerd') {
+        if (state.value === 'Actief') {
             labels.value = props.activeLabel;
             srcs.value = props.activeSrc;
+            loaded.value = true;
         } else if (state.value === 'Voltooid') {
             labels.value = props.doneLabel;
             srcs.value = props.doneSrc;
-        }
-        else {
+            loaded.value = true;
+        } else if (state.value === 'Gepauzeerd') {
+            labels.value = props.activeLabel;
+            srcs.value = props.activeSrc;
+            loaded.value = true;
+        } else {
             labels.value = props.label;
             srcs.value = props.src;
+            loaded.value = true;
         }
     } else {
         labels.value = props.label;
         srcs.value = props.src;
         texts.value = props.text;
+        loaded.value = true;
     }
 };
 
@@ -113,33 +121,49 @@ watchEffect(async () => {
             paused.value = false;
         }
 
-        if (state.value === 'Actief' || 'Gepauzeerd') {
+        if (state.value === 'Actief') {
             if (props.activeText instanceof Promise) {
                 texts.value = 'Loading...';
                 texts.value = await props.activeText;
                 percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
+                loaded.value = true;
             } else {
                 texts.value = props.activeText;
                 percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
+                loaded.value = true;
             }
         } else if (state.value === 'Voltooid') {
             if (props.doneText instanceof Promise) {
                 texts.value = 'Loading...';
                 texts.value = await props.doneText;
                 percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
+                loaded.value = true;
             } else {
                 texts.value = props.activeText;
                 percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
+                loaded.value = true;
+            }
+        } else if (state.value === 'Gepauzeerd') {
+            if (props.activeText instanceof Promise) {
+                texts.value = 'Loading...';
+                texts.value = await props.activeText;
+                percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
+                loaded.value = true;
+            } else {
+                texts.value = props.activeText;
+                percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
+                loaded.value = true;
             }
         } else {
             texts.value = props.text;
+            loaded.value = true;
         }
     }
 });
 </script>
 
 <template>
-    <div class="w-full bg-offWhite-light mb-[40px] rounded-[6px]" :class="{
+    <div v-if="loaded" class="w-full bg-offWhite-light mb-[40px] rounded-[6px]" :class="{
         'border-l-4 border-secondary-green': text[0] === 'Laagste impact',
         'border-l-4 border-secondary-yellow': text[0] === 'Middelmatige impact',
         'border-l-4 border-secondary-red': text[0] === 'Hoogste impact'
