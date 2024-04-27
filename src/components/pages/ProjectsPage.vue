@@ -2,6 +2,8 @@
 import Project from '../widgets/Project.vue';
 import Searchbar from '../UI/Searchbar.vue';
 import AdvancedFilter from '../UI/Advanced-filter.vue';
+import Empty_state from '../widgets/Empty_state.vue';
+import Error_state from '../widgets/Error_state.vue';
 
 import { ref, reactive, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -19,45 +21,53 @@ let renovations = reactive([]);
 let renovationsLoaded = ref(false);
 let budget = ref('€' + 0);
 let userId = ref('');
+let empty_text = ref('Er zijn geen projecten gevonden, probeer een andere filter.');
+let unexpected_error = ref(false);
 
 const screenWidth = ref(window.innerWidth);
 
 const fetchData = async () => {
-  if (isValidToken(token)) {
-    userData.value = await getUser(token);
-    if (userData.value !== null) {
-      budget.value = '€' + userData.value.budget;
-      userId.value = userData.value._id;
+  try {
+    if (isValidToken(token)) {
+      userData.value = await getUser(token);
+
+      if (userData.value !== null) {
+        budget.value = '€' + userData.value.budget;
+        userId.value = userData.value._id;
+      } else {
+        router.push('/login');
+      }
+
+      if (route.path === '/projects/recommended') {
+        renovations.value = await getRecommendedRenovations(userId.value);
+      } else if (route.path === '/projects/active') {
+        renovations.value = await getActiveRenovations(userId.value);
+      } else if (route.path === '/projects/completed') {
+        renovations.value = await getCompletedRenovations(userId.value);
+      } else if (route.path === '/projects/saved') {
+        renovations.value = await getSavedRenovations(userId.value);
+      } else {
+        renovations.value = await getRenovations();
+      }
+
+      // sort the renovations based on the impact
+      renovations.value.sort((a, b) => {
+        if (a.impact === 'Hoogste impact' && b.impact !== 'Hoogste impact') {
+          return -1;
+        } else if (a.impact !== 'Hoogste impact' && b.impact === 'Hoogste impact') {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
+      renovationsLoaded.value = true;
     } else {
       router.push('/login');
     }
-
-    if (route.path === '/projects/recommended') {
-      renovations.value = await getRecommendedRenovations(userId.value);
-    } else if (route.path === '/projects/active') {
-      renovations.value = await getActiveRenovations(userId.value);
-    } else if (route.path === '/projects/completed') {
-      renovations.value = await getCompletedRenovations(userId.value);
-    } else if (route.path === '/projects/saved') {
-      renovations.value = await getSavedRenovations(userId.value);
-    } else {
-      renovations.value = await getRenovations();
-    }
-
-    // sort the renovations based on the impact
-    renovations.value.sort((a, b) => {
-      if (a.impact === 'Hoogste impact' && b.impact !== 'Hoogste impact') {
-        return -1;
-      } else if (a.impact !== 'Hoogste impact' && b.impact === 'Hoogste impact') {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-
-    renovationsLoaded.value = true;
-  } else {
-    router.push('/login');
+  } catch (error) {
+    console.error(error);
+    unexpected_error.value = true;
   }
 };
 
@@ -168,8 +178,14 @@ const handleFilter = (filteredRenovations) => {
           :userBudget="budget" />
       </div>
     </div>
+    <div v-if="unexpected_error">
+      <Error_state />
+    </div>
     <div v-if="renovationsLoaded">
-      <router-link v-for="(renovation, i) in renovations.value" :key="i" :to="'/projects/' + renovation._id">
+      <div v-if="renovations.value.length === 0">
+        <Empty_state :text="empty_text" />
+      </div>
+      <router-link v-else v-for="(renovation, i) in renovations.value" :key="i" :to="'/projects/' + renovation._id">
         <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
           :activeSrc="getActiveSrcArray(renovation)" :doneSrc="getDoneSrcArray(renovation)" :label="labelArray"
           :activeLabel="activeLabelArray" :doneLabel="doneLabelArray" :text="getTextArray(renovation)"
