@@ -7,15 +7,15 @@ import DonutChart from '../widgets/DonutChart.vue';
 const props = defineProps({
     name: {
         type: String,
-        required: true
+        required: false
     },
     desc: {
         type: String,
-        required: true
+        required: false
     },
     src: {
         type: [Array, Promise],
-        required: true
+        required: false
     },
     activeSrc: {
         type: [Array, Promise],
@@ -27,7 +27,7 @@ const props = defineProps({
     },
     label: {
         type: [Array, Promise],
-        required: true
+        required: false
     },
     activeLabel: {
         type: [Array, Promise],
@@ -39,7 +39,7 @@ const props = defineProps({
     },
     text: {
         type: [Array, Promise],
-        required: true
+        required: false
     },
     activeText: {
         type: [Array, Promise],
@@ -115,6 +115,7 @@ watchEffect(async () => {
 
         if (state.value === 'Actief' || 'Gepauzeerd') {
             if (props.activeText instanceof Promise) {
+                texts.value = 'Loading...';
                 texts.value = await props.activeText;
                 percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
             } else {
@@ -123,6 +124,7 @@ watchEffect(async () => {
             }
         } else if (state.value === 'Voltooid') {
             if (props.doneText instanceof Promise) {
+                texts.value = 'Loading...';
                 texts.value = await props.doneText;
                 percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
             } else {
