@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 
-const props = defineProps(["label", "type", "error", "placeholder", "preFix", "value", "dark"]);
+const props = defineProps(["label", "type", "error", "placeholder", "preFix", "value", "dark", "admin"]);
 const emit = defineEmits(['input-change']);
 
 let inputValue = ref("");
@@ -42,7 +42,7 @@ watch(
     <div class="flex w-[100%] justify-between">
       <label class="text-body font-bold pb-2">{{ label }}</label>
       <a href="#" class="text-xs underline"
-        :class="{ block: type === 'password', hidden: type !== 'password' }">Wachtwoord vergeten?</a>
+        :class="{ 'block': type === 'password' && props.admin === false, 'hidden': type !== 'password' || props.admin === true }">Wachtwoord vergeten?</a>
     </div>
     <div class="relative">
       <input :type="type"

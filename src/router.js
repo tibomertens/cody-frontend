@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import bewaard from "./components/pages/SavedPage.vue";
 import account from "./components/pages/AccountPage.vue";
 import home from "./components/pages/HomePage.vue";
 import login from "./components/pages/LoginPage.vue"; // no navigation
@@ -12,6 +11,8 @@ import Settings from "./components/pages/SettingsPage.vue";
 import promotors from "./components/pages/PromotorsPage.vue";
 import DetermineLabelChoicePage from "./components/pages/DetermineLabelChoicePage.vue";
 import RenovationDetailPage from "./components/pages/RenovationDetailsPage.vue";
+import AdminLoginPage from "./components/pages/AdminLoginPage.vue";
+import AdminDashboard from "./components/pages/AdminDashboard.vue";
 
 const routes = [
   {
@@ -90,13 +91,25 @@ const routes = [
     meta: { sidebar: true },
   },
   {
-    path: "/:catchAll(.*)",
-    redirect: "/",
-  },
-  {
     path: "/promotors",
     components: { default: promotors, sidebar: sideNav, topNav: topNav },
+    name: "Promotors",
     meta: { sidebar: true },
+  },
+  {
+    path: "/admin/login",
+    components: { default: AdminLoginPage },
+    meta: { sidebar: false },
+  },
+  {
+    path: "/admin/dashboard",
+    components: { default: AdminDashboard, topNav: topNav },
+    name: "Admin Dashboard",
+    meta: { sidebar: false },
+  },
+  {
+    path: "/:catchAll(.*)",
+    redirect: "/",
   },
 ];
 
