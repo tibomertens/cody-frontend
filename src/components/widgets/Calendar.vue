@@ -1,25 +1,34 @@
 <template>
     <div>
-        <h2>{{ monthYear }}</h2>
-        <button @click="prevMonth">Previous Month</button>
-        <button @click="nextMonth">Next Month</button>
-        <table>
-            <thead>
-                <tr>
-                    <th v-for="day in daysOfWeek" :key="day">{{ day }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="week in calendar" :key="week">
-                    <td v-for="day in week" :key="day.date" class="calendar-cell">
-                        {{ day.date }}
-                        <ul>
-                            <li v-for="task in dayTasks(day.date)" :key="task.id">{{ task.name }}</li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="flex gap-[12px] items-center mb-[12px]">
+            <div @click="prevMonth" class="cursor-pointer"><img src="/arrow_left.svg" alt="previous month"></div>
+            <h2 class="text-subtitle font-bold relative bottom-[2px]">{{ monthYear }}</h2>
+            <div @click="nextMonth" class="cursor-pointer"><img src="/arrow_right.svg" alt="next month"></div>
+        </div>
+        <div class="grid gap-[20px] grid-cols-7">
+            <div class="col-span-5 bg-offWhite-light px-[20px] pb-[32px] pt-[48px]">
+                <table>
+                    <thead>
+                        <tr class="relative bottom-[16px] text-[14px]">
+                            <th v-for="day in daysOfWeek" :key="day">{{ day }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="week in calendar" :key="week">
+                            <td v-for="day in week" :key="day.date" class="calendar-cell">
+                                {{ day.date }}
+                                <ul>
+                                    <li v-for="task in dayTasks(day.date)" :key="task.id">{{ task.name }}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-primary-light col-span-2 px-[20px] py-[32px] text-btn font-bold">
+                <h3>Aankomende Activiteiten</h3>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -29,7 +38,7 @@ export default {
         return {
             currentDate: new Date(),
             monthYear: '',
-            daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            daysOfWeek: ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'],
             calendar: []
         };
     },
@@ -70,6 +79,16 @@ export default {
                 }
 
                 currentDay.setDate(currentDay.getDate() + 1);
+            }
+
+            // Check if the last week has less than 7 days and add days from the next month if necessary
+            const lastWeek = calendar[calendar.length - 1];
+            if (lastWeek.length < 7) {
+                let nextMonthDate = new Date(year, month + 1, 1);
+                while (lastWeek.length < 7) {
+                    lastWeek.push({ date: nextMonthDate.getDate(), tasks: [], fromNextMonth: true });
+                    nextMonthDate.setDate(nextMonthDate.getDate() + 1);
+                }
             }
 
             this.calendar = calendar;
@@ -118,8 +137,10 @@ export default {
 .calendar-cell {
     width: 100px;
     height: 100px;
-    border: 1px solid #ccc;
-    text-align: center;
+    border: 1px solid #9EBDFF;
+    vertical-align: top;
+    padding-left: 10px;
+    padding-top: 5px;
+    background-color: rgba(237, 240, 245, 0.4);
 }
-
 </style>

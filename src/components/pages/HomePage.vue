@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import { isValidToken, getUser } from "../../functions/user.js";
 
 import Project from "../widgets/Project.vue";
+import Calendar from "../widgets/Calendar.vue";
 
 import { getActiveRenovations, getUserRenovation } from "../../functions/renovation.js";
 
@@ -111,7 +112,9 @@ const getStateFetcher = (renovation) => async () => {
 <template>
   <div class="m-[32px] md:m-[40px]">
     <section>LABEL + BUDGET</section>
-    <section>KALENDER</section>
+    <section>
+      <Calendar />
+    </section>
     <section>
       <h2 class="text-subtitle font-bold pb-[20px]">Actieve projecten</h2>
       <div v-if="renovationsLoaded">
