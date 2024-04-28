@@ -17,6 +17,7 @@ import { defineProps, computed, ref } from 'vue';
 const props = defineProps({
     percent: Number,
     bg: String,
+    paused: Boolean
 });
 
 const size = ref(100);
@@ -26,6 +27,9 @@ const center = 50;
 const circumference = 2 * Math.PI * radius;
 
 const ringColor = computed(() => {
+    if (props.paused) {
+        return '#FF9900';
+    }
     return props.percent === 100 ? '#33CC00' : '#0072FF';
 });
 

@@ -7,15 +7,15 @@ import DonutChart from '../widgets/DonutChart.vue';
 const props = defineProps({
     name: {
         type: String,
-        required: true
+        required: false
     },
     desc: {
         type: String,
-        required: true
+        required: false
     },
     src: {
         type: [Array, Promise],
-        required: true
+        required: false
     },
     activeSrc: {
         type: [Array, Promise],
@@ -27,7 +27,7 @@ const props = defineProps({
     },
     label: {
         type: [Array, Promise],
-        required: true
+        required: false
     },
     activeLabel: {
         type: [Array, Promise],
@@ -39,7 +39,7 @@ const props = defineProps({
     },
     text: {
         type: [Array, Promise],
-        required: true
+        required: false
     },
     activeText: {
         type: [Array, Promise],
@@ -65,6 +65,8 @@ let labels = ref([]);
 let srcs = ref([]);
 let texts = ref([]);
 let percentRenovated = ref(0);
+let paused = ref(false);
+let loaded = ref(false);
 
 onMounted(() => {
     setItems();
@@ -72,21 +74,34 @@ onMounted(() => {
 
 const setItems = () => {
     if (props.stateFetcher !== undefined) {
+        if (state.value === 'Gepauzeerd') {
+            paused.value = true;
+        } else {
+            paused.value = false;
+        }
+
         if (state.value === 'Actief') {
             labels.value = props.activeLabel;
             srcs.value = props.activeSrc;
+            loaded.value = true;
         } else if (state.value === 'Voltooid') {
             labels.value = props.doneLabel;
             srcs.value = props.doneSrc;
-        }
-        else {
+            loaded.value = true;
+        } else if (state.value === 'Gepauzeerd') {
+            labels.value = props.activeLabel;
+            srcs.value = props.activeSrc;
+            loaded.value = true;
+        } else {
             labels.value = props.label;
             srcs.value = props.src;
+            loaded.value = true;
         }
-    } else  {
+    } else {
         labels.value = props.label;
         srcs.value = props.src;
         texts.value = props.text;
+        loaded.value = true;
     }
 };
 
@@ -100,31 +115,55 @@ watchEffect(async () => {
 // Watch for changes in activeText and resolve the promise
 watchEffect(async () => {
     if (props.stateFetcher !== undefined) {
+        if (state.value === 'Gepauzeerd') {
+            paused.value = true;
+        } else {
+            paused.value = false;
+        }
+
         if (state.value === 'Actief') {
             if (props.activeText instanceof Promise) {
+                texts.value = 'Loading...';
                 texts.value = await props.activeText;
                 percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
+                loaded.value = true;
             } else {
                 texts.value = props.activeText;
                 percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
+                loaded.value = true;
             }
         } else if (state.value === 'Voltooid') {
             if (props.doneText instanceof Promise) {
+                texts.value = 'Loading...';
                 texts.value = await props.doneText;
                 percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
+                loaded.value = true;
             } else {
                 texts.value = props.activeText;
                 percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
+                loaded.value = true;
+            }
+        } else if (state.value === 'Gepauzeerd') {
+            if (props.activeText instanceof Promise) {
+                texts.value = 'Loading...';
+                texts.value = await props.activeText;
+                percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
+                loaded.value = true;
+            } else {
+                texts.value = props.activeText;
+                percentRenovated.value = Math.round((parseInt(texts.value[3]) / parseInt(texts.value[2])) * 100);
+                loaded.value = true;
             }
         } else {
             texts.value = props.text;
+            loaded.value = true;
         }
     }
 });
 </script>
 
 <template>
-    <div class="w-full bg-offWhite-light mb-[40px] rounded-[6px]" :class="{
+    <div v-if="loaded" class="w-full bg-offWhite-light mb-[40px] rounded-[6px]" :class="{
         'border-l-4 border-secondary-green': text[0] === 'Laagste impact',
         'border-l-4 border-secondary-yellow': text[0] === 'Middelmatige impact',
         'border-l-4 border-secondary-red': text[0] === 'Hoogste impact'
@@ -140,9 +179,10 @@ watchEffect(async () => {
             <div class="grid grid-cols-1 xs:grid-cols-2 ml:grid-cols-3 gap-[20px] mt-[32px]"
                 :class="{ 'xs:!grid-cols-2': props.suggestion === true }">
                 <ProjectInfo v-if="srcs[0]" :src="srcs[0]" :text="texts[0]" :label="labels[0]" />
-                <ProjectInfo v-if="state === 'Aanbevolen' && srcs[0]" :src="srcs[2]" :text="texts[2]" :label="label[2]" />
+                <ProjectInfo v-if="state === 'Aanbevolen' && srcs[0]" :src="srcs[2]" :text="texts[2]"
+                    :label="label[2]" />
                 <div v-else class="rounded-[5px] bg-offWhite-dark flex justify-center items-center">
-                    <DonutChart :percent="percentRenovated" :bg="'#FDFDFD'" />
+                    <DonutChart :percent="percentRenovated" :bg="'#FDFDFD'" :paused="paused" />
                 </div>
                 <div class="xs:col-span-2 ml:col-span-1" :class="{ 'xs:!col-span-2': props.suggestion === true }">
                     <ProjectInfo v-if="srcs[0]" :src="srcs[1]" :text="texts[1]" :label="labels[1]" />

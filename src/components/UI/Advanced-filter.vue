@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import Input from '../UI/Input.vue';
 import Dropdown from '../UI/Dropdown.vue';
 import Btn from '../UI/Btn.vue';
@@ -166,6 +166,18 @@ const isDropdownOpen = ref(false);
 const toggleDropdown = () => {
     isDropdownOpen.value = !isDropdownOpen.value;
 };
+
+// watch to see if the route changes, if so update the originalRenovations, empty the filtered renovations  and reset the filters
+watch(() => props.renovations, (newValue) => {
+    originalRenovations.value = newValue;
+    filteredRenovations.value = [...originalRenovations.value];
+    addedValue.value = '';
+    type.value = '';
+    budget.value = '';
+    activeAddedValueFilter.value = 'Maak een keuze';
+    activeTypeFilter.value = 'Maak een keuze';
+    activeBudgetFilter.value = false;
+});
 </script>
 
 <style scoped></style>

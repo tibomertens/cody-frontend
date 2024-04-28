@@ -3,9 +3,6 @@
         <div class="inner">
             <div class="mt-[32px] lg:mt-[40px]">
                 <div class="md:flex gap-[24px] items-center">
-                    <div class="mb-[12px] relative md:top-[6px]">
-                        <BackArrow />
-                    </div>
                     <div class="flex gap-[24px] items-center flex-wrap">
                         <h1 v-if="renovation.title" class="text-[1.5rem] md:text-title font-bold relative bottom-[1px]">
                             {{ renovation.title }}
@@ -54,7 +51,7 @@
                     <div v-if="currentState !== 'Aanbevolen'"
                         class="grid grid-rows-[3fr,1fr] h-[244px] gap-[20px] xs:col-span-2 lg:col-span-1">
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
-                            <DonutChart :percent="percentRenovated" :bg="'#EDF0F5'" />
+                            <DonutChart :percent="percentRenovated" :bg="'#EDF0F5'" :paused="paused" />
                         </div>
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
                             <p class="mr-[24px]">Gerenoveerd:</p>
@@ -154,6 +151,7 @@ import DoneRenovation from '../modals/DoneRenovation.vue';
 
 import CheckList from '../widgets/CheckList.vue';
 
+let paused = ref(false);
 let route = useRoute();
 let renovationId = ref('');
 let renovation = ref({});
@@ -464,18 +462,22 @@ const setStrings = () => {
 
     if (currentState.value === 'Aanbevolen') {
         currentBudget.value = userRenovation.value.user.budget
+        paused.value = false;
         stateBtnName.value = 'Start de renovatie';
         startDate.value = 'Nog niet gestart';
     } else if (currentState.value === 'Actief') {
         currentBudget.value = userRenovation.value.budget;
+        paused.value = false;
         stateBtnName.value = 'Markeer als voltooid';
         startDate.value = userRenovation.value.startDate;
     } else if (currentState.value === 'Gepauzeerd') {
         currentBudget.value = userRenovation.value.budget;
+        paused.value = true;
         stateBtnName.value = 'Hervat de renovatie';
         startDate.value = userRenovation.value.startDate;
     } else if (currentState.value === 'Voltooid') {
         currentBudget.value = userRenovation.value.budget;
+        paused.value = false;
         stateBtnName.value = 'Heropen de renovatie';
         startDate.value = userRenovation.value.startDate;
     }
