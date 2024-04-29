@@ -12,6 +12,38 @@
         </div>
       </div>
     </section>
+    <section>
+            <div class="flex gap-[8px] mt-[40px] ml-[40px]">
+                <h2 class="text-subtitle mb-[20px] font-bold">Budget</h2>
+                <div><img src="#" alt="potlood"></div>
+              </div>
+              <div class="mx-[40px] bg-offWhite-light w-[90%] pt-10 rounded mb-[40px]">
+                 <div class="bg-offWhite-dark ml-[20%] mr-[20%] mt-[40px] w-[60%] h-[52px] rounded">
+                    <div class="w-1/3 h-full bg-primary-medium rounded"></div>
+                 </div>
+                 <div class="flex justify-center">
+                     <div class="flex w-[90%] justify-between mt-[20px] px-10 mb-14">
+                         <div class="flex gap-[32px]">
+                            <div><img src="/money.svg" alt="Uitgegeven budget" class="w-[58px]"></div>
+                            <div>
+                                <p class="text-body font-bold">Uitgegeven budget</p>
+                                <p class="text-xs">0 EUR</p>
+                            </div>
+                         </div>
+                         <div class="flex gap-[32px]">
+                            <div><img src="/moneyLight.svg" alt="Overig budget" class="w-[58px]"></div>
+                            <div>
+                                <p class="text-body font-bold">Overig budget</p>
+                                <p class="text-xs">0 EUR</p>
+                            </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="w-full h-[48px] bg-primary-dark rounded text-offWhite-light text-btn flex justify-center items-center">
+                     <a href="#">Bekijk al je uitgaven</a>
+                 </div>
+              </div>
+    </section>
   </template>
   
   <script setup>
