@@ -15,7 +15,7 @@ const route = useRoute();
         die heeft een EPC-rapport voor jou opgeesteld en je hebt hiervan een EPC-score & label gekregen. Als je deze bij
         de hand hebt kun je deze gebruiken om de benodigde info in te vullen.</p>
       <div class="hidden w-full lg:flex justify-center mb-[32px]">
-        <img class="w-[360px] h-[360px] border border-red-500" src="#" alt="Rapport">
+        <img class="w-[300px] h-[300px]" src="/epc_rapport.svg" alt="Rapport">
       </div>
       <div class="w-full flex justify-center ">
         <router-link class="w-full flex justify-center items-center" to="/rapport/checklist">
@@ -31,7 +31,7 @@ const route = useRoute();
         hebt nog geen professionele hulp gehad maar wilt wel al aan de slag of eens kijken wat je te wachten staat. Dat
         kan perfect met de officiële indicatieve test van de overheid! </p>
       <div class="hidden lg:flex justify-center mb-[32px]">
-        <img class="w-[360px] h-[360px]  border border-red-500" src="#" alt="Indicatieve test">
+        <img class="w-[300px] h-[300px]" src="/indicatief.svg" alt="Indicatieve test">
       </div>
       <div class="w-full flex justify-center">
         <router-link class="w-full flex justify-center items-center" to="/test/berekenIndicatief">
