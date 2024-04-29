@@ -19,7 +19,7 @@
               </div>
               <div class="mx-[40px] bg-offWhite-light w-[90%] pt-10 rounded mb-[40px]">
                  <div class="bg-offWhite-dark ml-[20%] mr-[20%] mt-[40px] w-[60%] h-[52px] rounded">
-                    <div class="w-1/3 h-full bg-primary-medium rounded"></div>
+                    <div :style="{ width: spentBudgetPercentage }" class="h-full bg-primary-medium rounded"></div>
                  </div>
                  <div class="flex justify-center">
                      <div class="flex w-[90%] justify-between mt-[20px] px-10 mb-14">
@@ -27,14 +27,14 @@
                             <div><img src="/money.svg" alt="Uitgegeven budget" class="w-[58px]"></div>
                             <div>
                                 <p class="text-body font-bold">Uitgegeven budget</p>
-                                <p class="text-xs">0 EUR</p>
+                                <p class="text-xs">{{ spentBudget }} EUR</p>
                             </div>
                          </div>
                          <div class="flex gap-[32px]">
                             <div><img src="/moneyLight.svg" alt="Overig budget" class="w-[58px]"></div>
                             <div>
                                 <p class="text-body font-bold">Overig budget</p>
-                                <p class="text-xs">0 EUR</p>
+                                <p class="text-xs">{{ currentBudget-spentBudget }} EUR</p>
                             </div>
                          </div>
                      </div>
@@ -57,12 +57,19 @@
   let userData = ref({});
   let currentLabel = ref("");
   let goalLabel = ref("");
+  let currentBudget;
+  let spentBudget;
+  let spentBudgetPercentage = ref("");
   
   onMounted(async () => {
     if (isValidToken(token)) {
       userData.value = await getUser(token);
       currentLabel.value = userData.value.label;
       goalLabel.value = userData.value.goalLabel;
+      currentBudget = userData.value.budget_current;
+      spentBudget = userData.value.budget_spent;
+      console.log(userData.value);
+      spentBudgetPercentage.value = `${100-(spentBudget / currentBudget) * 100}%`;
     } else {
       router.push("/login");
     }
