@@ -110,7 +110,23 @@ const getStateFetcher = (renovation) => async () => {
 
 <template>
   <div class="m-[32px] md:m-[40px]">
-    <section>LABEL + BUDGET</section>
+    <section>
+      <h2 class="text-subtitle font-bold pb-[20px]">Algemene info</h2>
+      <div class="xs:flex gap-[32px] xs:h-[196px]">
+        <div class="bg-offWhite-light xs:w-1/2 mb-[32px] xs:mb-0 h-[196px] flex justify-center rounded items-center">
+          <div><img :src="'/' + userData.label + '-label.svg'" alt="epc label" class="w-[140px]"></div>
+        </div>
+        <div class="bg-offWhite-light xs:w-1/2 h-[196px] flex justify-center rounded items-center gap-[32px]">
+          <div class="w-[80px]">
+            <img src="/wallet.svg" alt="budget icon">
+          </div>
+          <div>
+            <p class="text-[18px] font-bold">Huidig budget</p>
+            <p class="text-[14px]">{{userData.budget_current}} EUR</p>
+          </div>
+        </div>
+      </div>
+    </section>
     <section>KALENDER</section>
     <section>
       <h2 class="text-subtitle font-bold pb-[20px]">Actieve projecten</h2>
