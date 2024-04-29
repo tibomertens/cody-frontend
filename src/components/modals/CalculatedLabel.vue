@@ -144,7 +144,7 @@ const addLabelToUser = async () => {
   } else if (goalValue.value === null) {
     goalError = "Kies een doel";
     dropdownHasError.value = true;
-  } else if (router.currentRoute.value.pathtoLowerCase() === "/rapport/checklist") {
+  } else if (router.currentRoute.value.path.toLowerCase() === "/rapport/checklist") {
     const items = {
       goalLabel: goalValue.value,
       goalLabel_by_year: goalYear.value,
@@ -162,7 +162,7 @@ const addLabelToUser = async () => {
         error.value = "Er is iets misgegaan, probeer het later opnieuw";
       }
     }
-  } else if (router.currentRoute.value.pathtoLowerCase() === "/test/berekenindicatief") {
+  } else if (router.currentRoute.value.path.toLowerCase() === "/test/berekenindicatief") {
     const items = {
       goalLabel: goalValue.value,
       goalLabel_by_year: goalYear.value,
