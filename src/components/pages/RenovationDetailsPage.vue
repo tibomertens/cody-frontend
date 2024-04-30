@@ -120,14 +120,15 @@
                 </div>
             </div>
         </div>
-        <ActiveRenovation :renovationId="renovationId" :userId="userId" :showModal="showActiveModal"
-            @closeModal="closeModal" @updateState="handleUpdatedState" />
-        <UpdateRenovationDetails :renovationId="renovationId" :userId="userId" :showModal="showUpdateModal"
-            :amountTotal="totalAmount" :budget="parseInt(currentBudget)" :startDate="startDate" @closeModal="closeModal"
+        <ActiveRenovation :renovationId="renovationId" :userId="userId" :userBudget="userBudget"
+            :showModal="showActiveModal" @closeModal="closeModal" @updateState="handleUpdatedState" />
+        <UpdateRenovationDetails :renovationId="renovationId" :userId="userId" :userBudget="userBudget"
+            :previousBudget="currentBudget" :showModal="showUpdateModal" :amountTotal="totalAmount"
+            :budget="parseInt(currentBudget)" :startDate="startDate" @closeModal="closeModal"
             @updateData="updateData" />
         <DoneRenovation :renovationId="renovationId" :userId="userId" :showModal="showDoneModal"
             :budget="parseInt(currentBudget)" :amountTotal="totalAmount" @updateState="handleUpdatedState"
-            @closeModal="closeModal" />
+            :userBudget="userBudget" :previousBudget="currentBudget" @closeModal="closeModal" />
     </section>
 </template>
 
@@ -176,6 +177,7 @@ let checklistItems = ref([]);
 let percentRenovated = ref(0);
 let suggestions = ref([]);
 let renovationtype = ref('');
+let userBudget = ref(0);
 
 const router = useRouter();
 
@@ -224,12 +226,12 @@ const getDoneSrcArray = (renovation) => {
 };
 
 const activeLabelArray = [
-    'Budget',
+    'Toegewezen budget',
     'Startdatum'
 ];
 
 const doneLabelArray = [
-    'Budget',
+    'Uitgegeven budget',
     'Einddatum'
 ];
 
@@ -253,7 +255,7 @@ const getSuggTextArray = (renovation) => {
     return [
         renovation.impact,
         renovation.estimated_cost,
-        userRenovation.value.user.budget
+        userRenovation.value.user.budget_current
     ];
 };
 
@@ -272,14 +274,22 @@ const getLabelArray = () => {
         return [
             'Impact',
             'Geschatte kost',
-            'Huidig budget',
+            'Uitgegeven budget',
             'Einddatum'
         ];
-    } else {
+    } else if (currentState.value === 'Actief' || currentState.value === 'Gepauzeerd') {
         return [
             'Impact',
             'Geschatte kost',
-            'Huidig budget',
+            'Toegewezen budget',
+            'Startdatum'
+        ];
+    }
+    else {
+        return [
+            'Impact',
+            'Geschatte kost',
+            'Jouw budget',
             'Startdatum'
         ];
     }
@@ -459,9 +469,10 @@ const setStrings = () => {
     currentState.value = userRenovation.value.status;
     isPinned.value = userRenovation.value.saved;
     renovationtype.value = userRenovation.value.renovation.type;
+    userBudget = userRenovation.value.user.budget_current;
 
     if (currentState.value === 'Aanbevolen') {
-        currentBudget.value = userRenovation.value.user.budget
+        currentBudget.value = userRenovation.value.user.budget_current;
         paused.value = false;
         stateBtnName.value = 'Start de renovatie';
         startDate.value = 'Nog niet gestart';

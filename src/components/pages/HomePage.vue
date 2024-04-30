@@ -38,12 +38,12 @@ const labelArray = [
 ];
 
 const activeLabelArray = [
-  'Budget',
+  'Toegewezen budget',
   'Startdatum'
 ];
 
 const doneLabelArray = [
-  'Budget',
+  'Uitgegeven budget',
   'Einddatum'
 ];
 

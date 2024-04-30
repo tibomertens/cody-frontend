@@ -32,7 +32,7 @@ const fetchData = async () => {
       userData.value = await getUser(token);
 
       if (userData.value !== null) {
-        budget.value = '€' + userData.value.budget;
+        budget.value = '€' + userData.value.budget_current;
         userId.value = userData.value._id;
       } else {
         router.push('/login');
@@ -95,12 +95,12 @@ const labelArray = [
 ];
 
 const activeLabelArray = [
-  'Budget',
+  'Toegewezen budget',
   'Startdatum'
 ];
 
 const doneLabelArray = [
-  'Budget',
+  'Uitgegeven budget',
   'Einddatum'
 ];
 
