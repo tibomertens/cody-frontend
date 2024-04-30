@@ -54,21 +54,21 @@ const login = async () => {
     } else {
       // Handle authentication error
       hasError.value = true;
-      error.value = "Invalid email or password";
+      error.value = "Foutieve email of wachtwoord";
     }
   } catch (e) {
     console.error("Error during login:", e);
     // Handle other errors
     hasError.value = true;
-    error.value = "An error occurred during login";
+    error.value = "Er trad een fout op tijdens het inloggen";
   }
 };
 </script>
 
 <template>
   <form>
-    <Input :label="'Email'" :type="'text'" @input-change="updateEmail" :error="hasError"></Input>
-    <Input :label="'Password'" :type="'password'" @input-change="updatePassword" :error="hasError"></Input>
+    <Input :label="'Email'" :type="'email'" @input-change="updateEmail" :error="hasError"></Input>
+    <Input :label="'Wachtwoord'" :type="'password'" @input-change="updatePassword" :error="hasError"></Input>
     <div v-if="error" class="text-secondary-red">{{ error }}</div>
     <div class="mt-8 mb-4">
       <Btn :name="'Login'" @click="login" :width="'full'" />
