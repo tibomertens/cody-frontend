@@ -38,7 +38,7 @@ onMounted(() => {
       <!-- Quintt: dit is voorbeeld, voeg eigen routes toe. -->
       <div class="flex justify-between p-5">
         <img src="" alt="logo icon" />
-        <i class="hamburger fa-solid fa-bars self-center xl:hidden"></i>
+        <i class="hamburger fa-solid fa-bars self-center xl:hidden cursor-pointer "></i>
       </div>
 
       <div class="hidden xl:block mt-[56px]">
