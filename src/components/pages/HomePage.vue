@@ -117,7 +117,7 @@ const getStateFetcher = (renovation) => async () => {
           <div><img :src="'/' + userData.label + '-label.svg'" alt="epc label" class="w-[140px]"></div>
         </div>
         <div class="bg-offWhite-light xs:w-1/2 h-[196px] flex justify-center rounded items-center gap-[32px]">
-          <div class="w-[80px]">
+          <div class="w-[60px] xs:w-[80px]">
             <img src="/wallet.svg" alt="budget icon">
           </div>
           <div>
