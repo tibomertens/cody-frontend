@@ -86,7 +86,7 @@ export const updateRecommendations = async (items, userId) => {
         {
           method: "PATCH",
           body: JSON.stringify({
-            status: "extra",
+            status: "Extra",
           }),
           headers: {
             "Content-Type": "application/json",
@@ -117,7 +117,7 @@ export const updateChecklistRecommendations = async (items, userId) => {
           {
             method: "PATCH",
             body: JSON.stringify({
-              status: "extra",
+              status: "Extra",
             }),
             headers: {
               "Content-Type": "application/json",

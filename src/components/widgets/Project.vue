@@ -179,7 +179,7 @@ watchEffect(async () => {
             <div class="grid grid-cols-1 xs:grid-cols-2 ml:grid-cols-3 gap-[20px] mt-[32px]"
                 :class="{ 'xs:!grid-cols-2': props.suggestion === true }">
                 <ProjectInfo v-if="srcs[0]" :src="srcs[0]" :text="texts[0]" :label="labels[0]" />
-                <ProjectInfo v-if="state === 'Aanbevolen' && srcs[0]" :src="srcs[2]" :text="texts[2]"
+                <ProjectInfo v-if="state === 'Aanbevolen' || state === 'Extra' && srcs[0]" :src="srcs[2]" :text="texts[2]"
                     :label="label[2]" />
                 <div v-else class="rounded-[5px] bg-offWhite-dark flex justify-center items-center">
                     <DonutChart :percent="percentRenovated" :bg="'#FDFDFD'" :paused="paused" />

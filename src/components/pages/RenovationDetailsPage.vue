@@ -10,7 +10,7 @@
                         <div class="flex gap-[24px] items-center">
                             <a @click.prevent href="#"
                                 class="px-[16px] pt-[6px] pb-[8px] font-bold bg-offWhite-light inline-block rounded-[5px]"
-                                :class="{ 'text-primary-dark border-2 border-primary-dark': currentState === 'Aanbevolen', 'text-secondary-yellow border-2 border-secondary-yellow': currentState === 'Actief' || currentState === 'Gepauzeerd', 'text-secondary-green border-2 border-secondary-green': currentState === 'Voltooid' }">{{
+                                :class="{ 'text-primary-dark border-2 border-primary-dark': currentState === 'Aanbevolen' || currentState === 'Extra', 'text-secondary-yellow border-2 border-secondary-yellow': currentState === 'Actief' || currentState === 'Gepauzeerd', 'text-secondary-green border-2 border-secondary-green': currentState === 'Voltooid' }">{{
                                     currentState }}</a>
                             <div class="w-[20px] h-[20px] cursor-pointer" @click="pinRenovation"><img
                                     class="w-full h-full" :src="pinnedIcon" alt="Pin icon">
@@ -48,7 +48,7 @@
                         <ProjectInfo :light="true" :label="getLabelArray()[3]" :src="getSrcArray(renovation)[3]"
                             :text="getTextArray(renovation, userRenovation)[3]" />
                     </div>
-                    <div v-if="currentState !== 'Aanbevolen'"
+                    <div v-if="currentState != 'Aanbevolen' && currentState != 'Extra'"
                         class="grid grid-rows-[3fr,1fr] h-[244px] gap-[20px] xs:col-span-2 lg:col-span-1">
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
                             <DonutChart :percent="percentRenovated" :bg="'#EDF0F5'" :paused="paused" />
@@ -360,7 +360,7 @@ const updateData = async () => {
 };
 
 const changeState = async () => {
-    if (currentState.value === 'Aanbevolen') {
+    if (currentState.value === 'Aanbevolen' || currentState.value === 'Extra') {
         showActiveModal.value = true;
     } else if (currentState.value === 'Actief') {
         showDoneModal.value = true;
@@ -471,7 +471,7 @@ const setStrings = () => {
     renovationtype.value = userRenovation.value.renovation.type;
     userBudget = userRenovation.value.user.budget_current;
 
-    if (currentState.value === 'Aanbevolen') {
+    if (currentState.value === 'Aanbevolen' || currentState.value === 'Extra') {
         currentBudget.value = userRenovation.value.user.budget_current;
         paused.value = false;
         stateBtnName.value = 'Start de renovatie';
