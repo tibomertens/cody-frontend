@@ -6,10 +6,18 @@ document.addEventListener("DOMContentLoaded", () => {
   //select the div with dropdown class
   const dropdown = document.querySelector(".dropdown");
   const hamburger = document.querySelector(".hamburger");
+  const paths = document.querySelectorAll(".path");
   //add event listener to the hamburger icon
   hamburger.addEventListener("click", () => {
     //toggle the hidden class
     dropdown.classList.toggle("hidden");
+
+    //toggle the hidden class for the paths
+    dropdown.addEventListener("click", () => {
+      dropdown.classList.add("hidden");
+      hamburger.classList.add("fa-bars");
+      hamburger.classList.remove("fa-xmark");
+    });
     //change fa-solid fa-bars to fa-solid fa-xmark
     hamburger.classList.toggle("fa-bars");
     hamburger.classList.toggle("fa-xmark");
@@ -38,14 +46,14 @@ onMounted(() => {
       <!-- Quintt: dit is voorbeeld, voeg eigen routes toe. -->
       <div class="flex justify-between p-5">
         <img src="" alt="logo icon" />
-        <i class="hamburger fa-solid fa-bars self-center xl:hidden cursor-pointer "></i>
+        <i class="hamburger fa-solid fa-bars self-center xl:hidden cursor-pointer"></i>
       </div>
 
       <div class="hidden xl:block mt-[56px]">
         <router-link to="/" :class="{
           'font-normal': currentRoute !== '/',
           'font-bold': currentRoute === '/',
-        }">
+        } ">
           <div class="pl-5 ml-5 py-[12px] rounded-l-[5px] flex" :class="{ 'bg-primary-light': currentRoute === '/' }">
             <div class="pr-3">
               <img :src="currentRoute !== '/' ? '/home.svg' : '/homeSelect.svg'" alt="home icon" class="w-[20px]" />
