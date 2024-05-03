@@ -50,15 +50,15 @@
           <div class="md:flex md:gap-[32px]">
             <div><img src="/money.svg" alt="huidig budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
             <div>
-              <p class="md:text-body text-xs font-bold">Resterend budget</p>
-              <p class="md:text-xs text-[0.6rem]">{{ currentBudget }} EUR</p>
+              <p class="md:text-body font-bold">Resterend budget</p>
+              <p v-if="currentBudget" class="text-xs" :class="{'text-secondary-red font-bold': currentBudget < 0}">{{ formatFinancialNumber(currentBudget) }}</p>
             </div>
           </div>
           <div class="md:flex md:gap-[32px]">
             <div><img src="/moneyLight.svg" alt="uitgegeven budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
             <div>
-              <p class="md:text-body text-xs font-bold">Uitgegeven budget</p>
-              <p class="md:text-xs text-[0.6rem]">{{ spentBudget }} EUR</p>
+              <p class="md:text-body font-bold">Uitgegeven budget</p>
+              <p v-if=spentBudget class="text-xs">{{ formatFinancialNumber(spentBudget) }}</p>
             </div>
           </div>
         </div>
@@ -74,7 +74,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+
 import { isValidToken, getUser } from "../../functions/user.js";
+import { formatFinancialNumber } from "../../functions/helpers.js";
 
 const router = useRouter();
 

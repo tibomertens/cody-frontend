@@ -19,7 +19,7 @@ const token = localStorage.getItem('token');
 let userData = reactive({});
 let renovations = reactive([]);
 let renovationsLoaded = ref(false);
-let budget = ref('€' + 0);
+let budget = ref(0);
 let userId = ref('');
 let empty_text = ref('Er zijn geen projecten gevonden, probeer een andere filter.');
 let unexpected_error = ref(false);
@@ -32,7 +32,7 @@ const fetchData = async () => {
       userData.value = await getUser(token);
 
       if (userData.value !== null) {
-        budget.value = '€' + userData.value.budget_current;
+        budget.value = userData.value.budget_current;
         userId.value = userData.value._id;
       } else {
         router.push('/login');
@@ -142,7 +142,7 @@ const getActiveTextArray = async (renovation) => {
   // Logic for generating textArray based on renovation data
   let data = await getUserRenovation(userId.value, renovation._id);
   return [
-    '€' + data.budget,
+    data.budget,
     data.startDate,
     data.amount_total,
     data.amount_done
@@ -152,7 +152,7 @@ const getActiveTextArray = async (renovation) => {
 const getDoneTextArray = async (renovation) => {
   let data = await getUserRenovation(userId.value, renovation._id);
   return [
-    '€' + data.budget,
+    data.budget,
     data.endDate,
     data.amount_total,
     data.amount_done

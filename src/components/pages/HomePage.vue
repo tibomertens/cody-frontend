@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+
 import { isValidToken, getUser } from "../../functions/user.js";
+import { formatFinancialNumber } from "../../functions/helpers.js";
 
 import Project from "../widgets/Project.vue";
 
@@ -85,7 +87,7 @@ const getActiveTextArray = async (renovation) => {
   // Logic for generating textArray based on renovation data
   let data = await getUserRenovation(userId.value, renovation._id);
   return [
-    '€' + data.budget,
+    data.budget,
     data.startDate,
     data.amount_total,
     data.amount_done
@@ -95,7 +97,7 @@ const getActiveTextArray = async (renovation) => {
 const getDoneTextArray = async (renovation) => {
   let data = await getUserRenovation(userId.value, renovation._id);
   return [
-    '€' + data.budget,
+    data.budget,
     data.endDate,
     data.amount_total,
     data.amount_done
@@ -122,7 +124,8 @@ const getStateFetcher = (renovation) => async () => {
           </div>
           <div>
             <p class="text-[18px] font-bold">Huidig budget</p>
-            <p class="text-[14px]">{{userData.budget_current}} EUR</p>
+            <p v-if="userData.budget_current" class="text-[14px]" :class="{ 'text-secondary-red font-bold': userData.budget_current < 0 }">{{
+              formatFinancialNumber(userData.budget_current) }}</p>
           </div>
         </div>
       </div>

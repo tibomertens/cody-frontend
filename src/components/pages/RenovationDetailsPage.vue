@@ -44,7 +44,7 @@
                     </div>
                     <div class="grid gap-[20px]">
                         <ProjectInfo :light="true" :label="getLabelArray()[2]" :src="getSrcArray(renovation)[2]"
-                            :text="getTextArray(renovation, userRenovation)[2]" />
+                            :text="getTextArray(renovation, userRenovation)[2]" :budget="true" />
                         <ProjectInfo :light="true" :label="getLabelArray()[3]" :src="getSrcArray(renovation)[3]"
                             :text="getTextArray(renovation, userRenovation)[3]" />
                     </div>
@@ -192,7 +192,7 @@ const getActiveTextArray = async (renovation) => {
     // Logic for generating textArray based on renovation data
     let data = await getUserRenovation(userId.value, renovation._id);
     return [
-        '€' + data.budget,
+        data.budget,
         data.startDate,
         data.amount_total,
         data.amount_done
@@ -202,7 +202,7 @@ const getActiveTextArray = async (renovation) => {
 const getDoneTextArray = async (renovation) => {
     let data = await getUserRenovation(userId.value, renovation._id);
     return [
-        '€' + data.budget,
+        data.budget,
         data.endDate,
         data.amount_total,
         data.amount_done
@@ -320,7 +320,7 @@ const getTextArray = (renovation, userRenovation) => {
     return [
         renovation.impact,
         renovation.estimated_cost,
-        '€ ' + currentBudget.value,
+        currentBudget.value,
         startDate.value
     ];
 };
