@@ -16,8 +16,11 @@
                     <tbody>
                         <tr v-for="week in calendar" :key="week">
                             <td v-for="day in week" :key="day.date" class="calendar-cell">
-                                {{ day.date }}
-                                <ul>
+                                <!-- Check if the day is not from the previous or next month before rendering the day number -->
+                                <template v-if="!day.fromNextMonth && !day.fromPrevMonth">
+                                    {{ day.date }}
+                                </template>
+                                <ul v-if="!day.fromNextMonth && !day.fromPrevMonth">
                                     <li v-for="task in dayTasks(day.date)" :key="task.id">{{ task.name }}</li>
                                 </ul>
                             </td>
@@ -66,7 +69,9 @@ export default {
             currentDay.setDate(currentDay.getDate() - firstDayOfWeek);
 
             while (currentDay <= lastDayOfMonth) {
-                week.push({ date: currentDay.getDate(), tasks: [] });
+                // Mark days from the previous month
+                const fromPrevMonth = currentDay.getMonth() !== month;
+                week.push({ date: currentDay.getDate(), tasks: [], fromPrevMonth });
 
                 // Simulated tasks data for demonstration
                 // Replace this with your actual tasks data retrieval logic
