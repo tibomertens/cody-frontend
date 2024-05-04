@@ -5,9 +5,10 @@
             <h2 class="text-subtitle font-bold relative bottom-[2px]">{{ monthYear }}</h2>
             <div @click="nextMonth" class="cursor-pointer"><img src="/arrow_right.svg" alt="next month"></div>
         </div>
-        <div class="grid gap-[20px] grid-cols-7">
-            <div class="col-span-5 bg-offWhite-light px-[20px] pb-[32px] pt-[48px]">
-                <table>
+        <div class="grid gap-[20px] lg:grid-cols-8 xl:grid-cols-7 bg-offWhite-light">
+            <div
+                class="col-span-5 bg-offWhite-light px-[12px] lg:pl-[20px] lg:pr-0 pb-[32px] pt-[48px] flex justify-center">
+                <table class="w-full lg:w-auto">
                     <thead>
                         <tr class="relative bottom-[16px] text-[14px]">
                             <th v-for="day in daysOfWeek" :key="day">{{ day }}</th>
@@ -28,12 +29,13 @@
                     </tbody>
                 </table>
             </div>
-            <div class="bg-primary-light col-span-2 px-[20px] py-[32px] text-btn font-bold">
+            <div class="bg-primary-light col-span-3 xl:col-span-2 px-[20px] py-[32px] text-btn font-bold hidden lg:block">
                 <h3>Aankomende Activiteiten</h3>
             </div>
         </div>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -150,7 +152,9 @@ export default {
 }
 
 /* Conditional styling for Saturdays */
-.calendar-cell:nth-child(7n+6), .calendar-cell:nth-child(7n+7) {
-    background-color: #EDF0F5; /* Change this color to your desired color for Saturdays */
+.calendar-cell:nth-child(7n+6),
+.calendar-cell:nth-child(7n+7) {
+    background-color: #EDF0F5;
+    /* Change this color to your desired color for Saturdays */
 }
 </style>
