@@ -148,4 +148,9 @@ export default {
     padding-top: 5px;
     background-color: rgba(237, 240, 245, 0.4);
 }
+
+/* Conditional styling for Saturdays */
+.calendar-cell:nth-child(7n+6), .calendar-cell:nth-child(7n+7) {
+    background-color: #EDF0F5; /* Change this color to your desired color for Saturdays */
+}
 </style>
