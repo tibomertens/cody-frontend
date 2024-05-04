@@ -178,13 +178,9 @@ const handleFilter = (filteredRenovations) => {
           :userBudget="budget" />
       </div>
     </div>
-    <div v-if="unexpected_error">
-      <Error_state />
-    </div>
+    <Error_state v-if="unexpected_error" />
     <div v-if="renovationsLoaded">
-      <div v-if="renovations.value.length === 0">
-        <Empty_state :text="empty_text" />
-      </div>
+      <Empty_state :text="empty_text" v-if="renovations.value.length === 0" />
       <router-link v-else v-for="(renovation, i) in renovations.value" :key="i" :to="'/projects/' + renovation._id">
         <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
           :activeSrc="getActiveSrcArray(renovation)" :doneSrc="getDoneSrcArray(renovation)" :label="labelArray"
