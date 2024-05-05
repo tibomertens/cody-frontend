@@ -19,7 +19,7 @@
                             <td v-for="day in week" :key="day.date" :class="{ 'calendar-cell': true }">
                                 <template v-if="!day.fromNextMonth && !day.fromPrevMonth">
                                     <div
-                                        class="bg-primary-dark w-[28px] h-[28px] flex justify-center items-center font-bold text-offWhite-light rounded-full">
+                                        :class="{ 'bg-primary-dark w-[28px] h-[28px] flex justify-center items-center font-bold text-offWhite-light rounded-full': isCurrentDate(day.date) }">
                                         <span class="relative bottom-[1px]">{{ day.date }}</span>
                                     </div>
                                 </template>
@@ -52,6 +52,8 @@ const daysOfWeek = ref(['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag'
 const calendar = ref([]);
 const userId = ref('');
 const userData = ref(null);
+const selectedMonth = ref('');
+const selectedYear = ref('');
 
 const token = localStorage.getItem('token');
 
@@ -98,6 +100,14 @@ const dayTasks = (date) => {
     return [];
 };
 
+const isCurrentDate = (day) => {
+    const today = new Date();
+
+    return selectedYear.value === today.getFullYear() &&
+        selectedMonth.value === today.getMonth() &&
+        day === today.getDate();
+};
+
 const nextMonth = () => {
     currentDate.value.setMonth(currentDate.value.getMonth() + 1);
     generateCalendar();
@@ -111,6 +121,8 @@ const prevMonth = () => {
 const generateCalendar = async () => {
     const year = currentDate.value.getFullYear();
     const month = currentDate.value.getMonth();
+    selectedMonth.value = month;
+    selectedYear.value = year;
 
     const firstDayOfMonth = new Date(year, month, 1);
     const startingDayOfWeek = firstDayOfMonth.getDay(); // Get the day of the week for the first day of the month
@@ -167,7 +179,7 @@ const generateCalendar = async () => {
     vertical-align: top;
     background-color: rgba(237, 240, 245, 0.4);
     padding: 4px;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 .calendar-cell:nth-child(7n+6),
@@ -192,6 +204,6 @@ const generateCalendar = async () => {
     margin-bottom: 4px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
 }
 </style>
