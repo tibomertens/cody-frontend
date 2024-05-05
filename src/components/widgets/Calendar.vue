@@ -37,106 +37,106 @@
 </template>
 
 
-<script>
-export default {
-    data() {
-        return {
-            currentDate: new Date(),
-            monthYear: '',
-            daysOfWeek: ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'],
-            calendar: []
-        };
-    },
-    mounted() {
-        this.generateCalendar();
-    },
-    methods: {
-        generateCalendar() {
-            const year = this.currentDate.getFullYear();
-            const month = this.currentDate.getMonth();
+<script setup>
+import { ref, onMounted } from 'vue';
 
-            const firstDayOfMonth = new Date(year, month, 1);
-            const startingDayOfWeek = firstDayOfMonth.getDay(); // Get the day of the week for the first day of the month
-            const firstDayOfWeek = (startingDayOfWeek === 0) ? 6 : (startingDayOfWeek - 1); // Adjusted to start from Monday (0 for Monday, 6 for Sunday)
+const currentDate = ref(new Date());
+const monthYear = ref('');
+const daysOfWeek = ref(['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag']);
+const calendar = ref([]);
 
-            const lastDayOfMonth = new Date(year, month + 1, 0);
+onMounted(() => {
+    generateCalendar();
+});
 
-            this.monthYear = `${firstDayOfMonth.toLocaleString('default', { month: 'long' })} ${year}`;
+const generateTasksForDay = (date) => {
+    // Simulated tasks data for demonstration
+    // Replace this with your actual tasks data retrieval logic
+    const tasks = [
+        { id: 1, name: 'Task 1' },
+        { id: 2, name: 'Task 2' },
+        { id: 3, name: 'Task 3' },
+        // Add more tasks here as needed
+    ];
 
-            const calendar = [];
-            let week = [];
-            let currentDay = new Date(firstDayOfMonth);
+    // Return tasks for the given date
+    return tasks.filter(task => {
+        const taskDate = new Date(task.date);
+        return taskDate.getFullYear() === date.getFullYear() &&
+            taskDate.getMonth() === date.getMonth() &&
+            taskDate.getDate() === date.getDate();
+    });
+};
 
-            // Move to the first day of the week
-            currentDay.setDate(currentDay.getDate() - firstDayOfWeek);
-
-            while (currentDay <= lastDayOfMonth) {
-                // Mark days from the previous month
-                const fromPrevMonth = currentDay.getMonth() !== month;
-                week.push({ date: currentDay.getDate(), tasks: [], fromPrevMonth });
-
-                // Simulated tasks data for demonstration
-                // Replace this with your actual tasks data retrieval logic
-                const tasksForDay = this.generateTasksForDay(currentDay);
-                week[week.length - 1].tasks = tasksForDay;
-
-                if (currentDay.getDay() === 0 || currentDay >= lastDayOfMonth) {
-                    calendar.push(week);
-                    week = [];
-                }
-
-                currentDay.setDate(currentDay.getDate() + 1);
+const dayTasks = (date) => {
+    for (const week of calendar.value) {
+        for (const day of week) {
+            if (day.date === date) {
+                return day.tasks;
             }
-
-            // Check if the last week has less than 7 days and add days from the next month if necessary
-            const lastWeek = calendar[calendar.length - 1];
-            if (lastWeek.length < 7) {
-                let nextMonthDate = new Date(year, month + 1, 1);
-                while (lastWeek.length < 7) {
-                    lastWeek.push({ date: nextMonthDate.getDate(), tasks: [], fromNextMonth: true });
-                    nextMonthDate.setDate(nextMonthDate.getDate() + 1);
-                }
-            }
-
-            this.calendar = calendar;
-        },
-        generateTasksForDay(date) {
-            // Simulated tasks data for demonstration
-            // Replace this with your actual tasks data retrieval logic
-            const tasks = [
-                { id: 1, name: 'Task 1' },
-                { id: 2, name: 'Task 2' },
-                { id: 3, name: 'Task 3' },
-                // Add more tasks here as needed
-            ];
-
-            // Return tasks for the given date
-            return tasks.filter(task => {
-                const taskDate = new Date(task.date);
-                return taskDate.getFullYear() === date.getFullYear() &&
-                    taskDate.getMonth() === date.getMonth() &&
-                    taskDate.getDate() === date.getDate();
-            });
-        },
-        dayTasks(date) {
-            for (const week of this.calendar) {
-                for (const day of week) {
-                    if (day.date === date) {
-                        return day.tasks;
-                    }
-                }
-            }
-            return [];
-        },
-        nextMonth() {
-            this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-            this.generateCalendar();
-        },
-        prevMonth() {
-            this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-            this.generateCalendar();
         }
     }
+    return [];
+};
+
+const nextMonth = () => {
+    currentDate.value.setMonth(currentDate.value.getMonth() + 1);
+    generateCalendar();
+};
+
+const prevMonth = () => {
+    currentDate.value.setMonth(currentDate.value.getMonth() - 1);
+    generateCalendar();
+};
+
+const generateCalendar = () => {
+    const year = currentDate.value.getFullYear();
+    const month = currentDate.value.getMonth();
+
+    const firstDayOfMonth = new Date(year, month, 1);
+    const startingDayOfWeek = firstDayOfMonth.getDay(); // Get the day of the week for the first day of the month
+    const firstDayOfWeek = (startingDayOfWeek === 0) ? 6 : (startingDayOfWeek - 1); // Adjusted to start from Monday (0 for Monday, 6 for Sunday)
+
+    const lastDayOfMonth = new Date(year, month + 1, 0);
+
+    monthYear.value = `${firstDayOfMonth.toLocaleString('default', { month: 'long' })} ${year}`;
+
+    const newCalendar = [];
+    let week = [];
+    let currentDay = new Date(firstDayOfMonth);
+
+    // Move to the first day of the week
+    currentDay.setDate(currentDay.getDate() - firstDayOfWeek);
+
+    while (currentDay <= lastDayOfMonth) {
+        // Mark days from the previous month
+        const fromPrevMonth = currentDay.getMonth() !== month;
+        week.push({ date: currentDay.getDate(), tasks: [], fromPrevMonth });
+
+        // Simulated tasks data for demonstration
+        // Replace this with your actual tasks data retrieval logic
+        const tasksForDay = generateTasksForDay(currentDay);
+        week[week.length - 1].tasks = tasksForDay;
+
+        if (currentDay.getDay() === 0 || currentDay >= lastDayOfMonth) {
+            newCalendar.push(week);
+            week = [];
+        }
+
+        currentDay.setDate(currentDay.getDate() + 1);
+    }
+
+    // Check if the last week has less than 7 days and add days from the next month if necessary
+    const lastWeek = newCalendar[newCalendar.length - 1];
+    if (lastWeek.length < 7) {
+        let nextMonthDate = new Date(year, month + 1, 1);
+        while (lastWeek.length < 7) {
+            lastWeek.push({ date: nextMonthDate.getDate(), tasks: [], fromNextMonth: true });
+            nextMonthDate.setDate(nextMonthDate.getDate() + 1);
+        }
+    }
+
+    calendar.value = newCalendar;
 };
 </script>
 
