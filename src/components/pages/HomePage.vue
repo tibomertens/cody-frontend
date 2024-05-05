@@ -111,8 +111,8 @@ const getStateFetcher = (renovation) => async () => {
 
 <template>
   <div class="m-[32px] md:m-[40px]">
-    <section>LABEL + BUDGET</section>
-    <section>
+    <section class="mb-[32px] md:mb-[40px]">LABEL + BUDGET</section>
+    <section class="mb-[32px] md:mb-[40px]">
       <Calendar />
     </section>
     <section>

@@ -16,20 +16,23 @@
                     </thead>
                     <tbody>
                         <tr v-for="week in calendar" :key="week">
-                            <td v-for="day in week" :key="day.date" class="calendar-cell">
-                                <!-- Check if the day is not from the previous or next month before rendering the day number -->
+                            <td v-for="day in week" :key="day.date" :class="{ 'calendar-cell': true }">
                                 <template v-if="!day.fromNextMonth && !day.fromPrevMonth">
-                                    {{ day.date }}
+                                    <div
+                                        class="bg-primary-dark w-[28px] h-[28px] flex justify-center items-center font-bold text-offWhite-light rounded-full">
+                                        <span class="relative bottom-[1px]">{{ day.date }}</span>
+                                    </div>
                                 </template>
                                 <ul v-if="!day.fromNextMonth && !day.fromPrevMonth">
-                                    <li v-for="task in dayTasks(day.date)" :key="task.id">{{ task.name }}</li>
+                                    <li v-for="task in dayTasks(day.date)" :key="task.id">{{ task.title }}</li>
                                 </ul>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="bg-primary-light col-span-3 xl:col-span-2 px-[20px] py-[32px] text-btn font-bold hidden lg:block">
+            <div
+                class="bg-primary-light col-span-3 xl:col-span-2 px-[20px] py-[32px] text-btn font-bold hidden lg:block">
                 <h3>Aankomende Activiteiten</h3>
             </div>
         </div>
@@ -40,24 +43,40 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
+import { getTasks } from '../../functions/tasks';
+import { isValidToken, getUser } from '../../functions/user';
+
 const currentDate = ref(new Date());
 const monthYear = ref('');
 const daysOfWeek = ref(['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag']);
 const calendar = ref([]);
+const userId = ref('');
+const userData = ref(null);
 
-onMounted(() => {
-    generateCalendar();
+const token = localStorage.getItem('token');
+
+onMounted(async () => {
+    if (isValidToken(token)) {
+        userData.value = await getUser(token);
+        userId.value = userData.value._id;
+
+        if (userData.value !== null) {
+            generateCalendar();
+        } else {
+            router.push('/login');
+        }
+    } else {
+        router.push("/login");
+    }
 });
 
-const generateTasksForDay = (date) => {
-    // Simulated tasks data for demonstration
-    // Replace this with your actual tasks data retrieval logic
-    const tasks = [
-        { id: 1, name: 'Task 1' },
-        { id: 2, name: 'Task 2' },
-        { id: 3, name: 'Task 3' },
-        // Add more tasks here as needed
-    ];
+const generateTasksForDay = async (date) => {
+    const result = await getTasks(userId.value);
+    let tasks = [];
+
+    if (result.success) {
+        tasks = result.data;
+    }
 
     // Return tasks for the given date
     return tasks.filter(task => {
@@ -89,7 +108,7 @@ const prevMonth = () => {
     generateCalendar();
 };
 
-const generateCalendar = () => {
+const generateCalendar = async () => {
     const year = currentDate.value.getFullYear();
     const month = currentDate.value.getMonth();
 
@@ -115,7 +134,7 @@ const generateCalendar = () => {
 
         // Simulated tasks data for demonstration
         // Replace this with your actual tasks data retrieval logic
-        const tasksForDay = generateTasksForDay(currentDay);
+        const tasksForDay = await generateTasksForDay(currentDay);
         week[week.length - 1].tasks = tasksForDay;
 
         if (currentDay.getDay() === 0 || currentDay >= lastDayOfMonth) {
@@ -146,15 +165,33 @@ const generateCalendar = () => {
     height: 100px;
     border: 1px solid #9EBDFF;
     vertical-align: top;
-    padding-left: 10px;
-    padding-top: 5px;
     background-color: rgba(237, 240, 245, 0.4);
+    padding: 4px;
+    overflow: hidden; 
 }
 
-/* Conditional styling for Saturdays */
 .calendar-cell:nth-child(7n+6),
 .calendar-cell:nth-child(7n+7) {
     background-color: #EDF0F5;
-    /* Change this color to your desired color for Saturdays */
+}
+
+.calendar-cell ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 4px;
+    overflow-y: auto;
+    max-height: 80px;
+}
+
+.calendar-cell ul li {
+    background-color: #9EBDFF;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 0 2px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
 </style>
