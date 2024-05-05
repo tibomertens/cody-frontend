@@ -2,12 +2,13 @@
   <section>
     <div class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center">
       <h2 class="text-subtitle font-bold">Doel</h2>
-      <a href="#">
+      <a href="#" @click="openEditGoalPopup">
         <div><img src="/edit_no_fill.svg" alt="potlood"></div>
       </a>
     </div>
     <div class="flex md:mx-[40px] ml-[5%] justify-center items-center bg-offWhite-light w-[90%] p-4 rounded">
-      <div v-for="label in labels" :key="label" class="hidden md:block">
+      <div v-if="dataIsLoaded" v-for="label in labels" class="hidden md:block">
+        {{ label }}
         <img :src="`/${label}-label.svg`" :alt="`epc label ${label}`" class="md:w-[100px] w-[20px] pr-[-50px]"
           :class="{ 'scale-[150%] md:scale-[150%] md:mx-7 mx-2 md:mt-10 mt-[54px] flex': label === currentLabel || label === goalLabel }">
         <p v-if="label === currentLabel" class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4">
@@ -69,6 +70,14 @@
       </div>
     </div>
   </section>
+  <!-- <ChangeGoal 
+      :showModal="showModal"
+      :labelData="labelData"
+      :items="selectedItems"
+      :userId="userId"
+      @closeModal="closeModal"
+      :path="currentPath"
+  /> -->
 </template>
 
 <script setup>
@@ -77,41 +86,66 @@ import { useRouter } from "vue-router";
 
 import { isValidToken, getUser } from "../../functions/user.js";
 import { formatFinancialNumber } from "../../functions/helpers.js";
+import ChangeGoal from "../modals/ChangeGoal.vue";
 
 const router = useRouter();
 
 const token = localStorage.getItem("token");
+let userId = ref("");
 let userData = ref({});
 let currentLabel = ref("");
 let goalLabel = ref("");
 let currentBudget;
 let spentBudget;
 let currentBudgetPercentage = ref('0%');
+let showModal = ref(false);
+const labels = ref(['F', 'E', 'D', 'C', 'B', 'A', 'A+']);
+let dataIsLoaded = ref(false);
 
 onMounted(async () => {
   if (isValidToken(token)) {
-    userData.value = await getUser(token);
-    if (userData.value !== null) {
-      currentLabel.value = userData.value.label;
-      goalLabel.value = userData.value.goalLabel;
-      currentBudget = userData.value.budget_current;
-      spentBudget = userData.value.budget_spent;
-      let totalBudget = parseInt(currentBudget) + parseInt(spentBudget);
-      currentBudgetPercentage.value = `${((parseInt(currentBudget) / totalBudget) * 100).toFixed(2)}%`;
-      document.styleSheets[0].insertRule(`@keyframes fillBar {
-      from { width: 0; }
-      to { width: ${currentBudgetPercentage.value}; }
-    }`, 0);
-      document.styleSheets[0].insertRule(`.animate-bar {
-      animation: fillBar 1s ease forwards;
-    }`, 0);
-    } else {
-      router.push('/login');
-    }
+    getData();
   } else {
     router.push("/login");
   }
 });
 
-const labels = ['F', 'E', 'D', 'C', 'B', 'A', 'A+'];
+
+const openEditGoalPopup = () => {
+  showModal.value = true;
+};
+//if closeModal emit comes in do funciton
+const closeModal = () => {
+  getData();
+};
+
+const getData = async () => {
+  userData.value = await getUser(token);
+  if (userData.value !== null) {
+    currentLabel.value = userData.value.label;
+    goalLabel.value = userData.value.goalLabel;
+    currentBudget = userData.value.budget_current;
+    spentBudget = userData.value.budget_spent;
+    userId.value = userData.value._id;
+    let totalBudget = parseInt(currentBudget) + parseInt(spentBudget);
+    currentBudgetPercentage.value = `${((parseInt(currentBudget) / totalBudget) * 100).toFixed(2)}%`;
+
+    // Check if styleSheets exist and are accessible
+    if (document.styleSheets.length > 0) {
+      document.styleSheets[0].insertRule(`@keyframes fillBar {
+        from { width: 0; }
+        to { width: ${currentBudgetPercentage.value}; }
+      }`, 0);
+      document.styleSheets[0].insertRule(`.animate-bar {
+        animation: fillBar 1s ease forwards;
+      }`, 0);
+    } else {
+      console.error("No stylesheets found.");
+    }
+    dataIsLoaded.value = true;
+  } else {
+    router.push('/login');
+  }
+}
+
 </script>
