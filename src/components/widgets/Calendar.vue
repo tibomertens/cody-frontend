@@ -32,8 +32,28 @@
                 </table>
             </div>
             <div
-                class="bg-primary-light col-span-3 xl:col-span-2 px-[20px] py-[32px] text-btn font-bold hidden lg:block">
-                <h3>Aankomende Activiteiten</h3>
+                class="bg-primary-light col-span-3 xl:col-span-2 px-[20px] pb-[32px] pt-[28px] font-bold hidden lg:flex flex-col justify-between">
+                <div>
+                    <h3 class="text-btn">Aankomende Activiteiten</h3>
+                    <div class="flex flex-col gap-[16px] mt-[20px] max-h-[440px] overflow-y-auto">
+                        <!-- Add max height and overflow-y-auto to make the container scrollable -->
+                        <div v-for="task in upcomingTasks" class="bg-offWhite-light rounded-[5px] py-[12px] px-[12px]">
+                            <div class="flex justify-between">
+                                <h4>{{ formatDate(task.date) }}</h4>
+                                <p class="font-normal text-[1em]">{{ formatTime(task.date) }}</p>
+                            </div>
+                            <div class="mt-[12px]">
+                                <p class="font-light">{{ task.title }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <a
+                        class="h-[48px] w-full cursor-pointer bg-primary-dark rounded-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center">
+                        <p class="relative bottom-[1px]"><span class="relative bottom-[1px] right-[4px]">+</span> Nieuwe activiteit</p>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -54,6 +74,7 @@ const userId = ref('');
 const userData = ref(null);
 const selectedMonth = ref('');
 const selectedYear = ref('');
+let upcomingTasks = ref([]);
 
 const token = localStorage.getItem('token');
 
@@ -80,6 +101,8 @@ const generateTasksForDay = async (date) => {
         tasks = result.data;
     }
 
+    upcomingTasks.value = await getUpcomingTasks(tasks);
+
     // Return tasks for the given date
     return tasks.filter(task => {
         const taskDate = new Date(task.date);
@@ -98,6 +121,23 @@ const dayTasks = (date) => {
         }
     }
     return [];
+};
+
+const getUpcomingTasks = (tasks) => {
+    const today = new Date();
+
+    // Filter tasks that are due today or in the future, then sort them by date.
+    const upcomingTasks = tasks.filter(task => {
+        const taskDate = new Date(task.date);
+        return taskDate >= today;
+    }).sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateA - dateB;
+    });
+
+    // Return only the first 3 tasks.
+    return upcomingTasks;
 };
 
 const isCurrentDate = (day) => {
@@ -169,6 +209,31 @@ const generateCalendar = async () => {
 
     calendar.value = newCalendar;
 };
+
+const formatDate = (dateTime) => {
+    const daysOfWeek = [
+        "Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"
+    ];
+    const months = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
+
+    const date = new Date(dateTime);
+    const dayOfWeekIndex = date.getDay();
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+
+    return `${daysOfWeek[dayOfWeekIndex]} ${day} ${months[monthIndex]}`;
+};
+
+
+const formatTime = (dateTime) => {
+    const date = new Date(dateTime);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+};
 </script>
 
 <style scoped>
@@ -200,7 +265,7 @@ const generateCalendar = async () => {
     font-size: 11px;
     font-weight: 500;
     border-radius: 5px;
-    padding: 0 2px;
+    padding: 1px 2px;
     margin-bottom: 4px;
     white-space: nowrap;
     overflow: hidden;
