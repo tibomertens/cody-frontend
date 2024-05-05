@@ -6,9 +6,8 @@
         <div><img src="/edit_no_fill.svg" alt="potlood"></div>
       </a>
     </div>
-    <div class="flex md:mx-[40px] ml-[5%] justify-center items-center bg-offWhite-light w-[90%] p-4 rounded">
-      <div v-if="dataIsLoaded" v-for="label in labels" class="hidden md:block">
-        {{ label }}
+    <div class="flex md:mx-[40px] ml-[5%] justify-center items-center bg-offWhite-light w-[90%] p-4 rounded" v-if="dataIsLoaded">
+      <div v-for="label in labels" class="hidden md:block">
         <img :src="`/${label}-label.svg`" :alt="`epc label ${label}`" class="md:w-[100px] w-[20px] pr-[-50px]"
           :class="{ 'scale-[150%] md:scale-[150%] md:mx-7 mx-2 md:mt-10 mt-[54px] flex': label === currentLabel || label === goalLabel }">
         <p v-if="label === currentLabel" class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4">
@@ -70,14 +69,11 @@
       </div>
     </div>
   </section>
-  <!-- <ChangeGoal 
+  <ChangeGoal 
       :showModal="showModal"
-      :labelData="labelData"
-      :items="selectedItems"
       :userId="userId"
       @closeModal="closeModal"
-      :path="currentPath"
-  /> -->
+  />
 </template>
 
 <script setup>
@@ -99,8 +95,9 @@ let currentBudget;
 let spentBudget;
 let currentBudgetPercentage = ref('0%');
 let showModal = ref(false);
-const labels = ref(['F', 'E', 'D', 'C', 'B', 'A', 'A+']);
+let labels = ref(['F', 'E', 'D', 'C', 'B', 'A', 'A+']);
 let dataIsLoaded = ref(false);
+let label = ref("");
 
 onMounted(async () => {
   if (isValidToken(token)) {
