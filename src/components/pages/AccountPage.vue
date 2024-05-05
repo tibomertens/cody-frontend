@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import { useRouter } from "vue-router";
 
 import { isValidToken, getUser } from "../../functions/user.js";
@@ -127,13 +127,17 @@ const getData = async () => {
     let totalBudget = parseInt(currentBudget) + parseInt(spentBudget);
     currentBudgetPercentage.value = `${((parseInt(currentBudget) / totalBudget) * 100).toFixed(2)}%`;
 
-    // Check if styleSheets exist and are accessible
-    if (document.styleSheets.length > 0) {
-      document.styleSheets[0].insertRule(`@keyframes fillBar {
+    // Wait for the next tick to ensure the DOM is fully updated
+    await nextTick();
+
+    // Access the stylesheet dynamically
+    const styleSheet = document.styleSheets[0];
+    if (styleSheet) {
+      styleSheet.insertRule(`@keyframes fillBar {
         from { width: 0; }
         to { width: ${currentBudgetPercentage.value}; }
       }`, 0);
-      document.styleSheets[0].insertRule(`.animate-bar {
+      styleSheet.insertRule(`.animate-bar {
         animation: fillBar 1s ease forwards;
       }`, 0);
     } else {
@@ -143,6 +147,5 @@ const getData = async () => {
   } else {
     router.push('/login');
   }
-}
-
+};
 </script>
