@@ -43,6 +43,27 @@ export const addLabel = async (items, userId) => {
   }
 };
 
+export const updateBudget = async (items, userId) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/v1/users/budget/${userId}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify(items),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
+
 export const updateRecommendations = async (items, userId) => {
   try {
     const renovationsToUpdate = [];

@@ -36,7 +36,7 @@
   <section>
     <div class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center">
       <h2 class="text-subtitle font-bold">Budget</h2>
-      <a href="#">
+      <a href="#" @click="openEditBudgetPopup">
         <div><img src="/edit_no_fill.svg" alt="potlood"></div>
       </a>
     </div>
@@ -74,6 +74,11 @@
       :userId="userId"
       @closeModal="closeModal"
   />
+  <ChangeBudget 
+      :showBudgetModal="showBudgetModal"
+      :userId="userId"
+      @closeBudgetModal="closeBudgetModal"
+  />
 </template>
 
 <script setup>
@@ -83,6 +88,7 @@ import { useRouter } from "vue-router";
 import { isValidToken, getUser } from "../../functions/user.js";
 import { formatFinancialNumber } from "../../functions/helpers.js";
 import ChangeGoal from "../modals/ChangeGoal.vue";
+import ChangeBudget from "../modals/ChangeBudget.vue";
 
 const router = useRouter();
 
@@ -98,6 +104,7 @@ let showModal = ref(false);
 let labels = ref(['F', 'E', 'D', 'C', 'B', 'A', 'A+']);
 let dataIsLoaded = ref(false);
 let label = ref("");
+let showBudgetModal = ref(false);
 
 onMounted(async () => {
   if (isValidToken(token)) {
@@ -107,6 +114,14 @@ onMounted(async () => {
   }
 });
 
+const openEditBudgetPopup = () => {
+  showBudgetModal.value = true;
+};
+
+const closeBudgetModal = () => {
+  getData();
+  showBudgetModal.value = false;
+};
 
 const openEditGoalPopup = () => {
   showModal.value = true;
@@ -134,6 +149,10 @@ const getData = async () => {
     // Access the stylesheet dynamically
     const styleSheet = document.styleSheets[0];
     if (styleSheet) {
+      // Clear existing animation rules
+      styleSheet.deleteRule(0);
+      styleSheet.deleteRule(0);
+      // Insert new animation rules
       styleSheet.insertRule(`@keyframes fillBar {
         from { width: 0; }
         to { width: ${currentBudgetPercentage.value}; }
@@ -149,4 +168,5 @@ const getData = async () => {
     router.push('/login');
   }
 };
+
 </script>

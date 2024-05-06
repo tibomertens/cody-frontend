@@ -73,12 +73,10 @@
 
    const handleLabelGoal = (selectedGoal) => {
     goalValue.value = selectedGoal;
-    console.log(goalValue.value);
     };
 
     const goalYearHandler = (selectedGoalYear) => {
       goalYear.value = selectedGoalYear;
-      console.log(goalYear.value);
     };
 
   const patchData = async () => {
@@ -94,7 +92,6 @@
     else{
         error.value = null;
         const response = await addLabel(items, props.userId);
-        console.log(response);
         closeModal();
     }
     // Handle response if necessary
