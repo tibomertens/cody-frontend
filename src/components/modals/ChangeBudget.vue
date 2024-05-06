@@ -6,7 +6,7 @@
     >
     <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
     <h2 class="text-subtitle font-bold mb-[32px]" >Wijzig budget</h2>
-    <Input label="Hoeveel budget wilt u toevoegen?" @input-change="budgetHandler" class="pb-[32px]"/>
+    <Input label="Hoeveel budget wilt u toevoegen?" @input-change="budgetHandler" class="pb-[32px]" :error="hasError"/>
     <Btn name="Opslaan" @click="handleClick" :width="'full'"/>
     <p v-if="error" class="text-secondary-red">{{ error }}</p>
     </div>
@@ -33,10 +33,9 @@
   
   
   const showBudgetModal = ref(false);
-  let budget = ref(0);
+  let budget = ref(null);
   let error = ref(null);
-  let inputHasError = ref(false);
-  let dropdownHasError = ref(false);
+  let hasError = ref(false);
   
   const emit = defineEmits(["closeBudgetModal"]);
   
@@ -68,8 +67,14 @@
     let item = {
     budget_current: parseInt(budget.value),
    }; 
+   if (isNaN(budget.value)) {
+      error.value = "Budget moet een nummer zijn";
+      hasError.value = true;
+      return;
+    }
    if (budget.value === null) {
     error.value = "Vul het invoerveld in";
+    hasError.value = true;
     return;
     }
     else{
