@@ -1,6 +1,7 @@
 <script setup>
 import Input from "../UI/Input.vue";
-import Btn from "../UI/Btn.vue";
+import Btn from "../UI/Button-Btn.vue";
+import { loginUser } from "../../functions/user";
 
 // Import necessary functions from 'vue' for script setup
 import { ref } from "vue";
@@ -24,51 +25,28 @@ const updatePassword = (value) => {
 };
 
 const login = async () => {
-  console.log("Email:", updatedEmail.value);
-  console.log("Password:", updatedPassword.value);
-  // Add your login logic here
-  let apiEndpoint = "http://localhost:3000/api/v1/users/login";
 
-  try {
-    // Make a request to your API to check the credentials
-    const response = await fetch(apiEndpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: updatedEmail.value,
-        password: updatedPassword.value,
-      }),
-    });
-    // Assuming the API returns a JSON object with a 'success' property
-    const result = await response.json();
+  let result = await loginUser(updatedEmail.value, updatedPassword.value);
 
     if (result.status === "success") {
       // Handle successful login, e.g., show a success message or redirect to another screen
       // Save the JWT token in the local storage
       localStorage.setItem("token", result.token);
-      console.log("Token:", result.token);
       // Redirect to the orders page
       router.push("/");
     } else {
       // Handle authentication error
       hasError.value = true;
-      error.value = "Invalid email or password";
+      error.value = "Foutieve email of wachtwoord";
     }
-  } catch (e) {
-    console.error("Error during login:", e);
-    // Handle other errors
-    hasError.value = true;
-    error.value = "An error occurred during login";
-  }
+  
 };
 </script>
 
 <template>
   <form>
-    <Input :label="'Email'" :type="'text'" @input-change="updateEmail" :error="hasError"></Input>
-    <Input :label="'Password'" :type="'password'" @input-change="updatePassword" :error="hasError"></Input>
+    <Input :label="'Email'" :type="'email'" @input-change="updateEmail" :error="hasError"></Input>
+    <Input :label="'Wachtwoord'" :type="'password'" @input-change="updatePassword" :error="hasError"></Input>
     <div v-if="error" class="text-secondary-red">{{ error }}</div>
     <div class="mt-8 mb-4">
       <Btn :name="'Login'" @click="login" :width="'full'" />

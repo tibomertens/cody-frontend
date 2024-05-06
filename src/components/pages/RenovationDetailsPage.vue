@@ -10,7 +10,7 @@
                         <div class="flex gap-[24px] items-center">
                             <a @click.prevent href="#"
                                 class="px-[16px] pt-[6px] pb-[8px] font-bold bg-offWhite-light inline-block rounded-[5px]"
-                                :class="{ 'text-primary-dark border-2 border-primary-dark': currentState === 'Aanbevolen', 'text-secondary-yellow border-2 border-secondary-yellow': currentState === 'Actief' || currentState === 'Gepauzeerd', 'text-secondary-green border-2 border-secondary-green': currentState === 'Voltooid' }">{{
+                                :class="{ 'text-primary-dark border-2 border-primary-dark': currentState === 'Aanbevolen' || currentState === 'Extra', 'text-secondary-yellow border-2 border-secondary-yellow': currentState === 'Actief' || currentState === 'Gepauzeerd', 'text-secondary-green border-2 border-secondary-green': currentState === 'Voltooid' }">{{
                                     currentState }}</a>
                             <div class="w-[20px] h-[20px] cursor-pointer" @click="pinRenovation"><img
                                     class="w-full h-full" :src="pinnedIcon" alt="Pin icon">
@@ -44,11 +44,11 @@
                     </div>
                     <div class="grid gap-[20px]">
                         <ProjectInfo :light="true" :label="getLabelArray()[2]" :src="getSrcArray(renovation)[2]"
-                            :text="getTextArray(renovation, userRenovation)[2]" />
+                            :text="getTextArray(renovation, userRenovation)[2]" :budget="true" />
                         <ProjectInfo :light="true" :label="getLabelArray()[3]" :src="getSrcArray(renovation)[3]"
                             :text="getTextArray(renovation, userRenovation)[3]" />
                     </div>
-                    <div v-if="currentState !== 'Aanbevolen'"
+                    <div v-if="currentState != 'Aanbevolen' && currentState != 'Extra'"
                         class="grid grid-rows-[3fr,1fr] h-[244px] gap-[20px] xs:col-span-2 lg:col-span-1">
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
                             <DonutChart :percent="percentRenovated" :bg="'#EDF0F5'" :paused="paused" />
@@ -120,14 +120,15 @@
                 </div>
             </div>
         </div>
-        <ActiveRenovation :renovationId="renovationId" :userId="userId" :showModal="showActiveModal"
-            @closeModal="closeModal" @updateState="handleUpdatedState" />
-        <UpdateRenovationDetails :renovationId="renovationId" :userId="userId" :showModal="showUpdateModal"
-            :amountTotal="totalAmount" :budget="parseInt(currentBudget)" :startDate="startDate" @closeModal="closeModal"
+        <ActiveRenovation :renovationId="renovationId" :userId="userId" :userBudget="userBudget"
+            :showModal="showActiveModal" @closeModal="closeModal" @updateState="handleUpdatedState" />
+        <UpdateRenovationDetails :renovationId="renovationId" :userId="userId" :userBudget="userBudget"
+            :previousBudget="currentBudget" :showModal="showUpdateModal" :amountTotal="totalAmount"
+            :budget="parseInt(currentBudget)" :startDate="startDate" @closeModal="closeModal"
             @updateData="updateData" />
         <DoneRenovation :renovationId="renovationId" :userId="userId" :showModal="showDoneModal"
             :budget="parseInt(currentBudget)" :amountTotal="totalAmount" @updateState="handleUpdatedState"
-            @closeModal="closeModal" />
+            :userBudget="userBudget" :previousBudget="currentBudget" @closeModal="closeModal" />
     </section>
 </template>
 
@@ -176,6 +177,7 @@ let checklistItems = ref([]);
 let percentRenovated = ref(0);
 let suggestions = ref([]);
 let renovationtype = ref('');
+let userBudget = ref(0);
 
 const router = useRouter();
 
@@ -190,7 +192,7 @@ const getActiveTextArray = async (renovation) => {
     // Logic for generating textArray based on renovation data
     let data = await getUserRenovation(userId.value, renovation._id);
     return [
-        '€' + data.budget,
+        data.budget,
         data.startDate,
         data.amount_total,
         data.amount_done
@@ -200,7 +202,7 @@ const getActiveTextArray = async (renovation) => {
 const getDoneTextArray = async (renovation) => {
     let data = await getUserRenovation(userId.value, renovation._id);
     return [
-        '€' + data.budget,
+        data.budget,
         data.endDate,
         data.amount_total,
         data.amount_done
@@ -224,12 +226,12 @@ const getDoneSrcArray = (renovation) => {
 };
 
 const activeLabelArray = [
-    'Budget',
+    'Toegewezen budget',
     'Startdatum'
 ];
 
 const doneLabelArray = [
-    'Budget',
+    'Uitgegeven budget',
     'Einddatum'
 ];
 
@@ -253,7 +255,7 @@ const getSuggTextArray = (renovation) => {
     return [
         renovation.impact,
         renovation.estimated_cost,
-        userRenovation.value.user.budget
+        userRenovation.value.user.budget_current
     ];
 };
 
@@ -272,14 +274,22 @@ const getLabelArray = () => {
         return [
             'Impact',
             'Geschatte kost',
-            'Huidig budget',
+            'Uitgegeven budget',
             'Einddatum'
         ];
-    } else {
+    } else if (currentState.value === 'Actief' || currentState.value === 'Gepauzeerd') {
         return [
             'Impact',
             'Geschatte kost',
-            'Huidig budget',
+            'Toegewezen budget',
+            'Startdatum'
+        ];
+    }
+    else {
+        return [
+            'Impact',
+            'Geschatte kost',
+            'Jouw budget',
             'Startdatum'
         ];
     }
@@ -310,7 +320,7 @@ const getTextArray = (renovation, userRenovation) => {
     return [
         renovation.impact,
         renovation.estimated_cost,
-        '€ ' + currentBudget.value,
+        currentBudget.value,
         startDate.value
     ];
 };
@@ -350,7 +360,7 @@ const updateData = async () => {
 };
 
 const changeState = async () => {
-    if (currentState.value === 'Aanbevolen') {
+    if (currentState.value === 'Aanbevolen' || currentState.value === 'Extra') {
         showActiveModal.value = true;
     } else if (currentState.value === 'Actief') {
         showDoneModal.value = true;
@@ -459,9 +469,10 @@ const setStrings = () => {
     currentState.value = userRenovation.value.status;
     isPinned.value = userRenovation.value.saved;
     renovationtype.value = userRenovation.value.renovation.type;
+    userBudget = userRenovation.value.user.budget_current;
 
-    if (currentState.value === 'Aanbevolen') {
-        currentBudget.value = userRenovation.value.user.budget
+    if (currentState.value === 'Aanbevolen' || currentState.value === 'Extra') {
+        currentBudget.value = userRenovation.value.user.budget_current;
         paused.value = false;
         stateBtnName.value = 'Start de renovatie';
         startDate.value = 'Nog niet gestart';
