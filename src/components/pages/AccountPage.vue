@@ -48,14 +48,14 @@
       <div class="flex justify-center">
         <div class="flex w-[90%] justify-between mt-[20px] px-4 mb-14 gap-4">
           <div class="md:flex md:gap-[32px]">
-            <div><img src="/money.svg" alt="huidig budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
+            <div><img src="/budgetBlue.svg" alt="huidig budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
             <div>
               <p class="md:text-body font-bold">Resterend budget</p>
               <p v-if="currentBudget" class="text-xs" :class="{'text-secondary-red font-bold': currentBudget < 0}">{{ formatFinancialNumber(currentBudget) }}</p>
             </div>
           </div>
           <div class="md:flex md:gap-[32px]">
-            <div><img src="/moneyLight.svg" alt="uitgegeven budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
+            <div><img src="/budgetBlue.svg" alt="uitgegeven budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
             <div>
               <p class="md:text-body font-bold">Uitgegeven budget</p>
               <p v-if=spentBudget class="text-xs">{{ formatFinancialNumber(spentBudget) }}</p>
