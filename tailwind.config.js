@@ -29,6 +29,7 @@ export default {
       screens: {
         'xs': '590px',
         'ml': '904px',
+        '1.5xl': '1400px',
       },
       fontSize: {
         "title": "1.8rem",
