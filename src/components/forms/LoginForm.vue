@@ -1,6 +1,6 @@
 <script setup>
 import Input from "../UI/Input.vue";
-import Btn from "../UI/Btn.vue";
+import Btn from "../UI/Button-Btn.vue";
 import { loginUser } from "../../functions/user";
 
 // Import necessary functions from 'vue' for script setup
