@@ -114,6 +114,7 @@ const openEditGoalPopup = () => {
 //if closeModal emit comes in do funciton
 const closeModal = () => {
   getData();
+  showModal.value = false;
 };
 
 const getData = async () => {
