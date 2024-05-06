@@ -1,11 +1,18 @@
 <template>
     <div>
-        <div class="flex gap-[12px] items-center mb-[12px]">
-            <div @click="prevMonth" class="cursor-pointer"><img src="/arrow_left.svg" alt="previous month"></div>
-            <h2 class="text-subtitle font-bold relative bottom-[2px]">{{ monthYear }}</h2>
-            <div @click="nextMonth" class="cursor-pointer"><img src="/arrow_right.svg" alt="next month"></div>
+        <div class="flex justify-between">
+            <div class="flex gap-[12px] items-center mb-[12px]">
+                <div @click="prevMonth" class="cursor-pointer"><img src="/arrow_left.svg" alt="previous month"></div>
+                <h2 class="text-subtitle font-bold relative bottom-[2px]">{{ monthYear }}</h2>
+                <div @click="nextMonth" class="cursor-pointer"><img src="/arrow_right.svg" alt="next month"></div>
+            </div>
+            <div
+                class="w-[30px] h-[30px] bg-primary-dark rounded-[5px] flex justify-center items-center cursor-pointer 1.5xl:hidden">
+                <p class="font-bold text-offWhite-light text-[1.3em] relative bottom-[3px]">+</p>
+            </div>
         </div>
-        <div class="grid gap-[20px] lg:grid-cols-8 xl:grid-cols-7 bg-offWhite-light">
+        <div
+            class="grid gap-[20px] 1.5xl:grid-cols-7 bg-offWhite-light overflow-x-auto !rounded-t-[5px] xl:!rounded-[5px]">
             <div
                 class="col-span-5 bg-offWhite-light px-[12px] lg:pl-[20px] lg:pr-0 pb-[32px] pt-[48px] flex justify-center">
                 <table class="w-full lg:w-auto">
@@ -32,7 +39,7 @@
                 </table>
             </div>
             <div
-                class="bg-primary-light col-span-3 xl:col-span-2 px-[20px] pb-[32px] pt-[28px] font-bold hidden lg:flex flex-col justify-between">
+                class="bg-primary-light col-span-2 px-[20px] pb-[32px] pt-[28px] font-bold hidden 1.5xl:flex flex-col justify-between">
                 <div>
                     <h3 class="text-btn">Aankomende Activiteiten</h3>
                     <div class="flex flex-col gap-[16px] mt-[20px] max-h-[440px] overflow-y-auto">
@@ -51,10 +58,19 @@
                 <div>
                     <a
                         class="h-[48px] w-full cursor-pointer bg-primary-dark rounded-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center">
-                        <p class="relative bottom-[1px]"><span class="relative bottom-[1px] right-[4px]">+</span> Nieuwe activiteit</p>
+                        <p class="relative bottom-[1px]"><span class="relative bottom-[1px] right-[4px]">+</span> Nieuwe
+                            activiteit
+                        </p>
                     </a>
                 </div>
             </div>
+        </div>
+        <div class="1.5xl:hidden">
+            <a
+                class="h-[48px] w-full cursor-pointer bg-primary-dark rounded-b-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center">
+                <p class="relative bottom-[1px]"><span class="relative bottom-[1px] right-[4px]">+</span> Nieuwe
+                    activiteit</p>
+            </a>
         </div>
     </div>
 </template>
@@ -238,7 +254,8 @@ const formatTime = (dateTime) => {
 
 <style scoped>
 .calendar-cell {
-    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
     height: 100px;
     border: 1px solid #9EBDFF;
     vertical-align: top;
