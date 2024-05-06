@@ -5,10 +5,10 @@
       @click="handleOutsideClick"
     >
     <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
-    <h2 class="text-subtitle" >Wijzig doel</h2>
-    <Dropdown :label="'Doel EPC-label'" :items="goals" @itemSelected="handleLabelGoal"/>
-    <Input label="Doeljaar" :placeholder="'Bv. 2036'" @input-change="goalYearHandler"/>
-    <Btn name="Opslaan" @click="handleClick"/>
+    <h2 class="text-subtitle font-bold mb-[32px]" >Wijzig doel</h2>
+    <Dropdown :label="'Doel EPC-label'" :items="goals" @itemSelected="handleLabelGoal" :width="'full'" :bold="true"/>
+    <Input label="Doeljaar" :placeholder="'Bv. 2036'" @input-change="goalYearHandler" class="pb-[32px]"/>
+    <Btn name="Opslaan" @click="handleClick" :width="'full'"/>
     <p v-if="error" class="text-secondary-red">{{ error }}</p>
     </div>
     </div>
