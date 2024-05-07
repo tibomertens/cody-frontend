@@ -115,7 +115,7 @@ const getStateFetcher = (renovation) => async () => {
 
 <template>
   <div class="m-[32px] md:m-[40px]">
-    <section>
+    <section class="mb-[32px] md:mb-[40px]">
       <h2 class="text-subtitle font-bold pb-[20px]">Algemene info</h2>
       <div class="xs:flex gap-[32px] xs:h-[196px]">
         <div class="bg-offWhite-light xs:w-1/2 mb-[32px] xs:mb-0 h-[196px] flex justify-center rounded items-center">
