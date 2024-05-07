@@ -8,10 +8,10 @@
       </div>
       <div class="mt-5">
         <div class="w-full">
-          <Btn @click="confirmAction" name="Doorgaan" />
+          <Btn @click="confirmAction" :width="'full'" name="Doorgaan" />
         </div>
         <div class="w-full mt-4">
-          <GhostBtn @click="closeConfirm" name="Annuleren" />
+          <GhostBtn @click="closeConfirm" :width="'full'" name="Annuleren" />
         </div>
       </div>
     </div>

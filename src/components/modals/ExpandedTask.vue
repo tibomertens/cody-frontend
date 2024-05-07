@@ -32,8 +32,9 @@
             </div>
         </div>
     </div>
-    <Confirm :showConfirm="showConfirm" title="Weet je zeker dat je deze taak wilt verwijderen?"
-        @closeConfirm="showConfirm = false" @confirmAction="handleRemove" />
+    <Confirm :showConfirm="showConfirm" title="Activiteit verwijderen"
+        desc="Weet je zeker dat je deze activiteit wilt verwijderen?" @closeConfirm="showConfirm = false"
+        @confirmAction="handleRemove" />
 </template>
 
 <script setup>
