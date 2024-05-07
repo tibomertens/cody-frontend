@@ -30,7 +30,7 @@
                                         <span class="relative bottom-[1px]">{{ day.date }}</span>
                                     </div>
                                 </template>
-                                <ul v-if="!day.fromNextMonth && !day.fromPrevMonth" class="list-none overflow-y-auto max-h-80 mt-4">
+                                <ul v-if="!day.fromNextMonth && !day.fromPrevMonth" class="list-none overflow-y-auto max-h-80 mt-4" :class="{ 'relative !top-[4px]': !isCurrentDate(day.date) }">
                                     <li v-for="task in dayTasks(day.date)" :key="task.id" class="bg-primary-light text-sm font-semibold rounded-md px-2 py-1 mb-4 whitespace-nowrap overflow-hidden truncate cursor-pointer" @click="openExpandModal(task)">{{ task.title }}</li>
                                 </ul>
                             </td>
@@ -74,7 +74,7 @@
         </div>
     </div>
     <UpdateTask :showModal="showUpdateModal" @closeModal="closeModal" :task="clickedTask" @updateTask="handleUpdate" />
-    <ExpandedTask :showModal="showExpandedModal" @closeModal="closeModal" :task="clickedTask" @updateTask="openUpdateModal" />
+    <ExpandedTask :showModal="showExpandedModal" @closeModal="closeModal" :task="clickedTask" @updateTask="openUpdateModal" @removeTask="generateCalendar" />
 </template>
 
 

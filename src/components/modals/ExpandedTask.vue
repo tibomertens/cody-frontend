@@ -18,13 +18,13 @@
                     <p>{{ description }}</p>
                 </div>
                 <div class="flex gap-[24px]">
-                    <a
-                        class="h-[48px] w-full cursor-pointer bg-offWhite-light rounded-[5px] text-black text-[16px] text-center flex items-center justify-center" @click="handleUpdate">
+                    <a class="h-[48px] w-full cursor-pointer bg-offWhite-light rounded-[5px] text-black text-[16px] text-center flex items-center justify-center"
+                        @click="handleUpdate">
                         <img src="/edit_blue.svg" alt="edit icon">
                         <p class="relative bottom-[1px] ml-[16px]">Bewerk</p>
                     </a>
-                    <a
-                        class="h-[48px] w-full cursor-pointer bg-offWhite-light rounded-[5px] text-black text-[16px] text-center flex items-center justify-center">
+                    <a class="h-[48px] w-full cursor-pointer bg-offWhite-light rounded-[5px] text-black text-[16px] text-center flex items-center justify-center"
+                        @click="openConfirm">
                         <img src="/delete_red.svg" alt="delete icon">
                         <p class="relative bottom-[1px] ml-[16px]">Verwijder</p>
                     </a>
@@ -32,12 +32,17 @@
             </div>
         </div>
     </div>
+    <Confirm :showConfirm="showConfirm" title="Weet je zeker dat je deze taak wilt verwijderen?" @closeConfirm="showConfirm = false"
+        @confirmAction="handleRemove" />
 </template>
 
 <script setup>
 import { ref, watch } from "vue";
 
 import { formatDate, formatTime } from "../../functions/helpers";
+import { removeTask } from "../../functions/tasks";
+
+import Confirm from "./Confirm.vue";
 
 const props = defineProps({
     showModal: {
@@ -51,17 +56,33 @@ const props = defineProps({
 });
 
 const showModal = ref(false);
+const showConfirm = ref(false);
 
 let title = ref("");
 let date = ref("");
 let description = ref("");
 let id = ref("");
 
-const emit = defineEmits(["closeModal", "updateTask", "deleteTask"]);
+const emit = defineEmits(["closeModal", "updateTask", "removeTask"]);
 
 const handleUpdate = () => {
     closeModal();
     emit("updateTask");
+};
+
+const openConfirm = () => {
+    showConfirm.value = true;
+};
+
+const handleRemove = async () => {
+    const result = await removeTask(id.value);
+    if (!result.success) {
+        console.error(result.error);
+        return;
+    }
+    showConfirm.value = false;
+    closeModal();
+    emit("removeTask");
 };
 
 // watch to see if showModal prop changes
@@ -76,9 +97,7 @@ watch(
 watch(
     () => props.task,
     (value) => {
-        console.log(value);
         title.value = value.title;
-        console.log(title.value);
         date.value = value.date;
         description.value = value.description;
         // Parse the date string into a Date object

@@ -43,4 +43,32 @@ export const updateTask = async (id, task) => {
     console.error("Error:", error);
     throw error;
   }
-}
+};
+
+export const removeTask = async (id) => {
+  try {
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/tasks/${id}`;
+
+    const response = await fetch(apiEndpoint, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to remove task");
+    }
+
+    if (response.status === 204) {
+      // Task successfully removed
+      return { success: true };
+    } else {
+      const data = await response.json();
+      return data;
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
