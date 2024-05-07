@@ -1,12 +1,15 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+
 import { isValidToken, getUser } from "../../functions/user.js";
+import { formatFinancialNumber } from "../../functions/helpers.js";
 
 import Project from "../widgets/Project.vue";
 import Calendar from "../widgets/Calendar.vue";
 
 import { getActiveRenovations, getUserRenovation } from "../../functions/renovation.js";
+import { convertDate } from "../../functions/helpers.js";
 
 const router = useRouter();
 
@@ -39,12 +42,12 @@ const labelArray = [
 ];
 
 const activeLabelArray = [
-  'Budget',
+  'Toegewezen budget',
   'Startdatum'
 ];
 
 const doneLabelArray = [
-  'Budget',
+  'Uitgegeven budget',
   'Einddatum'
 ];
 
@@ -85,9 +88,10 @@ const getTextArray = (renovation) => {
 const getActiveTextArray = async (renovation) => {
   // Logic for generating textArray based on renovation data
   let data = await getUserRenovation(userId.value, renovation._id);
+  let startDate = convertDate(data.startDate);
   return [
-    '€' + data.budget,
-    data.startDate,
+    data.budget,
+    startDate,
     data.amount_total,
     data.amount_done
   ];
@@ -96,8 +100,8 @@ const getActiveTextArray = async (renovation) => {
 const getDoneTextArray = async (renovation) => {
   let data = await getUserRenovation(userId.value, renovation._id);
   return [
-    '€' + data.budget,
-    data.endDate,
+    data.budget,
+    convertDate(data.endDate),
     data.amount_total,
     data.amount_done
   ];
@@ -111,7 +115,24 @@ const getStateFetcher = (renovation) => async () => {
 
 <template>
   <div class="m-[32px] md:m-[40px]">
-    <section class="mb-[32px] md:mb-[40px]">LABEL + BUDGET</section>
+    <section>
+      <h2 class="text-subtitle font-bold pb-[20px]">Algemene info</h2>
+      <div class="xs:flex gap-[32px] xs:h-[196px]">
+        <div class="bg-offWhite-light xs:w-1/2 mb-[32px] xs:mb-0 h-[196px] flex justify-center rounded items-center">
+          <div><img :src="'/' + userData.label + '-label.svg'" alt="epc label" class="w-[140px]"></div>
+        </div>
+        <div class="bg-offWhite-light xs:w-1/2 h-[196px] flex justify-center rounded items-center gap-[32px]">
+          <div class="w-[60px] xs:w-[80px]">
+            <img src="/wallet.svg" alt="budget icon">
+          </div>
+          <div>
+            <p class="text-[18px] font-bold">Huidig budget</p>
+            <p v-if="userData.budget_current" class="text-[14px]" :class="{ 'text-secondary-red font-bold': userData.budget_current < 0 }">{{
+              formatFinancialNumber(userData.budget_current) }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
     <section class="mb-[32px] md:mb-[40px]">
       <Calendar />
     </section>

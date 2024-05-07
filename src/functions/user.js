@@ -32,3 +32,30 @@ export const getUser = async (token) => {
     throw error;
   }
 };
+
+export const loginUser = async (email, password) => {
+  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/login`;
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        email: email,
+        password: password, 
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
