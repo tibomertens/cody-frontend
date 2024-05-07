@@ -1,17 +1,14 @@
 <template>
-  <div
-    v-if="showConfirm"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-offBlack bg-opacity-50 w-full"
-    @click="handleOutsideClick"
-  >
+  <div v-if="showConfirm" class="fixed inset-0 z-50 flex items-center justify-center bg-offBlack bg-opacity-50 w-full"
+    @click="handleOutsideClick">
     <div class="bg-offWhite-light p-7 rounded font-bold text-btn">
       <h2>{{ title }}</h2>
       <div class="mt-10">
         <div class="w-full">
-          <GhostBtn @click="closeConfirm" name="Annuleren" />
+          <Btn @click="confirmAction" name="Doorgaan" />
         </div>
         <div class="w-full mt-4">
-          <Btn @click="confirmAction" name="Doorgaan" />
+          <GhostBtn @click="closeConfirm" name="Annuleren" />
         </div>
       </div>
     </div>
