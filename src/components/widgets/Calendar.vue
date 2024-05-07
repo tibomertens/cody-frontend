@@ -1,0 +1,303 @@
+<template>
+    <div>
+        <div class="flex justify-between">
+            <div class="flex gap-[12px] items-center mb-[12px]">
+                <div @click="prevMonth" class="cursor-pointer"><img src="/arrow_left.svg" alt="previous month"></div>
+                <h2 class="text-subtitle font-bold relative bottom-[2px]">{{ monthYear }}</h2>
+                <div @click="nextMonth" class="cursor-pointer"><img src="/arrow_right.svg" alt="next month"></div>
+            </div>
+            <div
+                class="w-[30px] h-[30px] bg-primary-dark rounded-[5px] flex justify-center items-center cursor-pointer 1.5xl:hidden">
+                <p class="font-bold text-offWhite-light text-[1.3em] relative bottom-[3px]">+</p>
+            </div>
+        </div>
+        <div v-if="!calendarLoaded" class="h-[603.67px] w-full bg-[#ececec] rounded-[5px]"></div>
+        <div v-if="calendarLoaded"
+            class="grid gap-[20px] 1.5xl:grid-cols-7 bg-offWhite-light overflow-x-auto !rounded-t-[5px] xl:!rounded-[5px]">
+            <div
+                class="col-span-5 bg-offWhite-light px-[12px] lg:pl-[20px] lg:pr-0 pb-[32px] pt-[48px] flex justify-center">
+                <table class="w-full lg:w-auto">
+                    <thead>
+                        <tr class="relative bottom-[16px] text-[14px]">
+                            <th v-for="day in daysOfWeek" :key="day">{{ day }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="week in calendar" :key="week">
+                            <td v-for="day in week" :key="day.date"
+                                class="min-w-[100px] max-w-[100px] h-[100px] border border-primary-light align-top bg-offWhite-light p-[4px] overflow-hidden"
+                                :class="{ 'calendar-cell': true }">
+                                <template v-if="!day.fromNextMonth && !day.fromPrevMonth">
+                                    <div
+                                        :class="{ 'bg-primary-dark w-[28px] h-[28px] flex justify-center items-center font-bold text-offWhite-light rounded-full': isCurrentDate(day.date) }">
+                                        <span class="relative bottom-[1px]">{{ day.date }}</span>
+                                    </div>
+                                </template>
+                                <ul v-if="!day.fromNextMonth && !day.fromPrevMonth"
+                                    class="list-none overflow-y-auto max-h-80 mt-4"
+                                    :class="{ 'relative !top-[4px]': !isCurrentDate(day.date) }">
+                                    <li v-for="task in dayTasks(day.date)" :key="task.id"
+                                        class="bg-primary-light text-sm font-semibold rounded-md px-2 py-1 mb-4 whitespace-nowrap overflow-hidden truncate cursor-pointer"
+                                        @click="openExpandModal(task)">{{ task.title }}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div
+                class="bg-primary-light col-span-2 px-[20px] pb-[32px] pt-[28px] font-bold hidden 1.5xl:flex flex-col justify-between">
+                <div>
+                    <h3 class="text-btn">Aankomende Activiteiten</h3>
+                    <div class="flex flex-col gap-[16px] mt-[20px] max-h-[440px] overflow-y-auto">
+                        <!-- Add max height and overflow-y-auto to make the container scrollable -->
+                        <div v-for="task in upcomingTasks"
+                            class="bg-offWhite-light rounded-[5px] py-[12px] px-[12px] cursor-pointer"
+                            @click="openExpandModal(task)">
+                            <div class="flex justify-between">
+                                <h4>{{ formatDate(task.date) }}</h4>
+                                <p class="font-normal text-[1em]">{{ formatTime(task.date) }}</p>
+                            </div>
+                            <div class="mt-[12px]">
+                                <p class="font-light">{{ task.title }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <a class="h-[48px] w-full cursor-pointer bg-primary-dark rounded-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center"
+                        @click="openAddModel">
+                        <p class="relative bottom-[1px]"><span class="relative bottom-[1px] right-[4px]">+</span> Nieuwe
+                            activiteit
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="1.5xl:hidden">
+            <a
+                class="h-[48px] w-full cursor-pointer bg-primary-dark rounded-b-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center">
+                <p class="relative bottom-[1px]"><span class="relative bottom-[1px] right-[4px]">+</span> Nieuwe
+                    activiteit</p>
+            </a>
+        </div>
+    </div>
+    <UpdateTask :showModal="showUpdateModal" @closeModal="closeModal" :task="clickedTask" @updateTask="handleUpdate" />
+    <ExpandedTask :showModal="showExpandedModal" @closeModal="closeModal" :task="clickedTask"
+        @updateTask="openUpdateModal" @removeTask="generateCalendar" />
+    <AddTask :showModal="showAddModal" @closeModal="closeModal" @addTask="generateCalendar" :userId="userId" />
+</template>
+
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import UpdateTask from '../modals/UpdateTask.vue';
+import ExpandedTask from '../modals/ExpandedTask.vue';
+import AddTask from '../modals/AddTask.vue';
+
+import { getTasks } from '../../functions/tasks';
+import { isValidToken, getUser } from '../../functions/user';
+import { formatDate, formatTime } from '../../functions/helpers';
+
+const currentDate = ref(new Date());
+const monthYear = ref('');
+const daysOfWeek = ref(['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag']);
+const calendar = ref([]);
+const userId = ref('');
+const userData = ref(null);
+const selectedMonth = ref('');
+const selectedYear = ref('');
+let upcomingTasks = ref([]);
+let clickedTask = ref(null);
+
+const token = localStorage.getItem('token');
+
+let showUpdateModal = ref(false);
+let showExpandedModal = ref(false);
+let showAddModal = ref(false);
+
+let calendarLoaded = ref(false);
+
+onMounted(async () => {
+    if (isValidToken(token)) {
+        userData.value = await getUser(token);
+        userId.value = userData.value._id;
+
+        if (userData.value !== null) {
+            generateCalendar();
+        } else {
+            router.push('/login');
+        }
+    } else {
+        router.push("/login");
+    }
+});
+
+const generateTasksForDay = async (date) => {
+    const result = await getTasks(userId.value);
+    let tasks = [];
+
+    if (result.success) {
+        tasks = result.data;
+    }
+
+    upcomingTasks.value = await getUpcomingTasks(tasks);
+
+    // Return tasks for the given date
+    return tasks.filter(task => {
+        const taskDate = new Date(task.date);
+        return taskDate.getFullYear() === date.getFullYear() &&
+            taskDate.getMonth() === date.getMonth() &&
+            taskDate.getDate() === date.getDate();
+    });
+};
+
+const dayTasks = (date) => {
+    for (const week of calendar.value) {
+        for (const day of week) {
+            if (day.date === date) {
+                return day.tasks;
+            }
+        }
+    }
+    return [];
+};
+
+const getUpcomingTasks = (tasks) => {
+    const today = new Date();
+
+    // Filter tasks that are due today or in the future, then sort them by date.
+    const upcomingTasks = tasks.filter(task => {
+        const taskDate = new Date(task.date);
+        return taskDate >= today;
+    }).sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateA - dateB;
+    });
+
+    // Return only the first 3 tasks.
+    return upcomingTasks;
+};
+
+const isCurrentDate = (day) => {
+    const today = new Date();
+
+    return selectedYear.value === today.getFullYear() &&
+        selectedMonth.value === today.getMonth() &&
+        day === today.getDate();
+};
+
+const nextMonth = () => {
+    currentDate.value.setMonth(currentDate.value.getMonth() + 1);
+    generateCalendar();
+};
+
+const prevMonth = () => {
+    currentDate.value.setMonth(currentDate.value.getMonth() - 1);
+    generateCalendar();
+};
+
+const generateCalendar = async () => {
+    const year = currentDate.value.getFullYear();
+    const month = currentDate.value.getMonth();
+    selectedMonth.value = month;
+    selectedYear.value = year;
+
+    const firstDayOfMonth = new Date(year, month, 1);
+    const startingDayOfWeek = firstDayOfMonth.getDay(); // Get the day of the week for the first day of the month
+    const firstDayOfWeek = (startingDayOfWeek === 0) ? 6 : (startingDayOfWeek - 1); // Adjusted to start from Monday (0 for Monday, 6 for Sunday)
+
+    const lastDayOfMonth = new Date(year, month + 1, 0);
+
+    monthYear.value = `${firstDayOfMonth.toLocaleString('default', { month: 'long' })} ${year}`;
+
+    const newCalendar = [];
+    let week = [];
+    let currentDay = new Date(firstDayOfMonth);
+
+    // Move to the first day of the week
+    currentDay.setDate(currentDay.getDate() - firstDayOfWeek);
+
+    while (currentDay <= lastDayOfMonth) {
+        // Mark days from the previous month
+        const fromPrevMonth = currentDay.getMonth() !== month;
+        week.push({ date: currentDay.getDate(), tasks: [], fromPrevMonth });
+
+        // Simulated tasks data for demonstration
+        // Replace this with your actual tasks data retrieval logic
+        const tasksForDay = await generateTasksForDay(currentDay);
+        week[week.length - 1].tasks = tasksForDay;
+
+        if (currentDay.getDay() === 0 || currentDay >= lastDayOfMonth) {
+            newCalendar.push(week);
+            week = [];
+        }
+
+        currentDay.setDate(currentDay.getDate() + 1);
+    }
+
+    // Check if the last week has less than 7 days and add days from the next month if necessary
+    const lastWeek = newCalendar[newCalendar.length - 1];
+    if (lastWeek.length < 7) {
+        let nextMonthDate = new Date(year, month + 1, 1);
+        while (lastWeek.length < 7) {
+            lastWeek.push({ date: nextMonthDate.getDate(), tasks: [], fromNextMonth: true });
+            nextMonthDate.setDate(nextMonthDate.getDate() + 1);
+        }
+    }
+
+    calendar.value = newCalendar;
+    calendarLoaded.value = true;
+};
+
+const openExpandModal = (task) => {
+    clickedTask.value = task;
+    showExpandedModal.value = true;
+};
+
+const openUpdateModal = () => {
+    showUpdateModal.value = true;
+};
+
+const openAddModel = () => {
+    showAddModal.value = true;
+};
+
+const closeModal = () => {
+    showUpdateModal.value = false;
+    showExpandedModal.value = false;
+    showAddModal.value = false;
+};
+
+const handleUpdate = async () => {
+    await generateCalendar();
+};
+</script>
+
+<style scoped>
+.calendar-cell:nth-child(7n+6),
+.calendar-cell:nth-child(7n+7) {
+    background-color: #EDF0F5;
+}
+
+.calendar-cell ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 4px;
+    overflow-y: auto;
+    max-height: 80px;
+}
+
+.calendar-cell ul li {
+    background-color: #9EBDFF;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 1px 2px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+</style>

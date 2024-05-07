@@ -8,10 +8,10 @@
       </div>
       <div class="mt-5">
         <div class="w-full">
-          <Btn @click="closeConfirm" name="Annuleren" />
+          <Btn @click="confirmAction" name="Doorgaan" />
         </div>
         <div class="w-full mt-4">
-          <Btn @click="confirmAction" name="Doorgaan" />
+          <GhostBtn @click="closeConfirm" name="Annuleren" />
         </div>
       </div>
     </div>
@@ -20,6 +20,7 @@
 
 <script setup>
 import Btn from "../UI/Btn.vue";
+import GhostBtn from "../UI/Ghost-btn.vue";
 
 const props = defineProps({
   showConfirm: Boolean,

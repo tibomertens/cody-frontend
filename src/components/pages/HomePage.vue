@@ -6,6 +6,7 @@ import { isValidToken, getUser } from "../../functions/user.js";
 import { formatFinancialNumber } from "../../functions/helpers.js";
 
 import Project from "../widgets/Project.vue";
+import Calendar from "../widgets/Calendar.vue";
 
 import { getActiveRenovations, getUserRenovation } from "../../functions/renovation.js";
 import { convertDate } from "../../functions/helpers.js";
@@ -132,7 +133,9 @@ const getStateFetcher = (renovation) => async () => {
         </div>
       </div>
     </section>
-    <section>KALENDER</section>
+    <section class="mb-[32px] md:mb-[40px]">
+      <Calendar />
+    </section>
     <section>
       <h2 class="text-subtitle font-bold pb-[20px]">Actieve projecten</h2>
       <div v-if="renovationsLoaded">
