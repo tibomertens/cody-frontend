@@ -11,7 +11,8 @@
                 <p class="font-bold text-offWhite-light text-[1.3em] relative bottom-[3px]">+</p>
             </div>
         </div>
-        <div
+        <div v-if="!calendarLoaded" class="h-[603.67px] w-full bg-[#ececec] rounded-[5px]"></div>
+        <div v-if="calendarLoaded"
             class="grid gap-[20px] 1.5xl:grid-cols-7 bg-offWhite-light overflow-x-auto !rounded-t-[5px] xl:!rounded-[5px]">
             <div
                 class="col-span-5 bg-offWhite-light px-[12px] lg:pl-[20px] lg:pr-0 pb-[32px] pt-[48px] flex justify-center">
@@ -114,6 +115,8 @@ const token = localStorage.getItem('token');
 let showUpdateModal = ref(false);
 let showExpandedModal = ref(false);
 let showAddModal = ref(false);
+
+let calendarLoaded = ref(false);
 
 onMounted(async () => {
     if (isValidToken(token)) {
@@ -245,6 +248,7 @@ const generateCalendar = async () => {
     }
 
     calendar.value = newCalendar;
+    calendarLoaded.value = true;
 };
 
 const openExpandModal = (task) => {
