@@ -23,15 +23,15 @@
                     </thead>
                     <tbody>
                         <tr v-for="week in calendar" :key="week">
-                            <td v-for="day in week" :key="day.date" :class="{ 'calendar-cell': true }">
+                            <td v-for="day in week" :key="day.date" class="min-w-[100px] max-w-[100px] h-[100px] border border-primary-light align-top bg-offWhite-light p-[4px] overflow-hidden" :class="{ 'calendar-cell': true }">
                                 <template v-if="!day.fromNextMonth && !day.fromPrevMonth">
                                     <div
                                         :class="{ 'bg-primary-dark w-[28px] h-[28px] flex justify-center items-center font-bold text-offWhite-light rounded-full': isCurrentDate(day.date) }">
                                         <span class="relative bottom-[1px]">{{ day.date }}</span>
                                     </div>
                                 </template>
-                                <ul v-if="!day.fromNextMonth && !day.fromPrevMonth">
-                                    <li v-for="task in dayTasks(day.date)" :key="task.id">{{ task.title }}</li>
+                                <ul v-if="!day.fromNextMonth && !day.fromPrevMonth" class="list-none overflow-y-auto max-h-80 mt-4">
+                                    <li v-for="task in dayTasks(day.date)" :key="task.id" class="bg-primary-light text-sm font-semibold rounded-md px-2 py-1 mb-4 whitespace-nowrap overflow-hidden truncate cursor-pointer" @click="openExpandModal(task)">{{ task.title }}</li>
                                 </ul>
                             </td>
                         </tr>
@@ -44,7 +44,7 @@
                     <h3 class="text-btn">Aankomende Activiteiten</h3>
                     <div class="flex flex-col gap-[16px] mt-[20px] max-h-[440px] overflow-y-auto">
                         <!-- Add max height and overflow-y-auto to make the container scrollable -->
-                        <div v-for="task in upcomingTasks" class="bg-offWhite-light rounded-[5px] py-[12px] px-[12px]">
+                        <div v-for="task in upcomingTasks" class="bg-offWhite-light rounded-[5px] py-[12px] px-[12px] cursor-pointer" @click="openExpandModal(task)">
                             <div class="flex justify-between">
                                 <h4>{{ formatDate(task.date) }}</h4>
                                 <p class="font-normal text-[1em]">{{ formatTime(task.date) }}</p>
@@ -73,14 +73,19 @@
             </a>
         </div>
     </div>
+    <UpdateTask :showModal="showUpdateModal" @closeModal="closeModal" :task="clickedTask" @updateTask="handleUpdate" />
+    <ExpandedTask :showModal="showExpandedModal" @closeModal="closeModal" :task="clickedTask" @updateTask="openUpdateModal" />
 </template>
 
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import UpdateTask from '../modals/UpdateTask.vue';
+import ExpandedTask from '../modals/ExpandedTask.vue';
 
 import { getTasks } from '../../functions/tasks';
 import { isValidToken, getUser } from '../../functions/user';
+import { formatDate, formatTime } from '../../functions/helpers';
 
 const currentDate = ref(new Date());
 const monthYear = ref('');
@@ -91,8 +96,12 @@ const userData = ref(null);
 const selectedMonth = ref('');
 const selectedYear = ref('');
 let upcomingTasks = ref([]);
+let clickedTask = ref(null);
 
 const token = localStorage.getItem('token');
+
+let showUpdateModal = ref(false);
+let showExpandedModal = ref(false);
 
 onMounted(async () => {
     if (isValidToken(token)) {
@@ -226,44 +235,26 @@ const generateCalendar = async () => {
     calendar.value = newCalendar;
 };
 
-const formatDate = (dateTime) => {
-    const daysOfWeek = [
-        "Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"
-    ];
-    const months = [
-        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-    ];
-
-    const date = new Date(dateTime);
-    const dayOfWeekIndex = date.getDay();
-    const day = date.getDate();
-    const monthIndex = date.getMonth();
-
-    return `${daysOfWeek[dayOfWeekIndex]} ${day} ${months[monthIndex]}`;
+const openExpandModal = (task) => {
+    clickedTask.value = task;
+    showExpandedModal.value = true;
 };
 
+const openUpdateModal = () => {
+    showUpdateModal.value = true;
+};
 
-const formatTime = (dateTime) => {
-    const date = new Date(dateTime);
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
+const closeModal = () => {
+    showUpdateModal.value = false;
+    showExpandedModal.value = false;
+};
+
+const handleUpdate = async () => {
+    await generateCalendar();
 };
 </script>
 
 <style scoped>
-.calendar-cell {
-    min-width: 100px;
-    max-width: 100px;
-    height: 100px;
-    border: 1px solid #9EBDFF;
-    vertical-align: top;
-    background-color: rgba(237, 240, 245, 0.4);
-    padding: 4px;
-    overflow: hidden;
-}
-
 .calendar-cell:nth-child(7n+6),
 .calendar-cell:nth-child(7n+7) {
     background-color: #EDF0F5;
