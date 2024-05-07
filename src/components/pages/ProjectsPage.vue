@@ -10,6 +10,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 import { isValidToken, getUser } from '../../functions/user.js';
 import { getRenovations, getRecommendedRenovations, getActiveRenovations, getSavedRenovations, getCompletedRenovations, getUserRenovation } from '../../functions/renovation.js';
+import { convertDate } from '../../functions/helpers.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -143,7 +144,7 @@ const getActiveTextArray = async (renovation) => {
   let data = await getUserRenovation(userId.value, renovation._id);
   return [
     data.budget,
-    data.startDate,
+    convertDate(data.startDate),
     data.amount_total,
     data.amount_done
   ];
@@ -153,7 +154,7 @@ const getDoneTextArray = async (renovation) => {
   let data = await getUserRenovation(userId.value, renovation._id);
   return [
     data.budget,
-    data.endDate,
+    convertDate(data.endDate),
     data.amount_total,
     data.amount_done
   ];

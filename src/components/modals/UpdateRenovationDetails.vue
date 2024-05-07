@@ -6,7 +6,7 @@
             @click="handleOutsideClick">
             <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
                 <h2 class="font-bold text-subtitle mb-[12px]">Gegevens invullen</h2>
-                <Input :label="'Startdatum'" @input-change="updateDate" :value="props.startDate"
+                <Input :label="'Startdatum'" @input-change="updateDate" :type="'date'" :value="props.startDate"
                     :error="inputHasError" />
                 <Input :label="'Budget voor deze renovatie'" :value="props.budget" pre-fix="€"
                     @input-change="updateBudget" :error="inputHasError" />
@@ -163,6 +163,8 @@ watch(
         filledInDate.value = props.startDate;
         budget.value = props.budget;
         amount.value = props.amountTotal;
+        const formattedDate = new Date(filledInDate.value).toISOString().slice(0, 16);
+        filledInDate.value = formattedDate;
     }
 );
 

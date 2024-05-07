@@ -6,7 +6,8 @@
             @click="handleOutsideClick">
             <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
                 <h2 class="font-bold text-subtitle mb-[12px]">Gegevens invullen</h2>
-                <Input :label="'Eind datum:'" @input-change="updateDate" :value="currentDate" :error="inputHasError" />
+                <Input :label="'Eind datum:'" @input-change="updateDate" :value="currentDate" :type="'date'"
+                    :error="inputHasError" />
                 <Input :label="'Budget voor deze renovatie:'" :value="props.budget" pre-fix="€"
                     @input-change="updateBudget" :error="inputHasError" />
                 <div class="w-full mt-[32px] grid gap-[24px]">
@@ -75,13 +76,14 @@ const props = defineProps({
 const showModal = ref(false);
 let showWarningModal = ref(false);
 
+// get the current date
 let today = new Date();
-let dd = String(today.getDate()).padStart(2, '0');
-let mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-let yyyy = today.getFullYear();
+let currentDate = today;
+const formattedDate = new Date(currentDate).toISOString().slice(0, 16);
 
-let currentDate = dd + '-' + mm + '-' + yyyy;
 let filledInDate = ref(currentDate);
+currentDate = formattedDate;
+filledInDate.value = formattedDate;
 let budget = ref("");
 
 let error = ref("");
