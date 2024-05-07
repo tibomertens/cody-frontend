@@ -142,6 +142,7 @@ import { useRouter, useRoute } from 'vue-router';
 
 import { updateState, updateAmount, updateSavedRenovation, updateNotes, getSuggestions, getUserRenovationById, getUserRenovation } from "../../functions/renovation";
 import { isValidToken, getUser } from '../../functions/user.js';
+import { convertDate } from '../../functions/helpers.js';
 
 import BackArrow from '../UI/Back-arrow.vue';
 import Btn from '../UI/Btn.vue';
@@ -215,7 +216,7 @@ const getActiveTextArray = async (renovation) => {
     let data = await getUserRenovation(userId.value, renovation._id);
     return [
         data.budget,
-        data.startDate,
+        convertDate(data.startDate),
         data.amount_total,
         data.amount_done
     ];
@@ -225,7 +226,7 @@ const getDoneTextArray = async (renovation) => {
     let data = await getUserRenovation(userId.value, renovation._id);
     return [
         data.budget,
-        data.endDate,
+        convertDate(data.endDate),
         data.amount_total,
         data.amount_done
     ];
@@ -330,13 +331,13 @@ const getSrcArray = (renovation) => {
 const getTextArray = (renovation, userRenovation) => {
     // Logic for generating textArray based on renovation data);
     if (userRenovation.startDate) {
-        startDate.value = userRenovation.startDate;
+        startDate.value = convertDate(userRenovation.startDate);
     } else {
         startDate.value = 'Nog niet gestart';
     }
 
     if (currentState.value === 'Voltooid') {
-        startDate.value = userRenovation.endDate;
+        startDate.value = convertDate(userRenovation.endDate);
     }
 
     return [
@@ -503,17 +504,17 @@ const setStrings = () => {
         currentBudget.value = userRenovation.value.budget;
         paused.value = false;
         stateBtnName.value = 'Markeer als voltooid';
-        startDate.value = userRenovation.value.startDate;
+        startDate.value = convertDate(userRenovation.value.startDate);
     } else if (currentState.value === 'Gepauzeerd') {
         currentBudget.value = userRenovation.value.budget;
         paused.value = true;
         stateBtnName.value = 'Hervat de renovatie';
-        startDate.value = userRenovation.value.startDate;
+        startDate.value = convertDate(userRenovation.value.startDate);
     } else if (currentState.value === 'Voltooid') {
         currentBudget.value = userRenovation.value.budget;
         paused.value = false;
         stateBtnName.value = 'Heropen de renovatie';
-        startDate.value = userRenovation.value.startDate;
+        startDate.value = convertDate(userRenovation.value.startDate);
     }
 
     if (userRenovation.value.amount_total) {

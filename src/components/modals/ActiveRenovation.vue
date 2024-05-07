@@ -6,7 +6,7 @@
             @click="handleOutsideClick">
             <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
                 <h2 class="font-bold text-subtitle mb-[12px]">Gegevens invullen</h2>
-                <Input :label="'Startdatum'" @input-change="updateDate" :value="currentDate" :error="inputHasError" />
+                <Input :label="'Startdatum'" @input-change="updateDate" :value="currentDate" :type="'date'" :error="inputHasError" />
                 <Input :label="'Budget voor deze renovatie'" :placeholder="'bv. 2350'" pre-fix="€"
                     @input-change="updateBudget" :error="inputHasError" />
                 <Input :label="'Aantal te renoveren delen'" :placeholder="'bv. 12'" @input-change="updateAmount"
@@ -114,13 +114,6 @@ const executeUpdateState = async () => {
     // check if budget and amount are numbers
     if (isNaN(budget.value) || isNaN(amount.value)) {
         error.value = "Budget en aantal moeten getallen zijn";
-        inputHasError.value = true;
-        return;
-    }
-    // check if date is of format dd-mm-yyyy
-    let dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-    if (!filledInDate.value.match(dateRegex)) {
-        error.value = "Datum moet in formaat dd-mm-yyyy";
         inputHasError.value = true;
         return;
     }

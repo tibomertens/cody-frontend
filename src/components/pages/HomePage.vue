@@ -8,6 +8,7 @@ import { formatFinancialNumber } from "../../functions/helpers.js";
 import Project from "../widgets/Project.vue";
 
 import { getActiveRenovations, getUserRenovation } from "../../functions/renovation.js";
+import { convertDate } from "../../functions/helpers.js";
 
 const router = useRouter();
 
@@ -86,9 +87,10 @@ const getTextArray = (renovation) => {
 const getActiveTextArray = async (renovation) => {
   // Logic for generating textArray based on renovation data
   let data = await getUserRenovation(userId.value, renovation._id);
+  let startDate = convertDate(data.startDate);
   return [
     data.budget,
-    data.startDate,
+    startDate,
     data.amount_total,
     data.amount_done
   ];
@@ -98,7 +100,7 @@ const getDoneTextArray = async (renovation) => {
   let data = await getUserRenovation(userId.value, renovation._id);
   return [
     data.budget,
-    data.endDate,
+    convertDate(data.endDate),
     data.amount_total,
     data.amount_done
   ];
