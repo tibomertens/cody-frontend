@@ -137,7 +137,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 import { updateState, updateAmount, updateSavedRenovation, updateNotes, getSuggestions, getUserRenovationById, getUserRenovation } from "../../functions/renovation";
@@ -547,4 +547,10 @@ const setStrings = () => {
         checklistItems.value = userRenovation.value.checklist;
     }
 };
+
+watch(() => route.params.id, async () => {
+    renovationId.value = route.params.id;
+    await fetchData();
+    suggestions.value = await getSuggestions(renovationtype.value);
+});
 </script>
