@@ -72,3 +72,23 @@ export const removeTask = async (id) => {
     throw error;
   }
 };
+
+export const createTask = async (task) => {
+  try {
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/tasks`;
+
+    const response = await fetch(apiEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(task),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};

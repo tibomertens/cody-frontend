@@ -64,8 +64,8 @@
                     </div>
                 </div>
                 <div>
-                    <a
-                        class="h-[48px] w-full cursor-pointer bg-primary-dark rounded-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center">
+                    <a class="h-[48px] w-full cursor-pointer bg-primary-dark rounded-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center"
+                        @click="openAddModel">
                         <p class="relative bottom-[1px]"><span class="relative bottom-[1px] right-[4px]">+</span> Nieuwe
                             activiteit
                         </p>
@@ -84,6 +84,7 @@
     <UpdateTask :showModal="showUpdateModal" @closeModal="closeModal" :task="clickedTask" @updateTask="handleUpdate" />
     <ExpandedTask :showModal="showExpandedModal" @closeModal="closeModal" :task="clickedTask"
         @updateTask="openUpdateModal" @removeTask="generateCalendar" />
+    <AddTask :showModal="showAddModal" @closeModal="closeModal" @addTask="generateCalendar" :userId="userId" />
 </template>
 
 
@@ -91,6 +92,7 @@
 import { ref, onMounted } from 'vue';
 import UpdateTask from '../modals/UpdateTask.vue';
 import ExpandedTask from '../modals/ExpandedTask.vue';
+import AddTask from '../modals/AddTask.vue';
 
 import { getTasks } from '../../functions/tasks';
 import { isValidToken, getUser } from '../../functions/user';
@@ -111,6 +113,7 @@ const token = localStorage.getItem('token');
 
 let showUpdateModal = ref(false);
 let showExpandedModal = ref(false);
+let showAddModal = ref(false);
 
 onMounted(async () => {
     if (isValidToken(token)) {
@@ -253,9 +256,14 @@ const openUpdateModal = () => {
     showUpdateModal.value = true;
 };
 
+const openAddModel = () => {
+    showAddModal.value = true;
+};
+
 const closeModal = () => {
     showUpdateModal.value = false;
     showExpandedModal.value = false;
+    showAddModal.value = false;
 };
 
 const handleUpdate = async () => {

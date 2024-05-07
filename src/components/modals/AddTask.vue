@@ -2,14 +2,14 @@
     <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-offBlack bg-opacity-50 w-full"
         @click="handleOutsideClick">
         <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
-            <h2 class="font-bold text-subtitle mb-[12px]">Gegevens aanpassen</h2>
-            <Input :label="'Titel:'" @input-change="updateTitle" :value="title" :error="inputHasError" />
-            <Input :label="'Datum:'" @input-change="updateDate" :error="inputHasError" :value="date"
+            <h2 class="font-bold text-subtitle mb-[12px]">Gegevens invullen</h2>
+            <Input :label="'Titel:'" @input-change="updateTitle" :error="inputHasError" />
+            <Input :label="'Datum:'" @input-change="updateDate" :error="inputHasError"
                 type="datetime-local" />
-            <Input :label="'Description'" :value="description" @input-change="updateDescription"
+            <Input :label="'Description'" @input-change="updateDescription"
                 :error="inputHasError" />
             <div class="w-full mt-[32px] grid gap-[24px]">
-                <Btn :name="'Opslaan'" :width="'full'" @click="update" />
+                <Btn :name="'Opslaan'" :width="'full'" @click="add" />
                 <p v-if="error" class="text-secondary-red">{{ error }}</p>
             </div>
         </div>
@@ -22,15 +22,15 @@ import { ref, watch } from "vue";
 import Btn from "../UI/Btn.vue";
 import Input from "../UI/Input.vue";
 
-import { updateTask } from "../../functions/tasks";
+import { createTask } from "../../functions/tasks";
 
 const props = defineProps({
     showModal: {
         type: Boolean,
         required: true,
     },
-    task: {
-        type: [Object, null],
+    userId: {
+        type: String,
         required: true,
     },
 });
@@ -42,11 +42,10 @@ let inputHasError = ref(false);
 let title = ref("");
 let date = ref("");
 let description = ref("");
-let id = ref("");
 
-const emit = defineEmits(["closeModal", "updateTask"]);
+const emit = defineEmits(["closeModal", "addTask"]);
 
-const update = async () => {
+const add = async () => {
     if (!title.value || !date.value || !description.value) {
         error.value = "Vul alle velden in";
         inputHasError.value = true;
@@ -54,12 +53,13 @@ const update = async () => {
     }
 
     const task = {
+        user: props.userId,
         title: title.value,
         date: date.value,
         description: description.value,
     };
 
-    const result = await updateTask(id.value, task);
+    const result = await createTask(task);
 
     if (!result.success) {
         error.value = result.error;
@@ -67,7 +67,7 @@ const update = async () => {
         return;
     }
 
-    emit("updateTask");
+    emit("addTask");
     closeModal();
 };
 
@@ -91,22 +91,11 @@ watch(
     }
 );
 
-// watch to see if task prop changes
+// watch to see if id prop changes
 watch(
-    () => props.task,
+    () => props.id,
     (value) => {
-        title.value = value.title;
-        date.value = value.date;
-        description.value = value.description;
-        // Parse the date string into a Date object
-        const originalDate = new Date(date.value);
-
-        // Add 2 hours to the date
-        originalDate.setHours(originalDate.getHours() + 2);
-
-        // Format the adjusted date to match the format expected by datetime-local input (YYYY-MM-DDTHH:MM)
-        const formattedDate = originalDate.toISOString().slice(0, 16); date.value = formattedDate;
-        id.value = value._id;
+        id.value = value;
     }
 );
 
