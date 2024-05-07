@@ -6,7 +6,7 @@ const props = defineProps({
         required: true
     },
     text: {
-        type: String,
+        type: [String, Number],
         required: true
     },
     label: {

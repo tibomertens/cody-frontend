@@ -24,6 +24,7 @@
                 <div v-if="currentState === 'Actief'" class="flex flex-col xs:flex-row gap-[16px] xs:gap-[20px]">
                     <Btn :name="stateBtnName" @click="changeState" :width="'full'" />
                     <GhostBtn :name="'Pauzeer de renovatie'" :width="'full'" @click="pauseRenovation" />
+                    <GhostBtn :name="'Stop de renovatie'" :width="'full'" @click="showConfirmPop" />
                 </div>
                 <div v-else>
                     <Btn :name="stateBtnName" @click="changeState" />
@@ -129,6 +130,9 @@
         <DoneRenovation :renovationId="renovationId" :userId="userId" :showModal="showDoneModal"
             :budget="parseInt(currentBudget)" :amountTotal="totalAmount" @updateState="handleUpdatedState"
             :userBudget="userBudget" :previousBudget="currentBudget" @closeModal="closeModal" />
+        <Confirm :showConfirm="showConfirmModal" :title="'Stop renovatie'"
+            :desc="'Ben je zeker dat je deze renovatie wilt stoppen, alle data gaat verloren. Wil je deze alsnog behouden, pauzeer de renovatie dan.'"
+            @closeConfirm="closeModal" @confirmAction="endRenovation" />
     </section>
 </template>
 
@@ -149,6 +153,7 @@ import Project from '../widgets/Project.vue';
 import ActiveRenovation from '../modals/ActiveRenovation.vue';
 import UpdateRenovationDetails from '../modals/UpdateRenovationDetails.vue';
 import DoneRenovation from '../modals/DoneRenovation.vue';
+import Confirm from '../modals/Confirm.vue';
 
 import CheckList from '../widgets/CheckList.vue';
 
@@ -166,6 +171,7 @@ let totalAmount = ref(0);
 let showActiveModal = ref(false);
 let showDoneModal = ref(false);
 let showUpdateModal = ref(false);
+let showConfirmModal = ref(false);
 let currentBudget = ref(0);
 let startDate = ref('');
 let pinnedIcon = ref('/pin_no_fill.svg');
@@ -182,6 +188,22 @@ let userBudget = ref(0);
 const router = useRouter();
 
 const token = localStorage.getItem('token');
+
+const showConfirmPop = () => {
+    showConfirmModal.value = true;
+};
+
+const endRenovation = async () => {
+    let body = {
+        startDate: null,
+        budget: null,
+        amount_done: 0,
+        amount_total: null,
+        status: "Aanbevolen"
+    };
+    await updateState(userId.value, renovationId.value, body);
+    await fetchData();
+};
 
 const getStateFetcher = (renovation) => async () => {
     let data = await getUserRenovation(userId.value, renovation._id);
@@ -433,6 +455,7 @@ const closeModal = () => {
     showActiveModal.value = false;
     showUpdateModal.value = false;
     showDoneModal.value = false;
+    showConfirmModal.value = false;
 };
 
 const handleUpdatedState = async () => {
@@ -499,10 +522,14 @@ const setStrings = () => {
 
     if (userRenovation.value.amount_done) {
         currentAmount.value = userRenovation.value.amount_done;
+    } else if (currentState.value !== 'Voltooid' && currentState.value !== 'Gepauzeerd' && currentState.value !== 'Actief') {
+        currentAmount.value = 0;
     }
 
     if (userRenovation.value.amount_total && userRenovation.value.amount_done) {
         percentRenovated.value = Math.round((currentAmount.value / totalAmount.value) * 100);
+    } else if (currentState.value !== 'Voltooid' && currentState.value !== 'Gepauzeerd' && currentState.value !== 'Actief') {
+        percentRenovated.value = 0;
     }
 
     if (isPinned.value) {
