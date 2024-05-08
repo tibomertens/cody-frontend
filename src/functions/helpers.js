@@ -62,3 +62,12 @@ export function convertDate(dateString) {
 
   return newDateString;
 }
+
+export const formatPhoneNumber = (phoneNumber) => {
+  const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
+  const formattedPhoneNumber = cleanedPhoneNumber.replace(
+    /^(\d{4})(\d{2})(\d{2})(\d{2})$/,
+    "$1 $2 $3 $4"
+  );
+  return formattedPhoneNumber;
+};

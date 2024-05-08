@@ -1,8 +1,10 @@
 <script setup>
 
 import { ref, defineProps } from "vue";
+import {formatPhoneNumber} from "../../functions/helpers.js";
 
 const props = defineProps(["promotor"]);
+
 </script>
 
 <template>
@@ -12,9 +14,7 @@ const props = defineProps(["promotor"]);
     <div class="flex justify-center pt-[10px] sm:w-[50%] lg:w-[15%] lg:text-center">
         {{ promotor.location }}
     </div>
-    <div class="flex justify-center pt-[10px] sm:w-[50%] lg:w-[15%] lg:text-center">
-        {{ promotor.phoneNumber }}
-    </div>
+    <a class="flex justify-center pt-[10px] sm:w-[50%] lg:w-[15%] lg:text-center" :href="'tel:' + promotor.phoneNumber">{{ formatPhoneNumber(promotor.phoneNumber) }}</a>
     <div
         class="flex justify-center pt-[10px] pb-[10px] items-center lg:justify-end gap-[10px] sm:w-[50%] lg:w-[15%] lg:text-right">
         <i class="fa-solid fa-star" style="color: #ff9900;"></i>

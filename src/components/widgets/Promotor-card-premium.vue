@@ -2,6 +2,7 @@
 
 import { ref, defineProps } from "vue";
 import Btn from "../UI/Btn.vue";
+import {formatPhoneNumber} from "../../functions/helpers.js";
 
 const props = defineProps(["promotor"]);
 </script>
@@ -19,9 +20,7 @@ const props = defineProps(["promotor"]);
                 <div class="flex justify-center sm:justify-start pt-[10px] lg:w-full lg:text-center">
                     {{ promotor.address }}
                 </div>
-                <div class="flex justify-center sm:justify-start pt-[10px] lg:w-full lg:text-center">
-                    {{ promotor.phoneNumber }}
-                </div>
+                <a class="flex justify-center sm:justify-start pt-[10px] lg:w-full lg:text-center" :href="'tel:' + promotor.phoneNumber">{{ formatPhoneNumber(promotor.phoneNumber) }}</a>
             </div>
             <div>
                 <div
