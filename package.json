@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@syncfusion/ej2-vue-dropdowns": "^25.1.41",
     "dotenv": "^16.4.5",
     "jwt-decode": "^4.0.0",
     "vue": "^3.4.15",
