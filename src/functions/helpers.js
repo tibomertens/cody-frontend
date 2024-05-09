@@ -58,7 +58,7 @@ export function convertDate(dateString) {
   const formattedMonth = ('0' + (month + 1)).slice(-2);
 
   // Construct the new date string in the desired format
-  const newDateString = `${year}-${formattedMonth}-${day}`;
+  const newDateString = `${day}/${formattedMonth}/${year}`;
 
   return newDateString;
 }
