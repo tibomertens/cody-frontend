@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">cody-frontend</string>
+    <string name="title_activity_main">cody-frontend</string>
+    <string name="package_name">cody.frontend</string>
+    <string name="custom_url_scheme">cody.frontend</string>
+</resources>
