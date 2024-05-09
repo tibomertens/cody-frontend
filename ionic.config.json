@@ -1,0 +1,7 @@
+{
+  "name": "cody-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}
