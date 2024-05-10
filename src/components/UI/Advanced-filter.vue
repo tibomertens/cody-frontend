@@ -1,8 +1,8 @@
 <template>
-    <div class="relative">
+    <div class="adv-filter relative z-1">
         <div class="w-full h-[48px] bg-offWhite-light rounded-[5px] border-2 border-primary-dark flex items-center justify-between"
             @click="toggleDropdown" :class="{ 'rounded-b-[0] border-b-0': isDropdownOpen }">
-            <p class="text-primary-dark font-bold text-btn ml-[24px] relative bottom-[1px]">Filters</p>
+            <p class="adv-filter-text text-primary-dark font-bold text-btn ml-[24px] relative bottom-[1px] z-1">Filters</p>
             <img :class="{ 'rotate-180': isDropdownOpen }" src="/dropdownIcon.svg" alt="dropdown icon"
                 class="mr-[24px]">
         </div>
