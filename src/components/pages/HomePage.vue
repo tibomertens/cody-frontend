@@ -22,9 +22,9 @@ let renovationsLoaded = ref(false);
 onMounted(async () => {
   if (isValidToken(token)) {
     userData.value = await getUser(token);
-    userId.value = userData.value._id;
 
     if (userData.value !== null) {
+      userId.value = userData.value._id;
       activeRenovations.value = await getActiveRenovations(userId.value);
       renovationsLoaded.value = true;
     } else {
