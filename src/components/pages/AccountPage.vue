@@ -51,14 +51,14 @@
             <div><img src="/budgetBlue.svg" alt="huidig budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
             <div>
               <p class="md:text-body font-bold">Resterend budget</p>
-              <p v-if="currentBudget" class="text-xs" :class="{'text-secondary-red font-bold': currentBudget < 0}">{{ formatFinancialNumber(currentBudget) }}</p>
+              <p class="text-xs" :class="{'text-secondary-red font-bold': currentBudget < 0}">{{ formatFinancialNumber(currentBudget) }}</p>
             </div>
           </div>
           <div class="md:flex md:gap-[32px]">
             <div><img src="/budgetBlue.svg" alt="uitgegeven budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
             <div>
               <p class="md:text-body font-bold">Uitgegeven budget</p>
-              <p v-if=spentBudget class="text-xs">{{ formatFinancialNumber(spentBudget) }}</p>
+              <p class="text-xs">{{ formatFinancialNumber(spentBudget) }}</p>
             </div>
           </div>
         </div>
@@ -97,8 +97,8 @@ let userId = ref("");
 let userData = ref({});
 let currentLabel = ref("");
 let goalLabel = ref("");
-let currentBudget;
-let spentBudget;
+let currentBudget = ref(0);
+let spentBudget = ref(0);
 let currentBudgetPercentage = ref('0%');
 let showModal = ref(false);
 let labels = ref(['F', 'E', 'D', 'C', 'B', 'A', 'A+']);
@@ -138,6 +138,7 @@ const getData = async () => {
     currentLabel.value = userData.value.label;
     goalLabel.value = userData.value.goalLabel;
     currentBudget = userData.value.budget_current;
+    console.log(currentBudget);
     spentBudget = userData.value.budget_spent;
     userId.value = userData.value._id;
     let totalBudget = parseInt(currentBudget) + parseInt(spentBudget);
