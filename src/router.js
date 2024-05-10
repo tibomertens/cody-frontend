@@ -96,6 +96,7 @@ const routes = [
   {
     path: "/promotors",
     components: { default: promotors, sidebar: sideNav, topNav: topNav },
+    name: "Renovatoren",
     meta: { sidebar: true },
   },
 ];
