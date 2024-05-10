@@ -2,7 +2,7 @@
 
 import { ref, defineProps } from "vue";
 import Btn from "../UI/Btn.vue";
-import {formatPhoneNumber} from "../../functions/helpers.js";
+import { formatPhoneNumber, openGoogleMaps } from "../../functions/helpers.js";
 
 const props = defineProps(["promotor"]);
 </script>
@@ -17,10 +17,10 @@ const props = defineProps(["promotor"]);
                 <div class="flex justify-center sm:justify-start pt-[10px] font-bold sm:w-[50%] lg:w-full">
                     {{ promotor.name }}
                 </div>
-                <div class="flex justify-center sm:justify-start pt-[10px] lg:w-full lg:text-center">
-                    {{ promotor.address }}
-                </div>
-                <a class="flex justify-center sm:justify-start pt-[10px] lg:w-full lg:text-center" :href="'tel:' + promotor.phoneNumber">{{ formatPhoneNumber(promotor.phoneNumber) }}</a>
+                <a class="flex justify-center sm:justify-start pt-[10px] lg:w-full lg:text-center cursor-pointer"
+                    @click="openGoogleMaps(promotor.address)">{{ promotor.address }}</a>
+                <a class="flex justify-center sm:justify-start pt-[10px] lg:w-full lg:text-center"
+                    :href="'tel:' + promotor.phoneNumber">{{ formatPhoneNumber(promotor.phoneNumber) }}</a>
             </div>
             <div>
                 <div

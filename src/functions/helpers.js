@@ -71,3 +71,9 @@ export const formatPhoneNumber = (phoneNumber) => {
   );
   return formattedPhoneNumber;
 };
+
+export const openGoogleMaps = (val) => {
+    const address = encodeURIComponent(val);
+    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
+    window.open(mapsUrl, '_blank');
+};
