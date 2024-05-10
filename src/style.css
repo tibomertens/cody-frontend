@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+  background-color: #EDF0F5;
+}
+
 /* Hide horizontal scrollbar for WebKit-based browsers */
 ::-webkit-scrollbar {
   height: 5px;
