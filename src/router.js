@@ -12,6 +12,7 @@ import Settings from "./components/pages/SettingsPage.vue";
 import promotors from "./components/pages/PromotorsPage.vue";
 import DetermineLabelChoicePage from "./components/pages/DetermineLabelChoicePage.vue";
 import RenovationDetailPage from "./components/pages/RenovationDetailsPage.vue";
+import RegisterPage from "./components/pages/RegisterPage.vue";
 
 const routes = [
   {
@@ -99,6 +100,11 @@ const routes = [
     name: "Renovatoren",
     meta: { sidebar: true },
   },
+  {
+    path: "/register",
+    components: { default: RegisterPage },
+    meta: { sidebar: false },
+  }
 ];
 
 const router = createRouter({
