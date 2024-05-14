@@ -1,6 +1,7 @@
 <script setup>
 import Input from "../UI/Input.vue";
 import Btn from "../UI/Button-Btn.vue";
+import Checkbox from "../UI/Checkbox.vue";
 import { registerUser } from "../../functions/user";
 
 // Import necessary functions from 'vue' for script setup
@@ -16,6 +17,28 @@ const updatedFamilyname = ref("");
 const hasError = ref(false);
 const error = ref(null);
 
+const checkboxChecked = ref(false); // Add a ref for tracking checkbox state
+
+//function to change value checkbox
+const selectedCheckbox = () => {
+    checkboxChecked.value = !checkboxChecked.value;
+    console.log(checkboxChecked.value);
+};
+
+const checkCheckbox = () => {
+    console.log(checkboxChecked.value);
+  if (checkboxChecked.value === false) {
+    // If checkbox is not checked, set error state and return
+    hasError.value = true;
+    error.value = "Accepteer de voorwaarden om verder te gaan";
+    return false;
+  }
+    // If checkbox is checked, reset error state and return true
+    hasError.value = false;
+    error.value = null;
+    return true;
+};
+
 // Event handlers to update email and password
 const updateEmail = (value) => {
   updatedEmail.value = value;
@@ -30,11 +53,15 @@ const updateFamilyname = (value) => {
 };
 
 const register = async () => {
+    
 
     if(!updatedEmail.value || !updatedPassword.value || !updatedFamilyname.value) {
       hasError.value = true;
       error.value = "Gelieve alle velden in te vullen";
       return;
+    }
+    if (!checkCheckbox()) {
+        return;
     }
   let result = await registerUser(updatedEmail.value, updatedPassword.value, updatedFamilyname.value);
   console.log(result);
@@ -59,6 +86,7 @@ const register = async () => {
     <Input :label="'Familienaam'" @input-change="updateFamilyname" :error="hasError"></Input>
     <Input :label="'Email'" :type="'email'" @input-change="updateEmail" :error="hasError"></Input>
     <Input :label="'Wachtwoord'" :type="'password'" @input-change="updatePassword" :error="hasError"></Input>
+    <Checkbox :label="'Ik ga akkoord met het gebruiken van mijn email om mij motiverende mails te sturen.'" @selectedItem="selectedCheckbox" class="text-xs font-medium mt-5" />
     <div v-if="error" class="text-secondary-red">{{ error }}</div>
     <div class="mt-8 mb-4">
       <Btn :name="'Registreer'" @click="register" :width="'full'" />
