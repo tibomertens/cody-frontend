@@ -3,6 +3,8 @@
 import { ref, defineProps } from "vue";
 import Btn from "../UI/Btn.vue";
 import {formatPhoneNumber} from "../../functions/helpers.js";
+import {useRouter} from "vue-router";
+const router = useRouter();
 
 const props = defineProps(["promotor"]);
 </script>
@@ -27,7 +29,7 @@ const props = defineProps(["promotor"]);
                     class="mt-[16px] flex justify-center pt-[10px] pb-[10px] items-center sm:justify-start lg:justify-end gap-[10px] sm:w-[50%] lg:w-[100%] lg:text-right">
                     <div class="sm:min-w-[153px]"><img src="/4stars.svg" alt="4 stars"></div>
                     <p>5/5</p>
-                    <a href="#" class="underline">Reviews</a>
+                    <a :href="'/reviews/' + promotor._id" class="underline">Reviews</a>
                 </div>
                 <div class="mt-[16px] mb-[16px] flex justify-center align-middle sm:w-full lg:w-full">
                     <Btn :name="'Ga naar website'" :width="'full'" />

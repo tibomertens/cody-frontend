@@ -12,6 +12,7 @@ import Settings from "./components/pages/SettingsPage.vue";
 import promotors from "./components/pages/PromotorsPage.vue";
 import DetermineLabelChoicePage from "./components/pages/DetermineLabelChoicePage.vue";
 import RenovationDetailPage from "./components/pages/RenovationDetailsPage.vue";
+import Reviews from "./components/pages/ReviewPage.vue";
 
 const routes = [
   {
@@ -98,6 +99,11 @@ const routes = [
     components: { default: promotors, sidebar: sideNav, topNav: topNav },
     meta: { sidebar: true },
   },
+  {
+    path: "/reviews/:id",  
+    components: { default: Reviews, sidebar: sideNav, topNav: topNav },
+    meta: { sidebar: true },
+  }
 ];
 
 const router = createRouter({

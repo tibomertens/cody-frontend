@@ -2,8 +2,12 @@
 
 import { ref, defineProps } from "vue";
 import {formatPhoneNumber} from "../../functions/helpers.js";
+import {useRouter} from "vue-router";
 
 const props = defineProps(["promotor"]);
+
+const router = useRouter();
+
 
 </script>
 
@@ -19,7 +23,7 @@ const props = defineProps(["promotor"]);
         class="flex justify-center pt-[10px] pb-[10px] items-center lg:justify-end gap-[10px] sm:w-[50%] lg:w-[15%] lg:text-right">
         <i class="fa-solid fa-star" style="color: #ff9900;"></i>
         <p>5/5</p>
-        <a href="#" class="underline">Reviews</a>
+        <a :href="'/reviews/' + promotor._id" class="underline">Reviews</a>
     </div>
 </template>
 
