@@ -86,3 +86,31 @@ export const loginUser = async (email, password) => {
     throw error;
   }
 };
+
+export const updatePassword = async (email, password) => {
+  
+  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/updatepassword`;
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        email: email,
+        password: password, 
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("User data updaten mislukt");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}

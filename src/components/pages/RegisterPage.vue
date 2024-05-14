@@ -1,8 +1,5 @@
 <script setup>
 import RegisterForm from "../forms/RegisterForm.vue";
-import Input from "../UI/Input.vue";
-import Btn from "../UI/Button-Btn.vue";
-import Checkbox from "../UI/Checkbox.vue";
 </script>
 
 <template>
