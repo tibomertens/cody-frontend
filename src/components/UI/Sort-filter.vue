@@ -56,7 +56,7 @@ const handleAddedValue = async (selectedItem) => {
     promotorId.value = route.params.id;
     reviews.value = await getReviewsByPromotor(promotorId.value);
     addedValue.value = selectedItem;
-    console.log("Reviews before sorting:", reviews.value); // Add this line
+    console.log("Reviews before sorting:", reviews.value); 
     emits('filtered', reviews.value);
     if (selectedItem === 'Hoogste rating') {
         reviews.value.sort((reviewA, reviewB) => reviewB.rating - reviewA.rating);
@@ -67,7 +67,6 @@ const handleAddedValue = async (selectedItem) => {
         activeAddedValueFilter.value = 'Laag naar hoog';
         emits('filtered', reviews.value);
     } else {
-        // Reset de sortering
         activeAddedValueFilter.value = 'Maak een keuze';
     }
 };
@@ -78,7 +77,7 @@ const handleType = async (selectedItem) => {
     promotorId.value = route.params.id;
     reviews.value = await getReviewsByPromotor(promotorId.value);
     type.value = selectedItem;
-    console.log("Reviews before sorting:", reviews.value); // Add this line
+    console.log("Reviews before sorting:", reviews.value); 
     emits('filtered', reviews.value);
     if (selectedItem === 'Recent naar oud') {
         reviews.value.sort((reviewA, reviewB) => new Date(reviewB.date) - new Date(reviewA.date));
@@ -94,9 +93,8 @@ const handleType = async (selectedItem) => {
 };
 
 const deleteFilter = () => {
-    activeAddedValueFilter.value = 'Maak een keuze'; // Reset de filter naar de standaardwaarde
+    activeAddedValueFilter.value = 'Maak een keuze'; 
     console.log("Active added value filter reset to default:", activeAddedValueFilter.value);
-    // Andere logica voor het resetten van de filter, indien nodig
     reviews.value = [];
 }
 
