@@ -1,96 +1,3 @@
-<!-- <template>
-    <div class="relative">
-        <div class="w-full h-[48px] bg-offWhite-light rounded-[5px] border-2 border-primary-dark flex items-center justify-between"
-            @click="toggleDropdown" :class="{ 'rounded-b-[0] border-b-0': isDropdownOpen }">
-            <p class="text-primary-dark font-bold text-btn ml-[24px] relative bottom-[1px]">Filters</p>
-            <img :class="{ 'rotate-180': isDropdownOpen }" src="/dropdownIcon.svg" alt="dropdown icon"
-                class="mr-[24px]">
-        </div>
-        <div v-if="isDropdownOpen"
-            class="absolute top-[48px] left-0 w-full bg-offWhite-light z-50 border-2 border-t-0 border-primary-dark rounded-b-[5px]">
-            <div class="p-[24px] pt-0 flex flex-col gap-[16px]">
-                <Dropdown :width="'full'" :label="'Klantenscore'" :bold="true" :items="addedValueArray"
-                    :default="activeAddedValueFilter" @item-selected="handleAddedValue" />
-                <Dropdown :width="'full'" :label="'Datum'" :bold="true" :items="typeArray"
-                    :default="activeTypeFilter" @item-selected="handleType" />
-                <div class="flex justify-center">
-                    <p class="text-secondary-red underline text-[0.9em] cursor-pointer" @click="deleteFilters">Wis alle
-                        filters</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<script setup>
-import { ref } from 'vue';
-import Dropdown from '../UI/Dropdown.vue';
-
-const addedValueArray = [
-    { title: 'Hoog naar laag', name: 'Hoogste rating' },
-    { title: 'Laag naar hoog', name: 'Laagste rating' },
-];
-
-const typeArray = [
-    { title: 'Recent naar oud', name: 'Recent naar oud' },
-    { title: 'Oud naar recent', name: 'Oud naar recent' },
-];
-
-
-const handleAddedValue = (selectedItem) => {
-    addedValue.value = selectedItem;
-    console.log(selectedItem)
-    if (selectedItem === 'Hoogste rating') {
-        activeAddedValueFilter.value = 'Hoog naar laag';
-    } else if (selectedItem === 'Laagste rating') {
-        activeAddedValueFilter.value = 'Laag naar hoog';
-    } else {
-        activeAddedValueFilter.value = 'Maak een keuze';
-    }
-}
-
-const handleType = (selectedItem) => {
-    type.value = selectedItem;
-    console.log(selectedItem)
-    if (selectedItem === 'Recent naar oud') {
-        activeTypeFilter.value = 'Recent naar oud';
-    } else if (selectedItem === 'Oud naar recent') {
-        activeTypeFilter.value = 'Oud naar recent';
-    } else {
-        activeTypeFilter.value = 'Maak een keuze';
-    }
-}
-
-const deleteFilters = () => {
-    activeAddedValueFilter.value = 'Maak een keuze';
-    activeTypeFilter.value = 'Maak een keuze';
-}
-
-
-
-const isDropdownOpen = ref(false);
-
-const toggleDropdown = () => {
-    isDropdownOpen.value = !isDropdownOpen.value;
-};
-
-default {
-    methods: {
-        // Define a method to handle the 'item-selected' event
-        handleAddedValue(selectedItem) {
-            // Log the selected item to the console
-            console.log("Selected item:", selectedItem);
-            // You can add additional logic here if needed
-        }
-    }
-}
-
-
-
-</script>
-
-<style scoped></style> -->
-
 <template>
     <div class="relative">
         <div class="w-full h-[48px] bg-offWhite-light rounded-[5px] border-2 border-primary-dark flex items-center justify-between"
@@ -103,13 +10,9 @@ default {
             class="absolute top-[48px] left-0 w-full bg-offWhite-light z-50 border-2 border-t-0 border-primary-dark rounded-b-[5px]">
             <div class="p-[24px] pt-0 flex flex-col gap-[16px]">
                 <Dropdown :width="'full'" :label="'Klantenscore'" :bold="true" :items="addedValueArray"
-                    :default="activeAddedValueFilter" @item-selected="handleAddedValue" />
+                    :default="activeAddedValueFilter" @item-selected="handleAddedValue" @delete-filter="deleteFilter"/>
                 <Dropdown :width="'full'" :label="'Datum'" :bold="true" :items="typeArray"
                     :default="activeTypeFilter" @item-selected="handleType" />
-                <div class="flex justify-center">
-                    <p class="text-secondary-red underline text-[0.9em] cursor-pointer" @click="deleteFilters">Wis alle
-                        filters</p>
-                </div>
             </div>
         </div>
     </div>
@@ -154,6 +57,7 @@ const handleAddedValue = async (selectedItem) => {
     reviews.value = await getReviewsByPromotor(promotorId.value);
     addedValue.value = selectedItem;
     console.log("Reviews before sorting:", reviews.value); // Add this line
+    emits('filtered', reviews.value);
     if (selectedItem === 'Hoogste rating') {
         reviews.value.sort((reviewA, reviewB) => reviewB.rating - reviewA.rating);
         activeAddedValueFilter.value = 'Hoog naar laag';
@@ -175,6 +79,7 @@ const handleType = async (selectedItem) => {
     reviews.value = await getReviewsByPromotor(promotorId.value);
     type.value = selectedItem;
     console.log("Reviews before sorting:", reviews.value); // Add this line
+    emits('filtered', reviews.value);
     if (selectedItem === 'Recent naar oud') {
         reviews.value.sort((reviewA, reviewB) => new Date(reviewB.date) - new Date(reviewA.date));
         activeTypeFilter.value = 'Recent naar oud';
@@ -188,11 +93,14 @@ const handleType = async (selectedItem) => {
     }
 };
 
+const deleteFilter = () => {
+    activeAddedValueFilter.value = 'Maak een keuze'; // Reset de filter naar de standaardwaarde
+    console.log("Active added value filter reset to default:", activeAddedValueFilter.value);
+    // Andere logica voor het resetten van de filter, indien nodig
+    reviews.value = [];
+}
 
-const deleteFilters = () => {
-    activeAddedValueFilter.value = 'Maak een keuze';
-    activeTypeFilter.value = 'Maak een keuze';
-};
+
 </script>
 
 <style scoped></style>
