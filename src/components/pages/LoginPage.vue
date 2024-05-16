@@ -13,7 +13,7 @@ import Mascot from "../shared/Mascot.vue";
                     <LoginForm />
                     <div class="flex justify-center gap-2">
                         <p class="text-sm font-bold">Heb je nog geen account?</p>
-                        <a href="#" class="text-sm underline">Registreer</a>
+                        <a href="/register" class="text-sm underline">Registreer</a>
                     </div>
                 </div>
             </div>
