@@ -1,8 +1,42 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 
-const props = defineProps(["label", "type", "error", "placeholder", "preFix", "value", "dark"]);
 const emit = defineEmits(['input-change']);
+const props= defineProps({
+  label: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    required: true
+  },
+  error: {
+    type: Boolean,
+    default: false
+  },
+  placeholder: {
+    type: String,
+    default: ""
+  },
+  preFix: {
+    type: String,
+    default: ""
+  },
+  value: {
+    type: String,
+    default: false
+  },
+  dark: {
+    type: Boolean,
+    default: false
+  },
+  forget: {
+    type: Boolean,
+    default: false
+  }
+});
+
 
 let inputValue = ref("");
 let hasError = ref(props.error);
@@ -15,7 +49,6 @@ watch(
   () => props.error,
   (newVal) => {
     hasError.value = newVal;
-    console.log("Error:", hasError.value);
   }
 );
 
@@ -41,8 +74,10 @@ watch(
   <div class="input-container mt-8">
     <div class="flex w-[100%] justify-between">
       <label class="text-body font-bold pb-2">{{ label }}</label>
-      <a href="#" class="text-xs underline"
-        :class="{ block: type === 'password', hidden: type !== 'password' }">Wachtwoord vergeten?</a>
+      <router-link to="/forgotpassword" >
+        <a href="#" class="text-xs underline"
+          :class="{ 'hidden': props.type !== 'password' || props.forget === true }">Wachtwoord vergeten?</a>
+      </router-link>
     </div>
     <div class="relative">
       <input :type="type"
