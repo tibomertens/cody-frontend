@@ -74,8 +74,10 @@ watch(
   <div class="input-container mt-8">
     <div class="flex w-[100%] justify-between">
       <label class="text-body font-bold pb-2">{{ label }}</label>
-      <a href="#" class="text-xs underline"
-        :class="{ 'hidden': props.type !== 'password' || props.forget === true }">Wachtwoord vergeten?</a>
+      <router-link to="/forgotpassword" >
+        <a href="#" class="text-xs underline"
+          :class="{ 'hidden': props.type !== 'password' || props.forget === true }">Wachtwoord vergeten?</a>
+      </router-link>
     </div>
     <div class="relative">
       <input :type="type"

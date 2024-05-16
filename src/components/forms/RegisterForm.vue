@@ -85,7 +85,7 @@ const register = async () => {
   <form>
     <Input :label="'Familienaam'" @input-change="updateFamilyname" :error="hasError"></Input>
     <Input :label="'Email'" :type="'email'" @input-change="updateEmail" :error="hasError"></Input>
-    <Input :label="'Wachtwoord'" :type="'password'" @input-change="updatePassword" :error="hasError"></Input>
+    <Input :label="'Wachtwoord'" :type="'password'" @input-change="updatePassword" :error="hasError" :forget="true"></Input>
     <Checkbox :label="'Ik ga akkoord met het gebruiken van mijn email om mij motiverende mails te sturen.'" @selectedItem="selectedCheckbox" class="text-xs font-medium mt-5" />
     <div v-if="error" class="text-secondary-red">{{ error }}</div>
     <div class="mt-8 mb-4">
