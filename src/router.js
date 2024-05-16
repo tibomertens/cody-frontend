@@ -91,6 +91,7 @@ const routes = [
   },
   {
     path: "/:catchAll(.*)",
+    name: "NotFound",
     redirect: "/",
   },
   {
