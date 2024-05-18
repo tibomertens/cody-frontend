@@ -86,6 +86,9 @@ onBeforeUnmount(() => {
 });
 
 watch(route, () => {
+  renovationsLoaded.value = false;
+  unexpected_error.value = false;
+  renovations.value = [];
   fetchData();
 });
 
