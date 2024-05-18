@@ -267,8 +267,8 @@ const labelArray = [
 const getSuggSrcArray = (renovation) => {
     // Logic for generating srcArray based on renovation data
     return [
-        renovation.impact === 'Hoogste impact' ? '/highImpact.svg' : '/lowImpact.svg',
-        renovation.cost === 'high' ? '/highCost.svg' : '/lowCost.svg',
+        renovation.impact === 'Hoogste impact' ? '/highImpact.svg' : (renovation.impact === 'Middelmatige impact' ? '/mediumImpact.svg' : '/lowImpact.svg'),
+        renovation.cost === 'high' ? '/highCost.svg' : (renovation.cost === 'medium' ? '/mediumCost.svg' : '/lowCost.svg'),
         '/budgetBlue.svg'
     ];
 };
@@ -321,8 +321,8 @@ const getLabelArray = () => {
 const getSrcArray = (renovation) => {
     // Logic for generating srcArray based on renovation data
     return [
-        renovation.impact === 'Hoogste impact' ? '/highImpact.svg' : '/lowImpact.svg',
-        renovation.cost === 'high' ? '/highCost.svg' : '/lowCost.svg',
+        renovation.impact === 'Hoogste impact' ? '/highImpact.svg' : (renovation.impact === 'Middelmatige impact' ? '/mediumImpact.svg' : '/lowImpact.svg'),
+        renovation.cost === 'high' ? '/highCost.svg' : (renovation.cost === 'medium' ? '/mediumCost.svg' : '/lowCost.svg'),
         '/budgetBlue.svg',
         '/calendar.svg'
     ];
