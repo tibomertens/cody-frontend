@@ -30,12 +30,12 @@ onMounted(() => {
 <template>
   <div class="bg-offWhite-light xl:fixed xl:w-[80%]">
     <div class="xl:ml-10 xl:mr-10 pl-[40px] xl:pl-0">
-      <div class="pt-[24px] flex items-center justify-between">
+      <div class="py-[12px] flex items-center justify-between">
         <div class="flex gap-[12px] items-center">
           <BackArrow />
           <h1 class="text-title font-bold mb-2">{{ currentRouteName() }}</h1>
         </div>
-        <router-link to="/settings" class="flex items-center ml-2 pr-5">
+        <router-link to="/settings" class="flex items-center ml-2 pr-[40px]">
           <img src="/settings.svg" alt="settings">
         </router-link>
       </div>

@@ -64,8 +64,8 @@ onMounted(() => {
   <div class="w-full xl:w-[20%] fixed xl:left-0">
     <div class="w-full h-[20%] bg-offWhite-light xl:h-screen">
       <!-- Quintt: dit is voorbeeld, voeg eigen routes toe. -->
-      <div class="flex justify-between p-5">
-        <img src="" alt="logo icon" />
+      <div class="flex justify-between xl:justify-center items-center py-5 px-[40px]">
+        <img src="/logo.svg" alt="logo icon" />
         <i class="hamburger fa-solid fa-bars self-center xl:hidden cursor-pointer"></i>
       </div>
 
@@ -258,11 +258,6 @@ onMounted(() => {
             'fa-user': true,
           }"></i>
           Account
-        </div>
-      </router-link>
-      <router-link to="/account" class="">
-        <div class="hidden">
-          <img src="" alt="mascotte" />
         </div>
       </router-link>
     </div>
