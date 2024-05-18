@@ -28,7 +28,7 @@
                                 class="min-w-[100px] max-w-[100px] h-[100px] border border-primary-light align-top bg-offWhite-light p-[4px] overflow-hidden"
                                 :class="{ 'calendar-cell': true }">
                                 <template v-if="!day.fromNextMonth && !day.fromPrevMonth">
-                                    <div
+                                    <div class="cursor-pointer" @click="openAddModel"
                                         :class="{ 'bg-primary-dark w-[28px] h-[28px] flex justify-center items-center font-bold text-offWhite-light rounded-full': isCurrentDate(day.date) }">
                                         <span class="relative bottom-[1px]">{{ day.date }}</span>
                                     </div>
