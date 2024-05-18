@@ -82,10 +82,11 @@
             </a>
         </div>
     </div>
-    <UpdateTask :showModal="showUpdateModal" @closeModal="closeModal" :task="clickedTask" @updateTask="handleUpdate" />
+    <UpdateTask :showModal="showUpdateModal" @closeModal="closeModal" :task="clickedTask"
+        @updateTask="handleTaskChange" />
     <ExpandedTask :showModal="showExpandedModal" @closeModal="closeModal" :task="clickedTask"
-        @updateTask="openUpdateModal" @removeTask="generateCalendar" />
-    <AddTask :showModal="showAddModal" @closeModal="closeModal" @addTask="generateCalendar" :userId="userId" />
+        @updateTask="openUpdateModal" @removeTask="handleTaskChange" />
+    <AddTask :showModal="showAddModal" @closeModal="closeModal" @addTask="handleTaskChange" :userId="userId" />
 </template>
 
 
@@ -118,6 +119,8 @@ let showAddModal = ref(false);
 
 let calendarLoaded = ref(false);
 
+const tasksCache = {};
+
 onMounted(async () => {
     if (isValidToken(token)) {
         userData.value = await getUser(token);
@@ -134,20 +137,34 @@ onMounted(async () => {
 });
 
 const generateTasksForDay = async (date) => {
-    const result = await getTasks(userId.value);
-    let tasks = [];
+    const year = date.getFullYear();
+    const month = date.getMonth();
 
-    if (result.success) {
-        tasks = result.data;
+    // Check if tasks for this month are already cached
+    if (!tasksCache[year]) {
+        tasksCache[year] = {};
+    }
+    if (!tasksCache[year][month]) {
+        // Fetch tasks for the current month if not in cache
+        const result = await getTasks(userId.value);
+        let tasks = [];
+        if (result.success) {
+            tasks = result.data;
+        }
+
+        // Cache tasks for the month
+        tasksCache[year][month] = tasks;
+
+        // Update upcoming tasks
+        upcomingTasks.value = await getUpcomingTasks(tasks);
     }
 
-    upcomingTasks.value = await getUpcomingTasks(tasks);
-
-    // Return tasks for the given date
+    // Get cached tasks for the specific day
+    const tasks = tasksCache[year][month];
     return tasks.filter(task => {
         const taskDate = new Date(task.date);
-        return taskDate.getFullYear() === date.getFullYear() &&
-            taskDate.getMonth() === date.getMonth() &&
+        return taskDate.getFullYear() === year &&
+            taskDate.getMonth() === month &&
             taskDate.getDate() === date.getDate();
     });
 };
@@ -205,8 +222,8 @@ const generateCalendar = async () => {
     selectedYear.value = year;
 
     const firstDayOfMonth = new Date(year, month, 1);
-    const startingDayOfWeek = firstDayOfMonth.getDay(); // Get the day of the week for the first day of the month
-    const firstDayOfWeek = (startingDayOfWeek === 0) ? 6 : (startingDayOfWeek - 1); // Adjusted to start from Monday (0 for Monday, 6 for Sunday)
+    const startingDayOfWeek = firstDayOfMonth.getDay();
+    const firstDayOfWeek = (startingDayOfWeek === 0) ? 6 : (startingDayOfWeek - 1);
 
     const lastDayOfMonth = new Date(year, month + 1, 0);
 
@@ -216,16 +233,13 @@ const generateCalendar = async () => {
     let week = [];
     let currentDay = new Date(firstDayOfMonth);
 
-    // Move to the first day of the week
     currentDay.setDate(currentDay.getDate() - firstDayOfWeek);
 
     while (currentDay <= lastDayOfMonth) {
-        // Mark days from the previous month
         const fromPrevMonth = currentDay.getMonth() !== month;
         week.push({ date: currentDay.getDate(), tasks: [], fromPrevMonth });
 
-        // Simulated tasks data for demonstration
-        // Replace this with your actual tasks data retrieval logic
+        // Retrieve tasks for the current day from cache or fetch if not available
         const tasksForDay = await generateTasksForDay(currentDay);
         week[week.length - 1].tasks = tasksForDay;
 
@@ -237,7 +251,6 @@ const generateCalendar = async () => {
         currentDay.setDate(currentDay.getDate() + 1);
     }
 
-    // Check if the last week has less than 7 days and add days from the next month if necessary
     const lastWeek = newCalendar[newCalendar.length - 1];
     if (lastWeek.length < 7) {
         let nextMonthDate = new Date(year, month + 1, 1);
@@ -270,7 +283,12 @@ const closeModal = () => {
     showAddModal.value = false;
 };
 
-const handleUpdate = async () => {
+const handleTaskChange = async () => {
+    // Clear the entire cache
+    for (const year in tasksCache) {
+        delete tasksCache[year];
+    }
+    // Re-fetch tasks
     await generateCalendar();
 };
 </script>
