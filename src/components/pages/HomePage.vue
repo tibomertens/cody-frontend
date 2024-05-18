@@ -131,7 +131,7 @@ const getStateFetcher = (renovation) => async () => {
           </div>
           <div>
             <p class="text-[18px] font-bold">Huidig budget</p>
-            <p v-if="userData.budget_current" class="text-[14px]" :class="{ 'text-secondary-red font-bold': userData.budget_current < 0 }">{{
+            <p v-if="userData.budget_current || userData.budget_current === 0" class="text-[14px]" :class="{ 'text-secondary-red font-bold': userData.budget_current < 0 }">{{
               formatFinancialNumber(userData.budget_current) }}</p>
           </div>
         </div>
