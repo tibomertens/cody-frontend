@@ -32,6 +32,7 @@
         </div>
       </div>
     </div>
+    <div v-else class="pulsing h-[156px] rounded-[5px] md:mx-[40px] ml-[5%]"></div>
   </section>
   <section>
     <div class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center">
@@ -40,7 +41,7 @@
         <div><img src="/edit_no_fill.svg" alt="potlood"></div>
       </a>
     </div>
-    <div class=" md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-10 rounded mb-[40px]">
+    <div v-if="dataIsLoaded" class=" md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-10 rounded mb-[40px]">
       <div class="bg-offWhite-dark md:mx-[20%] mx-[15%] mt-[40px] md:w-[60%] md:h-[52px] w-[70%] h-[32px] rounded">
         <!-- Add a wrapper div for the animated bar -->
         <div class="h-full bg-primary-medium rounded animate-bar" :style="{ width: currentBudgetPercentage }"></div>
@@ -68,6 +69,7 @@
         <a href="#">Bekijk al je uitgaven</a>
       </div>
     </div>
+    <div v-else class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
   </section>
   <ChangeGoal 
       :showModal="showModal"
@@ -134,7 +136,7 @@ const closeModal = () => {
 
 const getData = async () => {
   userData.value = await getUser(token);
-  
+
   if (userData.value !== null) {
     currentLabel.value = userData.value.label;
     goalLabel.value = userData.value.goalLabel;

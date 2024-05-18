@@ -190,6 +190,9 @@ const handleFilter = (filteredRenovations) => {
           :stateFetcher="getStateFetcher(renovation)" />
       </router-link>
     </div>
+    <div v-if="!renovationsLoaded && !unexpected_error" class="pulsing rounded-[5px] h-[196px] mb-[32px]"></div>
+    <div v-if="!renovationsLoaded && !unexpected_error" class="pulsing rounded-[5px] h-[196px] mb-[32px]"></div>
+    <div v-if="!renovationsLoaded && !unexpected_error" class="pulsing rounded-[5px] h-[196px] mb-[32px]"></div>
   </section>
 </template>
 
