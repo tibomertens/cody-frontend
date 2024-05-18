@@ -7,7 +7,7 @@
                 <div @click="nextMonth" class="cursor-pointer"><img src="/arrow_right.svg" alt="next month"></div>
             </div>
         </div>
-        <div v-if="!calendarLoaded" class="h-[603.67px] w-full bg-[#ececec] rounded-[5px]"></div>
+        <div v-if="!calendarLoaded" class="h-[603.67px] w-full bg-[#ececec] rounded-[5px] pulsing"></div>
         <div v-if="calendarLoaded"
             class="grid gap-[20px] 1.5xl:grid-cols-7 bg-offWhite-light overflow-x-auto !rounded-t-[5px] xl:!rounded-[5px]">
             <div

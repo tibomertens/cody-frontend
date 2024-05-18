@@ -18,10 +18,12 @@ let userData = ref({});
 let activeRenovations = ref([]);
 let userId = ref("");
 let renovationsLoaded = ref(false);
+let mainDataLoaded = ref(false);
 
 onMounted(async () => {
   if (isValidToken(token)) {
     userData.value = await getUser(token);
+    mainDataLoaded.value = true;
 
     if (userData.value !== null) {
       userId.value = userData.value._id;
@@ -118,10 +120,12 @@ const getStateFetcher = (renovation) => async () => {
     <section class="mb-[32px] md:mb-[40px]">
       <h2 class="text-subtitle font-bold pb-[20px]">Algemene info</h2>
       <div class="xs:flex gap-[32px] xs:h-[196px]">
-        <div class="bg-offWhite-light xs:w-1/2 mb-[32px] xs:mb-0 h-[196px] flex justify-center rounded items-center">
+        <div v-if="!mainDataLoaded" class="pulsing xs:w-1/2 rounded-[5px] w-full h-[196px] mb-[32px]"></div>
+        <div v-if="mainDataLoaded" class="bg-offWhite-light xs:w-1/2 mb-[32px] xs:mb-0 h-[196px] flex justify-center rounded items-center">
           <div><img :src="'/' + userData.label + '-label.svg'" alt="epc label" class="w-[140px]"></div>
         </div>
-        <div class="bg-offWhite-light xs:w-1/2 h-[196px] flex justify-center rounded items-center gap-[32px]">
+        <div v-if="!mainDataLoaded" class="pulsing xs:w-1/2 rounded-[5px] w-full h-[196px]"></div>
+        <div v-if="mainDataLoaded" class="bg-offWhite-light xs:w-1/2 h-[196px] flex justify-center rounded items-center gap-[32px]">
           <div class="w-[60px] xs:w-[80px]">
             <img src="/wallet.svg" alt="budget icon">
           </div>
@@ -147,6 +151,7 @@ const getStateFetcher = (renovation) => async () => {
             :stateFetcher="getStateFetcher(renovation)" />
         </router-link>
       </div>
+      <div v-else class="pulsing rounded-[5px] h-[196px]"></div>
     </section>
   </div>
 </template>
