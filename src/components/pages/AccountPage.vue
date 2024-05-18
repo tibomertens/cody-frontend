@@ -134,11 +134,11 @@ const closeModal = () => {
 
 const getData = async () => {
   userData.value = await getUser(token);
+  
   if (userData.value !== null) {
     currentLabel.value = userData.value.label;
     goalLabel.value = userData.value.goalLabel;
     currentBudget = userData.value.budget_current;
-    console.log(currentBudget);
     spentBudget = userData.value.budget_spent;
     userId.value = userData.value._id;
     let totalBudget = parseInt(currentBudget) + parseInt(spentBudget);

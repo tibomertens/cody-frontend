@@ -25,7 +25,7 @@ export const calculateLabel = async (items) => {
 export const addLabel = async (items, userId) => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}`,
+      `${import.meta.env.VITE_API_URL}/api/v1/users/update/${userId}`,
       {
         method: "PATCH",
         body: JSON.stringify(items),
