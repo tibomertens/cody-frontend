@@ -38,18 +38,23 @@
                 </div>
                 <div class="mt-[20px] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-[20px]">
                     <div class="grid gap-[20px]">
-                        <ProjectInfo :light="true" :label="getLabelArray()[0]" :src="getSrcArray(renovation)[0]"
-                            :text="getTextArray(renovation, userRenovation)[0]" />
-                        <ProjectInfo :light="true" :label="getLabelArray()[1]" :src="getSrcArray(renovation)[1]"
-                            :text="getTextArray(renovation, userRenovation)[1]" />
+                        <ProjectInfo v-if="loaded" :light="true" :label="getLabelArray()[0]"
+                            :src="getSrcArray(renovation)[0]" :text="getTextArray(renovation, userRenovation)[0]" />
+                        <div v-else class="pulsing rounded-[5px] h-[112px]"></div>
+                        <ProjectInfo v-if="loaded" :light="true" :label="getLabelArray()[1]"
+                            :src="getSrcArray(renovation)[1]" :text="getTextArray(renovation, userRenovation)[1]" />
+                        <div v-else class="pulsing rounded-[5px] h-[112px]"></div>
                     </div>
                     <div class="grid gap-[20px]">
-                        <ProjectInfo :light="true" :label="getLabelArray()[2]" :src="getSrcArray(renovation)[2]"
-                            :text="getTextArray(renovation, userRenovation)[2]" :budget="true" />
-                        <ProjectInfo :light="true" :label="getLabelArray()[3]" :src="getSrcArray(renovation)[3]"
-                            :text="getTextArray(renovation, userRenovation)[3]" />
+                        <ProjectInfo v-if="loaded" :light="true" :label="getLabelArray()[2]"
+                            :src="getSrcArray(renovation)[2]" :text="getTextArray(renovation, userRenovation)[2]"
+                            :budget="true" />
+                        <div v-else class="pulsing rounded-[5px] h-[112px]"></div>
+                        <ProjectInfo v-if="loaded" :light="true" :label="getLabelArray()[3]"
+                            :src="getSrcArray(renovation)[3]" :text="getTextArray(renovation, userRenovation)[3]" />
+                        <div v-else class="pulsing rounded-[5px] h-[112px]"></div>
                     </div>
-                    <div v-if="currentState != 'Aanbevolen' && currentState != 'Extra'"
+                    <div v-if="currentState != 'Aanbevolen' && currentState != 'Extra' && loaded"
                         class="grid grid-rows-[3fr,1fr] h-[244px] gap-[20px] xs:col-span-2 lg:col-span-1">
                         <div class="rounded-[5px] bg-offWhite-light flex justify-center items-center">
                             <DonutChart :percent="percentRenovated" :bg="'#EDF0F5'" :paused="paused" />
@@ -63,6 +68,7 @@
                                     alt="plus icon"></div>
                         </div>
                     </div>
+                    <div v-if="!loaded" class="pulsing rounded-[5px] h-[112px]"></div>
                 </div>
             </div>
             <div class="mt-[32px] md:mt-[40px]">
@@ -157,6 +163,13 @@ import DoneRenovation from '../modals/DoneRenovation.vue';
 import Confirm from '../modals/Confirm.vue';
 
 import CheckList from '../widgets/CheckList.vue';
+
+const loaded = ref(false);
+
+// after 5seconds, set loaded to true
+setTimeout(() => {
+    loaded.value = true;
+}, 1000);
 
 let paused = ref(false);
 let route = useRoute();
