@@ -128,29 +128,19 @@ const applyFilters = () => {
 
     // Sort filteredRenovations based on addedValue.value
     if (addedValue.value) {
-        if (addedValue.value === 'Hoogste impact') {
-            // activeAddedValueFilter.value = 'Hoog';
-            filteredRenovations.value.sort((a, b) => {
-                if (a.impact === 'Hoogste impact' && b.impact !== 'Hoogste impact') {
-                    return -1;
-                } else if (a.impact !== 'Hoogste impact' && b.impact === 'Hoogste impact') {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            });
-        } else if (addedValue.value === 'Laagste impact') {
-            // activeAddedValueFilter.value = 'Laag';
-            filteredRenovations.value.sort((a, b) => {
-                if (a.impact === 'Laagste impact' && b.impact !== 'Laagste impact') {
-                    return -1;
-                } else if (a.impact !== 'Laagste impact' && b.impact === 'Laagste impact') {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            });
-        }
+        filteredRenovations.value.sort((a, b) => {
+            const impactOrder = {
+                'Hoogste impact': 1,
+                'Middelmatige impact': 2,
+                'Laagste impact': 3
+            };
+
+            if (addedValue.value === 'Hoogste impact') {
+                return impactOrder[a.impact] - impactOrder[b.impact];
+            } else if (addedValue.value === 'Laagste impact') {
+                return impactOrder[b.impact] - impactOrder[a.impact];
+            }
+        });
     }
 
     emit('filtered', filteredRenovations.value);
