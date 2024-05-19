@@ -51,10 +51,9 @@ onMounted(() => {
 <template>
   <div class="w-full xl:w-[20%] fixed xl:left-0">
     <div class="w-full h-[20%] bg-offWhite-light xl:h-screen">
-      <!-- Quintt: dit is voorbeeld, voeg eigen routes toe. -->
       <div class="flex justify-between xl:justify-center items-center py-5 px-[40px]">
         <img src="/logo.svg" alt="logo icon" />
-        <i class="hamburger self-center xl:hidden cursor-pointer">
+        <i class="hamburger self-center inline-block xl:hidden cursor-pointer">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
@@ -259,7 +258,6 @@ onMounted(() => {
 <style>
 .hamburger {
   position: relative;
-  display: inline-block;
   width: 22px;
   height: 16px;
   cursor: pointer;
