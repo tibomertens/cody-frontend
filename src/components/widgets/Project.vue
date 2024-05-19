@@ -170,10 +170,10 @@ watchEffect(async () => {
     }">
         <div class="p-[32px]">
             <div>
-                <h2 class="font-bold text-subtitle">{{ name }}</h2>
+                <h2 class="font-bold text-[1.1em] md:text-subtitle">{{ name }}</h2>
                 <div class="mt-[12px]">
-                    <p class="font-light overflow-hidden line-clamp-2">{{ desc }}</p>
-                    <span class="text-primary-dark font-bold">Read more</span>
+                    <p class="font-light text-[0.8em] md:text-[1em] overflow-hidden line-clamp-2">{{ desc }}</p>
+                    <span class="text-primary-dark text-[0.8em] md:text-[1em] font-bold">Read more</span>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 ml:grid-cols-3 gap-[20px] mt-[32px]"
