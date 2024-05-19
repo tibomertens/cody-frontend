@@ -2,19 +2,20 @@
     <div class="adv-filter relative z-1">
         <div class="w-full h-[48px] bg-offWhite-light rounded-[5px] border-2 border-primary-dark flex items-center justify-between"
             @click="toggleDropdown" :class="{ 'rounded-b-[0] border-b-0': isDropdownOpen }">
-            <p class="adv-filter-text text-primary-dark font-bold text-btn ml-[24px] relative bottom-[1px] z-1">Filters</p>
+            <p class="adv-filter-text text-primary-dark font-bold text-btn ml-[24px] relative bottom-[1px] z-1">Filters
+            </p>
             <img :class="{ 'rotate-180': isDropdownOpen }" src="/dropdownIcon.svg" alt="dropdown icon"
                 class="mr-[24px]">
         </div>
         <div v-if="isDropdownOpen"
             class="absolute top-[48px] left-0 w-full bg-offWhite-light z-50 border-2 border-t-0 border-primary-dark rounded-b-[5px]">
             <div class="p-[24px] pt-0 flex flex-col gap-[16px]">
-                <Input :label="'Budget:'" :placeholder="props.userBudget" :pre-fix="'€'" class="mt-1" @input-change="updateBudget"
-                    :value="activeBudgetFilter" :dark="true" />
+                <Input :label="'Budget:'" :placeholder="props.userBudget" :pre-fix="'€'" class="mt-1"
+                    @input-change="updateBudget" :value="activeBudgetFilter" :dark="true" />
                 <Dropdown :width="'full'" :label="'Meerwaarde voor label:'" :bold="true" :items="addedValueArray"
                     :default="activeAddedValueFilter" @item-selected="handleAddedValue" />
                 <Dropdown :width="'full'" :label="'Type renovatie:'" :bold="true" :items="typeArray"
-                    :default="activeTypeFilter" @item-selected="handleType" />
+                    :default="activeTypeFilterToShow" @item-selected="handleType" />
                 <Btn :name="'Filters toepassen'" :width="'full'" class="mt-[12px] text-[1rem]" @click="applyFilters" />
                 <div class="flex justify-center">
                     <p class="text-secondary-red underline text-[0.9em] cursor-pointer" @click="deleteFilters">Wis alle
@@ -44,8 +45,9 @@ let budget = ref('');
 let originalRenovations = props.renovations;
 let filteredRenovations = ref([]);
 let activeAddedValueFilter = ref('Maak een keuze');
-let activeTypeFilter = ref('Maak een keuze');
+let activeTypeFilterToShow = ref('Maak een keuze');
 let activeBudgetFilter = ref(false);
+let activeTypeFilter = ref('Maak een keuze');
 
 const handleAddedValue = (selectedItem) => {
     addedValue.value = selectedItem;
@@ -64,21 +66,26 @@ const handleType = (selectedItem) => {
 
     if (selectedItem === 'windows') {
         activeTypeFilter.value = 'Vensters';
+        activeTypeFilterToShow.value = 'Vensters';
     } else if (selectedItem === 'isolation') {
         activeTypeFilter.value = 'Isolation';
+        activeTypeFilterToShow.value = 'Isolatie';
     } else if (selectedItem === 'heating') {
         activeTypeFilter.value = 'Verwarming';
+        activeTypeFilterToShow.value = 'Verwarming';
     } else if (selectedItem === 'ventilation') {
         activeTypeFilter.value = 'Ventilation';
+        activeTypeFilterToShow.value = 'Ventilatie';
     } else if (selectedItem === 'sun-energy') {
         activeTypeFilter.value = 'Zonne-energie';
+        activeTypeFilterToShow.value = 'Zonne-energie';
     } else if (selectedItem === 'water') {
         activeTypeFilter.value = 'Sanitair hot water';
+        activeTypeFilterToShow.value = 'Water';
     } else {
         activeTypeFilter.value = 'Maak een keuze';
+        activeTypeFilterToShow.value = 'Maak een keuze';
     }
-
-    console.log(selectedItem, activeTypeFilter.value);
 }
 
 const updateBudget = (value) => {
@@ -97,15 +104,26 @@ const applyFilters = () => {
             renovation => renovation.highest_cost <= budgetValue
         );
     } else if (budget.value === '') {
-        // activeBudgetFilter.value = '';
+        activeBudgetFilter.value = '';
     }
 
     // Apply type filter
     if (activeTypeFilter.value) {
-        console.log(activeTypeFilter.value);
-        filteredRenovations.value = filteredRenovations.value.filter(
-            renovation => renovation.type === activeTypeFilter.value
-        );
+        // if activetypefilter is 'Maak een keuze', then filter on all types
+        if (activeTypeFilter.value === 'Maak een keuze') {
+            filteredRenovations.value = filteredRenovations.value.filter(
+                renovation => renovation.type === 'Vensters' ||
+                    renovation.type === 'Isolation' ||
+                    renovation.type === 'Verwarming' ||
+                    renovation.type === 'Ventilation' ||
+                    renovation.type === 'Zonne-energie' ||
+                    renovation.type === 'Sanitair hot water'
+            );
+        } else {
+            filteredRenovations.value = filteredRenovations.value.filter(
+                renovation => renovation.type === activeTypeFilter.value
+            );
+        }
     }
 
     // Sort filteredRenovations based on addedValue.value
@@ -174,13 +192,12 @@ const toggleDropdown = () => {
 // watch to see if the route changes, if so update the originalRenovations, empty the filtered renovations  and reset the filters
 watch(() => props.renovations, (newValue) => {
     originalRenovations.value = newValue;
-    filteredRenovations.value = [...originalRenovations.value];
-    addedValue.value = '';
-    type.value = '';
-    budget.value = '';
-    activeAddedValueFilter.value = 'Maak een keuze';
-    activeTypeFilter.value = 'Maak een keuze';
-    activeBudgetFilter.value = false;
+    // addedValue.value = '';
+    // type.value = '';
+    // budget.value = '';
+    // activeAddedValueFilter.value = 'Maak een keuze';
+    // activeTypeFilter.value = 'Maak een keuze';
+    // activeBudgetFilter.value = false;
 });
 </script>
 
