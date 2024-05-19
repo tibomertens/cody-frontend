@@ -10,7 +10,7 @@ const props = defineProps(["promotor"]);
 <template>
     <div class="w-full sm:flex">
         <div class="w-full sm:w-[50%] lg:w-[33%] flex justify-center p-[20px] lg:justify-start">
-            <img src="/kelder.svg" alt="">
+            <img src="/logoipsum-300.svg" alt="">
         </div>
         <div class="sm:w-[50%] lg:flex md:w-[66%] h-full lg:justify-between lg:items-center">
             <div>
