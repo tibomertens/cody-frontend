@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+
+const router = useRouter();
 
 document.addEventListener("DOMContentLoaded", () => {
   const dropdown = document.querySelector(".dropdown");
@@ -34,6 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const currentRoute = ref("");
 const route = useRoute();
+
+const logout = () => {
+  localStorage.removeItem("token");
+  router.push("/login");
+};
 
 onMounted(() => {
   currentRoute.value = route.path;
@@ -154,6 +161,11 @@ onMounted(() => {
             Account
           </div>
         </router-link>
+      
+        <!-- only show this if the currentRoute is /account -->
+        <div v-if="currentRoute === '/account'" class="py-[32px] rounded-l-[5px] flex justify-center text-btn text-secondary-red font-bold" @click="logout">
+          Uitloggen
+        </div>
       </div>
     </div>
 
