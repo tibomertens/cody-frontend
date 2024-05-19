@@ -3,44 +3,32 @@ import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 
 document.addEventListener("DOMContentLoaded", () => {
-  //select the div with dropdown class
   const dropdown = document.querySelector(".dropdown");
   const hamburger = document.querySelector(".hamburger");
-  const paths = document.querySelectorAll(".path");
-  //add event listener to the hamburger icon
+
   hamburger.addEventListener("click", () => {
-    // select the div with class adv-filter
     const advFilter = document.querySelector(".adv-filter");
-    // select the div with class adv-filter-text
     const advFilterText = document.querySelector(".adv-filter-text");
-    // select the div with class searchbar
     const searchbar = document.querySelector(".searchbar");
-    // select the img with class searchbar-icon
     const searchbarIcon = document.querySelector(".searchbar-icon");
-    //toggle the hidden class
+
     dropdown.classList.toggle("hidden");
+    hamburger.classList.toggle("active");
+
     if (advFilter !== null) {
-      // toggle the relative class on adv-filter
       advFilter.classList.toggle("relative");
-      // toggle the relative class on adv-filter-text
       advFilterText.classList.toggle("relative");
     }
+
     if (searchbar !== null) {
-      // toggle the relative class on searchbar
       searchbar.classList.toggle("relative");
-      // toggle the hidden class on searchbar-icon
       searchbarIcon.classList.toggle("hidden");
     }
 
-    //toggle the hidden class for the paths
     dropdown.addEventListener("click", () => {
       dropdown.classList.add("hidden");
-      hamburger.classList.add("fa-bars");
-      hamburger.classList.remove("fa-xmark");
+      hamburger.classList.remove("active");
     });
-    //change fa-solid fa-bars to fa-solid fa-xmark
-    hamburger.classList.toggle("fa-bars");
-    hamburger.classList.toggle("fa-xmark");
   });
 });
 
@@ -66,7 +54,11 @@ onMounted(() => {
       <!-- Quintt: dit is voorbeeld, voeg eigen routes toe. -->
       <div class="flex justify-between xl:justify-center items-center py-5 px-[40px]">
         <img src="/logo.svg" alt="logo icon" />
-        <i class="hamburger fa-solid fa-bars self-center xl:hidden cursor-pointer"></i>
+        <i class="hamburger self-center xl:hidden cursor-pointer">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </i>
       </div>
 
       <div class="hidden xl:block mt-[56px]">
@@ -263,3 +255,50 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style>
+.hamburger {
+  position: relative;
+  display: inline-block;
+  width: 22px;
+  height: 16px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.hamburger .bar {
+  display: block;
+  width: 100%;
+  height: 2.5px;
+  background-color: black;
+  transition: all 0.3s ease;
+  position: absolute;
+}
+
+.hamburger .bar:nth-child(1) {
+  top: 0;
+}
+
+.hamburger .bar:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hamburger .bar:nth-child(3) {
+  bottom: 0;
+}
+
+.hamburger.active .bar:nth-child(1) {
+  transform: rotate(45deg);
+  top: 50%;
+}
+
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(3) {
+  transform: rotate(-45deg);
+  top: 50%;
+}
+</style>
