@@ -52,7 +52,9 @@ onMounted(() => {
   <div class="w-full xl:w-[20%] fixed xl:left-0">
     <div class="w-full h-[20%] bg-offWhite-light xl:h-screen">
       <div class="flex justify-between xl:justify-center items-center py-5 px-[40px]">
-        <img src="/logo.svg" alt="logo icon" />
+        <router-link to="/">
+          <img src="/logo.svg" alt="logo icon" />
+        </router-link>
         <i class="hamburger self-center inline-block xl:hidden cursor-pointer">
           <span class="bar"></span>
           <span class="bar"></span>
@@ -150,11 +152,6 @@ onMounted(() => {
               'fa-user': true,
             }"></i>
             Account
-          </div>
-        </router-link>
-        <router-link to="/account" class="">
-          <div class="">
-            <img src="" alt="mascotte" />
           </div>
         </router-link>
       </div>
