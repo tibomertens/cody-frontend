@@ -35,7 +35,7 @@ onMounted(() => {
           <BackArrow />
           <h1 class="text-title font-bold mb-2">{{ currentRouteName() }}</h1>
         </div>
-        <router-link to="/settings" class="flex items-center ml-2 pr-[40px]">
+        <router-link to="/settings" class="flex items-center ml-2 pr-[40px] xl:pr-0">
           <img src="/settings.svg" alt="settings">
         </router-link>
       </div>
