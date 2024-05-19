@@ -42,7 +42,7 @@
                 </table>
             </div>
             <div
-                class="bg-primary-light col-span-2 px-[20px] pb-[32px] pt-[28px] font-bold flex flex-col justify-between">
+                class="bg-primary-light min-h-[500px] col-span-2 px-[20px] pb-[32px] pt-[28px] font-bold flex flex-col justify-between">
                 <div>
                     <h3 class="text-btn">Aankomende Activiteiten</h3>
                     <div class="flex flex-col gap-[16px] mt-[20px] max-h-[440px] overflow-y-auto">
