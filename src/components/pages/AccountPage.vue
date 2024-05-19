@@ -57,7 +57,7 @@
           </div>
           <div class="md:flex md:gap-[32px]">
             <div><img src="/budgetBlue.svg" alt="uitgegeven budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
-            <div>
+            <div class="text-right">
               <p class="md:text-body font-bold">Uitgegeven budget</p>
               <p class="text-xs">{{ formatFinancialNumber(spentBudget) }}</p>
             </div>
