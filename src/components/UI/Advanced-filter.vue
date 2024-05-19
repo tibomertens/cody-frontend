@@ -41,7 +41,7 @@ const emit = defineEmits(['filtered']);
 let addedValue = ref('');
 let type = ref('');
 let budget = ref('');
-let originalRenovations = ref(props.renovations);
+let originalRenovations = props.renovations;
 let filteredRenovations = ref([]);
 let activeAddedValueFilter = ref('Maak een keuze');
 let activeTypeFilter = ref('Maak een keuze');
@@ -61,21 +61,24 @@ const handleAddedValue = (selectedItem) => {
 
 const handleType = (selectedItem) => {
     type.value = selectedItem;
+
     if (selectedItem === 'windows') {
         activeTypeFilter.value = 'Vensters';
     } else if (selectedItem === 'isolation') {
-        activeTypeFilter.value = 'Isolatie';
+        activeTypeFilter.value = 'Isolation';
     } else if (selectedItem === 'heating') {
         activeTypeFilter.value = 'Verwarming';
     } else if (selectedItem === 'ventilation') {
-        activeTypeFilter.value = 'Ventilatie';
+        activeTypeFilter.value = 'Ventilation';
     } else if (selectedItem === 'sun-energy') {
         activeTypeFilter.value = 'Zonne-energie';
     } else if (selectedItem === 'water') {
-        activeTypeFilter.value = 'Water';
+        activeTypeFilter.value = 'Sanitair hot water';
     } else {
         activeTypeFilter.value = 'Maak een keuze';
     }
+
+    console.log(selectedItem, activeTypeFilter.value);
 }
 
 const updateBudget = (value) => {
@@ -84,7 +87,7 @@ const updateBudget = (value) => {
 };
 
 const applyFilters = () => {
-    filteredRenovations.value = [...originalRenovations.value]; // Reset filtered array
+    filteredRenovations.value = [...originalRenovations]; // Reset filtered array
 
     // Apply budget filter
     if (budget.value) {
@@ -98,9 +101,10 @@ const applyFilters = () => {
     }
 
     // Apply type filter
-    if (type.value) {
+    if (activeTypeFilter.value) {
+        console.log(activeTypeFilter.value);
         filteredRenovations.value = filteredRenovations.value.filter(
-            renovation => renovation.type === type.value
+            renovation => renovation.type === activeTypeFilter.value
         );
     }
 
