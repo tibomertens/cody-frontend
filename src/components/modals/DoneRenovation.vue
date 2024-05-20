@@ -125,13 +125,6 @@ const executeUpdateData = async () => {
         inputHasError.value = true;
         return;
     }
-    // check if date is of format dd-mm-yyyy
-    let dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-    if (!filledInDate.value.match(dateRegex)) {
-        error.value = "Datum moet in formaat dd-mm-yyyy";
-        inputHasError.value = true;
-        return;
-    }
 
     let body = {
         endDate: filledInDate.value,
