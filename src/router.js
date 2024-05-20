@@ -13,6 +13,7 @@ import promotors from "./components/pages/PromotorsPage.vue";
 import DetermineLabelChoicePage from "./components/pages/DetermineLabelChoicePage.vue";
 import RenovationDetailPage from "./components/pages/RenovationDetailsPage.vue";
 import Reviews from "./components/pages/ReviewPage.vue";
+import CreateReview from "./components/pages/CreateReviewPage.vue";
 
 const routes = [
   {
@@ -102,6 +103,11 @@ const routes = [
   {
     path: "/reviews/:id",  
     components: { default: Reviews, sidebar: sideNav, topNav: topNav },
+    meta: { sidebar: true },
+  },
+  {
+    path: "/createreview/:id",
+    components: { default: CreateReview, sidebar: sideNav, topNav: topNav },
     meta: { sidebar: true },
   }
 ];
