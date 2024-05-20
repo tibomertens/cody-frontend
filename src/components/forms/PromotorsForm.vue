@@ -1,16 +1,16 @@
 <template>
     <form>
-        <div class="grid grid-cols-1 xs:grid-cols-2 gap-[32px]">
+        <div class="grid grid-cols-1 xs:grid-cols-2 gap-x-[32px] gap-y-[12px]">
             <Dropdown :label="'Tier:'" :items="tiers" @itemSelected="handleTierSelected" :bold="true" :width="'full'"
                 class="mt-[26px]" />
-            <Input :label="'Telefoonnummer:'" :type="'text'" @input-change="handlePhoneChange"
+            <Input :label="'Telefoonnummer:'" :type="'number'" @input-change="handlePhoneChange"
                 :error="hasError"></Input>
             <Input :label="'E-mail:'" :type="'email'" @input-change="handleEmailChange" :error="hasError"></Input>
             <Input :label="'Website url:'" :type="'text'" @input-change="handleWebsiteChange" :error="hasError"></Input>
             <Input :label="'Straat:'" :type="'text'" @input-change="handleStreetChange" :error="hasError"></Input>
-            <Input :label="'Huisnummer:'" :type="'text'" @input-change="handleStreetNumberChange"
+            <Input :label="'Huisnummer:'" :type="'number'" @input-change="handleStreetNumberChange"
                 :error="hasError"></Input>
-            <Input :label="'Postcode:'" :type="'text'" @input-change="handlePostalCodeChange" :error="hasError"></Input>
+            <Input :label="'Postcode:'" :type="'number'" @input-change="handlePostalCodeChange" :error="hasError"></Input>
             <Input :label="'Gemeente:'" :type="'text'" @input-change="handleCityChange" :error="hasError"></Input>
             <Input :label="'Bedrijfsnaam:'" :type="'text'" @input-change="handleCompanyNameChange"
                 :error="hasError"></Input>
