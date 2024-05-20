@@ -14,6 +14,7 @@ import DetermineLabelChoicePage from "./components/pages/DetermineLabelChoicePag
 import RenovationDetailPage from "./components/pages/RenovationDetailsPage.vue";
 import RegisterPage from "./components/pages/RegisterPage.vue";
 import ForgotPasswordPage from "./components/pages/ForgotPasswordPage.vue";
+import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
 
 const routes = [
   {
@@ -100,11 +101,6 @@ const routes = [
     meta: { title: "Cody | Instellingen", sidebar: true },
   },
   {
-    path: "/:catchAll(.*)",
-    name: "NotFound",
-    redirect: "/",
-  },
-  {
     path: "/promotors",
     components: { default: promotors, sidebar: sideNav, topNav: topNav },
     name: "Renovatoren",
@@ -119,6 +115,16 @@ const routes = [
     path: "/forgotpassword",
     components: { default: ForgotPasswordPage },
     meta: { title: "Cody | Wachtwoord vergeten", sidebar: false },
+  },
+  {
+    path: "/resetpassword",
+    components: { default: ResetPasswordPage },
+    meta: { title: "Cody | Wachtwoord veranderen", sidebar: false },
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    redirect: "/",
   },
 ];
 

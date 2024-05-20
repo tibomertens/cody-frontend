@@ -16,9 +16,9 @@ export const registerUser = async (email, password, familyname) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         email: email,
-        password: password, 
+        password: password,
         username: familyname,
       }),
     });
@@ -33,7 +33,7 @@ export const registerUser = async (email, password, familyname) => {
     console.error("Error:", error);
     throw error;
   }
-}
+};
 
 export const getUser = async (token) => {
   const decoded = jwtDecode(token);
@@ -69,9 +69,9 @@ export const loginUser = async (email, password) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         email: email,
-        password: password, 
+        password: password,
       }),
     });
 
@@ -87,24 +87,24 @@ export const loginUser = async (email, password) => {
   }
 };
 
-export const updatePassword = async (email, password) => {
-  
-  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/updatepassword`;
+export const sendpasswordresetmail = async (email) => {
+  let apiEndpoint = `${
+    import.meta.env.VITE_API_URL
+  }/api/v1/users/sendpasswordresetmail`;
 
   try {
     const response = await fetch(apiEndpoint, {
-      method: "PATCH",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         email: email,
-        password: password, 
       }),
     });
 
     if (!response.ok) {
-      throw new Error("User data updaten mislukt");
+      throw new Error("Mail sturen mislukt");
     }
 
     const data = await response.json();
@@ -113,4 +113,24 @@ export const updatePassword = async (email, password) => {
     console.error("Error:", error);
     throw error;
   }
-}
+};
+
+export const resetpassword = async (body) => {
+  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/resetpassword`;
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
