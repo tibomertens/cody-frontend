@@ -257,7 +257,7 @@ onMounted(() => {
             'fa-solid': currentRoute === '/account',
             'fa-user': true,
           }"></i>
-          Account
+          Account <span class="text-secondary-red font-bold ml-[12px]" :class="{'hidden': currentRoute !== '/account'}" @click="logout">Uitloggen</span>
         </div>
       </router-link>
     </div>
