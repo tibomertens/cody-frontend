@@ -71,6 +71,23 @@
     </div>
     <div v-else class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
   </section>
+  <section>
+    <div class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center">
+      <h2 class="text-subtitle font-bold">Aantal renovaties</h2>
+    </div>
+    <div v-if="dataIsLoaded" class=" md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-10 rounded mb-[40px]">
+      <div class="md:flex md:w-full md:justify-center">
+        <div class="mx-5 md:w-[60%]">
+          <Graph :data="chartDataArray" />
+        </div>
+      </div>
+      <div
+        class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center">
+        <a href="/projects/completed">Bekijk al je voltooide renovaties</a>
+      </div>
+    </div>
+    <div v-else class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
+  </section>
   <ChangeGoal 
       :showModal="showModal"
       :userId="userId"
@@ -89,8 +106,10 @@ import { useRouter } from "vue-router";
 
 import { isValidToken, getUser } from "../../functions/user.js";
 import { formatFinancialNumber } from "../../functions/helpers.js";
+import { getCompletedRenovationsByMonth } from "../../functions/renovation.js";
 import ChangeGoal from "../modals/ChangeGoal.vue";
 import ChangeBudget from "../modals/ChangeBudget.vue";
+import Graph from "../UI/Line-graph.vue";
 
 const router = useRouter();
 
@@ -107,13 +126,23 @@ let labels = ref(['F', 'E', 'D', 'C', 'B', 'A', 'A+']);
 let dataIsLoaded = ref(false);
 let label = ref("");
 let showBudgetModal = ref(false);
+let chartDataArray = ref(new Array(12).fill(0)); // Initialize with 12 zeros, one for each month
 
 onMounted(async () => {
   if (isValidToken(token)) {
-    getData();
+    await getData();
   } else {
     router.push("/login");
   }
+
+  const result = await getCompletedRenovationsByMonth(userId.value);
+  // chartDataArray.value = result;
+
+  // Populate the chartDataArray with the result data
+  updateChartDataArray(result);
+
+  // Calculate cumulative sum
+  calculateCumulativeSum();
 });
 
 const openEditBudgetPopup = () => {
@@ -172,4 +201,28 @@ const getData = async () => {
   }
 };
 
+// Helper function to update chartDataArray
+const updateChartDataArray = (result) => {
+  // Initialize chartDataArray with 12 zeros
+  let tempArray = new Array(12).fill(0);
+
+  // Iterate through the result object and update tempArray
+  for (const [key, value] of Object.entries(result)) {
+    const [month, year] = key.split("/").map(Number);
+    const index = month - 1; // Convert month to zero-based index
+    tempArray[index] = value;
+  }
+
+  // Update the reactive chartDataArray
+  chartDataArray.value = tempArray;
+};
+
+// Helper function to calculate cumulative sum
+const calculateCumulativeSum = () => {
+  for (let i = 1; i < chartDataArray.value.length; i++) {
+    chartDataArray.value[i] += chartDataArray.value[i - 1];
+    
+  }
+  
+};
 </script>

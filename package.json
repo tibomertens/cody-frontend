@@ -19,9 +19,11 @@
     "@capacitor/keyboard": "6.0.0",
     "@capacitor/status-bar": "6.0.0",
     "@syncfusion/ej2-vue-dropdowns": "^25.1.41",
+    "chart.js": "^4.4.3",
     "dotenv": "^16.4.5",
     "jwt-decode": "^4.0.0",
     "vue": "^3.4.15",
+    "vue-chartjs": "^5.3.1",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {

@@ -346,3 +346,26 @@ export const getUserRenovation = async (userId, renovationId) => {
     throw error;
   }
 };
+
+export const getCompletedRenovationsByMonth = async (userId) => {
+  try {
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/renovations/linegraph/${userId}`;
+
+    const response = await fetch(apiEndpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch completed renovation data");
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
