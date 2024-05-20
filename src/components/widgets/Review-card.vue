@@ -66,7 +66,7 @@ onBeforeUnmount(() => {
         </div>
     </div>
 </div>
-<div class="mb-[12px] font-bold text-subtitle">
+<div class="mb-[12px] font-semibold text-[20px]">
     {{ review.title }}
 </div>
 <div class="mb-[24px]">

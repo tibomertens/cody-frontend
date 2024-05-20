@@ -10,7 +10,7 @@
             class="absolute top-[48px] left-0 w-full bg-offWhite-light z-50 border-2 border-t-0 border-primary-dark rounded-b-[5px]">
             <div class="p-[24px] pt-0 flex flex-col gap-[16px]">
                 <Dropdown :width="'full'" :label="'Klantenscore'" :bold="true" :items="addedValueArray"
-                    :default="activeAddedValueFilter" @item-selected="handleAddedValue" @delete-filter="deleteFilter"/>
+                    :default="activeAddedValueFilter" @item-selected="handleAddedValue" />
                 <Dropdown :width="'full'" :label="'Datum'" :bold="true" :items="typeArray"
                     :default="activeTypeFilter" @item-selected="handleType" />
             </div>
@@ -25,7 +25,7 @@ import { getReviewsByPromotor } from '../../functions/reviews.js';
 import { useRoute } from 'vue-router';
 import { defineEmits } from 'vue';
 
-const emits = defineEmits(['filtered']);
+const emits = defineEmits(['filtered', 'delete-filter']);
 
 const route = useRoute();
 const reviews = ref([]);
@@ -68,10 +68,9 @@ const handleAddedValue = async (selectedItem) => {
         emits('filtered', reviews.value);
     } else {
         activeAddedValueFilter.value = 'Maak een keuze';
+        emits('delete-filter');
     }
 };
-
-
 
 const handleType = async (selectedItem) => {
     promotorId.value = route.params.id;
@@ -89,15 +88,9 @@ const handleType = async (selectedItem) => {
         emits('filtered', reviews.value);
     } else {
         activeTypeFilter.value = 'Maak een keuze';
+        emits('delete-filter');
     }
 };
-
-const deleteFilter = () => {
-    activeAddedValueFilter.value = 'Maak een keuze'; 
-    console.log("Active added value filter reset to default:", activeAddedValueFilter.value);
-    reviews.value = [];
-}
-
 
 </script>
 
