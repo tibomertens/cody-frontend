@@ -1,7 +1,7 @@
 <script setup>
 import { ref, defineProps, onMounted, computed } from "vue";
 import Btn from "../UI/Btn.vue";
-import { formatPhoneNumber } from "../../functions/helpers.js";
+import { formatPhoneNumber, openGoogleMaps } from "../../functions/helpers.js";
 import { getReviewsByPromotor } from "../../functions/reviews";
 import { useRouter } from "vue-router";
 
@@ -42,17 +42,17 @@ const starImages = computed(() => {
 <template>
     <div class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] py-[12px] px-[32px] rounded-md">
         <div class="w-full sm:w-[50%] lg:w-[33%] flex justify-center p-[20px] lg:justify-start">
-            <img src="/kelder.svg" alt="">
+            <img src="/logoipsum-300.svg" alt="">
         </div>
         <div class="sm:w-[50%] lg:flex md:w-[66%] h-full lg:justify-between lg:items-center">
             <div>
                 <div class="flex justify-center sm:justify-start pt-[10px] font-bold sm:w-[50%] lg:w-full">
                     {{ promotor.name }}
                 </div>
-                <div class="flex justify-center sm:justify-start pt-[10px] lg:w-full lg:text-center">
-                    {{ promotor.address }}
-                </div>
-                <a class="flex justify-center sm:justify-start pt-[10px] lg:w-full lg:text-center" :href="'tel:' + promotor.phoneNumber">{{ formatPhoneNumber(promotor.phoneNumber) }}</a>
+                <a class="flex justify-center sm:justify-start pt-[10px] lg:w-full lg:text-center cursor-pointer"
+                    @click="openGoogleMaps(promotor.address)">{{ promotor.address }}</a>
+                <a class="flex justify-center sm:justify-start pt-[10px] lg:w-full lg:text-center"
+                    :href="'tel:' + promotor.phoneNumber">{{ formatPhoneNumber(promotor.phoneNumber) }}</a>
             </div>
             <div>
                 <div class="mt-[16px] flex justify-center pt-[10px] pb-[10px] items-center sm:justify-start lg:justify-end gap-[10px] sm:w-[50%] lg:w-[100%] lg:text-right">

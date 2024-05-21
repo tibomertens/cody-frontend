@@ -58,7 +58,7 @@ export function convertDate(dateString) {
   const formattedMonth = ('0' + (month + 1)).slice(-2);
 
   // Construct the new date string in the desired format
-  const newDateString = `${year}-${formattedMonth}-${day}`;
+  const newDateString = `${day}/${formattedMonth}/${year}`;
 
   return newDateString;
 }
@@ -70,4 +70,10 @@ export const formatPhoneNumber = (phoneNumber) => {
     "$1 $2 $3 $4"
   );
   return formattedPhoneNumber;
+};
+
+export const openGoogleMaps = (val) => {
+    const address = encodeURIComponent(val);
+    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
+    window.open(mapsUrl, '_blank');
 };

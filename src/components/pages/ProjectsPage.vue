@@ -86,6 +86,9 @@ onBeforeUnmount(() => {
 });
 
 watch(route, () => {
+  renovationsLoaded.value = false;
+  unexpected_error.value = false;
+  renovations.value = [];
   fetchData();
 });
 
@@ -108,8 +111,8 @@ const doneLabelArray = [
 const getSrcArray = (renovation) => {
   // Logic for generating srcArray based on renovation data
   return [
-    renovation.impact === 'Hoogste impact' ? '/highImpact.svg' : '/lowImpact.svg',
-    renovation.cost === 'high' ? '/highCost.svg' : '/lowCost.svg',
+    renovation.impact === 'Hoogste impact' ? '/highImpact.svg' : (renovation.impact === 'Middelmatige impact' ? '/mediumImpact.svg' : '/lowImpact.svg'),
+    renovation.cost === 'high' ? '/highCost.svg' : (renovation.cost === 'medium' ? '/mediumCost.svg' : '/lowCost.svg'),
     '/budgetBlue.svg'
   ];
 };
@@ -190,6 +193,9 @@ const handleFilter = (filteredRenovations) => {
           :stateFetcher="getStateFetcher(renovation)" />
       </router-link>
     </div>
+    <div v-if="!renovationsLoaded && !unexpected_error" class="pulsing rounded-[5px] h-[196px] mb-[32px]"></div>
+    <div v-if="!renovationsLoaded && !unexpected_error" class="pulsing rounded-[5px] h-[196px] mb-[32px]"></div>
+    <div v-if="!renovationsLoaded && !unexpected_error" class="pulsing rounded-[5px] h-[196px] mb-[32px]"></div>
   </section>
 </template>
 

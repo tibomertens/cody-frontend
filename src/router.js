@@ -15,92 +15,120 @@ import RenovationDetailPage from "./components/pages/RenovationDetailsPage.vue";
 import Reviews from "./components/pages/ReviewPage.vue";
 import CreateReview from "./components/pages/CreateReviewPage.vue";
 import ChangeReview from "./components/pages/ChangeReviewPage.vue";
+import RegisterPage from "./components/pages/RegisterPage.vue";
+import ForgotPasswordPage from "./components/pages/ForgotPasswordPage.vue";
+import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
+import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPage.vue";
 
 const routes = [
   {
     path: "/",
     components: { default: home, sidebar: sideNav, topNav: topNav },
     name: "Dashboard",
-    meta: { sidebar: true },
+    meta: { title: "Cody | Dashboard", sidebar: true },
   },
   {
     path: "/account",
     components: { default: account, sidebar: sideNav, topNav: topNav },
     name: "Account",
-    meta: { sidebar: true },
+    meta: { title: "Cody | Account", sidebar: true },
   },
-  { path: "/login", components: { default: login }, meta: { sidebar: false } },
+  {
+    path: "/login",
+    components: { default: login },
+    meta: { title: "Cody | Inloggen", sidebar: false },
+  },
   {
     path: "/determinelabelchoice",
     components: { default: DetermineLabelChoicePage },
-    meta: { sidebar: false },
+    meta: { title: "Cody | Registreren", sidebar: false },
   },
   {
     path: "/test/berekenIndicatief",
     components: { default: berekenIndicatief },
-    meta: { sidebar: false },
+    meta: { title: "Cody | Registreren", sidebar: false },
   },
   {
     path: "/rapport/berekenIndicatief",
     components: { default: berekenIndicatief },
-    meta: { sidebar: false },
+    meta: { title: "Cody | Registreren", sidebar: false },
   },
   {
     path: "/rapport/checklist",
     components: { default: checklist },
-    meta: { sidebar: false },
+    meta: { title: "Cody | Registreren", sidebar: false },
   },
   {
     path: "/projects",
     components: { default: Projects, sidebar: sideNav, topNav: topNav },
     name: "Projecten",
-    meta: { sidebar: true },
+    meta: { title: "Cody | Projecten", sidebar: true },
   },
   {
     path: "/projects/recommended",
     components: { default: Projects, sidebar: sideNav, topNav: topNav },
     name: "Aanbevolen projecten",
-    meta: { sidebar: true },
+    meta: { title: "Cody | Projecten", sidebar: true },
   },
   {
     path: "/projects/active",
     components: { default: Projects, sidebar: sideNav, topNav: topNav },
     name: "Actieve projecten",
-    meta: { sidebar: true },
+    meta: { title: "Cody | Projecten", sidebar: true },
   },
   {
     path: "/projects/completed",
     components: { default: Projects, sidebar: sideNav, topNav: topNav },
     name: "Afgeronde projecten",
-    meta: { sidebar: true },
+    meta: { title: "Cody | Projecten", sidebar: true },
   },
   {
     path: "/projects/saved",
     components: { default: Projects, sidebar: sideNav, topNav: topNav },
     name: "Opgeslagen projecten",
-    meta: { sidebar: true },
+    meta: { title: "Cody | Projecten", sidebar: true },
   },
   {
     path: "/projects/:id",
-    components: { default: RenovationDetailPage, sidebar: sideNav, topNav: topNav },
+    components: {
+      default: RenovationDetailPage,
+      sidebar: sideNav,
+      topNav: topNav,
+    },
     name: "Renovatiedetails",
-    meta: { sidebar: true },
+    meta: { title: "Cody | Project details", sidebar: true },
   },
   {
     path: "/settings",
     components: { default: Settings, sidebar: sideNav, topNav: topNav },
     name: "Instellingen",
-    meta: { sidebar: true },
-  },
-  {
-    path: "/:catchAll(.*)",
-    redirect: "/",
+    meta: { title: "Cody | Instellingen", sidebar: true },
   },
   {
     path: "/promotors",
     components: { default: promotors, sidebar: sideNav, topNav: topNav },
-    name: "Renovatorenlijst",
-    meta: { sidebar: true },
+    name: "Renovatoren",
+    meta: { title: "Cody | Renovatoren", sidebar: true },
+  },
+  {
+    path: "/register",
+    components: { default: RegisterPage },
+    meta: { title: "Cody | Registreren", sidebar: false },
+  },
+  {
+    path: "/forgotpassword",
+    components: { default: ForgotPasswordPage },
+    meta: { title: "Cody | Wachtwoord vergeten", sidebar: false },
+  },
+  {
+    path: "/resetpassword",
+    components: { default: ResetPasswordPage },
+    meta: { title: "Cody | Wachtwoord veranderen", sidebar: false },
+  },
+  {
+    path: "/promotors/subscription",
+    components: { default: PromotorSubscriptionPage },
+    meta: { title: "Cody | Subscriptie aanvragen", sidebar: false },
   },
   {
     path: "/reviews/:id",  
@@ -120,6 +148,12 @@ const routes = [
     components: { default: ChangeReview, sidebar: sideNav, topNav: topNav },
     name: "Pas je review aan",
     meta: { sidebar: true },
+  }
+  ,
+   {
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    redirect: "/",
   }
 ];
 
