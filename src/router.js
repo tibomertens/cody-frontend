@@ -15,6 +15,7 @@ import RenovationDetailPage from "./components/pages/RenovationDetailsPage.vue";
 import RegisterPage from "./components/pages/RegisterPage.vue";
 import ForgotPasswordPage from "./components/pages/ForgotPasswordPage.vue";
 import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
+import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPage.vue";
 
 const routes = [
   {
@@ -120,6 +121,11 @@ const routes = [
     path: "/resetpassword",
     components: { default: ResetPasswordPage },
     meta: { title: "Cody | Wachtwoord veranderen", sidebar: false },
+  },
+  {
+    path: "/promotors/subscription",
+    components: { default: PromotorSubscriptionPage },
+    meta: { title: "Cody | Subscriptie aanvragen", sidebar: false },
   },
   {
     path: "/:catchAll(.*)",
