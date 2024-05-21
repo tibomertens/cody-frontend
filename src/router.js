@@ -14,6 +14,7 @@ import DetermineLabelChoicePage from "./components/pages/DetermineLabelChoicePag
 import RenovationDetailPage from "./components/pages/RenovationDetailsPage.vue";
 import Reviews from "./components/pages/ReviewPage.vue";
 import CreateReview from "./components/pages/CreateReviewPage.vue";
+import ChangeReview from "./components/pages/ChangeReviewPage.vue";
 
 const routes = [
   {
@@ -110,6 +111,14 @@ const routes = [
   {
     path: "/createreview/:id",
     components: { default: CreateReview, sidebar: sideNav, topNav: topNav },
+    name: "Schrijf een review",
+    meta: { sidebar: true },
+  }
+  ,
+  {
+    path: "/changereview/:id",
+    components: { default: ChangeReview, sidebar: sideNav, topNav: topNav },
+    name: "Pas je review aan",
     meta: { sidebar: true },
   }
 ];

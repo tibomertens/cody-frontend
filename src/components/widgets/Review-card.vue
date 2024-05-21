@@ -2,11 +2,14 @@
 import { ref, onMounted, onBeforeUnmount, watch, defineProps, defineEmits } from 'vue';
 import { convertDate } from "../../functions/helpers.js";
 import { deleteReview } from '../../functions/reviews.js';
+import { useRouter } from 'vue-router';
 
 const props = defineProps(["review", "loggedInUserId"]);
 const menuVisible = ref(false);
 const emit = defineEmits(['review-deleted']);
 const cardUserId = ref(props.loggedInUserId);
+
+const router = useRouter();
 
 watch(() => props.loggedInUserId, (newValue) => {
     cardUserId.value = newValue;
@@ -36,6 +39,11 @@ async function handleDelete() {
     }
 }
 
+function handleEdit() {
+    console.log('Edit review:', props.review._id);
+    router.push(`/changereview/${props.review._id}`);
+}
+
 onMounted(() => {
     document.addEventListener('click', handleClickOutside);
 });
@@ -46,7 +54,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div class="flex justify-between items-center mb-[20px] relative">
+    <div class="flex justify-between items-center mb-[20px]">
         <div class="flex items-center gap-[12px]">
             <div class="font-bold text-btn">
                 {{ review.rating }}
@@ -63,7 +71,7 @@ onBeforeUnmount(() => {
             <div v-if="menuVisible"
                 class="absolute right-0 mt-2 w-48 bg-offWhite-light border-primary-dark border-2 rounded-md shadow-lg z-10">
                 <div class="w-full flex flex-col">
-                    <button
+                    <button @click="handleEdit"
                         class="w-full px-4 py-2 text-left text-sm text-primary-dark hover:bg-offWhite-dark flex items-center justify-center">
                         <i class="fa-solid fa-pencil mr-2"></i><span>Aanpassen</span>
                     </button>
@@ -78,7 +86,7 @@ onBeforeUnmount(() => {
     <div class="mb-[12px] font-semibold text-[20px]">
         {{ review.title }}
     </div>
-    <div class="mb-[24px]">
+    <div class="mb-[24px] w-full break-words">
         {{ review.description }}
     </div>
     <div class="text-right text-xs">

@@ -1,5 +1,5 @@
 <template>
-    <div class="relative">
+    <div class="relative menu-container">
         <div class="w-full h-[48px] bg-offWhite-light rounded-[5px] border-2 border-primary-dark flex items-center justify-between"
             @click="toggleDropdown" :class="{ 'rounded-b-[0] border-b-0': isDropdownOpen }">
             <p class="text-primary-dark font-bold text-btn ml-[24px] relative bottom-[1px]">Filters</p>
@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import Dropdown from '../UI/Dropdown.vue';
 import { getReviewsByPromotor } from '../../functions/reviews.js';
 import { useRoute } from 'vue-router';
@@ -30,6 +30,7 @@ const emits = defineEmits(['filtered', 'delete-filter']);
 const route = useRoute();
 const reviews = ref([]);
 const promotorId = ref('');
+
 
 const addedValueArray = [
     { title: 'Hoog naar laag', name: 'Hoogste rating' },
@@ -44,8 +45,22 @@ const typeArray = [
 const addedValue = ref(null);
 const type = ref(null);
 const activeAddedValueFilter = ref('Maak een keuze');
-const activeTypeFilter = ref('Maak een keuze');
+const activeTypeFilter = ref('Recent naar oud');
 const isDropdownOpen = ref(false);
+
+function handleClickOutside(event) {
+    if (isDropdownOpen.value && !event.target.closest('.menu-container')) {
+        isDropdownOpen.value = false;
+    }
+}
+
+onMounted(() => {
+    document.addEventListener('click', handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClickOutside);
+});
 
 
 const toggleDropdown = () => {
@@ -61,14 +76,20 @@ const handleAddedValue = async (selectedItem) => {
     if (selectedItem === 'Hoogste rating') {
         reviews.value.sort((reviewA, reviewB) => reviewB.rating - reviewA.rating);
         activeAddedValueFilter.value = 'Hoog naar laag';
+        activeTypeFilter.value = 'Maak een keuze';
         emits('filtered', reviews.value);
+        toggleDropdown();
     } else if (selectedItem === 'Laagste rating') {
         reviews.value.sort((reviewA, reviewB) => reviewA.rating - reviewB.rating);
         activeAddedValueFilter.value = 'Laag naar hoog';
+        activeTypeFilter.value = 'Maak een keuze';
         emits('filtered', reviews.value);
+        toggleDropdown();
     } else {
         activeAddedValueFilter.value = 'Maak een keuze';
+         activeTypeFilter.value = 'Recent naar oud';
         emits('delete-filter');
+        toggleDropdown();
     }
 };
 
@@ -82,13 +103,16 @@ const handleType = async (selectedItem) => {
         reviews.value.sort((reviewA, reviewB) => new Date(reviewB.date) - new Date(reviewA.date));
         activeTypeFilter.value = 'Recent naar oud';
         emits('filtered', reviews.value);
+        toggleDropdown();
     } else if (selectedItem === 'Oud naar recent') {
         reviews.value.sort((reviewA, reviewB) => new Date(reviewA.date) - new Date(reviewB.date));
         activeTypeFilter.value = 'Oud naar recent';
         emits('filtered', reviews.value);
+        toggleDropdown();
     } else {
-        activeTypeFilter.value = 'Maak een keuze';
+        activeTypeFilter.value = 'Recent naar oud';
         emits('delete-filter');
+        toggleDropdown();
     }
 };
 
