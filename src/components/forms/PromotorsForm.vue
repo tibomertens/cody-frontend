@@ -39,7 +39,7 @@ import Dropdown from "../UI/Dropdown.vue";
 
 import { ref } from "vue";
 
-import { createPromotor } from "../../functions/promotor";
+import { createPromotor, uploadImage } from "../../functions/promotor";
 
 let hasError = ref(false);
 let error = ref('');
@@ -100,26 +100,6 @@ const upload = async () => {
         error.value = result.message;
     }
 }
-
-const uploadImage = async (file) => {
-    if (file) {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', 'ml_default'); // Configure this in your Cloudinary settings
-
-        try {
-            const response = await fetch('https://api.cloudinary.com/v1_1/dxkcoanuv/image/upload', {
-                method: 'POST',
-                body: formData
-            });
-
-            const data = await response.json();
-            return data.secure_url; // Save the Cloudinary URL
-        } catch (error) {
-            console.error('Error uploading image:', error);
-        }
-    }
-};
 
 const handleTierSelected = (itemAlias) => {
     tier.value = itemAlias;
