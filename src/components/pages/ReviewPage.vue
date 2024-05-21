@@ -4,7 +4,7 @@
         <SortFilter :width="'full'" default="Filter" @filtered="updateReviews" @delete-filter="sortReviewsRecentToOld" />
       </div>
       <div class="md:w-[280px]">
-        <ButtonBtn @click="handleClick" :width="'full'" name="+ Schrijf een review" />
+        <ButtonBtn @click="handleClick" :width="'full'" name="Schrijf een review" />
       </div>
     </div>
     <div v-if="userReviews.length > 0" class="m-[40px]">

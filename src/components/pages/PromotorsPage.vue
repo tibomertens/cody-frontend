@@ -88,8 +88,7 @@ const search = (query) => {
     <div v-if="filteredPromotors">
       <div v-if="filteredPromotors.length !== 0">
         <ul>
-          <li v-for="promotor in filteredPromotors" :key="promotor.id"
-            class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] py-[12px] px-[32px] rounded-md">
+          <li v-for="promotor in filteredPromotors" :key="promotor.id">
             <template v-if="!promotor.is_big">
               <PromotorCard :promotor="promotor" class="transition-shadow duration-300 hover:shadow-lg" />
             </template>

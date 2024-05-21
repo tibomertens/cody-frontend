@@ -10,6 +10,15 @@ const props = defineProps(["promotor"]);
 let reviews = ref([]);
 let averageRating = ref(0);
 
+const navigate = () => {
+    //check if promotor.website_url starts with http or https
+    if (!props.promotor.website_url.startsWith("http://") && !props.promotor.website_url.startsWith("https://")) {
+        window.location.href = "https://"+props.promotor.website_url;
+    } else {
+        window.location.href = props.promotor.website_url;
+    }
+}
+
 onMounted(async () => {
     let result = await getReviewsByPromotor(props.promotor._id);
     reviews.value = result;
@@ -18,11 +27,8 @@ onMounted(async () => {
         const totalRating = reviews.value.reduce((sum, review) => sum + review.rating, 0);
         averageRating.value = Math.round(totalRating / reviews.value.length);
     } else {
-        averageRating.value = 0; // Geen reviews beschikbaar
+        averageRating.value = 0; 
     }
-
-    console.log(reviews.value);
-    console.log('Average Rating:', averageRating.value);
 });
 
 const starImages = computed(() => {
@@ -42,7 +48,7 @@ const starImages = computed(() => {
 <template>
     <div class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] py-[12px] px-[32px] rounded-md">
         <div class="w-full sm:w-[50%] lg:w-[33%] flex justify-center p-[20px] lg:justify-start">
-            <img src="/logoipsum-300.svg" alt="">
+            <img :src="promotor.logo" alt="logo">
         </div>
         <div class="sm:w-[50%] lg:flex md:w-[66%] h-full lg:justify-between lg:items-center">
             <div>
@@ -63,7 +69,7 @@ const starImages = computed(() => {
                     <a :href="'/reviews/' + promotor._id" class="underline">Reviews</a>
                 </div>
                 <div class="mt-[16px] mb-[16px] flex justify-center align-middle sm:w-full lg:w-full">
-                    <Btn :name="'Ga naar website'" :width="'full'" />
+                    <Btn :name="'Ga naar website'" @click="navigate" :width="'full'" />
                 </div>
             </div>
         </div>
