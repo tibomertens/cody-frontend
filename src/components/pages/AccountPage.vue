@@ -237,8 +237,6 @@ const updateChartDataArray = (result) => {
       return value;
     }
   });
-
-  console.log(chartDataArray.value);
 };
 
 // Helper function to calculate cumulative sum
