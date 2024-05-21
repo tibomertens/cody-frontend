@@ -98,11 +98,13 @@ const routes = [
   {
     path: "/promotors",
     components: { default: promotors, sidebar: sideNav, topNav: topNav },
+    name: "Renovatorenlijst",
     meta: { sidebar: true },
   },
   {
     path: "/reviews/:id",  
     components: { default: Reviews, sidebar: sideNav, topNav: topNav },
+    name: "Reviews",
     meta: { sidebar: true },
   },
   {
