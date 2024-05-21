@@ -10,22 +10,24 @@
             <Input :label="'Straat:'" :type="'text'" @input-change="handleStreetChange" :error="hasError"></Input>
             <Input :label="'Huisnummer:'" :type="'number'" @input-change="handleStreetNumberChange"
                 :error="hasError"></Input>
-            <Input :label="'Postcode:'" :type="'number'" @input-change="handlePostalCodeChange" :error="hasError"></Input>
+            <Input :label="'Postcode:'" :type="'number'" @input-change="handlePostalCodeChange"
+                :error="hasError"></Input>
             <Input :label="'Gemeente:'" :type="'text'" @input-change="handleCityChange" :error="hasError"></Input>
             <Input :label="'Bedrijfsnaam:'" :type="'text'" @input-change="handleCompanyNameChange"
                 :error="hasError"></Input>
-            <Input :label="'Logo:'" :type="'file'" @input-change="handleLogoChange" :error="hasError"></Input>
+            <Input :label="'Logo:'" :type="'file'" @change="handleLogoChange" :error="hasError"></Input>
             <Input :label="'Bericht:'" :type="'textarea'" @input-change="handleMessageChange" :error="hasError"
                 class="xs:col-span-2"></Input>
         </div>
         <div v-if="error" class="text-secondary-red">{{ error }}</div>
 
-        <div class="mt-8 mb-4">
-            <Btn :name="'Plaats verzoek'" @click="" :width="'full'" />
-        </div>
         <div v-if="success">
             <p>U ontvangt een mail zodra uw verzoek is behandelt. Deze mail bevat een eventueel contract en meer
                 informatie over de verdere samenwerking. </p>
+        </div>
+
+        <div class="mt-8 mb-4">
+            <Btn :name="'Plaats verzoek'" @click="upload" :width="'full'" />
         </div>
     </form>
 </template>
@@ -37,9 +39,11 @@ import Dropdown from "../UI/Dropdown.vue";
 
 import { ref } from "vue";
 
+import { createPromotor } from "../../functions/promotor";
+
 let hasError = ref(false);
 let error = ref('');
-let succes = ref(false);
+let success = ref(false);
 
 let phone = ref('');
 let email = ref('');
@@ -52,6 +56,70 @@ let companyName = ref('');
 let logo = ref('');
 let message = ref('');
 let tier = ref('');
+
+const upload = async () => {
+    // check if postalcode is a belgian postalcode without using length 
+    if (postalCode.value < 1000 || postalCode.value > 9992) {
+        hasError.value = true;
+        error.value = 'Gelieve een geldige postcode in te vullen';
+        return;
+    }
+
+    // check if email is an email
+    if (!email.value.includes('@')) {
+        hasError.value = true;
+        error.value = 'Gelieve een geldig emailadres in te vullen';
+        return;
+    }
+
+    // convert phonenumber to string
+    phone.value = phone.value.toString();
+
+    const uploadedUrl = await uploadImage(logo.value);
+
+    const result = await createPromotor({
+        phoneNumber: phone.value,
+        email: email.value,
+        website: website.value,
+        street: street.value,
+        streetNumber: streetNumber.value,
+        postalCode: postalCode.value,
+        city: city.value,
+        name: companyName.value,
+        logo: uploadedUrl,
+        message: message.value,
+        tier: tier.value
+    });
+
+    if (result.success) {
+        hasError.value = false;
+        error.value = '';
+        success.value = true;
+    } else {
+        hasError.value = true;
+        error.value = result.message;
+    }
+}
+
+const uploadImage = async (file) => {
+    if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'ml_default'); // Configure this in your Cloudinary settings
+
+        try {
+            const response = await fetch('https://api.cloudinary.com/v1_1/dxkcoanuv/image/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            return data.secure_url; // Save the Cloudinary URL
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
+    }
+};
 
 const handleTierSelected = (itemAlias) => {
     tier.value = itemAlias;
@@ -90,7 +158,8 @@ const handleCompanyNameChange = (value) => {
 }
 
 const handleLogoChange = (value) => {
-    logo.value = value;
+    const file = value.target.files[0];
+    logo.value = file;
 }
 
 const handleMessageChange = (value) => {
