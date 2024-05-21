@@ -113,6 +113,9 @@ const cancelWarning = () => {
 };
 
 const executeUpdateData = async () => {
+    // give alert and return
+    alert("Deze feature is momenteel bugged en kan niet gebruikt worden :).");
+    return;
     // check if all fields are filled in
     if (!filledInDate.value || !budget.value) {
         error.value = "Vul alle velden in";
