@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div class="w-full pt-[10%] flex justify-center items-center">
+    <div class="w-full pt-[3%] flex justify-center items-center">
         <div>
             <ReviewForm />
         </div>

@@ -1,11 +1,12 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 
-const props = defineProps(["label", "type", "error", "placeholder", "preFix", "value", "dark"]);
+const props = defineProps(["label", "type", "error", "placeholder", "preFix", "value", "dark", "height"]);
 const emit = defineEmits(['input-change']);
 
 let inputValue = ref("");
 let hasError = ref(props.error);
+let heightClass = ref(""); // Add a reference for the height class
 
 const updateInput = () => {
   emit("input-change", inputValue.value);
@@ -23,6 +24,9 @@ onMounted(() => {
   if (props.value !== false) {
     inputValue.value = props.value;
   }
+  
+  // Update height class based on the prop value
+  heightClass.value = props.height;
 });
 
 watch(
@@ -39,20 +43,25 @@ watch(
 
 <template>
   <div class="input-container mt-8">
-    <div class="flex w-[100%] justify-between">
+    <div class="flex w-full justify-between">
       <label class="text-body font-bold pb-2">{{ label }}</label>
       <a href="#" class="text-xs underline"
         :class="{ block: type === 'password', hidden: type !== 'password' }">Wachtwoord vergeten?</a>
     </div>
     <div class="relative">
       <input :type="type"
-        :class="{ 'border-2 border-secondary-red': hasError, 'border-2 border-offWhite-light': !hasError, 'pl-[48px]': props.preFix, 'bg-offWhite-dark': props.dark === true }"
-        class="w-[100%] p-2 rounded-md focus:border-primary-dark focus:outline-none pl-[24px]" v-model="inputValue"
-        @input="updateInput" :placeholder="props.placeholder" />
-      <p v-if="props.preFix" class="font-bold absolute inset-y-0 left-0 pl-[24px] pt-[9.5px] pointer-events-none">{{
-        props.preFix }}</p>
+        :class="[
+          hasError ? 'border-2 border-secondary-red' : 'border-2 border-offWhite-light',
+          props.preFix ? 'pl-12' : 'pl-6',
+          props.dark ? 'bg-offWhite-dark' : '',
+          heightClass // Apply height class dynamically
+        ]"
+        class="w-full p-2 rounded-md focus:border-primary-dark focus:outline-none"
+        v-model="inputValue" @input="updateInput" :placeholder="props.placeholder" />
+      <p v-if="props.preFix" class="font-bold absolute inset-y-0 left-0 pl-6 pt-2.5 pointer-events-none">{{ props.preFix }}</p>
     </div>
   </div>
 </template>
+
 
 <style scoped></style>

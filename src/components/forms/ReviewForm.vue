@@ -71,7 +71,9 @@ const CreateReview = async () => {
              @click="handleStarClick(index)" />
     </div>
     <Input :label="'Titel'" @input-change="updateTitle" :error="hasError"/>
-    <Input :label="'Deel je ervaring'" @input-change="updateExperience" :error="hasError"/>
+    <div>
+        <Input :label="'Deel je ervaring'" @input-change="updateExperience" :error="hasError" height="pb-[202px]" />
+    </div>
     <div class="pt-[40px]">
         <Btn :name="'Plaats je review'" @click="CreateReview"/>
     </div>

@@ -68,10 +68,9 @@ const filterPromotors = () => {
     <h1 class="text-body" :class="{ 'hidden': !pageTitle }"> <span class="text-body font-bold">Geselecteerde filter:</span> {{ pageTitle }}</h1>
     <div>
       <ul>
-        <li v-for="promotor in filteredPromotors"
-          class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] py-[12px] px-[32px] rounded-md">
-          <template v-if="!promotor.is_big">
-            <PromotorCard :promotor="promotor" />
+        <li v-for="promotor in filteredPromotors">
+          <template v-if="!promotor.is_big" >
+            <PromotorCard :promotor="promotor" class="transition-shadow duration-300 hover:shadow-lg" />
           </template>
           <template v-else>
             <PromotorCardPremium :promotor="promotor" />

@@ -13,7 +13,7 @@
         <ReviewCard :review="review" @review-deleted="removeReview" :loggedInUserId="userId" />
       </div>
     </div>
-    <div v-if="otherReviews.length > 0" class="m-[40px]">
+    <div v-if="otherReviews.length > 0" class="mx-[40px] pb-[40px]">
       <h2 class="text-subtitle font-bold mb-[16px]">Andere reviews</h2>
       <div class="bg-offWhite-light mb-[40px] p-[24px] rounded" v-for="review in otherReviews" :key="review._id">
         <ReviewCard :review="review" @review-deleted="removeReview" :loggedInUserId="userId" />
