@@ -56,7 +56,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full xl:w-[20%] fixed xl:left-0">
+  <div class="z-20 w-full xl:w-[20%] fixed xl:left-0">
     <div class="w-full h-[20%] bg-offWhite-light xl:h-screen">
       <div class="flex justify-between xl:justify-center items-center py-5 px-[40px]">
         <router-link to="/">

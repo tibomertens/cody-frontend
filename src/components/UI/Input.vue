@@ -39,6 +39,7 @@ const props = defineProps({
 
 let inputValue = ref("");
 let hasError = ref(props.error);
+let heightClass = ref(""); // Add a reference for the height class
 
 const updateInput = () => {
   emit("input-change", inputValue.value);
@@ -55,6 +56,9 @@ onMounted(() => {
   if (props.value !== false) {
     inputValue.value = props.value;
   }
+  
+  // Update height class based on the prop value
+  heightClass.value = props.height;
 });
 
 watch(
@@ -89,5 +93,6 @@ const inputId = computed(() => `input-${props.label.replace(/\s+/g, '-').toLower
     </div>
   </div>
 </template>
+
 
 <style scoped></style>

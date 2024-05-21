@@ -14,7 +14,7 @@ const routeHasSidebar = (route) => {
       <router-view name="sidebar"></router-view>
       <div class="xl:flex-1 min-h-screen" :class="{ 'xl:max-w-[80vw]': routeHasSidebar($route) }">
         <router-view name="topNav" class="xl:pt-[0px] pt-[75px] xl:w-[80%]"></router-view>
-        <div :class="{ 'xl:pt-[86px]': routeHasSidebar($route) }">
+        <div :class="{ 'xl:pt-[0px]': routeHasSidebar($route) }">
           <router-view></router-view>
         </div>
       </div>

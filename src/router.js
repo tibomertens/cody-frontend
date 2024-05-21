@@ -12,6 +12,9 @@ import Settings from "./components/pages/SettingsPage.vue";
 import promotors from "./components/pages/PromotorsPage.vue";
 import DetermineLabelChoicePage from "./components/pages/DetermineLabelChoicePage.vue";
 import RenovationDetailPage from "./components/pages/RenovationDetailsPage.vue";
+import Reviews from "./components/pages/ReviewPage.vue";
+import CreateReview from "./components/pages/CreateReviewPage.vue";
+import ChangeReview from "./components/pages/ChangeReviewPage.vue";
 import RegisterPage from "./components/pages/RegisterPage.vue";
 import ForgotPasswordPage from "./components/pages/ForgotPasswordPage.vue";
 import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
@@ -128,10 +131,30 @@ const routes = [
     meta: { title: "Cody | Subscriptie aanvragen", sidebar: false },
   },
   {
+    path: "/reviews/:id",  
+    components: { default: Reviews, sidebar: sideNav, topNav: topNav },
+    name: "Reviews",
+    meta: { sidebar: true },
+  },
+  {
+    path: "/createreview/:id",
+    components: { default: CreateReview, sidebar: sideNav, topNav: topNav },
+    name: "Schrijf een review",
+    meta: { sidebar: true },
+  }
+  ,
+  {
+    path: "/changereview/:id",
+    components: { default: ChangeReview, sidebar: sideNav, topNav: topNav },
+    name: "Pas je review aan",
+    meta: { sidebar: true },
+  }
+  ,
+   {
     path: "/:catchAll(.*)",
     name: "NotFound",
     redirect: "/",
-  },
+  }
 ];
 
 const router = createRouter({

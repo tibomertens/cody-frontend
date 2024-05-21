@@ -28,7 +28,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="bg-offWhite-light xl:fixed xl:w-[80%]">
+  <div class="bg-offWhite-light w-full z-10 relative ">
     <div class="xl:ml-10 xl:mr-10 pl-[40px] xl:pl-0">
       <div class="py-[12px] flex items-center justify-between">
         <div class="flex gap-[12px] items-center">
