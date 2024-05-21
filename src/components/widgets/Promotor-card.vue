@@ -2,7 +2,6 @@
 import { ref, defineProps, onMounted, computed } from "vue";
 import { formatPhoneNumber } from "../../functions/helpers.js";
 import { getReviewsByPromotor } from "../../functions/reviews";
-import { useRouter } from "vue-router";
 
 // Import your star images
 import starNoSelect from "/1star_noSelect.svg";
@@ -17,8 +16,6 @@ let reviews = ref([]);
 let averageRating = ref(0);
 const promotorId = ref(props.promotor._id);
 
-const router = useRouter();
-
 onMounted(async () => {
     let result = await getReviewsByPromotor(promotorId.value);
     reviews.value = result;
@@ -29,9 +26,6 @@ onMounted(async () => {
     } else {
         averageRating.value = 0; // Geen reviews beschikbaar
     }
-
-    console.log(reviews.value);
-    console.log('Average Rating:', averageRating.value);
 });
 
 // Computed property to determine the star image source
@@ -65,8 +59,9 @@ const starImageSrc = computed(() => {
         </div>
         <a class="flex justify-center pt-[10px] sm:w-[50%] lg:w-[15%] lg:text-center"
             :href="'tel:' + promotor.phoneNumber">{{ formatPhoneNumber(promotor.phoneNumber) }}</a>
-        <div class="flex justify-center pt-[10px] pb-[10px] items-center lg:justify-end gap-[10px] sm:w-[50%] lg:w-[15%] lg:text-right">
-            <img :src="starImageSrc" alt="Star Rating"/>
+        <div
+            class="flex justify-center pt-[10px] pb-[10px] items-center lg:justify-end gap-[10px] sm:w-[50%] lg:w-[15%] lg:text-right">
+            <img :src="starImageSrc" alt="Star Rating" />
             <p>{{ averageRating }}/5</p>
             <a :href="'/reviews/' + promotor._id" class="underline">Reviews</a>
         </div>

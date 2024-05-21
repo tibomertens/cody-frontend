@@ -28,7 +28,6 @@ const handleSelectedLocation = (location) => {
   }
 };
 
-
 const populateLocations = (data) => {
   locations.value = data.map(location => ({ title: location.name, name: location.name }));
 };
@@ -71,7 +70,6 @@ const search = (query) => {
   q.value = query;
   filterPromotorsAndSearch();
 };
-
 </script>
 
 <template>

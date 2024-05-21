@@ -5,7 +5,6 @@ import { formatPhoneNumber, openGoogleMaps } from "../../functions/helpers.js";
 import { getReviewsByPromotor } from "../../functions/reviews";
 import { useRouter } from "vue-router";
 
-const router = useRouter();
 const props = defineProps(["promotor"]);
 let reviews = ref([]);
 let averageRating = ref(0);
@@ -13,7 +12,7 @@ let averageRating = ref(0);
 const navigate = () => {
     //check if promotor.website_url starts with http or https
     if (!props.promotor.website_url.startsWith("http://") && !props.promotor.website_url.startsWith("https://")) {
-        window.location.href = "https://"+props.promotor.website_url;
+        window.location.href = "https://" + props.promotor.website_url;
     } else {
         window.location.href = props.promotor.website_url;
     }
@@ -27,7 +26,7 @@ onMounted(async () => {
         const totalRating = reviews.value.reduce((sum, review) => sum + review.rating, 0);
         averageRating.value = Math.round(totalRating / reviews.value.length);
     } else {
-        averageRating.value = 0; 
+        averageRating.value = 0;
     }
 });
 
@@ -61,7 +60,8 @@ const starImages = computed(() => {
                     :href="'tel:' + promotor.phoneNumber">{{ formatPhoneNumber(promotor.phoneNumber) }}</a>
             </div>
             <div>
-                <div class="mt-[16px] flex justify-center pt-[10px] pb-[10px] items-center sm:justify-start lg:justify-end gap-[10px] sm:w-[50%] lg:w-[100%] lg:text-right">
+                <div
+                    class="mt-[16px] flex justify-center pt-[10px] pb-[10px] items-center sm:justify-start lg:justify-end gap-[10px] sm:w-[50%] lg:w-[100%] lg:text-right">
                     <div class="sm:min-w-[153px] flex gap-[8px]">
                         <img v-for="(star, index) in starImages" :key="index" :src="star" :alt="`Star ${index + 1}`">
                     </div>

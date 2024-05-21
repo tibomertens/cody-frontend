@@ -134,20 +134,20 @@ const routes = [
     path: "/reviews/:id",  
     components: { default: Reviews, sidebar: sideNav, topNav: topNav },
     name: "Reviews",
-    meta: { sidebar: true },
+    meta: { title: "Cody | Review", sidebar: true },
   },
   {
-    path: "/createreview/:id",
+    path: "/reviews/create/:id",
     components: { default: CreateReview, sidebar: sideNav, topNav: topNav },
     name: "Schrijf een review",
-    meta: { sidebar: true },
+    meta: { title: "Cody | Review aanmaken", sidebar: true },
   }
   ,
   {
-    path: "/changereview/:id",
+    path: "/reviews/update/:id",
     components: { default: ChangeReview, sidebar: sideNav, topNav: topNav },
     name: "Pas je review aan",
-    meta: { sidebar: true },
+    meta: { title: "Cody | Subscriptie aanpassen", sidebar: true },
   }
   ,
    {

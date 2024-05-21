@@ -67,7 +67,7 @@ const CreateReview = async () => {
     error.value = "";
     reviewData.value = await createNewReview(promotorId.value, userId.value, selectedStars.value, updatedTitle.value, updatedExperience.value);
     if (reviewData.value) {
-        router.push("/reviews/"+route.params.id);
+        router.push("/reviews/" + route.params.id);
     }
 };
 </script>
@@ -76,25 +76,25 @@ const CreateReview = async () => {
     <h2 class="text-body font-bold">Jouw score</h2>
     <div class="flex gap-[10px] pt-[16px]">
         <!-- Loop through 5 stars -->
-        <img v-for="(star, index) in 5" 
-             :src="index < selectedStars ? '/1star_select.svg' : '/1star_noSelect.svg'" 
-             :alt="'Star ' + (index + 1)"
-             @click="handleStarClick(index)" />
+        <img v-for="(star, index) in 5" :src="index < selectedStars ? '/1star_select.svg' : '/1star_noSelect.svg'"
+            :alt="'Star ' + (index + 1)" @click="handleStarClick(index)" />
     </div>
-    <Input :label="'Titel'" @input-change="updateTitle" :error="hasError"/>    
+    <Input :label="'Titel'" @input-change="updateTitle" :error="hasError" />
     <div class="mt-[32px] mb-[16px]">
         <p class="text-body font-bold">Deel je ervaring</p>
         <div class="text-right mb-2">{{ remainingCharacters }} karakters over</div>
-        <textarea id="experience" :class="[ isCharacterLimitReached || hasError ? 'border-2 border-red-500' : 'border-2 border-offWhite-light' ]"
+        <textarea id="experience"
+            :class="[isCharacterLimitReached || hasError ? 'border-2 border-red-500' : 'border-2 border-offWhite-light']"
             @input="updateExperience($event.target.value)" v-model="updatedExperience"
             class="h-[202px] w-full rounded p-6 whitespace-pre-wrap break-words resize-none focus:border-primary-dark focus:outline-none"></textarea>
-        <div v-if="isCharacterLimitReached" class="text-red-500">Je hebt het limiet van {{ maxCharacters }} karakters bereikt.</div>
+        <div v-if="isCharacterLimitReached" class="text-red-500">Je hebt het limiet van {{ maxCharacters }} karakters
+            bereikt.</div>
     </div>
 
     <div class="pt-[20px] pb-[40px] mb-[40px]">
-        <Btn :name="'Plaats je review'" @click="CreateReview"/>
+        <Btn :name="'Plaats je review'" @click="CreateReview" />
     </div>
-    <div v-if="hasError" class="text-red-500">{{error}}</div>
+    <div v-if="hasError" class="text-red-500">{{ error }}</div>
 </template>
 
 

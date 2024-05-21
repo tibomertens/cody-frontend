@@ -1,5 +1,5 @@
 <script setup>
- import ChangeReviewForm from '../forms/ChangeReviewForm.vue';
+import ChangeReviewForm from '../forms/ChangeReviewForm.vue';
 </script>
 
 <template>

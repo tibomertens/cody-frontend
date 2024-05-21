@@ -2,16 +2,12 @@
 import { ref, onMounted, computed } from 'vue';
 import Btn from '../UI/Btn.vue';
 import Input from '../UI/Input.vue';
-import { isValidToken, getUser } from "../../functions/user.js";
 import { useRoute, useRouter } from "vue-router";
-import { createNewReview, getReviewById, updateReview } from "../../functions/reviews.js";
+import { getReviewById, updateReview } from "../../functions/reviews.js";
 
 const route = useRoute();
 const router = useRouter();
 
-const token = localStorage.getItem("token");
-// let userData = ref({});
-// let userId = ref("");
 let promotorId = ref("");
 const selectedStars = ref(0); // Initially no stars selected
 const updatedTitle = ref(''); // Initially no title
@@ -65,6 +61,7 @@ const ChangeReview = async () => {
         error.value = "Vul alle velden in";
         return;
     }
+
     hasError.value = false;
     error.value = "";
     newReviewData.value = await updateReview(reviewData.value.promotorId, reviewData.value.userId, reviewData.value._id, selectedStars.value, updatedTitle.value, updatedExperience.value);
@@ -85,10 +82,12 @@ const ChangeReview = async () => {
     <div class="mt-[32px] mb-[16px]">
         <p class="text-body font-bold pb-[16px]">Deel je ervaring</p>
         <div class="text-right mb-2">{{ remainingCharacters }} karakters over</div>
-        <textarea id="experience" :class="[ isCharacterLimitReached || hasError ? 'border-2 border-red-500' : 'border-2 border-offWhite-light' ]"
+        <textarea id="experience"
+            :class="[isCharacterLimitReached || hasError ? 'border-2 border-red-500' : 'border-2 border-offWhite-light']"
             @input="updateExperience($event.target.value)" v-model="updatedExperience"
             class="h-[202px] w-full rounded p-6 whitespace-pre-wrap break-words resize-none focus:border-primary-dark focus:outline-none"></textarea>
-        <div v-if="isCharacterLimitReached" class="text-red-500">Je hebt het limiet van {{ maxCharacters }} karakters bereikt.</div>
+        <div v-if="isCharacterLimitReached" class="text-red-500">Je hebt het limiet van {{ maxCharacters }} karakters
+            bereikt.</div>
     </div>
     <div class="pt-[20px] mb-[40px]">
         <Btn :name="'Slaag aanpassingen op'" @click="ChangeReview" />
@@ -96,6 +95,4 @@ const ChangeReview = async () => {
     <div v-if="hasError" class="text-red-500">{{ error }}</div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
