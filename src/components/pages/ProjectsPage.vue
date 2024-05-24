@@ -51,11 +51,17 @@ const fetchData = async () => {
         renovations.value = await getRenovations();
       }
 
-      // sort the renovations based on the impact
+      // Define the order of impact levels
+      const impactOrder = ['Hoogste impact', 'Middelmatige impact', 'Laagste impact'];
+
+      // Sort the renovations based on the impact
       renovations.value.sort((a, b) => {
-        if (a.impact === 'Hoogste impact' && b.impact !== 'Hoogste impact') {
+        const impactA = impactOrder.indexOf(a.impact);
+        const impactB = impactOrder.indexOf(b.impact);
+
+        if (impactA < impactB) {
           return -1;
-        } else if (a.impact !== 'Hoogste impact' && b.impact === 'Hoogste impact') {
+        } else if (impactA > impactB) {
           return 1;
         } else {
           return 0;
