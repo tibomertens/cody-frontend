@@ -42,7 +42,6 @@ import GhostBtn from "../UI/Ghost-btn.vue";
 import Input from "../UI/Input.vue";
 
 import { updateState } from "../../functions/renovation";
-import { get } from "mongoose";
 
 const props = defineProps({
     showModal: {
