@@ -42,7 +42,7 @@
                 </table>
             </div>
             <div
-                class="bg-primary-light min-h-[500px] col-span-2 px-[20px] pb-[32px] pt-[28px] font-bold flex flex-col justify-between">
+                class="upcoming bg-primary-light min-h-[500px] col-span-2 px-[20px] pb-[32px] pt-[28px] font-bold flex flex-col justify-between rounded-[5px]">
                 <div>
                     <h3 class="text-btn">Aankomende Activiteiten</h3>
                     <div class="flex flex-col gap-[16px] mt-[20px] max-h-[440px] overflow-y-auto">
@@ -306,5 +306,12 @@ const handleTaskChange = async () => {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+@media (min-width: 1024px) {
+    .upcoming {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
 }
 </style>
