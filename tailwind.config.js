@@ -27,6 +27,7 @@ export default {
         offBlack: "#262626"
       },
       screens: {
+        'xxxxs': '350px',
         'xxxs': '420px',
         'xxs': '480px',
         'xs': '590px',

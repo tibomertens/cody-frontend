@@ -39,8 +39,8 @@
                 <div class="mt-[20px] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-[20px]">
                     <div class="grid gap-[20px]">
                         <div v-if="loaded" class="rounded-[5px] flex-1 bg-offWhite-light">
-                            <div class="flex gap-[32px] justify-center items-center py-[32px]">
-                                <div class="w-[46px] h-[46px] hidden xxxs:block"><img class="w-full h-full"
+                            <div class="flex gap-[32px] pl-[24px] xxxs:justify-center items-center py-[32px]">
+                                <div class="w-[46px] h-[46px] hidden xxxxs:block"><img class="w-full h-full"
                                         :src="src[0]" alt="icon"></div>
                                 <div>
                                     <p class="font-bold text-[1.1em]">{{ label[0] }}</p>
@@ -51,8 +51,8 @@
                         </div>
                         <div v-else class="pulsing rounded-[5px] h-[112px]"></div>
                         <div v-if="loaded" class="rounded-[5px] flex-1 bg-offWhite-light">
-                            <div class="flex gap-[32px] justify-center items-center py-[32px]">
-                                <div class="w-[46px] h-[46px] hidden xxxs:block"><img class="w-full h-full"
+                            <div class="flex gap-[32px] pl-[24px] xxxs:justify-center items-center py-[32px]">
+                                <div class="w-[46px] h-[46px] hidden xxxxs:block"><img class="w-full h-full"
                                         :src="src[1]" alt="icon"></div>
                                 <div>
                                     <p class="font-bold text-[1.1em]">{{ label[1] }}</p>
@@ -65,8 +65,8 @@
                     </div>
                     <div class="grid gap-[20px]">
                         <div v-if="loaded" class="rounded-[5px] flex-1 bg-offWhite-light">
-                            <div class="flex gap-[32px] justify-center items-center py-[32px]">
-                                <div class="w-[46px] h-[46px] hidden xxxs:block"><img class="w-full h-full"
+                            <div class="flex gap-[32px] j pl-[24px] xxxs:justify-center items-center py-[32px]">
+                                <div class="w-[46px] h-[46px] hidden xxxxs:block"><img class="w-full h-full"
                                         :src="src[2]" alt="icon"></div>
                                 <div>
                                     <p class="font-bold text-[1.1em]">{{ label[2] }}</p>
@@ -78,8 +78,8 @@
                         </div>
                         <div v-else class="pulsing rounded-[5px] h-[112px]"></div>
                         <div v-if="loaded" class="rounded-[5px] flex-1 bg-offWhite-light">
-                            <div class="flex gap-[32px] justify-center items-center py-[32px]">
-                                <div class="w-[46px] h-[46px] hidden xxxs:block"><img class="w-full h-full"
+                            <div class="flex gap-[32px] pl-[24px] xxxs:justify-center items-center py-[32px]">
+                                <div class="w-[46px] h-[46px] hidden xxxxs:block"><img class="w-full h-full"
                                         :src="src[3]" alt="icon"></div>
                                 <div>
                                     <p class="font-bold text-[1.1em]">{{ label[3] }}</p>
