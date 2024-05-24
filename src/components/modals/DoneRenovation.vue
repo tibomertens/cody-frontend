@@ -114,8 +114,8 @@ const cancelWarning = () => {
 
 const executeUpdateData = async () => {
     // give alert and return
-    alert("Deze feature is momenteel bugged en kan niet gebruikt worden :).");
-    return;
+    // alert("Deze feature is momenteel bugged en kan niet gebruikt worden :).");
+    // return;
     // check if all fields are filled in
     if (!filledInDate.value || !budget.value) {
         error.value = "Vul alle velden in";
@@ -131,7 +131,7 @@ const executeUpdateData = async () => {
 
     let body = {
         endDate: filledInDate.value,
-        budget: budget.value,
+        budget_final: budget.value,
         amount_total: props.amountTotal,
         status: "Voltooid"
     };

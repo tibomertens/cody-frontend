@@ -156,7 +156,7 @@ const getActiveTextArray = async (renovation) => {
 const getDoneTextArray = async (renovation) => {
   let data = await getUserRenovation(userId.value, renovation._id);
   return [
-    data.budget,
+    data.budget_final,
     convertDate(data.endDate),
     data.amount_total,
     data.amount_done

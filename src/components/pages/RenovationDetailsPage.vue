@@ -524,7 +524,7 @@ const setStrings = () => {
         stateBtnName.value = 'Hervat de renovatie';
         startDate.value = convertDate(userRenovation.value.startDate);
     } else if (currentState.value === 'Voltooid') {
-        currentBudget.value = userRenovation.value.budget;
+        currentBudget.value = userRenovation.value.budget_final;
         paused.value = false;
         stateBtnName.value = 'Heropen de renovatie';
         startDate.value = convertDate(userRenovation.value.startDate);
