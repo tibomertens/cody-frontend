@@ -1,20 +1,25 @@
 <template>
-    <div class="">
-        <div class="mb-4">
-            <input v-model="newItem" @keyup.enter="addItem" type="text" placeholder="Voeg een notitie toe..."
-                class="border-2 border-offWhite-light bg-offWhite-light outline-none focus:border-primary-dark rounded-[5px] p-[12px] w-full" />
+    <div class="flex gap-[12px]">
+        <div class="w-full">
+            <div class="mb-4">
+                <input v-model="newItem" @keyup.enter="addItem" type="text" placeholder="Voeg een notitie toe..."
+                    class="border-2 border-offWhite-light bg-offWhite-light outline-none focus:border-primary-dark rounded-[5px] p-[12px] w-full" />
+            </div>
+            <div>
+                <ul>
+                    <li v-for="(item, index) in items" :key="index">
+                        <div class="flex gap-[12px]">
+                            <Checkbox :label="item.label" @selectedItem="handleSelectedItem(index)"
+                                :isChecked="item.checked" class="mb-[12px]" />
+                            <div class="h-[16px] w-[16px] relative top-[4.5px] cursor-pointer"
+                                @click="deleteItem(index)"><img src="/delete_no_fill.svg" alt="delete icon"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div>
-            <ul>
-                <li v-for="(item, index) in items" :key="index">
-                    <div class="flex gap-[12px]">
-                        <Checkbox :label="item.label" @selectedItem="handleSelectedItem(index)"
-                            :isChecked="item.checked" class="mb-[12px]" />
-                        <div class="h-[16px] w-[16px] relative top-[4.5px] cursor-pointer" @click="deleteItem(index)"><img src="/delete_no_fill.svg" alt="delete icon"></div>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        <div class="bg-primary-dark rounded-[5px] text-white h-[51px] flex justify-center items-center w-[51px] cursor-pointer" @click="addItem"><img
+                src="/saved-fill.svg" class="w-[65%]" alt="save icon"></div>
     </div>
 </template>
 

@@ -72,7 +72,7 @@
                                     <p class="font-bold text-[1.1em]">{{ label[2] }}</p>
                                     <p class="font-light text-[0.9em]"
                                         :class="{ 'text-secondary-red font-bold': text[2] < 0 }">{{
-                                        formatFinancialNumber(text[2]) }}</p>
+                                            formatFinancialNumber(text[2]) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -117,8 +117,10 @@
                 </div>
                 <div v-if="selectedNoteType === 'notes'">
                     <textarea
-                        class="w-full rounded-lg h-[250px] pl-[12px] pt-[12px] resize-none bg-offWhite-light border-2 outline-none border-offWhite-light focus:border-primary-dark"
-                        v-model="notes" @input="updateNotesVal"></textarea>
+                        class="w-full rounded-lg h-[250px] pl-[12px] pt-[12px] mb-[12px] resize-none bg-offWhite-light border-2 outline-none border-offWhite-light focus:border-primary-dark"
+                        v-model="notes"></textarea>
+                    <Btn :name="'Opslaan'" @click="updateNotesVal" :width="'full'" />
+                    <p v-if="notesSaved" class="text-secondary-green font-bold">Saved</p>
                 </div>
                 <div v-else>
                     <CheckList :items="checklistItems" :userId="userId" :renovationId="renovationId" />
@@ -202,6 +204,7 @@ import { formatFinancialNumber } from '../../functions/helpers';
 
 const loaded = ref(false);
 
+let notesSaved = ref(false);
 let paused = ref(false);
 let route = useRoute();
 let renovationId = ref('');
@@ -397,11 +400,16 @@ const getTextArray = (renovation, userRenovation) => {
     ];
 };
 
-const updateNotesVal = () => {
+const updateNotesVal = async () => {
     let body = {
         notes: notes.value
     };
-    updateNotes(userId.value, renovationId.value, body);
+    await updateNotes(userId.value, renovationId.value, body);
+    notesSaved.value = true;
+
+    setTimeout(() => {
+        notesSaved.value = false;
+    }, 2000);
 };
 
 onMounted(async () => {
