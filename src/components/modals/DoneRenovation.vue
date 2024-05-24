@@ -136,8 +136,6 @@ const executeUpdateData = async () => {
         status: "Voltooid"
     };
 
-    console.log(budget.value, props.previousBudget, props.userBudget, executeWithWarning.value);
-
     if ((parseInt(budget.value) - parseInt(props.previousBudget)) > parseInt(props.userBudget) && !executeWithWarning.value && (parseInt(budget.value) - parseInt(props.previousBudget)) > 0) {
         warning.value = "Het budget dat je wilt instellen is hoger dan je huidige budget";
         showWarningModal.value = true;

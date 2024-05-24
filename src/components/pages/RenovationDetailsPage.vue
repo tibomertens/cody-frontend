@@ -38,20 +38,56 @@
                 </div>
                 <div class="mt-[20px] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-[20px]">
                     <div class="grid gap-[20px]">
-                        <ProjectInfo v-if="loaded" :light="true" :label="getLabelArray()[0]"
-                            :src="getSrcArray(renovation)[0]" :text="getTextArray(renovation, userRenovation)[0]" />
+                        <div v-if="loaded" class="rounded-[5px] flex-1 bg-offWhite-light">
+                            <div class="flex gap-[32px] justify-center items-center py-[32px]">
+                                <div class="w-[46px] h-[46px] hidden xxxs:block"><img class="w-full h-full"
+                                        :src="src[0]" alt="icon"></div>
+                                <div>
+                                    <p class="font-bold text-[1.1em]">{{ label[0] }}</p>
+                                    <p class="font-light text-[0.9em]"
+                                        :class="{ 'text-secondary-red font-bold': text[0] < 0 }">{{ text[0] }}</p>
+                                </div>
+                            </div>
+                        </div>
                         <div v-else class="pulsing rounded-[5px] h-[112px]"></div>
-                        <ProjectInfo v-if="loaded" :light="true" :label="getLabelArray()[1]"
-                            :src="getSrcArray(renovation)[1]" :text="getTextArray(renovation, userRenovation)[1]" />
+                        <div v-if="loaded" class="rounded-[5px] flex-1 bg-offWhite-light">
+                            <div class="flex gap-[32px] justify-center items-center py-[32px]">
+                                <div class="w-[46px] h-[46px] hidden xxxs:block"><img class="w-full h-full"
+                                        :src="src[1]" alt="icon"></div>
+                                <div>
+                                    <p class="font-bold text-[1.1em]">{{ label[1] }}</p>
+                                    <p class="font-light text-[0.9em]"
+                                        :class="{ 'text-secondary-red font-bold': text[1] < 0 }">{{ text[1] }}</p>
+                                </div>
+                            </div>
+                        </div>
                         <div v-else class="pulsing rounded-[5px] h-[112px]"></div>
                     </div>
                     <div class="grid gap-[20px]">
-                        <ProjectInfo v-if="loaded" :light="true" :label="getLabelArray()[2]"
-                            :src="getSrcArray(renovation)[2]" :text="getTextArray(renovation, userRenovation)[2]"
-                            :budget="true" />
+                        <div v-if="loaded" class="rounded-[5px] flex-1 bg-offWhite-light">
+                            <div class="flex gap-[32px] justify-center items-center py-[32px]">
+                                <div class="w-[46px] h-[46px] hidden xxxs:block"><img class="w-full h-full"
+                                        :src="src[2]" alt="icon"></div>
+                                <div>
+                                    <p class="font-bold text-[1.1em]">{{ label[2] }}</p>
+                                    <p class="font-light text-[0.9em]"
+                                        :class="{ 'text-secondary-red font-bold': text[2] < 0 }">{{
+                                        formatFinancialNumber(text[2]) }}</p>
+                                </div>
+                            </div>
+                        </div>
                         <div v-else class="pulsing rounded-[5px] h-[112px]"></div>
-                        <ProjectInfo v-if="loaded" :light="true" :label="getLabelArray()[3]"
-                            :src="getSrcArray(renovation)[3]" :text="getTextArray(renovation, userRenovation)[3]" />
+                        <div v-if="loaded" class="rounded-[5px] flex-1 bg-offWhite-light">
+                            <div class="flex gap-[32px] justify-center items-center py-[32px]">
+                                <div class="w-[46px] h-[46px] hidden xxxs:block"><img class="w-full h-full"
+                                        :src="src[3]" alt="icon"></div>
+                                <div>
+                                    <p class="font-bold text-[1.1em]">{{ label[3] }}</p>
+                                    <p class="font-light text-[0.9em]"
+                                        :class="{ 'text-secondary-red font-bold': text[3] < 0 }">{{ text[3] }}</p>
+                                </div>
+                            </div>
+                        </div>
                         <div v-else class="pulsing rounded-[5px] h-[112px]"></div>
                     </div>
                     <div v-if="currentState != 'Aanbevolen' && currentState != 'Extra' && loaded"
@@ -150,10 +186,8 @@ import { updateState, updateAmount, updateSavedRenovation, updateNotes, getSugge
 import { isValidToken, getUser } from '../../functions/user.js';
 import { convertDate } from '../../functions/helpers.js';
 
-import BackArrow from '../UI/Back-arrow.vue';
 import Btn from '../UI/Btn.vue';
 import GhostBtn from '../UI/Ghost-btn.vue';
-import ProjectInfo from '../UI/Project-info.vue';
 import DonutChart from '../widgets/DonutChart.vue';
 import Project from '../widgets/Project.vue';
 
@@ -164,12 +198,9 @@ import Confirm from '../modals/Confirm.vue';
 
 import CheckList from '../widgets/CheckList.vue';
 
-const loaded = ref(false);
+import { formatFinancialNumber } from '../../functions/helpers';
 
-// after 5seconds, set loaded to true
-setTimeout(() => {
-    loaded.value = true;
-}, 1000);
+const loaded = ref(false);
 
 let paused = ref(false);
 let route = useRoute();
@@ -198,6 +229,9 @@ let percentRenovated = ref(0);
 let suggestions = ref([]);
 let renovationtype = ref('');
 let userBudget = ref(0);
+let src = ref([]);
+let label = ref([]);
+let text = ref([]);
 
 const router = useRouter();
 
@@ -392,7 +426,7 @@ const updateUserData = () => {
 };
 
 const updateData = async () => {
-    fetchData();
+    await fetchData();
 };
 
 const changeState = async () => {
@@ -400,7 +434,7 @@ const changeState = async () => {
         showActiveModal.value = true;
     } else if (currentState.value === 'Actief') {
         showDoneModal.value = true;
-    } else if (currentState.value === 'Gepauzeerd') {
+    } else if (currentState.value === 'Gepauzeerd' || currentState.value === 'Voltooid') {
         let body = {
             startDate: userRenovation.value.startDate,
             budget: userRenovation.value.budget,
@@ -408,16 +442,7 @@ const changeState = async () => {
             status: "Actief"
         };
         await updateState(userId.value, renovationId.value, body);
-        fetchData();
-    } else if (currentState.value === 'Voltooid') {
-        let body = {
-            startDate: userRenovation.value.startDate,
-            budget: userRenovation.value.budget,
-            amount_total: userRenovation.value.amount_total,
-            status: "Actief"
-        };
-        await updateState(userId.value, renovationId.value, body);
-        fetchData();
+        await fetchData();  // Ensure this does not cause recursive updates
     }
 };
 
@@ -429,7 +454,7 @@ const pauseRenovation = async () => {
         status: "Gepauzeerd"
     };
     await updateState(userId.value, renovationId.value, body);
-    fetchData();
+    await fetchData();
 };
 
 const lowerAmount = async () => {
@@ -440,7 +465,7 @@ const lowerAmount = async () => {
                 amount_done: currentAmount.value
             };
             await updateAmount(userId.value, renovationId.value, body);
-            fetchData();
+            await fetchData();
         }
     } else {
         alert('Je kan het aantal niet verlagen als de renovatie niet actief is');
@@ -458,7 +483,7 @@ const upAmount = async () => {
                 amount_done: currentAmount.value
             };
             await updateAmount(userId.value, renovationId.value, body);
-            fetchData();
+            await fetchData();
         }
     } else {
         alert('Je kan het aantal niet verhogen als de renovatie niet actief is');
@@ -473,13 +498,14 @@ const closeModal = () => {
 };
 
 const handleUpdatedState = async () => {
-    await fetchData();
     if (currentState.value === 'Voltooid') {
         let body = {
             amount_done: totalAmount.value
         };
         await updateAmount(userId.value, renovationId.value, body);
-        fetchData();
+        await fetchData();
+    } else {
+        await fetchData();
     }
 };
 
@@ -559,6 +585,12 @@ const setStrings = () => {
     if (userRenovation.value.checklist) {
         checklistItems.value = userRenovation.value.checklist;
     }
+
+    src.value = getSrcArray(renovation.value);
+    label.value = getLabelArray();
+    text.value = getTextArray(renovation.value, userRenovation.value);
+    
+    loaded.value = true;
 };
 
 watch(() => route.params.id, async () => {
