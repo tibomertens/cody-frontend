@@ -167,7 +167,7 @@
             :showModal="showActiveModal" @closeModal="closeModal" @updateState="handleUpdatedState" />
         <UpdateRenovationDetails :renovationId="renovationId" :userId="userId" :userBudget="userBudget"
             :previousBudget="currentBudget" :showModal="showUpdateModal" :amountTotal="totalAmount"
-            :budget="parseInt(currentBudget)" :startDate="startDate" @closeModal="closeModal"
+            :budget="parseInt(currentBudget)" :startDate="originalStartDate" @closeModal="closeModal"
             @updateData="updateData" />
         <DoneRenovation :renovationId="renovationId" :userId="userId" :showModal="showDoneModal"
             :budget="parseInt(currentBudget)" :amountTotal="totalAmount" @updateState="handleUpdatedState"
@@ -232,6 +232,8 @@ let userBudget = ref(0);
 let src = ref([]);
 let label = ref([]);
 let text = ref([]);
+let originalStartDate = ref('');
+
 
 const router = useRouter();
 
@@ -543,16 +545,19 @@ const setStrings = () => {
         currentBudget.value = userRenovation.value.budget;
         paused.value = false;
         stateBtnName.value = 'Markeer als voltooid';
+        originalStartDate.value = userRenovation.value.startDate;
         startDate.value = convertDate(userRenovation.value.startDate);
     } else if (currentState.value === 'Gepauzeerd') {
         currentBudget.value = userRenovation.value.budget;
         paused.value = true;
         stateBtnName.value = 'Hervat de renovatie';
+        originalStartDate.value = userRenovation.value.startDate;
         startDate.value = convertDate(userRenovation.value.startDate);
     } else if (currentState.value === 'Voltooid') {
         currentBudget.value = userRenovation.value.budget_final;
         paused.value = false;
         stateBtnName.value = 'Heropen de renovatie';
+        originalStartDate.value = userRenovation.value.startDate;
         startDate.value = convertDate(userRenovation.value.startDate);
     }
 
@@ -589,7 +594,7 @@ const setStrings = () => {
     src.value = getSrcArray(renovation.value);
     label.value = getLabelArray();
     text.value = getTextArray(renovation.value, userRenovation.value);
-    
+
     loaded.value = true;
 };
 

@@ -6,7 +6,7 @@
             @click="handleOutsideClick">
             <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
                 <h2 class="font-bold text-subtitle mb-[12px]">Gegevens invullen</h2>
-                <Input :label="'Startdatum'" @input-change="updateDate" :type="'date'" :value="props.startDate"
+                <Input :label="'Startdatum'" @input-change="updateDate" :type="'date'" :value="filledInDate"
                     :error="inputHasError" />
                 <Input :label="'Budget voor deze renovatie'" :value="props.budget" pre-fix="€"
                     @input-change="updateBudget" :error="inputHasError" />
@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref, warn, watch, defineProps, defineEmits } from "vue";
+import { ref, watch, defineProps, defineEmits } from "vue";
 
 import Btn from "../UI/Btn.vue";
 import GhostBtn from "../UI/Ghost-btn.vue";
@@ -149,15 +149,18 @@ const updateData = () => {
     executeUpdateData();
 };
 
+const formatDate = (dateString) => {
+    return dateString.split('T')[0];
+};
+
 watch(
     () => props.showModal,
     (value) => {
         showModal.value = value;
         filledInDate.value = props.startDate;
+        filledInDate.value = formatDate(props.startDate);
         budget.value = props.budget;
         amount.value = props.amountTotal;
-        // const formattedDate = new Date(filledInDate.value).toISOString().slice(0, 16);
-        // filledInDate.value = formattedDate;
     }
 );
 

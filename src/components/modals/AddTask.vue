@@ -46,8 +46,15 @@ let description = ref("");
 const emit = defineEmits(["closeModal", "addTask"]);
 
 const add = async () => {
-    if (!title.value || !date.value || !description.value) {
+    if (!title.value || !description.value) {
         error.value = "Vul alle velden in";
+        inputHasError.value = true;
+        return;
+    }
+
+    // check if date is filled in
+    if (!date.value) {
+        error.value = "Vul een datum in, inclusief tijd";
         inputHasError.value = true;
         return;
     }

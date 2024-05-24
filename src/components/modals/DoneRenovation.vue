@@ -76,14 +76,6 @@ const props = defineProps({
 const showModal = ref(false);
 let showWarningModal = ref(false);
 
-// get the current date
-let today = new Date();
-let currentDate = today;
-const formattedDate = new Date(currentDate).toISOString().slice(0, 16);
-
-let filledInDate = ref(currentDate);
-currentDate = formattedDate;
-filledInDate.value = formattedDate;
 let budget = ref("");
 
 let error = ref("");
@@ -91,6 +83,19 @@ let inputHasError = ref(false);
 let warning = ref("");
 let executeWithWarning = ref(false);
 
+// Get current date and format it as YYYY-MM-DD
+const getCurrentDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+// Initialize the current date
+let currentDate = ref(getCurrentDate());
+
+let filledInDate = ref(currentDate);
 
 const emit = defineEmits(["closeModal", "updateState"]);
 
@@ -113,15 +118,13 @@ const cancelWarning = () => {
 };
 
 const executeUpdateData = async () => {
-    // give alert and return
-    // alert("Deze feature is momenteel bugged en kan niet gebruikt worden :).");
-    // return;
     // check if all fields are filled in
     if (!filledInDate.value || !budget.value) {
         error.value = "Vul alle velden in";
         inputHasError.value = true;
         return;
     }
+
     // check if budget is all numbers
     if (isNaN(budget.value)) {
         error.value = "Budget en aantal moeten getallen zijn";

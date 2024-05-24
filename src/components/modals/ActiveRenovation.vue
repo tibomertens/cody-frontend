@@ -42,6 +42,7 @@ import GhostBtn from "../UI/Ghost-btn.vue";
 import Input from "../UI/Input.vue";
 
 import { updateState } from "../../functions/renovation";
+import { get } from "mongoose";
 
 const props = defineProps({
     showModal: {
@@ -65,13 +66,6 @@ const props = defineProps({
 let showModal = ref(false);
 let showWarningModal = ref(false);
 
-let today = new Date();
-let dd = String(today.getDate()).padStart(2, '0');
-let mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-let yyyy = today.getFullYear();
-
-let currentDate = dd + '-' + mm + '-' + yyyy;
-let filledInDate = ref(currentDate);
 let budget = ref("");
 let amount = ref("");
 
@@ -81,6 +75,20 @@ let warning = ref("");
 let executeWithWarning = ref(false);
 
 const emit = defineEmits(["closeModal", "updateState"]);
+
+// Get current date and format it as YYYY-MM-DD
+const getCurrentDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+// Initialize the current date
+let currentDate = ref(getCurrentDate());
+
+let filledInDate = ref(currentDate);
 
 const updateDate = (x) => {
     filledInDate.value = x;
