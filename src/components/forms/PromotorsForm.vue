@@ -16,8 +16,9 @@
             <Input :label="'Bedrijfsnaam:'" :type="'text'" @input-change="handleCompanyNameChange"
                 :error="hasError"></Input>
             <Input :label="'Logo:'" :type="'file'" @change="handleLogoChange" :error="hasError"></Input>
-            <Input :label="'Bericht:'" :type="'textarea'" @input-change="handleMessageChange" :error="hasError"
-                class="xs:col-span-2"></Input>
+            <label for="msg" class="font-bold mt-[24px]">Bericht:</label>
+            <textarea id="msg" v-model="message" placeholder="Bericht..."
+                class="h-[150px] w-full rounded p-4 whitespace-pre-wrap break-words resize-none bg-offWhite-light focus:outline-primary-dark xs:col-span-2"></textarea>
         </div>
         <div v-if="error" class="text-secondary-red">{{ error }}</div>
 
@@ -140,10 +141,6 @@ const handleCompanyNameChange = (value) => {
 const handleLogoChange = (value) => {
     const file = value.target.files[0];
     logo.value = file;
-}
-
-const handleMessageChange = (value) => {
-    message.value = value;
 }
 
 const tiers = [{
