@@ -10,26 +10,30 @@
       v-if="dataIsLoaded">
       <div v-for="label in labels" class="hidden md:block">
         <img :src="`/${label}-label.svg`" :alt="`epc label ${label}`" class="md:w-[100px] w-[20px] pr-[-50px]"
-          :class="{ 'scale-[150%] md:scale-[150%] md:mx-7 mx-2 md:mt-10 mt-[54px] flex': label === currentLabel || label === goalLabel }">
-        <p v-if="label === currentLabel" class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4">
-          Jouw label</p>
-        <p v-else-if="label === goalLabel" class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4">
-          Jouw doel</p>
+          :class="{ 'scale-[150%] md:scale-[150%] md:mx-7 mx-2 md:mt-10 mt-[54px] flex': label === currentLabel, 'scale-[150%] md:scale-[150%] md:mx-7 mx-2 md:mt-16 mt-[54px] flex': label === goalLabel }">
+        <p v-if="label === currentLabel" class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4 font-bold">
+          Jouw label
+        </p>
+        <div v-else-if="label === goalLabel">
+          <p class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4 font-bold">Jouw doel</p>
+          <p class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center">Tegen {{ goalYear }}</p>
+        </div>
       </div>
       <div class="md:hidden flex gap-3">
         <div>
           <div class="px-[12px] xs:px-[24px] flex justify-center items-center">
             <img :src="`/${currentLabel}-label.svg`" :alt="`epc label ${label}`" class="w-[100%] xxs:w-[70%] mt-5">
           </div>
-          <p class="w-[100%] text-xs flex justify-center pt-4">
+          <p class="w-[100%] text-xs flex justify-center pt-4 font-bold">
             Jouw label</p>
         </div>
         <div>
           <div class="px-[12px] xs:px-[24px] flex justify-center items-center">
             <img :src="`/${goalLabel}-label.svg`" :alt="`epc label ${label}`" class="w-[100%] xxs:w-[70%] mt-5">
           </div>
-          <p class="w-[100%] text-xs flex justify-center pt-4">
+          <p class="w-[100%] text-xs flex justify-center pt-4 font-bold">
             Jouw doel</p>
+            <p class="w-[100%] text-xs flex justify-center">Tegen {{ goalYear }}</p>
         </div>
       </div>
     </div>
@@ -125,6 +129,7 @@ let dataIsLoaded = ref(false);
 let label = ref("");
 let showBudgetModal = ref(false);
 let chartDataArray = ref(new Array(12).fill(0)); // Initialize with 12 zeros, one for each month
+let goalYear= ref("");
 
 onMounted(async () => {
   if (isValidToken(token)) {
@@ -140,6 +145,8 @@ onMounted(async () => {
 
   // Calculate cumulative sum
   calculateCumulativeSum();
+  console.log(userData.value.goalLabel_by_year);
+  goalYear.value = userData.value.goalLabel_by_year;
 });
 
 const openEditBudgetPopup = () => {
