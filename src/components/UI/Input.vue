@@ -37,7 +37,7 @@ const props = defineProps({
     default: false
   },
   admin: {
-    type: boolean,
+    type: Boolean,
     default: false
   },
 });
