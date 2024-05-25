@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import bewaard from "./components/pages/SavedPage.vue";
 import account from "./components/pages/AccountPage.vue";
 import home from "./components/pages/HomePage.vue";
 import login from "./components/pages/LoginPage.vue"; // no navigation
@@ -12,6 +11,8 @@ import Settings from "./components/pages/SettingsPage.vue";
 import promotors from "./components/pages/PromotorsPage.vue";
 import DetermineLabelChoicePage from "./components/pages/DetermineLabelChoicePage.vue";
 import RenovationDetailPage from "./components/pages/RenovationDetailsPage.vue";
+import AdminLoginPage from "./components/pages/AdminLoginPage.vue";
+import AdminDashboard from "./components/pages/AdminDashboard.vue";
 import Reviews from "./components/pages/ReviewPage.vue";
 import CreateReview from "./components/pages/CreateReviewPage.vue";
 import ChangeReview from "./components/pages/ChangeReviewPage.vue";
@@ -141,16 +142,25 @@ const routes = [
     components: { default: CreateReview, sidebar: sideNav, topNav: topNav },
     name: "Schrijf een review",
     meta: { title: "Cody | Review aanmaken", sidebar: true },
-  }
-  ,
+  },
   {
     path: "/reviews/update/:id",
     components: { default: ChangeReview, sidebar: sideNav, topNav: topNav },
     name: "Pas je review aan",
     meta: { title: "Cody | Subscriptie aanpassen", sidebar: true },
-  }
-  ,
-   {
+  },
+  {
+    path: "/admin/login",
+    components: { default: AdminLoginPage },
+    meta: { sidebar: false },
+  },
+  {
+    path: "/admin/dashboard",
+    components: { default: AdminDashboard, topNav: topNav },
+    name: "Admin Dashboard",
+    meta: { sidebar: false },
+  },
+  {
     path: "/:catchAll(.*)",
     name: "NotFound",
     redirect: "/",

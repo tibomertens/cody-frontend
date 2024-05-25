@@ -2,6 +2,7 @@
 import { ref, watch, onMounted, computed } from "vue";
 
 const emit = defineEmits(['input-change']);
+
 const props = defineProps({
   label: {
     type: String,
@@ -34,7 +35,11 @@ const props = defineProps({
   forget: {
     type: Boolean,
     default: false
-  }
+  },
+  admin: {
+    type: boolean,
+    default: false
+  },
 });
 
 let inputValue = ref("");
@@ -80,7 +85,7 @@ const inputId = computed(() => `input-${props.label.replace(/\s+/g, '-').toLower
     <div class="flex w-[100%] justify-between">
       <label :for="inputId" class="text-body font-bold pb-2">{{ label }}</label>
       <router-link to="/forgotpassword">
-        <a href="#" class="text-xs underline" :class="{ 'hidden': props.type !== 'password' || props.forget === true }">Wachtwoord vergeten?</a>
+        <a href="#" class="text-xs underline" :class="{ 'hidden': props.type !== 'password' || props.forget === true || props.admin === true }">Wachtwoord vergeten?</a>
       </router-link>
     </div>
     <div class="relative">
