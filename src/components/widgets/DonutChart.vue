@@ -3,22 +3,39 @@
         <svg viewBox="0 0 100 100">
             <circle :stroke="props.bg" class="donut" :cx="center" :cy="center" :r="radius" :stroke-width="strokeWidth"
                 :stroke-dasharray="circumference" :stroke-dashoffset="0" />
-            <circle :stroke="ringColor" class="donut-ring" :cx="center" :cy="center" :r="radius" :stroke-width="strokeWidth"
-                :stroke-dasharray="circumference" :stroke-dashoffset="offset" :style="{ transition: 'stroke-dashoffset 0.5s ease-in-out' }" />
-            <text :fill="ringColor" class="donut-text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">{{ percent
+            <circle :stroke="ringColor" class="donut-ring" :cx="center" :cy="center" :r="radius"
+                :stroke-width="strokeWidth" :stroke-dasharray="circumference" :stroke-dashoffset="offset"
+                :style="{ transition: 'stroke-dashoffset 0.5s ease-in-out' }" />
+            <text :fill="ringColor" class="donut-text" x="50%" y="50%" dominant-baseline="middle"
+                text-anchor="middle">{{ percentValue
                 }}%</text>
         </svg>
     </div>
 </template>
 
 <script setup>
-import { defineProps, computed, ref } from 'vue';
+import { defineProps, computed, ref, watch } from 'vue';
 
 const props = defineProps({
     percent: Number,
     bg: String,
     paused: Boolean
 });
+
+// Initialize a reactive variable to hold the percent value
+const percentValue = ref(props.percent);
+
+// Watch for changes in the props.percent value and update the reactive variable
+watch(() => props.percent, (newValue) => {
+    if (isNaN(newValue)) {
+        newValue = 0;
+    }
+    percentValue.value = newValue;
+});
+
+if (isNaN(props.percent)) {
+    percentValue.value = 0;
+}
 
 const size = ref(100);
 const strokeWidth = ref(10);
@@ -30,11 +47,11 @@ const ringColor = computed(() => {
     if (props.paused) {
         return '#FF9900';
     }
-    return props.percent === 100 ? '#33CC00' : '#0072FF';
+    return percentValue.value === 100 ? '#33CC00' : '#0072FF';
 });
 
 const offset = computed(() => {
-    const progress = (100 - props.percent) / 100;
+    const progress = (100 - percentValue.value) / 100;
     return progress * circumference;
 });
 </script>

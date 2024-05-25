@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Laag_2" data-name="Laag 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 204.51 247.4">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #a0b9e1;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: #edf0f5;
+      }
+
+      .cls-6 {
+        stroke: #3668b1;
+      }
+
+      .cls-6, .cls-7 {
+        fill: none;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+
+      .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-7 {
+        stroke: #57b031;
+      }
+
+      .cls-4 {
+        fill: #3668b1;
+      }
+
+      .cls-5 {
+        fill: #57b031;
+      }
+    </style>
+  </defs>
+  <g id="Laag_13" data-name="Laag 13">
+    <g>
+      <rect class="cls-1" width="204.51" height="247.4" rx="12.22" ry="12.22"/>
+      <rect class="cls-3" x="8.04" y="9.73" width="188.43" height="227.95" rx="11.25" ry="11.25"/>
+    </g>
+    <g>
+      <g>
+        <g>
+          <rect class="cls-6" x="24.55" y="42.27" width="19.88" height="19.88"/>
+          <polyline class="cls-7" points="25.71 49.06 34 56.89 47.56 44.16"/>
+        </g>
+        <g>
+          <rect class="cls-2" x="65.88" y="48.98" width="105.9" height="2.53"/>
+          <rect class="cls-2" x="65.88" y="56.57" width="83.78" height="2.53"/>
+        </g>
+      </g>
+      <g>
+        <g>
+          <rect class="cls-6" x="24.55" y="83.35" width="19.88" height="19.88"/>
+          <polyline class="cls-7" points="25.71 90.14 34 97.97 47.56 85.23"/>
+        </g>
+        <g>
+          <rect class="cls-2" x="65.88" y="90.06" width="105.9" height="2.53"/>
+          <rect class="cls-2" x="65.88" y="97.65" width="83.78" height="2.53"/>
+        </g>
+      </g>
+      <g>
+        <g>
+          <rect class="cls-6" x="24.55" y="124.43" width="19.88" height="19.88"/>
+          <polyline class="cls-7" points="25.71 131.22 34 139.05 47.56 126.31"/>
+        </g>
+        <g>
+          <rect class="cls-2" x="65.88" y="131.14" width="105.9" height="2.53"/>
+          <rect class="cls-2" x="65.88" y="138.73" width="83.78" height="2.53"/>
+        </g>
+      </g>
+      <g>
+        <g>
+          <rect class="cls-6" x="24.55" y="165.51" width="19.88" height="19.88"/>
+          <polyline class="cls-7" points="25.71 172.3 34 180.13 47.56 167.39"/>
+        </g>
+        <g>
+          <rect class="cls-2" x="65.88" y="172.22" width="105.9" height="2.53"/>
+          <rect class="cls-2" x="65.88" y="179.81" width="83.78" height="2.53"/>
+        </g>
+      </g>
+    </g>
+    <g>
+      <rect class="cls-1" x="60.12" y="135.33" width="107.45" height="18.74" transform="translate(-39.95 43.49) rotate(-18.46)"/>
+      <polygon class="cls-4" points="59.68 152.92 62.67 161.9 65.67 170.88 56.4 168.98 47.12 167.09 53.4 160 59.68 152.92"/>
+      <polygon class="cls-5" points="49.97 163.83 50.67 165.92 51.36 168.02 49.2 167.57 47.04 167.13 48.5 165.48 49.97 163.83"/>
+      <path class="cls-4" d="M161.79,118.85c2.04,6.34,2.81,8.64,5.91,17.66,4.79-1.6,7.34-6.85,5.71-11.73s-6.83-7.53-11.62-5.93Z"/>
+      <rect class="cls-4" x="125.2" y="130.36" width="7.7" height="18.55" transform="translate(-37.57 48.04) rotate(-18.46)"/>
+      <rect class="cls-4" x="116.13" y="118.58" width="49.22" height="5.99" rx="3" ry="3" transform="translate(-31.25 50.81) rotate(-18.46)"/>
+      <rect class="cls-4" x="160.69" y="115.62" width="3.61" height="3.42" rx="1.71" ry="1.71" transform="translate(26.77 -30.14) rotate(11.54)"/>
+    </g>
+  </g>
+</svg>

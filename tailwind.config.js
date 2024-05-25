@@ -27,8 +27,12 @@ export default {
         offBlack: "#262626"
       },
       screens: {
+        'xxxxs': '350px',
+        'xxxs': '420px',
+        'xxs': '480px',
         'xs': '590px',
         'ml': '904px',
+        '1.5xl': '1400px',
       },
       fontSize: {
         "title": "1.8rem",

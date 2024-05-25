@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+  background-color: #EDF0F5;
+}
+
 /* Hide horizontal scrollbar for WebKit-based browsers */
 ::-webkit-scrollbar {
   height: 5px;
@@ -61,4 +66,20 @@ h1, h2, h3, h4, h5, h6, p, a, img, span, label {
     margin-left: 40px;
     margin-right: 40px;
   }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #c5c4c4;
+  }
+  50% {
+    background-color: #e0e0e0;
+  }
+  100% {
+    background-color: #c5c4c4;
+  }
+}
+
+.pulsing {
+  animation: pulse 2s infinite;
 }

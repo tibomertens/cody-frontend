@@ -2,12 +2,15 @@
 import Project from '../widgets/Project.vue';
 import Searchbar from '../UI/Searchbar.vue';
 import AdvancedFilter from '../UI/Advanced-filter.vue';
+import Empty_state from '../widgets/Empty_state.vue';
+import Error_state from '../widgets/Error_state.vue';
 
 import { ref, reactive, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { isValidToken, getUser } from '../../functions/user.js';
 import { getRenovations, getRecommendedRenovations, getActiveRenovations, getSavedRenovations, getCompletedRenovations, getUserRenovation } from '../../functions/renovation.js';
+import { convertDate } from '../../functions/helpers.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -17,47 +20,61 @@ const token = localStorage.getItem('token');
 let userData = reactive({});
 let renovations = reactive([]);
 let renovationsLoaded = ref(false);
-let budget = ref('€' + 0);
+let budget = ref(0);
 let userId = ref('');
+let empty_text = ref('Er zijn geen projecten gevonden, probeer een andere filter.');
+let unexpected_error = ref(false);
 
 const screenWidth = ref(window.innerWidth);
 
 const fetchData = async () => {
-  if (isValidToken(token)) {
-    userData.value = await getUser(token);
-    if (userData.value !== null) {
-      budget.value = '€' + userData.value.budget;
-      userId.value = userData.value._id;
+  try {
+    if (isValidToken(token)) {
+      userData.value = await getUser(token);
+
+      if (userData.value !== null) {
+        budget.value = userData.value.budget_current;
+        userId.value = userData.value._id;
+      } else {
+        router.push('/login');
+      }
+
+      if (route.path === '/projects/recommended') {
+        renovations.value = await getRecommendedRenovations(userId.value);
+      } else if (route.path === '/projects/active') {
+        renovations.value = await getActiveRenovations(userId.value);
+      } else if (route.path === '/projects/completed') {
+        renovations.value = await getCompletedRenovations(userId.value);
+      } else if (route.path === '/projects/saved') {
+        renovations.value = await getSavedRenovations(userId.value);
+      } else {
+        renovations.value = await getRenovations();
+      }
+
+      // Define the order of impact levels
+      const impactOrder = ['Hoogste impact', 'Middelmatige impact', 'Laagste impact'];
+
+      // Sort the renovations based on the impact
+      renovations.value.sort((a, b) => {
+        const impactA = impactOrder.indexOf(a.impact);
+        const impactB = impactOrder.indexOf(b.impact);
+
+        if (impactA < impactB) {
+          return -1;
+        } else if (impactA > impactB) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
+      renovationsLoaded.value = true;
     } else {
       router.push('/login');
     }
-
-    if (route.path === '/projects/recommended') {
-      renovations.value = await getRecommendedRenovations(userId.value);
-    } else if (route.path === '/projects/active') {
-      renovations.value = await getActiveRenovations(userId.value);
-    } else if (route.path === '/projects/completed') {
-      renovations.value = await getCompletedRenovations(userId.value);
-    } else if (route.path === '/projects/saved') {
-      renovations.value = await getSavedRenovations(userId.value);
-    } else {
-      renovations.value = await getRenovations();
-    }
-
-    // sort the renovations based on the impact
-    renovations.value.sort((a, b) => {
-      if (a.impact === 'Hoogste impact' && b.impact !== 'Hoogste impact') {
-        return -1;
-      } else if (a.impact !== 'Hoogste impact' && b.impact === 'Hoogste impact') {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-
-    renovationsLoaded.value = true;
-  } else {
-    router.push('/login');
+  } catch (error) {
+    console.error(error);
+    unexpected_error.value = true;
   }
 };
 
@@ -75,6 +92,9 @@ onBeforeUnmount(() => {
 });
 
 watch(route, () => {
+  renovationsLoaded.value = false;
+  unexpected_error.value = false;
+  renovations.value = [];
   fetchData();
 });
 
@@ -85,20 +105,20 @@ const labelArray = [
 ];
 
 const activeLabelArray = [
-  'Budget',
+  'Toegewezen budget',
   'Startdatum'
 ];
 
 const doneLabelArray = [
-  'Budget',
+  'Uitgegeven budget',
   'Einddatum'
 ];
 
 const getSrcArray = (renovation) => {
   // Logic for generating srcArray based on renovation data
   return [
-    renovation.impact === 'Hoogste impact' ? '/highImpact.svg' : '/lowImpact.svg',
-    renovation.cost === 'high' ? '/highCost.svg' : '/lowCost.svg',
+    renovation.impact === 'Hoogste impact' ? '/highImpact.svg' : (renovation.impact === 'Middelmatige impact' ? '/mediumImpact.svg' : '/lowImpact.svg'),
+    renovation.cost === 'high' ? '/highCost.svg' : (renovation.cost === 'medium' ? '/mediumCost.svg' : '/lowCost.svg'),
     '/budgetBlue.svg'
   ];
 };
@@ -132,8 +152,8 @@ const getActiveTextArray = async (renovation) => {
   // Logic for generating textArray based on renovation data
   let data = await getUserRenovation(userId.value, renovation._id);
   return [
-    '€' + data.budget,
-    data.startDate,
+    data.budget,
+    convertDate(data.startDate),
     data.amount_total,
     data.amount_done
   ];
@@ -142,8 +162,8 @@ const getActiveTextArray = async (renovation) => {
 const getDoneTextArray = async (renovation) => {
   let data = await getUserRenovation(userId.value, renovation._id);
   return [
-    '€' + data.budget,
-    data.endDate,
+    data.budget_final,
+    convertDate(data.endDate),
     data.amount_total,
     data.amount_done
   ];
@@ -168,8 +188,10 @@ const handleFilter = (filteredRenovations) => {
           :userBudget="budget" />
       </div>
     </div>
+    <Error_state v-if="unexpected_error" />
     <div v-if="renovationsLoaded">
-      <router-link v-for="(renovation, i) in renovations.value" :key="i" :to="'/projects/' + renovation._id">
+      <Empty_state :text="empty_text" v-if="renovations.value.length === 0" />
+      <router-link v-else v-for="(renovation, i) in renovations.value" :key="i" :to="'/projects/' + renovation._id">
         <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
           :activeSrc="getActiveSrcArray(renovation)" :doneSrc="getDoneSrcArray(renovation)" :label="labelArray"
           :activeLabel="activeLabelArray" :doneLabel="doneLabelArray" :text="getTextArray(renovation)"
@@ -177,6 +199,9 @@ const handleFilter = (filteredRenovations) => {
           :stateFetcher="getStateFetcher(renovation)" />
       </router-link>
     </div>
+    <div v-if="!renovationsLoaded && !unexpected_error" class="pulsing rounded-[5px] h-[196px] mb-[32px]"></div>
+    <div v-if="!renovationsLoaded && !unexpected_error" class="pulsing rounded-[5px] h-[196px] mb-[32px]"></div>
+    <div v-if="!renovationsLoaded && !unexpected_error" class="pulsing rounded-[5px] h-[196px] mb-[32px]"></div>
   </section>
 </template>
 

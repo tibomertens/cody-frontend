@@ -9,4 +9,10 @@ const app = createApp(App);
 
 app.component("Type", Type);
 
+router.beforeEach((to, from, next) => {
+  // Set document title
+  document.title = to.meta.title || "Default Title - My App";
+  next();
+});
+
 app.use(router).mount("#app");

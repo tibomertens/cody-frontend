@@ -7,6 +7,33 @@ export const isValidToken = (token) => {
     return true;
   }
 };
+export const registerUser = async (email, password, familyname) => {
+  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users`;
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        username: familyname,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Mislukt om te registreren");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
 
 export const getUser = async (token) => {
   const decoded = jwtDecode(token);
@@ -79,6 +106,81 @@ export const loginAdmin = async (email, password) => {
     if (!response.ok) {
       throw new Error("Failed to login");
     }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const loginUser = async (email, password) => {
+  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/login`;
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const sendpasswordresetmail = async (email) => {
+  let apiEndpoint = `${
+    import.meta.env.VITE_API_URL
+  }/api/v1/users/sendpasswordresetmail`;
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Mail sturen mislukt");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const resetpassword = async (body) => {
+  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/resetpassword`;
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
 
     const data = await response.json();
     return data;
