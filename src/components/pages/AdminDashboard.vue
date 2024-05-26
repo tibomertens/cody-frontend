@@ -47,7 +47,7 @@
             </div>
         </div>
         <div v-if="acceptedPromotors.length > 0">
-            <h2 class="text-subtitle font-bold">Actieve renovatoren</h2>
+            <h2 class="text-subtitle font-bold">Geaccepteerde renovatoren</h2>
             <div class="mt-[24px] mb-[32px] flex gap-[32px] overflow-x-auto">
                 <div v-for="promotor in acceptedPromotors" class="bg-offWhite-light rounded-[5px] p-[24px] w-[400px]">
                     <h3 class="font-bold text-[1em] md:text-[1.2em]">{{ promotor.name }}</h3>
@@ -130,8 +130,8 @@ const getPromotors = async () => {
 
     const resultAccepted = await getAllPromotors();
 
-    if (resultAccepted.success) {
-        acceptedPromotors.value = resultAccepted.data;
+    if (resultAccepted) {
+        acceptedPromotors.value = resultAccepted;
     }
 };
 
@@ -175,5 +175,5 @@ const navigate = (promotor) => {
     } else {
         window.location.href = promotor.website_url;
     }
-}
+};
 </script>
