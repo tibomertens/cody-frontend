@@ -151,14 +151,14 @@ const routes = [
   },
   {
     path: "/admin/login",
-    components: { default: AdminLoginPage },
-    meta: { sidebar: false },
+    components: { default: AdminLoginPage, sidebar: sideNav, topNav: topNav },
+    meta: { title: "Cody | Admin login", sidebar: true },
   },
   {
     path: "/admin/dashboard",
-    components: { default: AdminDashboard, topNav: topNav },
+    components: { default: AdminDashboard, sidebar: sideNav, topNav: topNav },
     name: "Admin Dashboard",
-    meta: { sidebar: false },
+    meta: { title: "Cody | Admin dashboard", sidebar: true },
   },
   {
     path: "/:catchAll(.*)",

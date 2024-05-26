@@ -124,3 +124,15 @@ export const report = async (id, is_reported) => {
     throw error;
   }
 };
+
+export const getReportedReviews = async () => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/v1/reviews/reported/all`
+    );
+    let data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

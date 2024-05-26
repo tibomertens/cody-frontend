@@ -58,7 +58,7 @@ const handleEdit = () => {
 };
 
 const handleReport = async () => {
-    const result = await report(props.review._id);
+    const result = await report(props.review._id, true);
 };
 
 onMounted(() => {
