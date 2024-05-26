@@ -20,6 +20,7 @@ import RegisterPage from "./components/pages/RegisterPage.vue";
 import ForgotPasswordPage from "./components/pages/ForgotPasswordPage.vue";
 import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
 import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPage.vue";
+import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
 
 const routes = [
   {
@@ -151,14 +152,20 @@ const routes = [
   },
   {
     path: "/admin/login",
-    components: { default: AdminLoginPage },
-    meta: { sidebar: false },
+    components: { default: AdminLoginPage, topNav: topNav },
+    meta: { title: "Cody | Admin login", sidebar: false },
   },
   {
     path: "/admin/dashboard",
-    components: { default: AdminDashboard, topNav: topNav },
+    components: { default: AdminDashboard, sidebar: sideNav, topNav: topNav },
     name: "Admin Dashboard",
-    meta: { sidebar: false },
+    meta: { title: "Cody | Admin dashboard", sidebar: true },
+  },
+  {
+    path: "/admin/promotors/:id",
+    components: { default: PromotorsAdminPage, sidebar: sideNav, topNav: topNav },
+    name: "Renovator details",
+    meta: { title: "Cody | Renovator details", sidebar: true },
   },
   {
     path: "/:catchAll(.*)",

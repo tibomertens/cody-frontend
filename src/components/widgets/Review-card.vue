@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch, defineProps, defineEmits } from 'vue';
 import { convertDate } from "../../functions/helpers.js";
-import { deleteReview } from '../../functions/reviews.js';
+import { deleteReview, report } from '../../functions/reviews.js';
 import { useRouter } from 'vue-router';
 
 import Confirm from '../modals/Confirm.vue';
@@ -12,6 +12,7 @@ const emit = defineEmits(['review-deleted']);
 const cardUserId = ref(props.loggedInUserId);
 
 const showConfirm = ref(false);
+const showConfirm2 = ref(false);
 
 const router = useRouter();
 
@@ -26,6 +27,10 @@ const toggleMenu = (event) => {
 
 const openConfirm = () => {
     showConfirm.value = true;
+};
+
+const openConfirm2 = () => {
+    showConfirm2.value = true;
 };
 
 const closeModal = () => {
@@ -50,6 +55,10 @@ const handleDelete = async () => {
 
 const handleEdit = () => {
     router.push(`/reviews/update/${props.review._id}`);
+};
+
+const handleReport = async () => {
+    const result = await report(props.review._id, true);
 };
 
 onMounted(() => {
@@ -90,6 +99,18 @@ onBeforeUnmount(() => {
                 </div>
             </div>
         </div>
+        <div v-else class="menu-container">
+            <a href="#" class="fa-solid fa-ellipsis-vertical text-[20px] text-primary-dark" @click="toggleMenu"></a>
+            <div v-if="menuVisible"
+                class="absolute right-[64px] mt-2 w-48 bg-offWhite-light border-primary-dark border-2 rounded-md z-10">
+                <div class="w-full flex flex-col">
+                    <button @click="openConfirm2"
+                        class="w-full px-4 py-2 text-left text-sm text-secondary-yellow font-bold hover:bg-offWhite-dark flex items-center justify-center">
+                        <i class="fa-regular fa-flag mr-2"></i><span>Rapporteren</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="mb-[12px] font-semibold text-[20px]">
         {{ review.title }}
@@ -103,6 +124,9 @@ onBeforeUnmount(() => {
     <Confirm :showConfirm="showConfirm" title="Review verwijderen"
         desc="Weet je zeker dat je deze review wilt verwijderen?" @closeConfirm="showConfirm = false"
         @confirmAction="handleDelete" />
+    <Confirm :showConfirm="showConfirm2" title="Review rapporteren"
+        desc="Weet je zeker dat je deze review wilt rapporteren?" @closeConfirm="showConfirm2 = false"
+        @confirmAction="handleReport" />
 </template>
 
 <style scoped></style>

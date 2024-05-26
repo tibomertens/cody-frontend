@@ -68,3 +68,61 @@ export const uploadImage = async (file) => {
       }
   }
 };
+
+export const getUnacceptedPromotors = async () => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/v1/promotors/unaccepted`
+    );
+    let data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getPromotorById = async (id) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/v1/promotors/all/${id}`
+    );
+
+    let data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const acceptPromotor = async (id) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/v1/promotors/accept/${id}`,
+      {
+        method: "PATCH",
+      }
+    );
+
+    let data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deletePromotor = async (id) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/v1/promotors/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    let data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
