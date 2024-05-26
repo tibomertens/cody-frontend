@@ -68,3 +68,15 @@ export const uploadImage = async (file) => {
       }
   }
 };
+
+export const getUnacceptedPromotors = async () => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/v1/promotors/unaccepted`
+    );
+    let data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
