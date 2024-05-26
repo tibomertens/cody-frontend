@@ -40,36 +40,56 @@
     <div v-else class="pulsing h-[156px] rounded-[5px] md:mx-[40px] ml-[5%]"></div>
   </section>
   <section>
+    <div>
+      
+    </div>
     <div class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center">
       <h2 class="text-subtitle font-bold">Budget</h2>
       <a href="#" @click="openEditBudgetPopup">
         <div><img src="/edit_no_fill.svg" alt="potlood"></div>
       </a>
     </div>
-    <div v-if="dataIsLoaded" class=" md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-10 rounded mb-[40px]">
-      <div class="bg-offWhite-dark md:mx-[20%] mx-[15%] mt-[40px] md:w-[60%] md:h-[52px] w-[70%] h-[32px] rounded">
-        <!-- Add a wrapper div for the animated bar -->
-        <div class="h-full bg-primary-medium rounded animate-bar" :style="{ width: currentBudgetPercentage }"></div>
-      </div>
-      <div class="flex justify-center">
-        <div class="flex w-[90%] justify-between mt-[20px] px-4 mb-14 gap-4">
-          <div class="md:flex md:gap-[32px]">
-            <div><img src="/budgetBlue.svg" alt="huidig budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
+    <div v-if="dataIsLoaded" class=" md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-[40px] rounded mb-[40px]">
+      <div class="flex justify-center mb-[40px]">
+        <div class="md:flex w-[90%] justify-around">
+          <div class="hidden md:flex justify-center items-center w-[35%]">
             <div>
               <p class="md:text-body font-bold">Resterend budget</p>
               <p class="text-xs" :class="{ 'text-secondary-red font-bold': currentBudget < 0 }">{{
                 formatFinancialNumber(currentBudget) }}</p>
             </div>
           </div>
-          <div class="md:flex md:gap-[32px]">
-            <div><img src="/budgetBlue.svg" alt="uitgegeven budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
-            <div class="text-right">
-              <p class="md:text-body font-bold">Uitgegeven budget</p>
-              <p class="text-xs">{{ formatFinancialNumber(spentBudget) }}</p>
+          <div class="w-full md:flex block justify-center items-center">
+            <div class="md:w-[90%] ">
+              <div class="bg-offWhite-dark md:w-full md:h-[52px] w-full h-[32px] rounded">
+                <div class="h-full bg-primary-medium rounded animate-bar" :style="{ width: currentBudgetPercentage }"></div>
+              </div>
             </div>
           </div>
+            
+          <!-- <div class="flex justify-center"> -->
+            <!-- <div class="flex w-[90%] justify-between mt-[20px] px-4 mb-14 gap-4"> -->
+              <div class="flex md:w-[35%] w-full self-center justify-between mt-5 md:mt-0">
+                <div class="flex md:hidden">
+                  <div>
+                    <p class="md:text-body font-bold">Resterend budget</p>
+                    <p class="text-xs" :class="{ 'text-secondary-red font-bold': currentBudget < 0 }">{{
+                      formatFinancialNumber(currentBudget) }}</p>
+                  </div>
+                </div>
+                <div class="md:flex justify-center">
+                  <div class="text-right">
+                    <p class="md:text-body font-bold">Totale budget</p>
+                    <p class="text-xs">{{ formatFinancialNumber(totalBudget) }}</p>
+                  </div>
+                </div>
+
+              </div>
+            <!-- </div> -->
+          <!-- </div> -->
         </div>
       </div>
+
       <a href="#">
         <div
           class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center">
@@ -122,6 +142,7 @@ let currentLabel = ref("");
 let goalLabel = ref("");
 let currentBudget = ref(0);
 let spentBudget = ref(0);
+let totalBudget = ref();
 let currentBudgetPercentage = ref('0%');
 let showModal = ref(false);
 let labels = ref(['F', 'E', 'D', 'C', 'B', 'A', 'A+']);
@@ -145,7 +166,6 @@ onMounted(async () => {
 
   // Calculate cumulative sum
   calculateCumulativeSum();
-  console.log(userData.value.goalLabel_by_year);
   goalYear.value = userData.value.goalLabel_by_year;
 });
 
@@ -176,7 +196,7 @@ const getData = async () => {
     currentBudget = userData.value.budget_current;
     spentBudget = userData.value.budget_spent;
     userId.value = userData.value._id;
-    let totalBudget = parseInt(currentBudget) + parseInt(spentBudget);
+    totalBudget = parseInt(currentBudget) + parseInt(spentBudget);
     currentBudgetPercentage.value = `${((parseInt(currentBudget) / totalBudget) * 100).toFixed(2)}%`;
 
     await nextTick();
