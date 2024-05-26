@@ -31,12 +31,14 @@
                     <p class="text-[0.8em] md:text-body mt-[12px] overflow-hidden line-clamp-3"><span
                             class="font-bold mr-[6px]">Tier:</span>{{ promotor.tier }}</p>
                     <p class="text-[0.8em] md:text-body mt-[12px] overflow-hidden line-clamp-3"><span
-                            class="font-bold mr-[6px]">Website:</span>{{ promotor.website_url
-                        }}</p>
+                            class="font-bold mr-[6px]">Website:</span><span
+                            class="text-primary-dark underline font-bold cursor-pointer" @click="navigate(promotor)">{{
+                                promotor.website_url
+                            }}</span></p>
                     <div class="mt-[24px] w-full">
                         <div class="flex gap-[12px] flex-col xxxxs:flex-row">
                             <a class="h-[42px] md:h-[48px] cursor-pointer w-full bg-offWhite-light rounded-[5px] text-primary-dark border-2 border-primary-dark font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center"
-                                @click="handleAccept(review)">
+                                @click="goToDetails(promotor)">
                                 <p class="relative bottom-[1px]">Bekijk details</p>
                             </a>
                         </div>
@@ -52,12 +54,14 @@
                     <p class="text-[0.8em] md:text-body mt-[12px] overflow-hidden line-clamp-3"><span
                             class="font-bold mr-[6px]">Tier:</span>{{ promotor.tier }}</p>
                     <p class="text-[0.8em] md:text-body mt-[12px] overflow-hidden line-clamp-3"><span
-                            class="font-bold mr-[6px]">Website:</span>{{ promotor.website_url
-                        }}</p>
+                            class="font-bold mr-[6px]">Website:</span><span
+                            class="text-primary-dark underline font-bold cursor-pointer" @click="navigate(promotor)">{{
+                                promotor.website_url
+                            }}</span></p>
                     <div class="mt-[24px] w-full">
                         <div class="flex gap-[12px] flex-col xxxxs:flex-row">
                             <a class="h-[42px] md:h-[48px] cursor-pointer w-full bg-offWhite-light rounded-[5px] text-primary-dark border-2 border-primary-dark font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center"
-                                @click="handleAccept(review)">
+                                @click="goToDetails(promotor)">
                                 <p class="relative bottom-[1px]">Bekijk details</p>
                             </a>
                         </div>
@@ -159,4 +163,17 @@ const remove = async () => {
     canDelete.value = true;
     handleDelete();
 };
+
+const goToDetails = (promotor) => {
+    router.push(`/admin/promotors/${promotor._id}`);
+};
+
+const navigate = (promotor) => {
+    //check if promotor.website_url starts with http or https
+    if (!promotor.website_url.startsWith("http://") && !promotor.website_url.startsWith("https://")) {
+        window.location.href = "https://" + promotor.website_url;
+    } else {
+        window.location.href = promotor.website_url;
+    }
+}
 </script>
