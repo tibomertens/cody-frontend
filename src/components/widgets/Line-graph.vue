@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed } from "vue";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -53,7 +53,7 @@ export default defineComponent({
       let labels = [];
       for (let i = 11; i >= 0; i--) {
         const date = new Date(currentYear, currentMonth - i, 1);
-        const month = date.toLocaleString('default', { month: 'long' });
+        const month = date.toLocaleString("default", { month: "short" });
         const year = date.getFullYear();
         labels.push(`${month} ${year}`);
       }
@@ -92,11 +92,14 @@ export default defineComponent({
       scales: {
         y: {
           min: yAxisMin.value,
+          ticks: {
+            stepSize: 1, // Ensure a step size of 1 for detailed labeling
+          },
         },
       },
     };
 
-    const customLegendValues = computed(() => 
+    const customLegendValues = computed(() =>
       chartData.value.datasets.map((dataset) => ({
         label: dataset.label,
         color: dataset.backgroundColor,
