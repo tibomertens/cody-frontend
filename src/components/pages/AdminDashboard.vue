@@ -3,11 +3,22 @@
         <div v-if="reviews.length > 0">
             <h2 class="text-subtitle font-bold">Gerapporteerde reviews</h2>
             <div class="mt-[24px] mb-[32px] flex gap-[32px] overflow-x-auto">
-                <div v-for="review in reviews" class="bg-offWhite-light rounded-[5px] p-[24px] w-[400px]">
+                <div v-for="(review, index) in reviews" :key="index"
+                    class="bg-offWhite-light rounded-[5px] p-[24px] w-[400px]">
                     <h3 class="font-bold text-[1em] md:text-[1.2em]">{{ review.title }}</h3>
-                    <p class="text-[0.8em] md:text-body mt-[12px] overflow-hidden line-clamp-3">{{ review.description }}
+                    <p :class="{
+                        'text-[0.8em]': true,
+                        'md:text-body': true,
+                        'mt-[12px]': true,
+                        'overflow-hidden': !expandedReviews[index],
+                        'line-clamp-3': !expandedReviews[index]
+                    }">
+                        {{ review.description }}
                     </p>
-                    <span class="text-primary-dark text-[0.8em] md:text-[1em] font-bold">Lees meer</span>
+                    <span @click="toggleExpand(index)"
+                        class="text-primary-dark text-[0.8em] md:text-[1em] font-bold cursor-pointer">
+                        {{ expandedReviews[index] ? 'Lees minder' : 'Lees meer' }}
+                    </span>
                     <div class="mt-[24px] w-full">
                         <div class="flex gap-[12px] flex-col xxxxs:flex-row">
                             <a class="h-[42px] md:h-[48px] cursor-pointer w-full bg-offWhite-light rounded-[5px] text-secondary-green border-2 border-secondary-green font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center"
@@ -69,11 +80,12 @@
                 </div>
             </div>
         </div>
+        <Confirm :showConfirm="showConfirm" title="Review verwijderen"
+            desc="Weet je zeker dat je deze review wilt verwijderen?" @closeConfirm="showConfirm = false"
+            @confirmAction="remove" />
     </div>
-    <Confirm :showConfirm="showConfirm" title="Review verwijderen"
-        desc="Weet je zeker dat je deze review wilt verwijderen?" @closeConfirm="showConfirm = false"
-        @confirmAction="remove" />
 </template>
+
 
 <script setup>
 import { ref, onMounted } from "vue";
@@ -97,6 +109,7 @@ const reviews = ref([]);
 let currentReview = ref({});
 const unacceptedPromotors = ref([]);
 const acceptedPromotors = ref([]);
+const expandedReviews = ref({}); // To track expanded reviews
 
 onMounted(async () => {
     if (isValidToken(token)) {
@@ -175,5 +188,10 @@ const navigate = (promotor) => {
     } else {
         window.location.href = promotor.website_url;
     }
+};
+
+// Method to toggle expand/collapse state
+const toggleExpand = (index) => {
+    expandedReviews.value[index] = !expandedReviews.value[index];
 };
 </script>
