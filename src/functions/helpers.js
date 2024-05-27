@@ -63,14 +63,20 @@ export function convertDate(dateString) {
   return newDateString;
 }
 
-export const formatPhoneNumber = (phoneNumber) => {
-  const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
-  const formattedPhoneNumber = cleanedPhoneNumber.replace(
-    /^(\d{4})(\d{2})(\d{2})(\d{2})$/,
-    "$1 $2 $3 $4"
-  );
-  return formattedPhoneNumber;
-};
+export const formatPhoneNumber = (number) => {
+  // Ensure the number is a string
+  let numStr = number.toString();
+  
+  // Add leading zero if not present
+  if (numStr.length === 9) {
+    numStr = '0' + numStr;
+  }
+
+  // Format the number
+  const formattedNumber = numStr.replace(/(\d{4})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4');
+
+  return formattedNumber;
+}
 
 export const openGoogleMaps = (val) => {
     const address = encodeURIComponent(val);

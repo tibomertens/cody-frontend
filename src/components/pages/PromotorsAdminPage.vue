@@ -7,7 +7,7 @@
             <h2 class="text-title font-bold mb-[24px]">{{ promotorData.name }}</h2>
             <div class="grid lg:grid-cols-2 gap-y-[12px] mb-[12px]">
                 <p><span class="font-bold mr-[6px]">Tier:</span>{{ promotorData.tier }}</p>
-                <a :href="'tel:' + promotorData.phoneNumber"><span class="font-bold mr-[6px]">Telefoon:</span>{{ promotorData.phoneNumber }}</a>
+                <a :href="'tel:' + promotorData.phoneNumber"><span class="font-bold mr-[6px]">Telefoon:</span>{{ phone }}</a>
                 <p><span class="font-bold mr-[6px]">Website:</span><span
                         class="text-primary-dark underline font-bold cursor-pointer" @click="navigate(promotorData)">{{
                             promotorData.website_url
@@ -63,6 +63,8 @@ const promotorData = ref({});
 
 let showConfirm = ref(false);
 
+let phone = ref("");
+
 const openConfirm = () => {
     showConfirm.value = true;
 };
@@ -86,6 +88,7 @@ const getPromotorData = async () => {
 
     if (promotor.success) {
         promotorData.value = promotor.data;
+        phone.value = formatPhoneNumber(promotor.data.phoneNumber);
     }
 };
 
