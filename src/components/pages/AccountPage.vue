@@ -1,85 +1,169 @@
 <template>
   <section>
-    <div class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center">
+    <div
+      class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center"
+    >
       <h2 class="text-subtitle font-bold">Doel</h2>
       <a href="#" @click="openEditGoalPopup">
-        <div><img src="/edit_no_fill.svg" alt="potlood"></div>
+        <div><img src="/edit_no_fill.svg" alt="potlood" /></div>
       </a>
     </div>
-    <div class="flex md:mx-[40px] ml-[5%] justify-center items-center bg-offWhite-light w-[90%] p-4 rounded"
-      v-if="dataIsLoaded">
+    <div
+      class="flex md:mx-[40px] ml-[5%] justify-center items-center bg-offWhite-light w-[90%] p-4 rounded"
+      v-if="dataIsLoaded"
+    >
       <div v-for="label in labels" class="hidden md:block">
-        <img :src="`/${label}-label.svg`" :alt="`epc label ${label}`" class="md:w-[100px] w-[20px] pr-[-50px]"
-          :class="{ 'scale-[150%] md:scale-[150%] md:mx-7 mx-2 md:mt-10 mt-[54px] flex': label === currentLabel || label === goalLabel }">
-        <p v-if="label === currentLabel" class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4">
-          Jouw label</p>
-        <p v-else-if="label === goalLabel" class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4">
-          Jouw doel</p>
+        <img
+          :src="`/${label}-label.svg`"
+          :alt="`epc label ${label}`"
+          class="md:w-[100px] w-[20px] pr-[-50px]"
+          :class="{
+            'scale-[150%] md:scale-[150%] md:mx-7 mx-2 md:mt-10 mt-[54px] flex':
+              label === currentLabel,
+            'scale-[150%] md:scale-[150%] md:mx-7 mx-2 md:mt-16 mt-[54px] flex':
+              label === goalLabel,
+          }"
+        />
+        <p
+          v-if="label === currentLabel"
+          class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4 font-bold"
+        >
+          Jouw label
+        </p>
+        <div v-else-if="label === goalLabel">
+          <p
+            class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4 font-bold"
+          >
+            Jouw doel
+          </p>
+          <p
+            class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center"
+          >
+            Tegen {{ goalYear }}
+          </p>
+        </div>
       </div>
       <div class="md:hidden flex gap-3">
         <div>
           <div class="px-[12px] xs:px-[24px] flex justify-center items-center">
-            <img :src="`/${currentLabel}-label.svg`" :alt="`epc label ${label}`" class="w-[100%] xxs:w-[70%] mt-5">
+            <img
+              :src="`/${currentLabel}-label.svg`"
+              :alt="`epc label ${label}`"
+              class="w-[100%] xxs:w-[70%] mt-5"
+            />
           </div>
-          <p class="w-[100%] text-xs flex justify-center pt-4">
-            Jouw label</p>
+          <p class="w-[100%] text-xs flex justify-center pt-4 font-bold">
+            Jouw label
+          </p>
         </div>
         <div>
           <div class="px-[12px] xs:px-[24px] flex justify-center items-center">
-            <img :src="`/${goalLabel}-label.svg`" :alt="`epc label ${label}`" class="w-[100%] xxs:w-[70%] mt-5">
+            <img
+              :src="`/${goalLabel}-label.svg`"
+              :alt="`epc label ${label}`"
+              class="w-[100%] xxs:w-[70%] mt-5"
+            />
           </div>
-          <p class="w-[100%] text-xs flex justify-center pt-4">
-            Jouw doel</p>
+          <p class="w-[100%] text-xs flex justify-center pt-4 font-bold">
+            Jouw doel
+          </p>
+          <p class="w-[100%] text-xs flex justify-center">
+            Tegen {{ goalYear }}
+          </p>
         </div>
       </div>
     </div>
-    <div v-else class="pulsing h-[156px] rounded-[5px] md:mx-[40px] ml-[5%]"></div>
+    <div
+      v-else
+      class="pulsing h-[156px] rounded-[5px] md:mx-[40px] ml-[5%]"
+    ></div>
   </section>
   <section>
-    <div class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center">
+    <div></div>
+    <div
+      class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center"
+    >
       <h2 class="text-subtitle font-bold">Budget</h2>
       <a href="#" @click="openEditBudgetPopup">
-        <div><img src="/edit_no_fill.svg" alt="potlood"></div>
+        <div><img src="/edit_no_fill.svg" alt="potlood" /></div>
       </a>
     </div>
-    <div v-if="dataIsLoaded" class=" md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-10 rounded mb-[40px]">
-      <div class="bg-offWhite-dark md:mx-[20%] mx-[15%] mt-[40px] md:w-[60%] md:h-[52px] w-[70%] h-[32px] rounded">
-        <!-- Add a wrapper div for the animated bar -->
-        <div class="h-full bg-primary-medium rounded animate-bar" :style="{ width: currentBudgetPercentage }"></div>
-      </div>
-      <div class="flex justify-center">
-        <div class="flex w-[90%] justify-between mt-[20px] px-4 mb-14 gap-4">
-          <div class="md:flex md:gap-[32px]">
-            <div><img src="/budgetBlue.svg" alt="huidig budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
+    <div
+      v-if="dataIsLoaded"
+      class="md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-[40px] rounded mb-[40px]"
+    >
+      <div class="flex justify-center mb-[40px]">
+        <div class="md:flex w-[90%] justify-around">
+          <div class="hidden md:flex justify-center items-center w-[35%]">
             <div>
               <p class="md:text-body font-bold">Resterend budget</p>
-              <p class="text-xs" :class="{ 'text-secondary-red font-bold': currentBudget < 0 }">{{
-                formatFinancialNumber(currentBudget) }}</p>
+              <p
+                class="text-xs"
+                :class="{ 'text-secondary-red font-bold': currentBudget < 0 }"
+              >
+                {{ formatFinancialNumber(currentBudget) }}
+              </p>
             </div>
           </div>
-          <div class="md:flex md:gap-[32px]">
-            <div><img src="/budgetBlue.svg" alt="uitgegeven budget" class="md:w-[58px] w-[40px] hidden xs:block"></div>
-            <div class="text-right">
-              <p class="md:text-body font-bold">Uitgegeven budget</p>
-              <p class="text-xs">{{ formatFinancialNumber(spentBudget) }}</p>
+          <div class="w-full md:flex block justify-center items-center">
+            <div class="md:w-[90%]">
+              <div
+                class="bg-offWhite-dark md:w-full md:h-[52px] w-full h-[32px] rounded"
+              >
+                <div
+                  class="h-full bg-primary-medium rounded animate-bar"
+                  :style="{ width: currentBudgetPercentage }"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex md:w-[35%] w-full self-center justify-between mt-5 md:mt-0"
+          >
+            <div class="flex md:hidden">
+              <div>
+                <p class="md:text-body font-bold">Resterend budget</p>
+                <p
+                  class="text-xs"
+                  :class="{ 'text-secondary-red font-bold': currentBudget < 0 }"
+                >
+                  {{ formatFinancialNumber(currentBudget) }}
+                </p>
+              </div>
+            </div>
+            <div class="md:flex justify-center">
+              <div class="text-right">
+                <p class="md:text-body font-bold">Totale budget</p>
+                <p class="text-xs">{{ formatFinancialNumber(totalBudget) }}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       <a href="#">
         <div
-          class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center">
+          class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center"
+        >
           Bekijk al je uitgaven
         </div>
       </a>
     </div>
-    <div v-else class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
+    <div
+      v-else
+      class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"
+    ></div>
   </section>
   <section>
-    <div class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center">
+    <div
+      class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center"
+    >
       <h2 class="text-subtitle font-bold">Aantal renovaties</h2>
     </div>
-    <div v-if="dataIsLoaded" class=" md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-10 rounded mb-[40px]">
+    <div
+      v-if="dataIsLoaded"
+      class="md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-10 rounded mb-[40px]"
+    >
       <div class="md:flex md:w-full md:justify-center">
         <div class="mx-5 md:w-[60%]">
           <Graph :data="chartDataArray" />
@@ -87,15 +171,27 @@
       </div>
       <a href="/projects/completed">
         <div
-          class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center">
+          class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center"
+        >
           Bekijk al je voltooide renovaties
         </div>
       </a>
     </div>
-    <div v-else class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
+    <div
+      v-else
+      class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"
+    ></div>
   </section>
-  <ChangeGoal :showModal="showModal" :userId="userId" @closeModal="closeModal" />
-  <ChangeBudget :showBudgetModal="showBudgetModal" :userId="userId" @closeBudgetModal="closeBudgetModal" />
+  <ChangeGoal
+    :showModal="showModal"
+    :userId="userId"
+    @closeModal="closeModal"
+  />
+  <ChangeBudget
+    :showBudgetModal="showBudgetModal"
+    :userId="userId"
+    @closeBudgetModal="closeBudgetModal"
+  />
 </template>
 
 <script setup>
@@ -118,13 +214,15 @@ let currentLabel = ref("");
 let goalLabel = ref("");
 let currentBudget = ref(0);
 let spentBudget = ref(0);
-let currentBudgetPercentage = ref('0%');
+let totalBudget = ref();
+let currentBudgetPercentage = ref("0%");
 let showModal = ref(false);
-let labels = ref(['F', 'E', 'D', 'C', 'B', 'A', 'A+']);
+let labels = ref(["F", "E", "D", "C", "B", "A", "A+"]);
 let dataIsLoaded = ref(false);
 let label = ref("");
 let showBudgetModal = ref(false);
 let chartDataArray = ref(new Array(12).fill(0)); // Initialize with 12 zeros, one for each month
+let goalYear = ref("");
 
 onMounted(async () => {
   if (isValidToken(token)) {
@@ -140,6 +238,7 @@ onMounted(async () => {
 
   // Calculate cumulative sum
   calculateCumulativeSum();
+  goalYear.value = userData.value.goalLabel_by_year;
 });
 
 const openEditBudgetPopup = () => {
@@ -169,8 +268,11 @@ const getData = async () => {
     currentBudget = userData.value.budget_current;
     spentBudget = userData.value.budget_spent;
     userId.value = userData.value._id;
-    let totalBudget = parseInt(currentBudget) + parseInt(spentBudget);
-    currentBudgetPercentage.value = `${((parseInt(currentBudget) / totalBudget) * 100).toFixed(2)}%`;
+    totalBudget = parseInt(currentBudget) + parseInt(spentBudget);
+    currentBudgetPercentage.value = `${(
+      (parseInt(currentBudget) / totalBudget) *
+      100
+    ).toFixed(2)}%`;
 
     await nextTick();
 
@@ -178,19 +280,25 @@ const getData = async () => {
     if (styleSheet) {
       styleSheet.deleteRule(0);
       styleSheet.deleteRule(0);
-      styleSheet.insertRule(`@keyframes fillBar {
+      styleSheet.insertRule(
+        `@keyframes fillBar {
         from { width: 0; }
         to { width: ${currentBudgetPercentage.value}; }
-      }`, 0);
-      styleSheet.insertRule(`.animate-bar {
+      }`,
+        0
+      );
+      styleSheet.insertRule(
+        `.animate-bar {
         animation: fillBar 1s ease forwards;
-      }`, 0);
+      }`,
+        0
+      );
     } else {
       console.error("No stylesheets found.");
     }
     dataIsLoaded.value = true;
   } else {
-    router.push('/login');
+    router.push("/login");
   }
 };
 
@@ -210,7 +318,7 @@ const updateChartDataArray = (result) => {
     const date = new Date(currentYear, currentMonth - i, 1);
     const month = date.getMonth() + 1; // 1-based
     const year = date.getFullYear();
-    last12Months.push(`${String(month).padStart(2, '0')}/${year}`);
+    last12Months.push(`${String(month).padStart(2, "0")}/${year}`);
   }
 
   // Count renovations before the last 12 months
