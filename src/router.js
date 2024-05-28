@@ -51,11 +51,6 @@ const routes = [
     meta: { title: "Cody | Registreren", sidebar: false },
   },
   {
-    path: "/rapport/berekenIndicatief",
-    components: { default: berekenIndicatief },
-    meta: { title: "Cody | Registreren", sidebar: false },
-  },
-  {
     path: "/rapport/checklist",
     components: { default: checklist },
     meta: { title: "Cody | Registreren", sidebar: false },
