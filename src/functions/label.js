@@ -84,7 +84,7 @@ export const updateRecommendations = async (items, userId) => {
       items.typeHellendDakIsolatie === "sterk" ||
       items.typeHellendDakIsolatie === "niet"
     ) {
-      renovationsToUpdate.push("Dakisolatie langs de binnenzijde");
+      renovationsToUpdate.push("Dak-isolatie langs de binnenzijde");
       renovationsToUpdate.push(
         "Dak-isolatie langs de buitenzijde (Sarking dak)"
       );
@@ -143,13 +143,13 @@ export const updateRecommendations = async (items, userId) => {
       items.typeVerwarming === "Elektrische warmtepomp bodem-water"
     ) {
       renovationsToUpdate.push(
-        "Lucht-waterwarmtepomp (excl. warmteafgiftesysteem)"
+        "Lucht-waterwarmtepomp"
       );
     }
 
     if (items.typeVerwarming === "Elektrische warmtepomp bodem-water") {
       renovationsToUpdate.push(
-        "Bodem-waterwarmtepomp (excl. warmteafgiftesysteem)"
+        "Bodem-waterwarmtepomp"
       );
     }
 
@@ -158,7 +158,7 @@ export const updateRecommendations = async (items, userId) => {
       items.typeVerwarming === "Elektrische warmtepomp bodem-water"
     ) {
       renovationsToUpdate.push(
-        "Gascondensatieketel (excl. warmteafgiftesysteem)"
+        "Gascondensatieketel"
       );
     }
 
