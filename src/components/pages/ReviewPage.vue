@@ -7,19 +7,32 @@
       <ButtonBtn @click="handleClick" :width="'full'" name="Schrijf een review" />
     </div>
   </div>
-  <div v-if="userReviews.length > 0" class="m-[40px]">
-    <h2 class="text-subtitle font-bold mb-[16px]">Mijn reviews</h2>
-    <div class="bg-offWhite-light mb-[40px] p-[24px] rounded" v-for="review in userReviews" :key="review._id">
-      <ReviewCard :review="review" @review-deleted="removeReview" :loggedInUserId="userId" />
+
+  <div v-if="dataIsLoaded">
+    <div v-if="userReviews.length > 0" class="m-[40px]">
+      <h2 class="text-subtitle font-bold mb-[16px]">Mijn reviews</h2>
+      <div class="bg-offWhite-light mb-[40px] p-[24px] rounded" v-for="review in userReviews" :key="review._id">
+        <ReviewCard :review="review" @review-deleted="removeReview" :loggedInUserId="userId" />
+      </div>
     </div>
+    <div v-if="otherReviews.length > 0" class="mx-[40px] pb-[40px]">
+      <h2 class="text-subtitle font-bold mb-[16px]">Andere reviews</h2>
+      <div class="bg-offWhite-light mb-[40px] p-[24px] rounded" v-for="review in otherReviews" :key="review._id">
+        <ReviewCard :review="review" @review-deleted="removeReview" :loggedInUserId="userId" />
+      </div>
+    </div>
+    <Empty_state v-if="userReviews.length === 0 && otherReviews.length === 0" :text="'Geen reviews gevonden voor dit bedrijf'" />
   </div>
-  <div v-if="otherReviews.length > 0" class="mx-[40px] pb-[40px]">
-    <h2 class="text-subtitle font-bold mb-[16px]">Andere reviews</h2>
-    <div class="bg-offWhite-light mb-[40px] p-[24px] rounded" v-for="review in otherReviews" :key="review._id">
-      <ReviewCard :review="review" @review-deleted="removeReview" :loggedInUserId="userId" />
-    </div>
+
+  <div v-else>
+    <div class="pulsing h-[100px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
+    <div class="pulsing h-[100px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
+    <div class="pulsing h-[100px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
+    <div class="pulsing h-[100px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
   </div>
 </template>
+
+
 
 <script setup>
 import { ref, onMounted } from "vue";
@@ -29,6 +42,7 @@ import { getUser, isValidToken } from "../../functions/user";
 import { useRoute, useRouter } from "vue-router";
 import SortFilter from "../UI/Sort-filter.vue";
 import ButtonBtn from "../UI/Button-Btn.vue";
+import Empty_state from "../widgets/Empty_state.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -39,6 +53,7 @@ const userReviews = ref([]);
 const otherReviews = ref([]);
 const promotorId = ref("");
 const userId = ref("");
+const dataIsLoaded = ref(false); // Added reactive variable
 
 onMounted(async () => {
   promotorId.value = route.params.id;
@@ -52,6 +67,7 @@ onMounted(async () => {
     router.push("/login");
   }
   sortReviewsRecentToOld();
+  dataIsLoaded.value = true; // Set to true once data is loaded
 });
 
 const splitReviews = () => {
@@ -82,6 +98,7 @@ const sortReviewsRecentToOld = () => {
   otherReviews.value.sort((reviewA, reviewB) => new Date(reviewB.date) - new Date(reviewA.date));
 };
 </script>
+
 
 
 <style scoped></style>
