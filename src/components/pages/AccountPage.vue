@@ -142,7 +142,7 @@
       </div>
 
       <a href="#">
-        <div
+        <div @click="alertFunc()"
           class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center"
         >
           Bekijk al je uitgaven
@@ -352,5 +352,9 @@ const calculateCumulativeSum = () => {
   for (let i = 1; i < chartDataArray.value.length; i++) {
     chartDataArray.value[i] += chartDataArray.value[i - 1];
   }
+};
+
+const alertFunc = () => {
+  alert('De uitgaven zijn nog niet af in deze versie, tegen de jury zullen deze geupdate worden in deze build.');
 };
 </script>
