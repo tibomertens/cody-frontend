@@ -21,6 +21,8 @@ import ForgotPasswordPage from "./components/pages/ForgotPasswordPage.vue";
 import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
 import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPage.vue";
 import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
+import AccountDataPage from "./components/pages/AccountDataPage.vue";
+import AccountEditPage from "./components/pages/AccountEditPage.vue";
 
 const routes = [
   {
@@ -105,6 +107,42 @@ const routes = [
     components: { default: Settings, sidebar: sideNav, topNav: topNav },
     name: "Instellingen",
     meta: { title: "Cody | Instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/accountgegevens",
+    components: { default: AccountDataPage, sidebar: sideNav, topNav: topNav },
+    name: "Account instellingen",
+    meta: { title: "Cody | accountgegevens instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/accountgegevens/edit",
+    components: { default: AccountEditPage, sidebar: sideNav, topNav: topNav },
+    name: "Account instellingen aanpassen",
+    meta: { title: "Cody | accountgegevens instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/doel",
+    components: { default: account, sidebar: sideNav, topNav: topNav },
+    name: "Doel instellingen",
+    meta: { title: "Cody | doel instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/faq",
+    components: { default: account, sidebar: sideNav, topNav: topNav },
+    name: "FAQ",
+    meta: { title: "Cody | FAQ", sidebar: true },
+  },
+  {
+    path: "/settings/privacy",
+    components: { default: account, sidebar: sideNav, topNav: topNav },
+    name: "Privacy",
+    meta: { title: "Cody | Privacy", sidebar: true },
+  },
+  {
+    path: "/settings/gebruiksvoorwaarden",
+    components: { default: account, sidebar: sideNav, topNav: topNav },
+    name: "Gebruiksvoorwaarden",
+    meta: { title: "Cody | Gebruiksvoorwaarden", sidebar: true },
   },
   {
     path: "/promotors",
