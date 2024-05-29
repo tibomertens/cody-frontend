@@ -35,11 +35,11 @@ onMounted(() => {
           <BackArrow
             v-if="!isRouteActive('/account') && !isRouteActive('/') && !isRouteActive('/promotors') && !isRouteActive('/projects') && !isRouteActive('/projects/active') && !isRouteActive('/projects/recommended') && !isRouteActive('/projects/completed') && !isRouteActive('/projects/saved')" />
           <h1 class="text-[1.2em] xl:text-title font-bold mb-[4px]">{{ currentRouteName() }}</h1>
-          <router-link v-if="isRouteActive('/account')" to="/settings">
+          <router-link v-if="isRouteActive('/account')" to="/settings/accountgegevens">
             <img src="/edit_no_fill.svg" alt="edit icon"  class="w-[30px]">
           </router-link>
         </div>
-        <router-link v-if="!isRouteActive('/account')" to="/settings" class="flex items-center ml-2 pr-[40px] xl:pr-0">
+        <router-link v-if="!isRouteActive('/account')" to="/settings/accountgegevens" class="flex items-center ml-2 pr-[40px] xl:pr-0">
           <img src="/settings.svg" alt="settings">
         </router-link>
         
