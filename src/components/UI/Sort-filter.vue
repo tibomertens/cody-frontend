@@ -102,11 +102,13 @@ const handleType = async (selectedItem) => {
     if (selectedItem === 'Recent naar oud') {
         reviews.value.sort((reviewA, reviewB) => new Date(reviewB.date) - new Date(reviewA.date));
         activeTypeFilter.value = 'Recent naar oud';
+        activeAddedValueFilter.value = 'Maak een keuze';
         emits('filtered', reviews.value);
         toggleDropdown();
     } else if (selectedItem === 'Oud naar recent') {
         reviews.value.sort((reviewA, reviewB) => new Date(reviewA.date) - new Date(reviewB.date));
         activeTypeFilter.value = 'Oud naar recent';
+        activeAddedValueFilter.value = 'Maak een keuze';
         emits('filtered', reviews.value);
         toggleDropdown();
     } else {
