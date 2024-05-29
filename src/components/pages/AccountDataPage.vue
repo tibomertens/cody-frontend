@@ -23,7 +23,6 @@ onMounted(async () => {
 
 const getData = async () => {
   let result = await getUser(token);
-  console.log(result);
   if (result) {
     data.value = result;
     familyName.value = data.value.username;
