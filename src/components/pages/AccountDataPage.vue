@@ -1,6 +1,7 @@
 <script setup>
 import Input from "../UI/Input.vue";
 import Btn from "../UI/Button-Btn.vue";
+import Ghostbtn from "../UI/Ghost-btn.vue";
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
@@ -28,6 +29,14 @@ const getData = async () => {
     familyName.value = data.value.username;
     email.value = data.value.email;
   }
+};
+
+const handlePasswordClick = () => {
+  router.push("/settings/accountgegevens/changepassword");
+};
+
+const handleTestClick = () => {
+  router.push("/determinelabelchoice");
 };
 </script>
 <template>
@@ -59,9 +68,9 @@ const getData = async () => {
           />
         </div>
         <h3 class="text-body font-bold pb-2 mt-8">Jouw EPC-label</h3>
-        <Btn name="Herneem de test" />
+        <Btn name="Herneem de test" @click="handleTestClick"/>
         <h3 class="text-body font-bold pb-2 mt-8">Wachtwoord</h3>
-        <Btn name="Wachtwoord veranderen" />
+        <Ghostbtn name="Wachtwoord veranderen" @click="handlePasswordClick"/>
         <div class="w-full flex justify-center text-secondary-red underline mt-4">
           <a href="#">Verwijder profiel</a>
         </div>

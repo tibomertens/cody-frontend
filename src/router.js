@@ -23,6 +23,7 @@ import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPag
 import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
 import AccountDataPage from "./components/pages/AccountDataPage.vue";
 import AccountEditPage from "./components/pages/AccountEditPage.vue";
+import AccountChangePasswordPage from "./components/pages/AccountChangePasswordPage.vue";
 
 const routes = [
   {
@@ -119,6 +120,12 @@ const routes = [
     components: { default: AccountEditPage, sidebar: sideNav, topNav: topNav },
     name: "Account instellingen aanpassen",
     meta: { title: "Cody | accountgegevens instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/accountgegevens/changepassword",
+    components: { default: AccountChangePasswordPage, sidebar: sideNav, topNav: topNav },
+    name: "Wachtwoord aanpassen",
+    meta: { title: "Cody | wachtwoord aanpassen", sidebar: true },
   },
   {
     path: "/settings/doel",
