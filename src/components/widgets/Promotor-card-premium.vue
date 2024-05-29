@@ -49,10 +49,10 @@ const starImages = computed(() => {
 
 <template>
     <div class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] py-[12px] px-[32px] rounded-md sm:gap-[10%] lg:gap-0">
-        <div class="w-full sm:w-[50%] lg:w-[33%] flex justify-center p-[20px] lg:justify-start">
-            <img :src="promotor.logo" alt="logo">
+        <div class="w-full sm:w-[50%] lg:w-[25%] flex justify-center items-center p-[20px]">
+            <img :src="promotor.logo" alt="logo" class="max-h-[175px] sm:max-h-[200px] lg:max-h-[100px]">
         </div>
-        <div class="sm:w-[40%] lg:flex lg:w-[58%] h-full lg:justify-between lg:items-center">
+        <div class="sm:w-[40%] lg:flex lg:w-[65%] h-full lg:justify-between lg:items-center">
             <div>
                 <div class="flex justify-center sm:justify-start pt-[10px] font-bold sm:w-[50%] lg:w-full">
                     {{ promotor.name }}
