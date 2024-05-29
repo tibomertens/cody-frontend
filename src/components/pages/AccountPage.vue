@@ -141,7 +141,7 @@
         </div>
       </div>
 
-      <a href="#">
+      <a href="/account/expenses">
         <div
           class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center"
         >

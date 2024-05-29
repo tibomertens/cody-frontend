@@ -369,3 +369,27 @@ export const getCompletedRenovationsByMonth = async (userId) => {
     throw error;
   }
 }
+
+export const getAllUserRenovations = async (userId) => {
+  try {
+    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations`;
+    console.log('API Endpoint:', apiEndpoint); // Log the URL for debugging
+
+    const response = await fetch(apiEndpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get data");
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}

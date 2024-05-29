@@ -21,6 +21,7 @@ import ForgotPasswordPage from "./components/pages/ForgotPasswordPage.vue";
 import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
 import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPage.vue";
 import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
+import ExpensePage from "./components/pages/ExpensePage.vue";
 
 const routes = [
   {
@@ -161,6 +162,12 @@ const routes = [
     components: { default: PromotorsAdminPage, sidebar: sideNav, topNav: topNav },
     name: "Renovator details",
     meta: { title: "Cody | Renovator details", sidebar: true },
+  },
+  {
+    path: "/account/expenses",
+    components: { default: ExpensePage, sidebar: sideNav, topNav: topNav },
+    name: "Uitgaven",
+    meta: { title: "Cody | Uitgaven", sidebar: true },
   },
   {
     path: "/:catchAll(.*)",
