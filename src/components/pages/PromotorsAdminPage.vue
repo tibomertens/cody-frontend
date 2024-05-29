@@ -93,13 +93,16 @@ const getPromotorData = async () => {
 };
 
 const navigate = (promotor) => {
-    //check if promotor.website_url starts with http or https
-    if (!promotor.website_url.startsWith("http://") && !promotor.website_url.startsWith("https://")) {
-        window.location.href = "https://" + promotor.website_url;
-    } else {
-        window.location.href = promotor.website_url;
+    let url = promotor.website_url;
+
+    // Check if the URL starts with http or https
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
     }
-};
+
+    // Open the URL in a new window or tab
+    window.open(url, "_blank");
+}
 
 const acceptPromotorFunc = async () => {
     const result = await acceptPromotor(promotorId.value);
