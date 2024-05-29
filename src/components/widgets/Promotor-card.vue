@@ -53,12 +53,15 @@ const starImageSrc = computed(() => {
 });
 
 const navigate = () => {
-    //check if promotor.website_url starts with http or https
-    if (!props.promotor.website_url.startsWith("http://") && !props.promotor.website_url.startsWith("https://")) {
-        window.location.href = "https://" + props.promotor.website_url;
-    } else {
-        window.location.href = props.promotor.website_url;
+    let url = props.promotor.website_url;
+
+    // Check if the URL starts with http or https
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
     }
+
+    // Open the URL in a new window or tab
+    window.open(url, "_blank");
 }
 </script>
 
