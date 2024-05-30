@@ -44,33 +44,6 @@ onMounted(async () => {
 
 <template>
   <div class="overflow-scroll m-10">
-    <!-- <table class="min-w-full">
-      <thead>
-        <tr>
-          <th v-for="(column, index) in columns" :key="index" class="text-left pb-[20px]">
-            {{ column }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <template v-for="(renovation, index) in renovations" :key="index">
-          <tr class=" p-4 rounded">            
-            <td class="border-b text-left w-48">
-              <div><img src="/edit_no_fill.svg" alt="potlood" /></div>
-            </td>
-            <td class="bg-offWhite-light">{{ formatFinancialNumber(renovation.budget) }}</td>
-            <td class="bg-offWhite-light">{{ renovation.budget_final ? formatFinancialNumber(renovation.budget_final) : '-' }}</td>
-            <td class="bg-offWhite-light">{{ renovation.renovation_title }}</td>
-            <td class="bg-offWhite-light"><i class="fa-solid fa-circle text-primary-dark"></i> {{ renovation.status }} </td>
-            <td class="bg-offWhite-light">{{ convertDate(renovation.startDate) }}</td>
-            <td class="bg-offWhite-light">{{ renovation.endDate ? convertDate(renovation.endDate) : '-' }}</td>
-          </tr>
-          <tr class="p-4 rounded"> 
-            <td colspan="7" class="h-4"></td>
-          </tr>
-        </template>
-</tbody>
-</table> -->
     <div>
       <div class="flex p-4 rounded w-[1136px] justify-between pl-[73px]">
         <div class="w-[147px] font-bold">Geschatte kost</div>
