@@ -25,6 +25,9 @@ onMounted(() => {
   activeLink.value = isRouteActive('/settings');
 });
 
+const alertFunc = () => {
+  alert('De instellingen zijn nog niet af in deze versie, tegen de jury zullen deze geupdate worden in deze build.');
+};
 </script>
 
 <template>
@@ -36,9 +39,9 @@ onMounted(() => {
             v-if="!isRouteActive('/account') && !isRouteActive('/') && !isRouteActive('/promotors') && !isRouteActive('/projects') && !isRouteActive('/projects/active') && !isRouteActive('/projects/recommended') && !isRouteActive('/projects/completed') && !isRouteActive('/projects/saved')" />
           <h1 class="text-[1.2em] xl:text-title font-bold mb-[4px]">{{ currentRouteName() }}</h1>
         </div>
-        <router-link to="/settings" class="flex items-center ml-2 pr-[40px] xl:pr-0">
+        <div to="/settings" class="flex items-center ml-2 pr-[40px] xl:pr-0" @click="alertFunc()">
           <img src="/settings.svg" alt="settings">
-        </router-link>
+        </div>
       </div>
       <div class="flex gap-6 md:gap-[2rem] overflow-x-auto xl:mt-[12px] font-bold text-[1.2rem]"
         v-if="isRouteActive('/settings')">
