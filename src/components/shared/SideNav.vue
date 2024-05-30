@@ -3,39 +3,14 @@ import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
-
-document.addEventListener("DOMContentLoaded", () => {
-  const dropdown = document.querySelector(".dropdown");
-  const hamburger = document.querySelector(".hamburger");
-
-  hamburger.addEventListener("click", () => {
-    const advFilter = document.querySelector(".adv-filter");
-    const advFilterText = document.querySelector(".adv-filter-text");
-    const searchbar = document.querySelector(".searchbar");
-    const searchbarIcon = document.querySelector(".searchbar-icon");
-
-    dropdown.classList.toggle("hidden");
-    hamburger.classList.toggle("active");
-
-    if (advFilter !== null) {
-      advFilter.classList.toggle("relative");
-      advFilterText.classList.toggle("relative");
-    }
-
-    if (searchbar !== null) {
-      searchbar.classList.toggle("relative");
-      searchbarIcon.classList.toggle("hidden");
-    }
-
-    dropdown.addEventListener("click", () => {
-      dropdown.classList.add("hidden");
-      hamburger.classList.remove("active");
-    });
-  });
-});
-
 const currentRoute = ref("");
 const route = useRoute();
+const dropdown = ref(null);
+const hamburger = ref(null);
+const advFilter = ref(null);
+const advFilterText = ref(null);
+const searchbar = ref(null);
+const searchbarIcon = ref(null);
 
 const logout = () => {
   localStorage.removeItem("token");
@@ -43,6 +18,39 @@ const logout = () => {
 };
 
 onMounted(() => {
+  console.log('clicked');
+  // Get references to elements
+  const dropdownEl = dropdown.value;
+  const hamburgerEl = hamburger.value;
+  const advFilterEl = advFilter.value;
+  const advFilterTextEl = advFilterText.value;
+  const searchbarEl = searchbar.value;
+  const searchbarIconEl = searchbarIcon.value;
+
+  // Add event listener for hamburger click
+  hamburgerEl.addEventListener("click", () => {
+    console.log('clicked');
+
+    dropdownEl.classList.toggle("hidden");
+    hamburgerEl.classList.toggle("active");
+
+    if (advFilterEl !== null) {
+      advFilterEl.classList.toggle("relative");
+      advFilterTextEl.classList.toggle("relative");
+    }
+
+    if (searchbarEl !== null) {
+      searchbarEl.classList.toggle("relative");
+      searchbarIconEl.classList.toggle("hidden");
+    }
+
+    dropdownEl.addEventListener("click", () => {
+      dropdownEl.classList.add("hidden");
+      hamburgerEl.classList.remove("active");
+    });
+  });
+
+  // Set the current route
   currentRoute.value = route.path;
 
   // Watch for route changes
@@ -57,12 +65,12 @@ onMounted(() => {
 
 <template>
   <div class="z-20 w-full xl:w-[20%] fixed xl:left-0">
-    <div class="w-full h-[20%] bg-offWhite-light xl:h-screen">
+    <div class="w-full pt-[50px] sm:pt-[0px] h-[20%] bg-offWhite-light xl:h-screen">
       <div class="flex justify-between xl:justify-center items-center py-5 px-[40px]">
         <router-link to="/">
           <img src="/logo.svg" alt="logo icon" />
         </router-link>
-        <i class="hamburger self-center inline-block xl:hidden cursor-pointer">
+        <i ref="hamburger" class="hamburger self-center inline-block xl:hidden cursor-pointer">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
@@ -70,10 +78,7 @@ onMounted(() => {
       </div>
 
       <div class="hidden xl:block mt-[56px]">
-        <router-link to="/" :class="{
-          'font-normal': currentRoute !== '/',
-          'font-bold': currentRoute === '/',
-        }">
+        <router-link to="/" :class="{ 'font-normal': currentRoute !== '/', 'font-bold': currentRoute === '/' }">
           <div class="pl-5 ml-5 py-[12px] rounded-l-[5px] flex" :class="{ 'bg-primary-light': currentRoute === '/' }">
             <div class="pr-3">
               <img :src="currentRoute !== '/' ? '/home.svg' : '/homeSelect.svg'" alt="home icon" class="w-[20px]" />
@@ -81,7 +86,6 @@ onMounted(() => {
             Dashboard
           </div>
         </router-link>
-
         <router-link to="/projects" :class="{
           'font-normal': currentRoute !== '/projects',
           'font-bold': currentRoute === '/projects',
@@ -165,15 +169,11 @@ onMounted(() => {
         <!-- only show this if the currentRoute is /account -->
         <div v-if="currentRoute === '/account'" class="py-[32px] rounded-l-[5px] flex justify-center text-btn text-secondary-red font-bold" @click="logout">
           Uitloggen
-        </div>
-      </div>
+        </div>      </div>
     </div>
 
-    <div class="dropdown bg-offWhite-light hidden relative z-50">
-      <router-link to="/" :class="{
-        'font-normal': currentRoute !== '/',
-        'font-bold': currentRoute === '/',
-      }">
+    <div ref="dropdown" class="dropdown pt-[50px] sm:pt-[0px] bg-offWhite-light hidden relative z-50">
+      <router-link to="/" :class="{ 'font-normal': currentRoute !== '/', 'font-bold': currentRoute === '/' }">
         <div class="w-full p-5 flex" :class="{ 'bg-primary-light': currentRoute === '/' }">
           <div class="pr-3">
             <img :src="currentRoute !== '/' ? '/home.svg' : '/homeSelect.svg'" alt="home icon" class="w-[20px]" />
@@ -181,7 +181,6 @@ onMounted(() => {
           Home
         </div>
       </router-link>
-
       <router-link to="/projects" :class="{
         'font-normal': currentRoute !== '/projects',
         'font-bold': currentRoute === '/projects',
@@ -259,8 +258,7 @@ onMounted(() => {
           }"></i>
           Account <span class="text-secondary-red font-bold ml-[12px]" :class="{'hidden': currentRoute !== '/account'}" @click="logout">Uitloggen</span>
         </div>
-      </router-link>
-    </div>
+      </router-link>    </div>
   </div>
 </template>
 
