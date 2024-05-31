@@ -30,6 +30,10 @@ const routes = [
     meta: { title: "Cody | Dashboard", sidebar: true },
   },
   {
+    path: "/home",
+    redirect: "/",
+  },
+  {
     path: "/account",
     components: { default: account, sidebar: sideNav, topNav: topNav },
     name: "Account",
@@ -147,7 +151,7 @@ const routes = [
   },
   {
     path: "/admin/login",
-    components: { default: AdminLoginPage, topNav: topNav },
+    components: { default: AdminLoginPage },
     meta: { title: "Cody | Admin login", sidebar: false },
   },
   {
@@ -155,6 +159,10 @@ const routes = [
     components: { default: AdminDashboard, sidebar: sideNav, topNav: topNav },
     name: "Admin Dashboard",
     meta: { title: "Cody | Admin dashboard", sidebar: true },
+  },
+  {
+    path: "/admin",
+    redirect: "/admin/dashboard",
   },
   {
     path: "/admin/promotors/:id",
