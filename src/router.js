@@ -21,6 +21,7 @@ import ForgotPasswordPage from "./components/pages/ForgotPasswordPage.vue";
 import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
 import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPage.vue";
 import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
+import NotFound404Page from "./components/shared/404.vue";
 
 const routes = [
   {
@@ -172,8 +173,9 @@ const routes = [
   },
   {
     path: "/:catchAll(.*)",
-    name: "NotFound",
-    redirect: "/",
+    components: { default: NotFound404Page, sidebar: sideNav, topNav: topNav},
+    name: "404",
+    meta: { title: "Cody | 404", sidebar: true },
   }
 ];
 
