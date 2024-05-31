@@ -127,13 +127,6 @@
                 </div>
             </div>
             <div class="mt-[32px] md:mt-[40px]">
-                <h2 class="text-subtitle font-bold mb-[20px]">Subsidies</h2>
-                <ul class="list-disc ml-[32px] md:ml-[40px]">
-                    <li v-if="renovation.grants" v-for="grant in renovation.grants"
-                        class="pl-[12px] font-light text-body">{{ grant }}</li>
-                </ul>
-            </div>
-            <div class="mt-[32px] md:mt-[40px]">
                 <h2 class="text-subtitle font-bold mb-[20px]">Hoe start ik?</h2>
                 <p v-if="renovation.startup_info" class="font-light text-body" v-html="renovation.startup_info"></p>
             </div>
