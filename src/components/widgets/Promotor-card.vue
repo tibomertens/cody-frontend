@@ -24,11 +24,9 @@ onMounted(async () => {
     if (reviews.value.length > 0) {
         const totalRating = reviews.value.reduce((sum, review) => sum + review.rating, 0);
         averageRating.value = Math.round(totalRating / reviews.value.length);
-        console.log(reviews.value.length);
         reviewLength.value = reviews.value.length;
     } else {
         averageRating.value = " - "; // Geen reviews beschikbaar
-        console.log(reviews.value.length);
     }
 });
 
@@ -66,7 +64,7 @@ const navigate = () => {
 </script>
 
 <template>
-    <div @click="navigate" class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] py-[12px] px-[32px] rounded-md">
+    <div @click="navigate" class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] py-[12px] px-[32px] rounded-md cursor-pointer">
         <div class="flex justify-center pt-[10px] font-bold sm:w-[50%] lg:w-[15%]">
             {{ promotor.name }}
         </div>
@@ -74,12 +72,12 @@ const navigate = () => {
             {{ promotor.location }}
         </div>
         <a class="flex justify-center pt-[10px] sm:w-[50%] lg:w-[15%] lg:text-center"
-            :href="'tel:' + promotor.phoneNumber">{{ formatPhoneNumber(promotor.phoneNumber) }}</a>
+            :href="'tel:' + promotor.phoneNumber" @click.stop>{{ formatPhoneNumber(promotor.phoneNumber) }}</a>
         <div
             class="flex justify-center pt-[10px] pb-[10px] items-center lg:justify-end gap-[10px] sm:w-[50%] lg:w-[15%] lg:text-right">
             <img v-if="reviewLength !== 0" :src="starImageSrc" alt="Star Rating" />
             <p>{{ averageRating }}/5</p>
-            <a :href="'/reviews/' + promotor._id" class="underline">Reviews</a>
+            <a :href="'/reviews/' + promotor._id" class="underline" @click.stop>Reviews</a>
         </div>
     </div>
 </template>
