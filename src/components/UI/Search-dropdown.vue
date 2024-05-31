@@ -11,7 +11,7 @@
         </div>
         <div v-if="isDropdownOpen"
             class="absolute top-[48px] left-0 w-full bg-offWhite-light z-50 border-2 border-t-0 border-primary-dark rounded-b-[5px]">
-            <div class="pt-0 flex flex-col gap-[16px]">
+            <div class="pt-0 flex flex-col gap-[16px] max-h-[250px] overflow-y-auto">
                 <!-- Input component -->
                 <input :type="inputType" v-model="searchTerm" placeholder="Zoeken..." @input="applyFilters" :class="{ 'dark': dark }" class=" border border-gray-300 rounded-md p-2 ml-[24px] mr-[24px] focus:outline-none focus:border-primary-dark mt-1" />
                 <ul>
