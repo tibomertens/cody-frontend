@@ -71,11 +71,9 @@ const filterPromotorsAndSearch = () => {
       filteredPromotors.value = [...topPromotors, ...nonTopPromotors];
     }
   }
-  if (filteredPromotors.value.length === 0) {  
-      empty.value = true;
-   
+  if (filteredPromotors.value.length === 0) {
+    empty.value = true;
   } else {
-
     empty.value = false;
   }
 };

@@ -142,7 +142,7 @@
                 </router-link>
             </div>
             <div class="mt-[32px] md:mt-[40px]">
-                <h2 class="text-subtitle font-bold mb-[20px]">Soortgelijke suggesties</h2>
+                <h2 class="text-subtitle font-bold mb-[20px]">Soortgelijke projecten</h2>
                 <div class="flex gap-[24px] overflow-x-auto">
                     <div v-for="renovation in suggestions" class="flex-none w-full max-w-[550px]">
                         <router-link :to="'/projects/' + renovation._id">
