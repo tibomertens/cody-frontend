@@ -22,6 +22,7 @@ import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
 import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPage.vue";
 import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
 import NotFound404Page from "./components/shared/404.vue";
+import ConfirmEmailPage from "./components/pages/ConfirmEmailPage.vue";
 
 const routes = [
   {
@@ -170,6 +171,12 @@ const routes = [
     components: { default: PromotorsAdminPage, sidebar: sideNav, topNav: topNav },
     name: "Renovator details",
     meta: { title: "Cody | Renovator details", sidebar: true },
+  },
+  {
+    path: "/confirm/:token",
+    components: { default: ConfirmEmailPage },
+    name: "Bevestig account",
+    meta: { title: "Cody | Bevestig account", sidebar: false },
   },
   {
     path: "/:catchAll(.*)",
