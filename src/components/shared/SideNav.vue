@@ -61,11 +61,14 @@ onMounted(() => {
     }
   );
 });
+
+let userAgent = navigator.userAgent.toLowerCase();
+let isIOS = /iphone|ipad|ipod/.test(userAgent);
 </script>
 
 <template>
   <div class="z-20 w-full xl:w-[20%] fixed xl:left-0">
-    <div class="w-full pt-[50px] sm:pt-[0px] h-[20%] bg-offWhite-light xl:h-screen">
+    <div class="w-full sm:pt-[0px] h-[20%] bg-offWhite-light xl:h-screen" :class="{'pt-[50px]': isIOS}">
       <div class="flex justify-between xl:justify-center items-center py-5 px-[40px]">
         <router-link to="/">
           <img src="/logo.svg" alt="logo icon" />
