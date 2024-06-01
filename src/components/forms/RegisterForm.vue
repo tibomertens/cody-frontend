@@ -66,7 +66,6 @@ const register = async () => {
     hasError.value = true;
     error.value = result.message;
   }
-
 };
 </script>
 

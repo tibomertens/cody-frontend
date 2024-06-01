@@ -28,7 +28,7 @@ const login = async () => {
 
   let result = await loginUser(updatedEmail.value, updatedPassword.value);
 
-    if (result.status === "success") {
+    if (result.success) {
       // Handle successful login, e.g., show a success message or redirect to another screen
       // Save the JWT token in the local storage
       localStorage.setItem("token", result.token);
@@ -37,7 +37,7 @@ const login = async () => {
     } else {
       // Handle authentication error
       hasError.value = true;
-      error.value = "Foutieve email of wachtwoord";
+      error.value = result.message;
     }
   
 };
