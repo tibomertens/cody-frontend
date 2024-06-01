@@ -1,4 +1,4 @@
 User-agent: *
-Disallow: 
 Disallow: /cgi-bin/
-Sitemap: https://codyepc.com/sitemap-web-app.xml
+
+Sitemap: https://codyepc.com/sitemap.xml
