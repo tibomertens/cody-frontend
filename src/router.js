@@ -22,6 +22,7 @@ import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
 import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPage.vue";
 import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
 import NotFound404Page from "./components/shared/404.vue";
+import PrivacyPage from "./components/pages/PrivacyPage.vue";
 import FAQPage from "./components/pages/FAQPage.vue";
 
 const routes = [
@@ -171,6 +172,12 @@ const routes = [
     components: { default: PromotorsAdminPage, sidebar: sideNav, topNav: topNav },
     name: "Renovator details",
     meta: { title: "Cody | Renovator details", sidebar: true },
+  },
+  {
+    path: "/settings/privacy",
+    components: { default: PrivacyPage, sidebar: sideNav, topNav: topNav },
+    name: "Privacy",
+    meta: { title: "Cody | Privacy", sidebar: true },
   },
   {
     path: "/settings/faq",
