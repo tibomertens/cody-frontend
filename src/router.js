@@ -23,6 +23,7 @@ import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPag
 import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
 import NotFound404Page from "./components/shared/404.vue";
 import PrivacyPage from "./components/pages/PrivacyPage.vue";
+import FAQPage from "./components/pages/FAQPage.vue";
 
 const routes = [
   {
@@ -177,6 +178,12 @@ const routes = [
     components: { default: PrivacyPage, sidebar: sideNav, topNav: topNav },
     name: "Privacy",
     meta: { title: "Cody | Privacy", sidebar: true },
+  },
+  {
+    path: "/settings/faq",
+    components: { default: FAQPage, sidebar: sideNav, topNav: topNav },
+    name: "FAQ",
+    meta: { title: "Cody | FAQ", sidebar: true },
   },
   {
     path: "/:catchAll(.*)",
