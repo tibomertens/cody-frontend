@@ -7,7 +7,8 @@ import Searchbar from "../UI/Searchbar.vue";
 import SearchDropdown from "../UI/Search-dropdown.vue";
 import Empty_state from "../widgets/Empty_state.vue";
 
-import { getAllPromotors, getAllLocations } from "../../functions/promotor";
+import { getAllPromotors } from "../../functions/promotor";
+import { getAllLocations } from "../../functions/location";
 
 const promotors = ref([]);
 const locations = ref([]);

@@ -24,7 +24,8 @@
 
 <script setup>
 import { ref, computed, defineEmits, onMounted } from 'vue';
-import { getAllLocations, getAllPromotors } from '../../functions/promotor';
+import { getAllPromotors } from '../../functions/promotor';
+import { getAllLocations } from '../../functions/location';
 
 const emit = defineEmits(['filtered']);
 
