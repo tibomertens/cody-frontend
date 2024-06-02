@@ -1,7 +1,7 @@
 <template>
   <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-offBlack bg-opacity-50 w-full"
     @click="handleOutsideClick">
-    <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
+    <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px] max-h-[90vh] overflow-y-auto">
       <div>
         <div class="flex justify-between">
           <h2 class="text-subtitle font-bold mb-4">Berekend label</h2>

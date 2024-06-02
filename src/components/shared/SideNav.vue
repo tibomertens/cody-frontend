@@ -170,7 +170,7 @@ let isIOS = /iphone|ipad|ipod/.test(userAgent);
         </router-link>
       
         <!-- only show this if the currentRoute is /account -->
-        <div v-if="currentRoute === '/account'" class="py-[32px] rounded-l-[5px] flex justify-center text-btn text-secondary-red font-bold" @click="logout">
+        <div v-if="currentRoute === '/account'" class="py-[32px] rounded-l-[5px] flex justify-center text-btn text-secondary-red font-bold cursor-pointer" @click="logout">
           Uitloggen
         </div>      </div>
     </div>
@@ -259,7 +259,7 @@ let isIOS = /iphone|ipad|ipod/.test(userAgent);
             'fa-solid': currentRoute === '/account',
             'fa-user': true,
           }"></i>
-          Account <span class="text-secondary-red font-bold ml-[12px]" :class="{'hidden': currentRoute !== '/account'}" @click="logout">Uitloggen</span>
+          Account <span class="text-secondary-red font-bold ml-[12px] cursor-pointer" :class="{'hidden': currentRoute !== '/account'}" @click="logout">Uitloggen</span>
         </div>
       </router-link>    </div>
   </div>
