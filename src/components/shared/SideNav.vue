@@ -99,7 +99,7 @@ let isIOS = /iphone|ipad|ipod/.test(userAgent);
               <img :src="currentRoute !== '/projects' ? '/hammer.svg' : '/hammerFill.svg'" alt="hammer icon"
                 class="w-[20px]" />
             </div>
-            Projects
+            Projecten
           </div>
         </router-link>
 
@@ -193,7 +193,7 @@ let isIOS = /iphone|ipad|ipod/.test(userAgent);
             <img :src="currentRoute !== '/projects' ? '/hammer.svg' : '/hammerFill.svg'" alt="hammer icon"
               class="w-[20px]" />
           </div>
-          Projects
+          Projecten
         </div>
       </router-link>
 
