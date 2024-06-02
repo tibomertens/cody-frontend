@@ -3,9 +3,18 @@ import "dotenv";
 export const getReviewsByPromotor = async (promotorId) => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/v1/reviews/${promotorId}`
+      `${import.meta.env.VITE_API_URL}/api/v1/reviews/${promotorId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
+        },
+      }
     );
+
     let data = await response.json();
+
     return data.data;
   } catch (error) {
     console.error(error);
@@ -26,6 +35,7 @@ export const createNewReview = async (
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
         },
         body: JSON.stringify({
           rating: selectedStars,
@@ -49,6 +59,10 @@ export const deleteReview = async (reviewId) => {
       `${import.meta.env.VITE_API_URL}/api/v1/reviews/${reviewId}`,
       {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
+        },
       }
     );
     const data = await response.json();
@@ -62,9 +76,18 @@ export const deleteReview = async (reviewId) => {
 export const getReviewById = async (reviewId) => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/v1/reviews/review/${reviewId}`
+      `${import.meta.env.VITE_API_URL}/api/v1/reviews/review/${reviewId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
+        },
+      }
     );
+
     let data = await response.json();
+
     return data.data;
   } catch (error) {
     console.error(error);
@@ -86,6 +109,7 @@ export const updateReview = async (
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
         },
         body: JSON.stringify({
           promotorId: promotorId,
@@ -113,6 +137,7 @@ export const report = async (id, is_reported) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify({ is_reported: is_reported }),
     });
@@ -128,7 +153,14 @@ export const report = async (id, is_reported) => {
 export const getReportedReviews = async () => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/v1/reviews/reported/all`
+      `${import.meta.env.VITE_API_URL}/api/v1/reviews/reported/all`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
+        },
+      }
     );
     let data = await response.json();
     return data;

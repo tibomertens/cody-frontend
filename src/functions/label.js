@@ -31,6 +31,7 @@ export const addLabel = async (items, userId) => {
         body: JSON.stringify(items),
         headers: {
           "Content-Type": "application/json",
+          "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
         },
       }
     );
@@ -52,6 +53,7 @@ export const updateBudget = async (items, userId) => {
         body: JSON.stringify(items),
         headers: {
           "Content-Type": "application/json",
+          "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
         },
       }
     );
@@ -142,24 +144,18 @@ export const updateRecommendations = async (items, userId) => {
       items.typeVerwarming === "Elektrische warmtepomp lucht-water" ||
       items.typeVerwarming === "Elektrische warmtepomp bodem-water"
     ) {
-      renovationsToUpdate.push(
-        "Lucht-waterwarmtepomp"
-      );
+      renovationsToUpdate.push("Lucht-waterwarmtepomp");
     }
 
     if (items.typeVerwarming === "Elektrische warmtepomp bodem-water") {
-      renovationsToUpdate.push(
-        "Bodem-waterwarmtepomp"
-      );
+      renovationsToUpdate.push("Bodem-waterwarmtepomp");
     }
 
     if (
       items.typeVerwarming === "Niet-condenserende ketel" ||
       items.typeVerwarming === "Elektrische warmtepomp bodem-water"
     ) {
-      renovationsToUpdate.push(
-        "Gascondensatieketel"
-      );
+      renovationsToUpdate.push("Gascondensatieketel");
     }
 
     if (items.typeVentilatie === "CWTW" || items.typeVentilatie === "C") {
@@ -183,6 +179,7 @@ export const updateRecommendations = async (items, userId) => {
           }),
           headers: {
             "Content-Type": "application/json",
+            "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
           },
         }
       );
@@ -216,6 +213,7 @@ export const updateChecklistRecommendations = async (items, userId) => {
             }),
             headers: {
               "Content-Type": "application/json",
+              "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
             },
           }
         );

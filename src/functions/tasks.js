@@ -1,3 +1,5 @@
+import "dotenv";
+
 export const getTasks = async (userId) => {
   try {
     let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/tasks/${userId}`;
@@ -6,6 +8,7 @@ export const getTasks = async (userId) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -29,6 +32,7 @@ export const updateTask = async (id, task) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify(task),
     });
@@ -53,6 +57,7 @@ export const removeTask = async (id) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -81,6 +86,7 @@ export const createTask = async (task) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify(task),
     });
