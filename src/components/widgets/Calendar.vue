@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div>
-                    <a class="h-[48px] mt-[6px] 1.5xl:mt-[0px] w-full cursor-pointer bg-primary-dark rounded-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center"
+                    <a class="h-[48px] mt-[6px] 1.5xl:mt-[0px] w-full cursor-pointer bg-primary-dark rounded-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center hover:bg-[#3390FF] active:bg-[#0056CC] transition duration-200 ease-in-out"
                         @click="openAddModel">
                         <p class="relative bottom-[1px]"><span class="relative bottom-[1px] right-[4px]">+</span> Nieuwe
                             activiteit

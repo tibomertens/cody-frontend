@@ -74,7 +74,7 @@ const CreateReview = async () => {
 
 <template>
     <h2 class="text-body font-bold">Jouw score</h2>
-    <div class="flex gap-[10px] pt-[16px]">
+    <div class="flex gap-[10px] pt-[16px] cursor-pointer">
         <!-- Loop through 5 stars -->
         <img v-for="(star, index) in 5" :src="index < selectedStars ? '/1star_select.svg' : '/1star_noSelect.svg'"
             :alt="'Star ' + (index + 1)" @click="handleStarClick(index)" />
