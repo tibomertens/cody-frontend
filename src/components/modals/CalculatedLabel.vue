@@ -28,7 +28,7 @@
         <p v-if="yearError" class="text-secondary-red">{{ yearError }}</p>
       </div>
       <div class="mt-[46px] flex justify-end">
-        <Btn name="Opslaan" :width="'full'" @click="addLabelToUser" />
+        <Btn name="Opslaan" :width="'full'" @click="addLabelToUser" :loading="loadingState" />
         <p v-if="error" class="text-secondary-red">{{ error }}</p>
       </div>
     </div>
@@ -70,6 +70,8 @@ let budgetError = ref(null);
 let error = ref(null);
 let inputHasError = ref(false);
 let dropdownHasError = ref(false);
+
+let loadingState = ref(false);
 
 const emit = defineEmits(["closeModal"]);
 
@@ -141,17 +143,26 @@ const addLabelToUser = async () => {
       label: props.labelData.label,
       budget_current: parseInt(budgetValue.value),
     };
+
+    loadingState.value = true;
     const labelAdded = await addLabel(items, props.userId);
+
     if (labelAdded) {
       const update = await updateChecklistRecommendations(
         props.items,
         props.userId
       );
+
+      loadingState.value = false;
+
       if (update) {
         router.push("/");
       } else {
         error.value = "Er is iets misgegaan, probeer het later opnieuw";
       }
+    } else {
+      loadingState.value = false;
+      error.value = "Er is iets misgegaan, probeer het later opnieuw";
     }
   } else if (router.currentRoute.value.path.toLowerCase() === "/test/berekenindicatief") {
     const items = {
@@ -160,14 +171,23 @@ const addLabelToUser = async () => {
       label: props.labelData.label,
       budget_current: parseInt(budgetValue.value),
     };
+
+    loadingState.value = true;
     const labelAdded = await addLabel(items, props.userId);
+
     if (labelAdded) {
       const update = await updateRecommendations(props.items, props.userId);
+
+      loadingState.value = false;
+      
       if (update) {
         router.push("/");
       } else {
         error.value = "Er is iets misgegaan, probeer het later opnieuw";
       }
+    } else {
+      loadingState.value = false;
+      error.value = "Er is iets misgegaan, probeer het later opnieuw";
     }
   }
 };

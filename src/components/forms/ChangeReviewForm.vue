@@ -19,6 +19,8 @@ const error = ref("");
 const maxCharacters = 500;
 const isCharacterLimitReached = ref(false); // New property to track character limit
 
+let loadingState = ref(false);
+
 // Computed property to track remaining characters
 const remainingCharacters = computed(() => {
     return maxCharacters - updatedExperience.value.length;
@@ -61,10 +63,15 @@ const ChangeReview = async () => {
         error.value = "Vul alle velden in";
         return;
     }
+    loadingState.value = true;
 
     hasError.value = false;
     error.value = "";
+
     newReviewData.value = await updateReview(reviewData.value.promotorId, reviewData.value.userId, reviewData.value._id, selectedStars.value, updatedTitle.value, updatedExperience.value);
+
+    loadingState.value = false;
+
     if (newReviewData.value) {
         router.push("/reviews/" + reviewData.value.promotorId);
     }
@@ -90,7 +97,7 @@ const ChangeReview = async () => {
             bereikt.</div>
     </div>
     <div class="pt-[20px] mb-[40px]">
-        <Btn :name="'Slaag aanpassingen op'" @click="ChangeReview" />
+        <Btn :name="'Slaag aanpassingen op'" @click="ChangeReview" :loading="loadingState" />
     </div>
     <div v-if="hasError" class="text-red-500">{{ error }}</div>
 </template>

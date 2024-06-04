@@ -11,6 +11,8 @@ const hasError = ref(false);
 const error = ref(null);
 const success = ref(null);
 
+let loadingState = ref(false);
+
 // Event handlers to update email and password
 const updateEmail = (value) => {
   updatedEmail.value = value;
@@ -30,9 +32,13 @@ const sendMail = async () => {
     return;
   }
 
+  loadingState.value = true;
+
   let result = await sendpasswordresetmail(
     updatedEmail.value,
   );
+
+  loadingState.value = false;
 
   if (result.success) {
     success.value = "Er is een email verstuurd met instructies om het wachtwoord te veranderen";
@@ -50,7 +56,7 @@ const sendMail = async () => {
     <Input :label="'Email'" :type="'email'" @input-change="updateEmail" :error="hasError"></Input>
     <div v-if="error" class="text-secondary-red">{{ error }}</div>
     <div class="mt-8 mb-4">
-      <Btn :name="'Wachtwoord veranderen'" @click="sendMail" :width="'full'" />
+      <Btn :name="'Wachtwoord veranderen'" @click="sendMail" :width="'full'" :loading="loadingState" />
     </div>
     <div v-if="success" class="">
       <p>{{ success }}</p>
