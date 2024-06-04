@@ -42,7 +42,6 @@ const login = async () => {
       hasError.value = true;
       error.value = "Foutieve email of wachtwoord";
     }
-  
 };
 </script>
 
@@ -53,19 +52,6 @@ const login = async () => {
     <div v-if="error" class="text-secondary-red">{{ error }}</div>
     <div class="mt-8 mb-4">
       <Btn :name="'Login'" @click="login" :width="'full'" :loading="loadingState" />
-    </div>
-    <div class="flex items-center justify-between">
-      <div class="flex-grow h-px bg-black m-2"></div>
-      <span class="mx-2 text-sm font-bold">Of</span>
-      <div class="flex-grow h-px bg-black m-2"></div>
-    </div>
-    <div class="flex w-full justify-center gap-4 border-2 border-primary-dark rounded-md p-2 mb-4 mt-4">
-      <img src="/google-icon.svg" alt="google icon" />
-      <a href="#" class="text-body font-bold">Registreer met Google</a>
-    </div>
-    <div class="flex w-full justify-center gap-4 border-2 border-primary-dark rounded-md p-2 mb-4">
-      <img src="/fb-icon.svg" alt="fb icon" />
-      <a href="#" class="text-body font-bold">Registreer met Facebook</a>
     </div>
   </form>
 </template>
