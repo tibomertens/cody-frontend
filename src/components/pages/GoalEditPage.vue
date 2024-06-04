@@ -102,7 +102,7 @@ const save = async () => {
 <template>
   <div class="flex justify-center my-[32px]">
     <div class="w-[60%] xs:w-[415px]">
-        <h2 class="text-subtitle pb-[20px]">Huidig label</h2>
+        <h2 class="text-subtitle pb-[20px] font-bold">Huidig label</h2>
         <div class="pb-[32px]">
           <img
             class="xs:w-[120px] xs:h-[52px] w-[90px] h-[40px]"
@@ -110,7 +110,7 @@ const save = async () => {
             alt="Huidig label"
           />
         </div>
-        <h2 class="text-subtitle pb-[20px]">Doel instellen</h2>
+        <h2 class="text-subtitle pb-[20px] font-bold">Doel instellen</h2>
         <Dropdown
           :items="energyLabels"
           label="Energielabel"
