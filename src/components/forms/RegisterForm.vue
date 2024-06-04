@@ -77,7 +77,7 @@ const register = async () => {
   } else {
     // Handle authentication error
     hasError.value = true;
-    error.value = "Er liep iets fout bij het registreren";
+    error.value = result.message;
   }
 
 };
