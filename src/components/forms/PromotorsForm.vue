@@ -58,6 +58,8 @@ let logo = ref('');
 let message = ref('');
 let tier = ref('');
 
+let loadingState = ref(false);
+
 const upload = async () => {
     // check if postalcode is a belgian postalcode without using length 
     if (postalCode.value < 1000 || postalCode.value > 9992) {
@@ -76,6 +78,8 @@ const upload = async () => {
     // convert phonenumber to string
     phone.value = phone.value.toString();
 
+    loadingState.value = true;
+
     const uploadedUrl = await uploadImage(logo.value);
 
     const result = await createPromotor({
@@ -91,6 +95,8 @@ const upload = async () => {
         message: message.value,
         tier: tier.value
     });
+
+    loadingState.value = false;
 
     if (result.success) {
         hasError.value = false;

@@ -9,7 +9,7 @@
                 <Input :label="'Startdatum'" @input-change="updateDate" :value="currentDate" :type="'date'" :error="inputHasError" />
                 <Input :label="'Budget voor deze renovatie'" :placeholder="'bv. 2350'" pre-fix="€"
                     @input-change="updateBudget" :error="inputHasError" />
-                <Input :label="'Aantal te renoveren delen'" :placeholder="'bv. 12'" @input-change="updateAmount"
+                <Input :label="'Aantal te renoveren delen'" :placeholder="'bv. 12 muren'" @input-change="updateAmount"
                     :error="inputHasError" />
                 <div class="w-full mt-[32px] grid gap-[24px]">
                     <Btn :name="'Opslaan'" :width="'full'" @click="updateStateToActive" />
