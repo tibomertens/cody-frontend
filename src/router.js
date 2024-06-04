@@ -24,6 +24,7 @@ import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
 import AccountDataPage from "./components/pages/AccountDataPage.vue";
 import AccountEditPage from "./components/pages/AccountEditPage.vue";
 import AccountChangePasswordPage from "./components/pages/AccountChangePasswordPage.vue";
+import GoalEditPage from "./components/pages/GoalEditPage.vue";
 
 const routes = [
   {
@@ -129,7 +130,7 @@ const routes = [
   },
   {
     path: "/settings/doel",
-    components: { default: account, sidebar: sideNav, topNav: topNav },
+    components: { default: GoalEditPage, sidebar: sideNav, topNav: topNav },
     name: "Doel instellingen",
     meta: { title: "Cody | doel instellingen", sidebar: true },
   },
