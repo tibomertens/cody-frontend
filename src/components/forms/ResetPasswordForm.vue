@@ -18,6 +18,8 @@ const error = ref(null);
 const password = ref("");
 const confirmPassword = ref("");
 
+let loadingState = ref(false);
+
 const passwordInput = (value) => {
     password.value = value;
 };
@@ -40,11 +42,15 @@ const updatePassword = async () => {
         return;
     }
 
+    loadingState.value = true;
+
     let result = await resetpassword(
         {
             password: password.value, token: token,
         }
     );
+
+    loadingState.value = false;
 
     if (result.success) {
         // redirect to login page
@@ -71,7 +77,7 @@ window.onpopstate = function () {
             :forget="true"></Input>
         <div v-if="error" class="text-secondary-red">{{ error }}</div>
         <div class="mt-8 mb-4">
-            <Btn :name="'Wachtwoord veranderen'" @click="updatePassword" :width="'full'" />
+            <Btn :name="'Wachtwoord veranderen'" @click="updatePassword" :width="'full'" :loading="loadingState" />
         </div>
     </form>
 </template>

@@ -16,6 +16,7 @@
     "@capacitor/cli": "6.0.0",
     "@capacitor/core": "6.0.0",
     "@capacitor/haptics": "6.0.0",
+    "@capacitor/ios": "6.0.0",
     "@capacitor/keyboard": "6.0.0",
     "@capacitor/status-bar": "6.0.0",
     "@syncfusion/ej2-vue-dropdowns": "^25.1.41",

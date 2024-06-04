@@ -25,6 +25,10 @@ import AccountDataPage from "./components/pages/AccountDataPage.vue";
 import AccountEditPage from "./components/pages/AccountEditPage.vue";
 import AccountChangePasswordPage from "./components/pages/AccountChangePasswordPage.vue";
 import GoalEditPage from "./components/pages/GoalEditPage.vue";
+import NotFound404Page from "./components/shared/404.vue";
+import PrivacyPage from "./components/pages/PrivacyPage.vue";
+import FAQPage from "./components/pages/FAQPage.vue";
+
 
 const routes = [
   {
@@ -32,6 +36,10 @@ const routes = [
     components: { default: home, sidebar: sideNav, topNav: topNav },
     name: "Dashboard",
     meta: { title: "Cody | Dashboard", sidebar: true },
+  },
+  {
+    path: "/home",
+    redirect: "/",
   },
   {
     path: "/account",
@@ -51,11 +59,6 @@ const routes = [
   },
   {
     path: "/test/berekenIndicatief",
-    components: { default: berekenIndicatief },
-    meta: { title: "Cody | Registreren", sidebar: false },
-  },
-  {
-    path: "/rapport/berekenIndicatief",
     components: { default: berekenIndicatief },
     meta: { title: "Cody | Registreren", sidebar: false },
   },
@@ -198,7 +201,7 @@ const routes = [
   },
   {
     path: "/admin/login",
-    components: { default: AdminLoginPage, topNav: topNav },
+    components: { default: AdminLoginPage },
     meta: { title: "Cody | Admin login", sidebar: false },
   },
   {
@@ -208,15 +211,32 @@ const routes = [
     meta: { title: "Cody | Admin dashboard", sidebar: true },
   },
   {
+    path: "/admin",
+    redirect: "/admin/dashboard",
+  },
+  {
     path: "/admin/promotors/:id",
     components: { default: PromotorsAdminPage, sidebar: sideNav, topNav: topNav },
     name: "Renovator details",
     meta: { title: "Cody | Renovator details", sidebar: true },
   },
   {
+    path: "/settings/privacy",
+    components: { default: PrivacyPage, sidebar: sideNav, topNav: topNav },
+    name: "Privacy",
+    meta: { title: "Cody | Privacy", sidebar: true },
+  },
+  {
+    path: "/settings/faq",
+    components: { default: FAQPage, sidebar: sideNav, topNav: topNav },
+    name: "FAQ",
+    meta: { title: "Cody | FAQ", sidebar: true },
+  },
+  {
     path: "/:catchAll(.*)",
-    name: "NotFound",
-    redirect: "/",
+    components: { default: NotFound404Page, sidebar: sideNav, topNav: topNav},
+    name: "404",
+    meta: { title: "Cody | 404", sidebar: true },
   }
 ];
 

@@ -61,10 +61,14 @@
                     </div>
                 </div>
                 <div>
-                    <a class="h-[48px] mt-[6px] 1.5xl:mt-[0px] w-full cursor-pointer bg-primary-dark rounded-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center"
+                    <a class="h-[48px] mt-[6px] 1.5xl:mt-[0px] w-full cursor-pointer bg-primary-dark rounded-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center hover:bg-[#3390FF] active:bg-[#0056CC] transition duration-200 ease-in-out"
                         @click="openAddModel">
-                        <p class="relative bottom-[1px]"><span class="relative bottom-[1px] right-[4px]">+</span> Nieuwe
-                            activiteit
+                        <p class="relative bottom-[1px] flex gap-2"><span
+                                class="relative bottom-[1px] right-[4px]">+</span> Nieuwe
+                            activiteit <div v-if="!taskLoaded"
+                                class="animate-spin w-[26px] h-[26px] relative top-[2px]">
+                                <img src="/loading-animation.png" alt="loading animation">
+                            </div>
                         </p>
                     </a>
                 </div>
@@ -107,6 +111,7 @@ let showExpandedModal = ref(false);
 let showAddModal = ref(false);
 
 let calendarLoaded = ref(false);
+let taskLoaded = ref(true);
 
 const tasksCache = {};
 
@@ -273,12 +278,16 @@ const closeModal = () => {
 };
 
 const handleTaskChange = async () => {
+    taskLoaded.value = false;
+
     // Clear the entire cache
     for (const year in tasksCache) {
         delete tasksCache[year];
     }
     // Re-fetch tasks
     await generateCalendar();
+
+    taskLoaded.value = true;
 };
 </script>
 
@@ -313,5 +322,20 @@ const handleTaskChange = async () => {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+    scale: 0.7;
 }
 </style>

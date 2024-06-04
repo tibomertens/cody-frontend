@@ -7,11 +7,16 @@ import Searchbar from "../UI/Searchbar.vue";
 import SearchDropdown from "../UI/Search-dropdown.vue";
 import Empty_state from "../widgets/Empty_state.vue";
 
-import { getAllPromotors, getAllLocations } from "../../functions/promotor";
+import { getAllPromotors } from "../../functions/promotor";
+import { getAllLocations } from "../../functions/location";
 
 const promotors = ref([]);
 const locations = ref([]);
 const pageTitle = ref("");
+const empty = ref(false);
+
+let dataIsLoaded = ref(false);
+
 
 const selectedLocation = ref(null); // Keep track of the selected location
 
@@ -37,6 +42,9 @@ onMounted(async () => {
   populateLocations(fetchedLocations);
   promotors.value = await getAllPromotors();
   filterPromotorsAndSearch();
+  if (promotors.value != null) {
+    dataIsLoaded.value = true;
+  }
 });
 
 // Computed property to filter promotors based on selected location
@@ -64,6 +72,11 @@ const filterPromotorsAndSearch = () => {
       filteredPromotors.value = [...topPromotors, ...nonTopPromotors];
     }
   }
+  if (filteredPromotors.value.length === 0) {
+    empty.value = true;
+  } else {
+    empty.value = false;
+  }
 };
 
 const search = (query) => {
@@ -83,17 +96,23 @@ const search = (query) => {
     </div>
     <h1 class="text-body" :class="{ 'hidden': !pageTitle }"> <span class="text-body font-bold">Geselecteerde
         filter:</span> {{ pageTitle }}</h1>
-    <div v-if="filteredPromotors">
-      <div v-if="filteredPromotors.length !== 0">
+    <div>
+      <div v-if="!empty">
         <ul>
-          <li v-for="promotor in filteredPromotors" :key="promotor.id">
-            <template v-if="!promotor.is_big">
+          <li v-if="dataIsLoaded" v-for="promotor in filteredPromotors" :key="promotor.id">
+            <div v-if="!promotor.is_big">
               <PromotorCard :promotor="promotor" class="transition-shadow duration-300 hover:shadow-lg" />
-            </template>
-            <template v-else>
+            </div>
+            <div v-else>
               <PromotorCardPremium :promotor="promotor" />
-            </template>
+            </div>
           </li>
+          <div v-else>
+            <div class="pulsing h-[100px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
+            <div class="pulsing h-[100px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
+            <div class="pulsing h-[100px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
+            <div class="pulsing h-[100px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
+          </div>
         </ul>
       </div>
       <Empty_state v-else :text="'Geen resultaten gevonden voor jouw filter'" />

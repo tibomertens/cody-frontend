@@ -15,6 +15,7 @@ const props = defineProps(["promotor"]);
 let reviews = ref([]);
 let averageRating = ref(0);
 const promotorId = ref(props.promotor._id);
+let reviewLength = ref(0);
 
 onMounted(async () => {
     let result = await getReviewsByPromotor(promotorId.value);
@@ -23,8 +24,9 @@ onMounted(async () => {
     if (reviews.value.length > 0) {
         const totalRating = reviews.value.reduce((sum, review) => sum + review.rating, 0);
         averageRating.value = Math.round(totalRating / reviews.value.length);
+        reviewLength.value = reviews.value.length;
     } else {
-        averageRating.value = 0; // Geen reviews beschikbaar
+        averageRating.value = " - "; // Geen reviews beschikbaar
     }
 });
 
@@ -47,10 +49,22 @@ const starImageSrc = computed(() => {
             return starNoSelect; // Default image in case of unexpected rating
     }
 });
+
+const navigate = () => {
+    let url = props.promotor.website_url;
+
+    // Check if the URL starts with http or https
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
+    }
+
+    // Open the URL in a new window or tab
+    window.open(url, "_blank");
+}
 </script>
 
 <template>
-    <div class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] py-[12px] px-[32px] rounded-md">
+    <div @click="navigate" class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] py-[12px] px-[32px] rounded-md cursor-pointer">
         <div class="flex justify-center pt-[10px] font-bold sm:w-[50%] lg:w-[15%]">
             {{ promotor.name }}
         </div>
@@ -58,12 +72,12 @@ const starImageSrc = computed(() => {
             {{ promotor.location }}
         </div>
         <a class="flex justify-center pt-[10px] sm:w-[50%] lg:w-[15%] lg:text-center"
-            :href="'tel:' + promotor.phoneNumber">{{ formatPhoneNumber(promotor.phoneNumber) }}</a>
+            :href="'tel:' + promotor.phoneNumber" @click.stop>{{ formatPhoneNumber(promotor.phoneNumber) }}</a>
         <div
             class="flex justify-center pt-[10px] pb-[10px] items-center lg:justify-end gap-[10px] sm:w-[50%] lg:w-[15%] lg:text-right">
-            <img :src="starImageSrc" alt="Star Rating" />
+            <img v-if="reviewLength !== 0" :src="starImageSrc" alt="Star Rating" />
             <p>{{ averageRating }}/5</p>
-            <a :href="'/reviews/' + promotor._id" class="underline">Reviews</a>
+            <a :href="'/reviews/' + promotor._id" class="underline" @click.stop>Reviews</a>
         </div>
     </div>
 </template>

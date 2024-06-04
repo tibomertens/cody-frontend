@@ -1,11 +1,18 @@
+import "dotenv";
+
 export const getRenovations = async () => {
+  console.log(import.meta.env.VITE_CODY_API_KEY)
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/renovations`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/v1/renovations`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Failed to fetch renovation data");
@@ -21,12 +28,15 @@ export const getRenovations = async () => {
 
 export const getRecommendedRenovations = async (userId) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/recommended`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/recommended`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -44,12 +54,15 @@ export const getRecommendedRenovations = async (userId) => {
 
 export const getActiveRenovations = async (userId) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/active`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/active`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -67,12 +80,15 @@ export const getActiveRenovations = async (userId) => {
 
 export const getCompletedRenovations = async (userId) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/completed`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/completed`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -90,12 +106,15 @@ export const getCompletedRenovations = async (userId) => {
 
 export const getSavedRenovations = async (userId) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/saved`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/saved`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -113,12 +132,15 @@ export const getSavedRenovations = async (userId) => {
 
 export const getRenovationById = async (renovationId) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/renovations/${renovationId}`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/renovations/${renovationId}`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -136,12 +158,15 @@ export const getRenovationById = async (renovationId) => {
 
 export const getUserRenovationById = async (userId, renovationId) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/renovations/${renovationId}`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -159,12 +184,15 @@ export const getUserRenovationById = async (userId, renovationId) => {
 
 export const updateState = async (userId, renovationId, body) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}/updateState`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/renovations/${renovationId}/updateState`;
 
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -183,12 +211,15 @@ export const updateState = async (userId, renovationId, body) => {
 
 export const updateAmount = async (userId, renovationId, body) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}/updateAmount`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/renovations/${renovationId}/updateAmount`;
 
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -207,12 +238,15 @@ export const updateAmount = async (userId, renovationId, body) => {
 
 export const updateUserData = async (userId, renovationId, body) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}/updateUserData`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/renovations/${renovationId}/updateUserData`;
 
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -231,12 +265,15 @@ export const updateUserData = async (userId, renovationId, body) => {
 
 export const updateSavedRenovation = async (userId, renovationId, body) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}/updateSaved`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/renovations/${renovationId}/updateSaved`;
 
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -255,12 +292,15 @@ export const updateSavedRenovation = async (userId, renovationId, body) => {
 
 export const updateNotes = async (userId, renovationId, body) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}/updateNotes`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/renovations/${renovationId}/updateNotes`;
 
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -279,12 +319,15 @@ export const updateNotes = async (userId, renovationId, body) => {
 
 export const updateChecklist = async (userId, renovationId, body) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}/updateChecklist`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/renovations/${renovationId}/updateChecklist`;
 
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify({ checklist: body }),
     });
@@ -303,12 +346,15 @@ export const updateChecklist = async (userId, renovationId, body) => {
 
 export const getSuggestions = async (type) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/renovations/type/${type}`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/renovations/type/${type}`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -326,12 +372,15 @@ export const getSuggestions = async (type) => {
 
 export const getUserRenovation = async (userId, renovationId) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations/${renovationId}`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/renovations/${renovationId}`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -349,12 +398,15 @@ export const getUserRenovation = async (userId, renovationId) => {
 
 export const getCompletedRenovationsByMonth = async (userId) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/renovations/linegraph/${userId}`;
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/renovations/linegraph/${userId}`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -368,4 +420,4 @@ export const getCompletedRenovationsByMonth = async (userId) => {
     console.error("Error:", error);
     throw error;
   }
-}
+};

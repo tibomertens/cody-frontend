@@ -19,15 +19,7 @@ let userData = ref({});
 let userId = ref(null);
 
 const selectedItems = reactive([
-  "Dak-isolatie",
-  "Vloer-isolatie",
-  "Muur-isolatie",
-  "Zonne-energie",
-  "Verwarming",
-  "Koeling",
-  "Ventilatie",
-  "Sanitair-warm-water",
-  "Beglazing",
+
 ]);
 
 onMounted(async () => {
@@ -40,10 +32,37 @@ onMounted(async () => {
 });
 
 const addSelectedItem = (selectedItem) => {
-  if (selectedItems.includes(selectedItem)) {
-    selectedItems.splice(selectedItems.indexOf(selectedItem), 1);
-  } else {
-    selectedItems.push(selectedItem);
+  if (selectedItem === 'Dak-isolatie') {
+    // push to selectedItems
+    selectedItems.push('Dak-isolatie langs de buitenzijde (Sarking dak)');
+    selectedItems.push('Dak-isolatie langs de binnenzijde');
+    selectedItems.push('Warm plat dak (isolatie + dakdichting)');
+  } else if (selectedItem === 'Vloer-isolatie') {
+    selectedItems.push('Isolatie zoldervloer');
+    selectedItems.push('Isolatie en renovatie vloeren op volle grond');
+    selectedItems.push('Kelderplafondisolatie');
+  } else if (selectedItem === 'Muur-isolatie') {
+    selectedItems.push('Na-isolatie van de spouwmuur');
+    selectedItems.push('Buitenmuurisolatie langs de buitenzijde');
+    selectedItems.push('Buitenmuurisolatie langs de binnenzijde');
+  } else if (selectedItem === 'Zonne-energie') {
+    selectedItems.push('Zonneboiler incl. collectoren');
+    selectedItems.push('Zonnepanelen');
+  } else if (selectedItem === 'Verwarming') {
+    selectedItems.push('Lucht-lucht warmtepomp');
+    selectedItems.push('Lucht-waterwarmtepomp');
+    selectedItems.push('Bodem-waterwarmtepomp');
+    selectedItems.push('Gascondensatieketel');
+  } else if (selectedItem === 'Ventilatie') {
+    selectedItems.push('Ventilatie type C');
+    selectedItems.push('Ventilatie type D');
+    selectedItems.push('Ventilatiesysteem B');
+  } else if (selectedItem === 'Sanitair warm water') {
+    selectedItems.push('Warmtepompboiler');
+  } else if (selectedItem === 'Beglazing') {
+    selectedItems.push('Vernieuwing buitenschrijnwerk van de ramen');
+    selectedItems.push('Dubbel HR-glas');
+    selectedItems.push('Driedubbel glas');
   }
 };
 
@@ -130,79 +149,38 @@ onMounted(() => {
       Huidig label
     </h2>
     <div class="ml-[10%] mr-[10%] xl:ml-[20%] pb-[32px]">
-      <Dropdown
-        :items="labelOptions"
-        :labelData="labelData"
-        @itemSelected="handleSelectedLabel"
-      />
+      <Dropdown :items="labelOptions" :labelData="labelData" @itemSelected="handleSelectedLabel" />
     </div>
     <h2 class="text-subtitle font-bold ml-[10%] xl:ml-[20%] pb-[20px]">
       Duid aan
     </h2>
-    <ChecklistFrame
-      @select="addSelectedItem"
-      :title="'Dak-isolatie'"
-      :paragraph="'Verbeter de energie-efficiëntie van je woning door te investeren in hoogwaardige dakisolatie, waardoor warmteverlies wordt geminimaliseerd.'"
-    />
-    <ChecklistFrame
-      @select="addSelectedItem"
-      :title="'Vloer-isolatie'"
-      :paragraph="'Verhoog het comfort en de duurzaamheid van je huis met vloerisolatie, waardoor koude vanuit de grond wordt tegengehouden en de energieprestaties verbeteren.'"
-    />
-    <ChecklistFrame
-      @select="addSelectedItem"
-      :title="'Muur-isolatie'"
-      :paragraph="'Optimaliseer de thermische prestaties van je woning met muurisolatie, die zorgt voor een effectieve barrière tegen warmteverlies en koude infiltratie.'"
-    />
-    <ChecklistFrame
-      @select="addSelectedItem"
-      :title="'Zonne-energie'"
-      :paragraph="'Maak gebruik van duurzame zonne-energie om je huis van groene stroom te voorzien, waardoor je niet alleen kosten bespaart, maar ook bijdraagt aan milieuvriendelijke energieproductie.'"
-    />
-    <ChecklistFrame
-      @select="addSelectedItem"
-      :title="'Verwarming'"
-      :paragraph="'Kies voor energiezuinige verwarmingsopties om het comfort in huis te handhaven terwijl je het energieverbruik minimaliseert.'"
-    />
-    <ChecklistFrame
-      @select="addSelectedItem"
-      :title="'Koeling'"
-      :paragraph="'Implementeer efficiënte koelsystemen om een aangename temperatuur te behouden en tegelijkertijd energie te besparen.'"
-    />
-    <ChecklistFrame
-      @select="addSelectedItem"
-      :title="'Ventilatie'"
-      :paragraph="'Optimaliseer de luchtkwaliteit in je woning door middel van doeltreffende ventilatiesystemen, die zorgen voor een gezond en comfortabel binnenklimaat.'"
-    />
-    <ChecklistFrame
-      @select="addSelectedItem"
-      :title="'Sanitair warm water'"
-      :paragraph="'Bespaar energie en kosten door te investeren in geavanceerde systemen voor sanitair warm water, die efficiëntie en duurzaamheid bevorderen.'"
-    />
-    <ChecklistFrame
-      @select="addSelectedItem"
-      :title="'Beglazing'"
-      :paragraph="'Verhoog de isolatiewaarde van je huis door energiezuinige beglazing te installeren, waardoor warmteverlies wordt verminderd en de energie-efficiëntie toeneemt.'"
-    />
-    <div class="flex justify-center pb-[32px]">
-      <Btn :name="'Doorgaan'" @click="checkLabelNotEmpty()" :width="''" />
+    <ChecklistFrame @select="addSelectedItem" :title="'Dak-isolatie'"
+      :paragraph="'Verbeter de energie-efficiëntie van je woning door te investeren in hoogwaardige dakisolatie, waardoor warmteverlies wordt geminimaliseerd.'" />
+    <ChecklistFrame @select="addSelectedItem" :title="'Vloer-isolatie'"
+      :paragraph="'Verhoog het comfort en de duurzaamheid van je huis met vloerisolatie, waardoor koude vanuit de grond wordt tegengehouden en de energieprestaties verbeteren.'" />
+    <ChecklistFrame @select="addSelectedItem" :title="'Muur-isolatie'"
+      :paragraph="'Optimaliseer de thermische prestaties van je woning met muurisolatie, die zorgt voor een effectieve barrière tegen warmteverlies en koude infiltratie.'" />
+    <ChecklistFrame @select="addSelectedItem" :title="'Zonne-energie'"
+      :paragraph="'Maak gebruik van duurzame zonne-energie om je huis van groene stroom te voorzien, waardoor je niet alleen kosten bespaart, maar ook bijdraagt aan milieuvriendelijke energieproductie.'" />
+    <ChecklistFrame @select="addSelectedItem" :title="'Verwarming'"
+      :paragraph="'Kies voor energiezuinige verwarmingsopties om het comfort in huis te handhaven terwijl je het energieverbruik minimaliseert.'" />
+    <ChecklistFrame @select="addSelectedItem" :title="'Koeling'"
+      :paragraph="'Implementeer efficiënte koelsystemen om een aangename temperatuur te behouden en tegelijkertijd energie te besparen.'" />
+    <ChecklistFrame @select="addSelectedItem" :title="'Ventilatie'"
+      :paragraph="'Optimaliseer de luchtkwaliteit in je woning door middel van doeltreffende ventilatiesystemen, die zorgen voor een gezond en comfortabel binnenklimaat.'" />
+    <ChecklistFrame @select="addSelectedItem" :title="'Sanitair warm water'"
+      :paragraph="'Bespaar energie en kosten door te investeren in geavanceerde systemen voor sanitair warm water, die efficiëntie en duurzaamheid bevorderen.'" />
+    <ChecklistFrame @select="addSelectedItem" :title="'Beglazing'"
+      :paragraph="'Verhoog de isolatiewaarde van je huis door energiezuinige beglazing te installeren, waardoor warmteverlies wordt verminderd en de energie-efficiëntie toeneemt.'" />
+    <div class="flex justify-center pb-[32px] mx-[10%] xl:mx-[20%]">
+      <Btn :name="'Doorgaan'" @click="checkLabelNotEmpty()" :width="'full'" />
     </div>
-    <CalculatedLabelModal
-      :showModal="showModal"
-      :labelData="labelData"
-      :items="selectedItems"
-      :userId="userId"
-      @closeModal="closeModal"
-      :path="currentPath"
-    />
+    <CalculatedLabelModal :showModal="showModal" :labelData="labelData" :items="selectedItems" :userId="userId"
+      @closeModal="closeModal" :path="currentPath" />
     <div v-if="error" class="text-red-500 text-center pb-[32px]">
       {{ error }}
     </div>
-    <Confirm
-      :showConfirm="showConfirm"
-      :title="'Weet je zeker dat je niets wilt aanduiden?'"
-      @closeConfirm="closeConfirm"
-      @confirmAction="showModal = true"
-    />
+    <Confirm :showConfirm="showConfirm" :title="'Weet je zeker dat je niets wilt aanduiden?'"
+      @closeConfirm="closeConfirm" @confirmAction="showModal = true" />
   </div>
 </template>

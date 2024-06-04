@@ -1,5 +1,5 @@
 <template>
-    <div class="relative menu-container">
+    <div class="relative menu-container cursor-pointer">
         <div class="w-full h-[48px] bg-offWhite-light rounded-[5px] border-2 border-primary-dark flex items-center justify-between"
             @click="toggleDropdown" :class="{ 'rounded-b-[0] border-b-0': isDropdownOpen }">
             <p class="text-primary-dark font-bold text-btn ml-[24px] relative bottom-[1px]">Filters</p>
@@ -102,11 +102,13 @@ const handleType = async (selectedItem) => {
     if (selectedItem === 'Recent naar oud') {
         reviews.value.sort((reviewA, reviewB) => new Date(reviewB.date) - new Date(reviewA.date));
         activeTypeFilter.value = 'Recent naar oud';
+        activeAddedValueFilter.value = 'Maak een keuze';
         emits('filtered', reviews.value);
         toggleDropdown();
     } else if (selectedItem === 'Oud naar recent') {
         reviews.value.sort((reviewA, reviewB) => new Date(reviewA.date) - new Date(reviewB.date));
         activeTypeFilter.value = 'Oud naar recent';
+        activeAddedValueFilter.value = 'Maak een keuze';
         emits('filtered', reviews.value);
         toggleDropdown();
     } else {

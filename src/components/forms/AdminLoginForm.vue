@@ -16,6 +16,8 @@ const updatedPassword = ref("");
 const hasError = ref(false);
 const error = ref(null);
 
+let loadingState = ref(false);
+
 // Event handlers to update email and password
 const updateEmail = (value) => {
     updatedEmail.value = value;
@@ -26,7 +28,9 @@ const updatePassword = (value) => {
 };
 
 const login = async () => {
+    loadingState.value = true;
     const data = await loginAdmin(updatedEmail.value, updatedPassword.value);
+    loadingState.value = false;
 
     if (data.success) {
 
@@ -44,10 +48,11 @@ const login = async () => {
 <template>
     <form>
         <Input :label="'E-mail'" :type="'email'" @input-change="updateEmail" :error="hasError"></Input>
-        <Input :label="'Wachtwoord'" :type="'password'" @input-change="updatePassword" :error="hasError" :admin="true"></Input>
+        <Input :label="'Wachtwoord'" :type="'password'" @input-change="updatePassword" :error="hasError"
+            :admin="true"></Input>
         <div v-if="error" class="text-secondary-red">{{ error }}</div>
         <div class="mt-8 mb-4">
-            <Btn :name="'Login'" @click="login" :width="'full'" />
+            <Btn :name="'Login'" @click="login" :width="'full'" :loading="loadingState" />
         </div>
     </form>
 </template>

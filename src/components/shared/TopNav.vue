@@ -25,6 +25,9 @@ onMounted(() => {
   activeLink.value = isRouteActive('/settings');
 });
 
+const alertFunc = () => {
+  alert('De instellingen zijn nog niet af in deze versie, tegen de jury zullen deze geupdate worden in deze build.');
+};
 </script>
 
 <template>
@@ -39,6 +42,7 @@ onMounted(() => {
             <img src="/edit_no_fill.svg" alt="edit icon"  class="w-[30px]">
           </router-link>
         </div>
+
         <router-link v-if="!isRouteActive('/account')" to="/settings/accountgegevens" class="flex items-center ml-2 pr-[40px] xl:pr-0">
           <img src="/settings.svg" alt="settings">
         </router-link>

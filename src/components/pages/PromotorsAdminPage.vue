@@ -7,14 +7,17 @@
             <h2 class="text-title font-bold mb-[24px]">{{ promotorData.name }}</h2>
             <div class="grid lg:grid-cols-2 gap-y-[12px] mb-[12px]">
                 <p><span class="font-bold mr-[6px]">Tier:</span>{{ promotorData.tier }}</p>
-                <a :href="'tel:' + promotorData.phoneNumber"><span class="font-bold mr-[6px]">Telefoon:</span>{{ promotorData.phoneNumber }}</a>
+                <a :href="'tel:' + promotorData.phoneNumber"><span class="font-bold mr-[6px]">Telefoon:</span>{{ phone
+                    }}</a>
                 <p><span class="font-bold mr-[6px]">Website:</span><span
                         class="text-primary-dark underline font-bold cursor-pointer" @click="navigate(promotorData)">{{
                             promotorData.website_url
                         }}</span></p>
-                <a :href="'mailto:' + promotorData.email"><span class="font-bold mr-[6px]">E-mail:</span>{{ promotorData.email }}</a>
+                <a :href="'mailto:' + promotorData.email"><span class="font-bold mr-[6px]">E-mail:</span>{{
+                    promotorData.email }}</a>
             </div>
-            <p @click="openGoogleMaps(promotorData.address)" class="mb-[12px] cursor-pointer"><span class="font-bold mr-[6px]">Adres:</span>{{ promotorData.address }}</p>
+            <p @click="openGoogleMaps(promotorData.address)" class="mb-[12px] cursor-pointer"><span
+                    class="font-bold mr-[6px]">Adres:</span>{{ promotorData.address }}</p>
             <p><span class="font-bold mr-[6px] block">Bericht:</span>{{ promotorData.message }}</p>
             <div class="flex gap-[12px] mt-[24px] flex-col lg:flex-row">
                 <a :href="'mailto:' + promotorData.email"
@@ -24,23 +27,32 @@
                 <a v-if="!promotorData.is_accepted"
                     class="h-[42px] md:h-[48px] cursor-pointer w-full bg-offWhite-light rounded-[5px] text-secondary-green border-2 border-secondary-green font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center"
                     @click="acceptPromotorFunc">
-                    <p class="relative bottom-[1px]">Accepteren</p>
+                    <p class="relative bottom-[1px] flex gap-2">Accepteren
+                        <div v-if="loadingAccept" class="animate-spin w-[26px] h-[26px] relative top-[2px]"><img
+                                src="/loading-animation-green.png" alt="loading animation"></div>
+                    </p>
                 </a>
                 <a v-if="!promotorData.is_accepted"
                     class="h-[42px] md:h-[48px] cursor-pointer w-full bg-offWhite-light rounded-[5px] text-secondary-red border-2 border-secondary-red font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center"
                     @click="openConfirm">
-                    <p class="relative bottom-[1px]">Afwijzen</p>
+                    <p class="relative bottom-[1px] flex gap-2">Afwijzen
+                        <div v-if="loading" class="animate-spin w-[26px] h-[26px] relative top-[2px]"><img
+                                src="/loading-animation-red.png" alt="loading animation"></div>
+                    </p>
                 </a>
                 <a v-if="promotorData.is_accepted"
                     class="h-[42px] md:h-[48px] cursor-pointer w-full bg-offWhite-light rounded-[5px] text-secondary-red border-2 border-secondary-red font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center"
                     @click="openConfirm">
-                    <p class="relative bottom-[1px]">Samenwerking stopzetten</p>
+                    <p class="relative bottom-[1px] flex gap-2">Samenwerking stopzetten
+                        <div v-if="loadingStop" class="animate-spin w-[26px] h-[26px] relative top-[2px]"><img
+                                src="/loading-animation-red.png" alt="loading animation"></div>
+                    </p>
                 </a>
             </div>
         </div>
     </div>
     <Confirm :showConfirm="showConfirm" title="Renovator afwijzen"
-        desc="Weet je zeker dat je deze renovator wilt afwijzen?" @closeConfirm="showConfirm = false"
+        desc="Weet je zeker dat je deze renovator wilt afwijzen of de samenwerking stopzetten?" @closeConfirm="showConfirm = false"
         @confirmAction="declinePromotorFunc" />
 </template>
 
@@ -61,7 +73,13 @@ const router = useRouter();
 const promotorId = ref(router.currentRoute.value.params.id);
 const promotorData = ref({});
 
+let loading = ref(false);
+let loadingAccept = ref(false);
+let loadingStop = ref(false);
+
 let showConfirm = ref(false);
+
+let phone = ref("");
 
 const openConfirm = () => {
     showConfirm.value = true;
@@ -86,21 +104,26 @@ const getPromotorData = async () => {
 
     if (promotor.success) {
         promotorData.value = promotor.data;
+        phone.value = formatPhoneNumber(promotor.data.phoneNumber);
     }
 };
 
 const navigate = (promotor) => {
-    //check if promotor.website_url starts with http or https
-    if (!promotor.website_url.startsWith("http://") && !promotor.website_url.startsWith("https://")) {
-        window.location.href = "https://" + promotor.website_url;
-    } else {
-        window.location.href = promotor.website_url;
+    let url = promotor.website_url;
+
+    // Check if the URL starts with http or https
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
     }
-};
+
+    // Open the URL in a new window or tab
+    window.open(url, "_blank");
+}
 
 const acceptPromotorFunc = async () => {
+    loadingAccept.value = true;
     const result = await acceptPromotor(promotorId.value);
-    console.log(result);
+    loadingAccept.value = false;
 
     if (result.success) {
         router.push("/admin/dashboard");
@@ -108,7 +131,11 @@ const acceptPromotorFunc = async () => {
 };
 
 const declinePromotorFunc = async () => {
+    loadingStop.value = true;
+    loading.value = true;
     const result = await deletePromotor(promotorId.value);
+    loadingStop.value = false;
+    loading.value = false;
 
     if (result.success) {
         router.push("/admin/dashboard");
@@ -122,3 +149,20 @@ watch(() => router.currentRoute.value.params.id, async () => {
     await getPromotorData();
 });
 </script>
+
+<style scoped>
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+    scale: 0.7;
+}
+</style>

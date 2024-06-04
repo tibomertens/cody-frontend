@@ -24,6 +24,7 @@ let budget = ref(0);
 let userId = ref('');
 let empty_text = ref('Er zijn geen projecten gevonden, probeer een andere filter.');
 let unexpected_error = ref(false);
+let beforeSearch = ref([]);
 
 const screenWidth = ref(window.innerWidth);
 
@@ -68,6 +69,7 @@ const fetchData = async () => {
         }
       });
 
+      beforeSearch.value = renovations.value;
       renovationsLoaded.value = true;
     } else {
       router.push('/login');
@@ -176,13 +178,39 @@ const getStateFetcher = (renovation) => async () => {
 
 const handleFilter = (filteredRenovations) => {
   renovations.value = filteredRenovations;
+  beforeSearch.value = filteredRenovations;
+};
+
+const handleSearch = (q) => {
+  if (q === undefined) {
+    // return all renovations, removing the previous search results
+    console.log(beforeSearch.value);
+    renovations.value = beforeSearch.value;
+    console.log(renovations.value);
+    return renovations.value;
+  } else {
+    return renovations.value.filter(renovation => renovation.title.toLowerCase().includes(q.toLowerCase()));
+  };
+};
+
+const updateSearch = async (searchQuery) => {
+  try {
+    if (searchQuery === '') {
+      renovations.value = handleSearch();
+    } else {
+      renovations.value = handleSearch(searchQuery);
+    }
+  } catch (error) {
+    console.error(error);
+    unexpected_error.value = true;
+  }
 };
 </script>
 
 <template>
   <section class="m-[32px] md:m-[40px]">
     <div class="mb-[32px] md:mb-[40px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] md:gap-[40px]">
-      <Searchbar class="lg:col-span-2" />
+      <Searchbar class="lg:col-span-2" :placeholder="'Zoeken op naam...'" @search="updateSearch" />
       <div v-if="renovationsLoaded">
         <AdvancedFilter class="lg:col-span-1" :renovations="renovations.value" @filtered="handleFilter"
           :userBudget="budget" />
