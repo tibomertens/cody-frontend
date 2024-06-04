@@ -215,3 +215,28 @@ export const updateUser = async (token, body) => {
     throw error;
   }
 };
+
+export const deleteUser = async (token) => {
+  const decoded = jwtDecode(token);
+  let userId = decoded.id;
+  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}`;
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete user data");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
