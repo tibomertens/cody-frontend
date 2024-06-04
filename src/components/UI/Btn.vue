@@ -24,7 +24,7 @@ const props = defineProps({
   },
   loading: {
     type: Boolean,
-    required: true
+    required: false
   },
 });
 </script>
