@@ -1,44 +1,29 @@
 <template>
   <section>
-    <div
-      class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center"
-    >
+    <div class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center">
       <h2 class="text-subtitle font-bold">Doel</h2>
       <a href="#" @click="openEditGoalPopup">
         <div><img src="/edit_no_fill.svg" alt="potlood" /></div>
       </a>
     </div>
-    <div
-      class="flex md:mx-[40px] ml-[5%] justify-center items-center bg-offWhite-light w-[90%] p-4 rounded"
-      v-if="dataIsLoaded"
-    >
+    <div class="flex md:mx-[40px] ml-[5%] justify-center items-center bg-offWhite-light w-[90%] p-4 rounded"
+      v-if="dataIsLoaded">
       <div v-for="label in labels" class="hidden md:block">
-        <img
-          :src="`/${label}-label.svg`"
-          :alt="`epc label ${label}`"
-          class="md:w-[100px] w-[20px] pr-[-50px]"
-          :class="{
-            'scale-[150%] md:scale-[150%] md:mx-7 mx-2 md:mt-10 mt-[54px] flex':
-              label === currentLabel,
-            'scale-[150%] md:scale-[150%] md:mx-7 mx-2 md:mt-16 mt-[54px] flex':
-              label === goalLabel,
-          }"
-        />
-        <p
-          v-if="label === currentLabel"
-          class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4 font-bold"
-        >
+        <img :src="`/${label}-label.svg`" :alt="`epc label ${label}`" class="md:w-[100px] w-[20px] pr-[-50px]" :class="{
+          'scale-[150%] md:scale-[150%] md:mx-7 mx-2 md:mt-10 mt-[54px] flex':
+            label === currentLabel,
+          'scale-[150%] md:scale-[150%] md:mx-7 mx-2 md:mt-16 mt-[54px] flex':
+            label === goalLabel,
+        }" />
+        <p v-if="label === currentLabel"
+          class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4 font-bold">
           Jouw label
         </p>
         <div v-else-if="label === goalLabel">
-          <p
-            class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4 font-bold"
-          >
+          <p class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center pt-4 font-bold">
             Jouw doel
           </p>
-          <p
-            class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center"
-          >
+          <p class="md:w-[150px] w-[20px] text-xs md:text-body flex justify-center">
             Tegen {{ goalYear }}
           </p>
         </div>
@@ -46,11 +31,7 @@
       <div class="md:hidden flex gap-3">
         <div>
           <div class="px-[12px] xs:px-[24px] flex justify-center items-center">
-            <img
-              :src="`/${currentLabel}-label.svg`"
-              :alt="`epc label ${label}`"
-              class="w-[100%] xxs:w-[70%] mt-5"
-            />
+            <img :src="`/${currentLabel}-label.svg`" :alt="`epc label ${label}`" class="w-[100%] xxs:w-[70%] mt-5" />
           </div>
           <p class="w-[100%] text-xs flex justify-center pt-4 font-bold">
             Jouw label
@@ -58,11 +39,7 @@
         </div>
         <div>
           <div class="px-[12px] xs:px-[24px] flex justify-center items-center">
-            <img
-              :src="`/${goalLabel}-label.svg`"
-              :alt="`epc label ${label}`"
-              class="w-[100%] xxs:w-[70%] mt-5"
-            />
+            <img :src="`/${goalLabel}-label.svg`" :alt="`epc label ${label}`" class="w-[100%] xxs:w-[70%] mt-5" />
           </div>
           <p class="w-[100%] text-xs flex justify-center pt-4 font-bold">
             Jouw doel
@@ -73,60 +50,40 @@
         </div>
       </div>
     </div>
-    <div
-      v-else
-      class="pulsing h-[156px] rounded-[5px] md:mx-[40px] ml-[5%]"
-    ></div>
+    <div v-else class="pulsing h-[156px] rounded-[5px] md:mx-[40px] ml-[5%]"></div>
   </section>
   <section>
     <div></div>
-    <div
-      class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center"
-    >
+    <div class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center">
       <h2 class="text-subtitle font-bold">Budget</h2>
       <a href="#" @click="openEditBudgetPopup">
         <div><img src="/edit_no_fill.svg" alt="potlood" /></div>
       </a>
     </div>
-    <div
-      v-if="dataIsLoaded"
-      class="md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-[40px] rounded mb-[40px]"
-    >
+    <div v-if="dataIsLoaded" class="md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-[40px] rounded mb-[40px]">
       <div class="flex justify-center mb-[40px]">
         <div class="md:flex w-[90%] justify-around">
           <div class="hidden md:flex justify-center items-center w-[35%]">
             <div>
               <p class="md:text-body font-bold">Resterend budget</p>
-              <p
-                class="text-xs"
-                :class="{ 'text-secondary-red font-bold': currentBudget < 0 }"
-              >
+              <p class="text-xs" :class="{ 'text-secondary-red font-bold': currentBudget < 0 }">
                 {{ formatFinancialNumber(currentBudget) }}
               </p>
             </div>
           </div>
           <div class="w-full md:flex block justify-center items-center">
             <div class="md:w-[90%]">
-              <div
-                class="bg-offWhite-dark md:w-full md:h-[52px] w-full h-[32px] rounded"
-              >
-                <div
-                  class="h-full bg-primary-medium rounded animate-bar"
-                  :style="{ width: currentBudgetPercentage }"
-                ></div>
+              <div class="bg-offWhite-dark md:w-full md:h-[52px] w-full h-[32px] rounded">
+                <div class="h-full bg-primary-medium rounded animate-bar" :style="{ width: currentBudgetPercentage }">
+                </div>
               </div>
             </div>
           </div>
-          <div
-            class="flex md:w-[35%] w-full self-center justify-between mt-5 md:mt-0"
-          >
+          <div class="flex md:w-[35%] w-full self-center justify-between mt-5 md:mt-0">
             <div class="flex md:hidden">
               <div>
                 <p class="md:text-body font-bold">Resterend budget</p>
-                <p
-                  class="text-xs"
-                  :class="{ 'text-secondary-red font-bold': currentBudget < 0 }"
-                >
+                <p class="text-xs" :class="{ 'text-secondary-red font-bold': currentBudget < 0 }">
                   {{ formatFinancialNumber(currentBudget) }}
                 </p>
               </div>
@@ -143,27 +100,18 @@
 
       <a href="#">
         <div @click="alertFunc()"
-          class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center hover:bg-[#3390FF] active:bg-[#0056CC] transition duration-200 ease-in-out"
-        >
+          class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center hover:bg-[#3390FF] active:bg-[#0056CC] transition duration-200 ease-in-out">
           Bekijk al je uitgaven
         </div>
       </a>
     </div>
-    <div
-      v-else
-      class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"
-    ></div>
+    <div v-else class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
   </section>
   <section>
-    <div
-      class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center"
-    >
+    <div class="flex gap-[8px] mb-[20px] mt-[40px] md:ml-[40px] ml-[5%] items-center">
       <h2 class="text-subtitle font-bold">Aantal renovaties</h2>
     </div>
-    <div
-      v-if="dataIsLoaded"
-      class="md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-10 rounded mb-[40px]"
-    >
+    <div v-if="dataIsLoaded" class="md:mx-[40px] mx-[5%] bg-offWhite-light w-[90%] pt-10 rounded mb-[40px]">
       <div class="md:flex md:w-full md:justify-center">
         <div class="mx-5 md:w-[60%]">
           <Graph :data="chartDataArray" />
@@ -171,27 +119,15 @@
       </div>
       <a href="/projects/completed">
         <div
-          class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center hover:bg-[#3390FF] active:bg-[#0056CC] transition duration-200 ease-in-out"
-        >
+          class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center hover:bg-[#3390FF] active:bg-[#0056CC] transition duration-200 ease-in-out">
           Bekijk al je voltooide renovaties
         </div>
       </a>
     </div>
-    <div
-      v-else
-      class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"
-    ></div>
+    <div v-else class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
   </section>
-  <ChangeGoal
-    :showModal="showModal"
-    :userId="userId"
-    @closeModal="closeModal"
-  />
-  <ChangeBudget
-    :showBudgetModal="showBudgetModal"
-    :userId="userId"
-    @closeBudgetModal="closeBudgetModal"
-  />
+  <ChangeGoal :showModal="showModal" :userId="userId" @closeModal="closeModal" />
+  <ChangeBudget :showBudgetModal="showBudgetModal" :userId="userId" @closeBudgetModal="closeBudgetModal" />
 </template>
 
 <script setup>
@@ -269,33 +205,38 @@ const getData = async () => {
     spentBudget = userData.value.budget_spent;
     userId.value = userData.value._id;
     totalBudget = parseInt(currentBudget) + parseInt(spentBudget);
-    currentBudgetPercentage.value = `${(
-      (parseInt(currentBudget) / totalBudget) *
-      100
-    ).toFixed(2)}%`;
+    let calculatedPercentage = (parseInt(currentBudget) / totalBudget) * 100;
+    currentBudgetPercentage.value = `${calculatedPercentage < 0 ? 0 : calculatedPercentage.toFixed(2)}%`;
 
     await nextTick();
 
     const styleSheet = document.styleSheets[0];
-    if (styleSheet) {
-      styleSheet.deleteRule(0);
-      styleSheet.deleteRule(0);
+
+    if (styleSheet && styleSheet.cssRules.length > 0) {
+      try {
+        styleSheet.deleteRule(0);
+        styleSheet.deleteRule(0);
+      } catch (error) {
+        console.error("Error deleting rules: ", error);
+      }
+
       styleSheet.insertRule(
         `@keyframes fillBar {
-        from { width: 0; }
-        to { width: ${currentBudgetPercentage.value}; }
-      }`,
+          from { width: 0; }
+          to { width: ${currentBudgetPercentage.value}; }
+        }`,
         0
       );
       styleSheet.insertRule(
         `.animate-bar {
-        animation: fillBar 1s ease forwards;
-      }`,
+          animation: fillBar 1s ease forwards;
+        }`,
         0
       );
     } else {
-      console.error("No stylesheets found.");
+      console.error("No stylesheets found or no rules to delete.");
     }
+
     dataIsLoaded.value = true;
   } else {
     router.push("/login");
