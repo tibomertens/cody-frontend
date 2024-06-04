@@ -21,9 +21,14 @@ import ForgotPasswordPage from "./components/pages/ForgotPasswordPage.vue";
 import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
 import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPage.vue";
 import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
+import AccountDataPage from "./components/pages/AccountDataPage.vue";
+import AccountEditPage from "./components/pages/AccountEditPage.vue";
+import AccountChangePasswordPage from "./components/pages/AccountChangePasswordPage.vue";
+import GoalEditPage from "./components/pages/GoalEditPage.vue";
 import NotFound404Page from "./components/shared/404.vue";
 import PrivacyPage from "./components/pages/PrivacyPage.vue";
 import FAQPage from "./components/pages/FAQPage.vue";
+
 
 const routes = [
   {
@@ -107,6 +112,48 @@ const routes = [
     components: { default: Settings, sidebar: sideNav, topNav: topNav },
     name: "Instellingen",
     meta: { title: "Cody | Instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/accountgegevens",
+    components: { default: AccountDataPage, sidebar: sideNav, topNav: topNav },
+    name: "Account instellingen",
+    meta: { title: "Cody | accountgegevens instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/accountgegevens/edit",
+    components: { default: AccountEditPage, sidebar: sideNav, topNav: topNav },
+    name: "Account instellingen aanpassen",
+    meta: { title: "Cody | accountgegevens instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/accountgegevens/changepassword",
+    components: { default: AccountChangePasswordPage, sidebar: sideNav, topNav: topNav },
+    name: "Wachtwoord aanpassen",
+    meta: { title: "Cody | wachtwoord aanpassen", sidebar: true },
+  },
+  {
+    path: "/settings/doel",
+    components: { default: GoalEditPage, sidebar: sideNav, topNav: topNav },
+    name: "Doel instellingen",
+    meta: { title: "Cody | doel instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/faq",
+    components: { default: account, sidebar: sideNav, topNav: topNav },
+    name: "FAQ",
+    meta: { title: "Cody | FAQ", sidebar: true },
+  },
+  {
+    path: "/settings/privacy",
+    components: { default: account, sidebar: sideNav, topNav: topNav },
+    name: "Privacy",
+    meta: { title: "Cody | Privacy", sidebar: true },
+  },
+  {
+    path: "/settings/gebruiksvoorwaarden",
+    components: { default: account, sidebar: sideNav, topNav: topNav },
+    name: "Gebruiksvoorwaarden",
+    meta: { title: "Cody | Gebruiksvoorwaarden", sidebar: true },
   },
   {
     path: "/promotors",
