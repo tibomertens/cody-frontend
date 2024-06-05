@@ -211,6 +211,7 @@ export const updateUser = async (token, body) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -237,6 +238,7 @@ export const deleteUser = async (token) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 

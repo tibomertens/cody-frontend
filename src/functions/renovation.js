@@ -431,6 +431,7 @@ export const getAllUserRenovations = async (userId) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
