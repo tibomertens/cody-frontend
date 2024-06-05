@@ -41,6 +41,10 @@ export default {
         "body": "1rem",
         "xs": "0.8rem",
       },
+      height: {
+        'calc-100vh-71': 'calc(100vh - 71.2px)',
+        'calc-100vh-176': 'calc(100vh - 176.8px)'
+      },
     },
   },
   plugins: [],

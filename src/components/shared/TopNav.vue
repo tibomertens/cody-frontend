@@ -25,6 +25,9 @@ onMounted(() => {
   activeLink.value = isRouteActive('/settings');
 });
 
+const alertFunc = () => {
+  alert('De instellingen zijn nog niet af in deze versie, tegen de jury zullen deze geupdate worden in deze build.');
+};
 </script>
 
 <template>
@@ -35,28 +38,37 @@ onMounted(() => {
           <BackArrow
             v-if="!isRouteActive('/account') && !isRouteActive('/') && !isRouteActive('/promotors') && !isRouteActive('/projects') && !isRouteActive('/projects/active') && !isRouteActive('/projects/recommended') && !isRouteActive('/projects/completed') && !isRouteActive('/projects/saved')" />
           <h1 class="text-[1.2em] xl:text-title font-bold mb-[4px]">{{ currentRouteName() }}</h1>
+          <router-link v-if="isRouteActive('/account')" to="/settings/accountgegevens">
+            <img src="/edit_no_fill.svg" alt="edit icon"  class="w-[30px]">
+          </router-link>
         </div>
-        <router-link to="/settings" class="flex items-center ml-2 pr-[40px] xl:pr-0">
+
+        <router-link v-if="!isRouteActive('/account')" to="/settings/accountgegevens" class="flex items-center ml-2 pr-[40px] xl:pr-0">
           <img src="/settings.svg" alt="settings">
         </router-link>
+        
       </div>
       <div class="flex gap-6 md:gap-[2rem] overflow-x-auto xl:mt-[12px] font-bold text-[1.2rem]"
-        v-if="isRouteActive('/settings')">
-        <router-link @click="toggleActiveLink" to="/settings" class="flex"
-          :class="{ 'text-primary-medium': activeLink, 'border-b-4 border-primary-medium': activeLink }">
-          <span>Alles</span>
+        v-if="isRouteActive('/settings/accountgegevens') || isRouteActive('/settings/doel') || isRouteActive('/settings/faq') || isRouteActive('/settings/privacy') || isRouteActive('/settings/gebruiksvoorwaarden')">
+        <router-link @click="toggleActiveLink" to="/settings/accountgegevens" class="flex"
+          :class="{ 'text-primary-medium': isRouteActive('/settings/accountgegevens'), 'border-b-4 border-primary-medium': isRouteActive('/settings/accountgegevens') }">
+          <span>Accountgegevens</span>
         </router-link>
-        <router-link @click="toggleActiveLink" to="/suggestions" class="flex"
-          :class="{ 'text-primary-medium': activeLink, 'border-b-4 border-primary-medium': activeLink }">
-          <span>Suggesties</span>
+        <router-link @click="toggleActiveLink" to="/settings/doel" class="flex"
+          :class="{ 'text-primary-medium': isRouteActive('/settings/doel'), 'border-b-4 border-primary-medium': isRouteActive('/settings/doel') }">
+          <span>Doel</span>
         </router-link>
-        <router-link @click="toggleActiveLink" to="/inProgress" class="flex"
-          :class="{ 'text-primary-medium': activeLink, 'border-b-4 border-primary-medium': activeLink }">
-          <span>Meebezig</span>
+        <router-link @click="toggleActiveLink" to="/settings/faq" class="flex"
+          :class="{ 'text-primary-medium': isRouteActive('/settings/faq'), 'border-b-4 border-primary-medium': isRouteActive('/settings/faq') }">
+          <span>FAQ</span>
         </router-link>
-        <router-link @click="toggleActiveLink" to="/done" class="flex"
-          :class="{ 'text-primary-medium': activeLink, 'border-b-4 border-primary-medium': activeLink }">
-          <span>Klaar</span>
+        <router-link @click="toggleActiveLink" to="/settings/privacy" class="flex"
+          :class="{ 'text-primary-medium': isRouteActive('/settings/privacy'), 'border-b-4 border-primary-medium': isRouteActive('/settings/privacy') }">
+          <span>Privacy</span>
+        </router-link>
+        <router-link @click="toggleActiveLink" to="/settings/gebruiksvoorwaarden" class="flex"
+          :class="{ 'text-primary-medium': isRouteActive('/settings/gebruiksvoorwaarden'), 'border-b-4 border-primary-medium': isRouteActive('/settings/gebruiksvoorwaarden') }">
+          <span>Gebruiksvoorwaarden</span>
         </router-link>
       </div>
     </div>

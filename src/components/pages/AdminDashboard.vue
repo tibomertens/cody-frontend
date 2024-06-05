@@ -174,7 +174,7 @@ const handleAcceptReview = async (review) => {
 
 const remove = async () => {
     canDelete.value = true;
-    handleDelete();
+    handleDeleteReview();
 };
 
 const goToDetails = (promotor) => {

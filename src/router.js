@@ -23,6 +23,13 @@ import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPag
 import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
 import ExpensePage from "./components/pages/ExpensePage.vue";
 import TermsOfUserPage from "./components/pages/TermsOfUsePage.vue";
+import AccountDataPage from "./components/pages/AccountDataPage.vue";
+import AccountEditPage from "./components/pages/AccountEditPage.vue";
+import AccountChangePasswordPage from "./components/pages/AccountChangePasswordPage.vue";
+import GoalEditPage from "./components/pages/GoalEditPage.vue";
+import NotFound404Page from "./components/shared/404.vue";
+import PrivacyPage from "./components/pages/PrivacyPage.vue";
+import FAQPage from "./components/pages/FAQPage.vue";
 
 const routes = [
   {
@@ -30,6 +37,10 @@ const routes = [
     components: { default: home, sidebar: sideNav, topNav: topNav },
     name: "Dashboard",
     meta: { title: "Cody | Dashboard", sidebar: true },
+  },
+  {
+    path: "/home",
+    redirect: "/",
   },
   {
     path: "/account",
@@ -104,6 +115,48 @@ const routes = [
     meta: { title: "Cody | Instellingen", sidebar: true },
   },
   {
+    path: "/settings/accountgegevens",
+    components: { default: AccountDataPage, sidebar: sideNav, topNav: topNav },
+    name: "Account instellingen",
+    meta: { title: "Cody | accountgegevens instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/accountgegevens/edit",
+    components: { default: AccountEditPage, sidebar: sideNav, topNav: topNav },
+    name: "Account instellingen aanpassen",
+    meta: { title: "Cody | accountgegevens instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/accountgegevens/changepassword",
+    components: { default: AccountChangePasswordPage, sidebar: sideNav, topNav: topNav },
+    name: "Wachtwoord aanpassen",
+    meta: { title: "Cody | wachtwoord aanpassen", sidebar: true },
+  },
+  {
+    path: "/settings/doel",
+    components: { default: GoalEditPage, sidebar: sideNav, topNav: topNav },
+    name: "Doel instellingen",
+    meta: { title: "Cody | doel instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/faq",
+    components: { default: account, sidebar: sideNav, topNav: topNav },
+    name: "FAQ",
+    meta: { title: "Cody | FAQ", sidebar: true },
+  },
+  {
+    path: "/settings/privacy",
+    components: { default: account, sidebar: sideNav, topNav: topNav },
+    name: "Privacy",
+    meta: { title: "Cody | Privacy", sidebar: true },
+  },
+  {
+    path: "/settings/gebruiksvoorwaarden",
+    components: { default: account, sidebar: sideNav, topNav: topNav },
+    name: "Gebruiksvoorwaarden",
+    meta: { title: "Cody | Gebruiksvoorwaarden", sidebar: true },
+  },
+  {
     path: "/promotors",
     components: { default: promotors, sidebar: sideNav, topNav: topNav },
     name: "Renovatoren",
@@ -149,7 +202,7 @@ const routes = [
   },
   {
     path: "/admin/login",
-    components: { default: AdminLoginPage, topNav: topNav },
+    components: { default: AdminLoginPage },
     meta: { title: "Cody | Admin login", sidebar: false },
   },
   {
@@ -157,6 +210,10 @@ const routes = [
     components: { default: AdminDashboard, sidebar: sideNav, topNav: topNav },
     name: "Admin Dashboard",
     meta: { title: "Cody | Admin dashboard", sidebar: true },
+  },
+  {
+    path: "/admin",
+    redirect: "/admin/dashboard",
   },
   {
     path: "/admin/promotors/:id",
@@ -177,9 +234,22 @@ const routes = [
     meta: { title: "Cody | Gebruikersvoorwaarden", sidebar: true },
   },
   {
+    path: "/settings/privacy",
+    components: { default: PrivacyPage, sidebar: sideNav, topNav: topNav },
+    name: "Privacy",
+    meta: { title: "Cody | Privacy", sidebar: true },
+  },
+  {
+    path: "/settings/faq",
+    components: { default: FAQPage, sidebar: sideNav, topNav: topNav },
+    name: "FAQ",
+    meta: { title: "Cody | FAQ", sidebar: true },
+  },
+  {
     path: "/:catchAll(.*)",
-    name: "NotFound",
-    redirect: "/",
+    components: { default: NotFound404Page, sidebar: sideNav, topNav: topNav},
+    name: "404",
+    meta: { title: "Cody | 404", sidebar: true },
   }
 ];
 

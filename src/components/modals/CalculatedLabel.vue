@@ -1,26 +1,17 @@
 <template>
-  <div
-    v-if="showModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-offBlack bg-opacity-50 w-full"
-    @click="handleOutsideClick"
-  >
-    <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
+  <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-offBlack bg-opacity-50 w-full"
+    @click="handleOutsideClick">
+    <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px] max-h-[90vh] overflow-y-auto">
       <div>
         <div class="flex justify-between">
           <h2 class="text-subtitle font-bold mb-4">Berekend label</h2>
-          <p
-            @click="toggleDisclaimer"
-            class="disclaimer font-light text-sm cursor-pointer underline text-primary-dark relative top-[5px]"
-          >
+          <p @click="toggleDisclaimer"
+            class="disclaimer font-light text-sm cursor-pointer underline text-primary-dark relative top-[5px]">
             Disclaimer
           </p>
         </div>
         <div class="flex justify-center items-center">
-          <img
-            class="w-[150px]"
-            :src="'/' + props.labelData.label + '-label.svg'"
-            alt="Your label"
-          />
+          <img class="w-[150px]" :src="'/' + props.labelData.label + '-label.svg'" alt="Your label" />
         </div>
         <p v-if="showDisclaimer" class="font-light text-sm mt-2">
           {{ props.labelData.disclaimer }}
@@ -28,26 +19,16 @@
       </div>
       <div>
         <h2 class="text-subtitle font-bold mt-4 mb-4">Doel instellen</h2>
-        <Dropdown
-          :label="'Energielabel'"
-          :width="'full'"
-          :items="goals"
-          :bold="true"
-          @itemSelected="handleLabelGoal"
-          :error="dropdownHasError"
-          :errorMessage="goalError"
-        />
-        <Input
-          :label="'Doeljaar'"
-          :width="'full'"
-          :placeholder="'Bv. 2036'"
-          @input-change="updateGoalYear"
-          :error="inputHasError"
-        />
+        <Dropdown :label="'Energielabel'" :width="'full'" :items="goals" :bold="true" @itemSelected="handleLabelGoal"
+          :error="dropdownHasError" :errorMessage="goalError" />
+        <Input :label="'Doeljaar'" :width="'full'" :placeholder="'Bv. 2036'" @input-change="updateGoalYear"
+          :error="inputHasError" />
+        <Input :label="'Stel uw budget in'" :width="'full'" :placeholder="'Bv. 9500'" @input-change="updateBudget"
+          :error="inputHasError" />
         <p v-if="yearError" class="text-secondary-red">{{ yearError }}</p>
       </div>
       <div class="mt-[46px] flex justify-end">
-        <Btn name="Opslaan" :width="'full'" @click="addLabelToUser" />
+        <Btn name="Opslaan" :width="'full'" @click="addLabelToUser" :loading="loadingState" />
         <p v-if="error" class="text-secondary-red">{{ error }}</p>
       </div>
     </div>
@@ -84,9 +65,13 @@ let goalValue = ref(null);
 let goalYear = ref(null);
 let yearError = ref(null);
 let goalError = ref(null);
+let budgetValue = ref(null);
+let budgetError = ref(null);
 let error = ref(null);
 let inputHasError = ref(false);
 let dropdownHasError = ref(false);
+
+let loadingState = ref(false);
 
 const emit = defineEmits(["closeModal"]);
 
@@ -131,6 +116,10 @@ const updateGoalYear = (year) => {
   goalYear.value = year;
 };
 
+const updateBudget = (budget) => {
+  budgetValue.value = budget;
+};
+
 const addLabelToUser = async () => {
   const currentYear = new Date().getFullYear();
 
@@ -141,41 +130,64 @@ const addLabelToUser = async () => {
   ) {
     yearError = "Vul een geldig jaartal in";
     inputHasError.value = true;
-  } else if (goalValue.value === null) {
+  } else if (goalValue.value === null || goalValue.value === "") {
     goalError = "Kies een doel";
     dropdownHasError.value = true;
+  } else if (budgetValue.value === null || budgetValue.value === "") {
+    budgetError = "Vul een budget in";
+    inputHasError.value = true;
   } else if (router.currentRoute.value.path.toLowerCase() === "/rapport/checklist") {
     const items = {
       goalLabel: goalValue.value,
       goalLabel_by_year: goalYear.value,
       label: props.labelData.label,
+      budget_current: parseInt(budgetValue.value),
     };
+
+    loadingState.value = true;
     const labelAdded = await addLabel(items, props.userId);
+
     if (labelAdded) {
       const update = await updateChecklistRecommendations(
         props.items,
         props.userId
       );
+
+      loadingState.value = false;
+
       if (update) {
         router.push("/");
       } else {
         error.value = "Er is iets misgegaan, probeer het later opnieuw";
       }
+    } else {
+      loadingState.value = false;
+      error.value = "Er is iets misgegaan, probeer het later opnieuw";
     }
   } else if (router.currentRoute.value.path.toLowerCase() === "/test/berekenindicatief") {
     const items = {
       goalLabel: goalValue.value,
       goalLabel_by_year: goalYear.value,
       label: props.labelData.label,
+      budget_current: parseInt(budgetValue.value),
     };
+
+    loadingState.value = true;
     const labelAdded = await addLabel(items, props.userId);
+
     if (labelAdded) {
       const update = await updateRecommendations(props.items, props.userId);
+
+      loadingState.value = false;
+      
       if (update) {
         router.push("/");
       } else {
         error.value = "Er is iets misgegaan, probeer het later opnieuw";
       }
+    } else {
+      loadingState.value = false;
+      error.value = "Er is iets misgegaan, probeer het later opnieuw";
     }
   }
 };

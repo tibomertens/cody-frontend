@@ -1,45 +1,60 @@
 export const formatDate = (dateTime) => {
-    const daysOfWeek = [
-        "Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"
-    ];
-    const months = [
-        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-    ];
+  const daysOfWeek = [
+    "Zondag",
+    "Maandag",
+    "Dinsdag",
+    "Woensdag",
+    "Donderdag",
+    "Vrijdag",
+    "Zaterdag",
+  ];
+  const months = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
 
-    const date = new Date(dateTime);
-    const dayOfWeekIndex = date.getDay();
-    const day = date.getDate();
-    const monthIndex = date.getMonth();
+  const date = new Date(dateTime);
+  const dayOfWeekIndex = date.getDay();
+  const day = date.getDate();
+  const monthIndex = date.getMonth();
 
-    return `${daysOfWeek[dayOfWeekIndex]} ${day} ${months[monthIndex]}`;
+  return `${daysOfWeek[dayOfWeekIndex]} ${day} ${months[monthIndex]}`;
 };
 
-
 export const formatTime = (dateTime) => {
-    const date = new Date(dateTime);
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
+  const date = new Date(dateTime);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  return `${hours}:${minutes}`;
 };
 
 export function formatFinancialNumber(value) {
   // Check if the value is a valid number
-  if (typeof value !== 'number') {
-    return 'Invalid value';
+  if (typeof value !== "number") {
+    return "Invalid value";
   }
 
   // Convert the number to a string
   let formattedNumber = value.toFixed(2).toString();
 
   // Split the string into parts before and after the decimal point
-  let parts = formattedNumber.split('.');
+  let parts = formattedNumber.split(".");
 
   // Add thousands separator
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
   // Concatenate parts with euro symbol
-  formattedNumber = parts.join(',') + ' €';
+  formattedNumber = parts.join(",") + " €";
 
   return formattedNumber;
 }
@@ -55,7 +70,7 @@ export function convertDate(dateString) {
   const day = date.getDate();
 
   // Format the month to two digits, adding 1 because months are 0-indexed
-  const formattedMonth = ('0' + (month + 1)).slice(-2);
+  const formattedMonth = ("0" + (month + 1)).slice(-2);
 
   // Construct the new date string in the desired format
   const newDateString = `${day}/${formattedMonth}/${year}`;
@@ -66,20 +81,23 @@ export function convertDate(dateString) {
 export const formatPhoneNumber = (number) => {
   // Ensure the number is a string
   let numStr = number.toString();
-  
+
   // Add leading zero if not present
   if (numStr.length === 9) {
-    numStr = '0' + numStr;
+    numStr = "0" + numStr;
   }
 
   // Format the number
-  const formattedNumber = numStr.replace(/(\d{4})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4');
+  const formattedNumber = numStr.replace(
+    /(\d{4})(\d{2})(\d{2})(\d{2})/,
+    "$1 $2 $3 $4"
+  );
 
   return formattedNumber;
-}
+};
 
 export const openGoogleMaps = (val) => {
-    const address = encodeURIComponent(val);
-    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
-    window.open(mapsUrl, '_blank');
+  const address = encodeURIComponent(val);
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
+  window.open(mapsUrl, "_blank");
 };
