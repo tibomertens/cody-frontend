@@ -34,7 +34,7 @@ const getData = async () => {
 };
 
 const handlePasswordClick = () => {
-  router.push("/settings/accountgegevens/changepassword");
+  router.push("/settings/account/changepassword");
 };
 
 const handleTestClick = () => {
@@ -60,7 +60,7 @@ const close = () => {
     <div class="w-[60%] xs:w-[400px]">
       <div class="flex items-center">
         <h2 class="text-title font-bold">Mijn gegevens</h2>
-        <a href="/settings/accountgegevens/edit">
+        <a href="/settings/account/edit">
           <div>
             <img
               src="/edit_no_fill.svg"
