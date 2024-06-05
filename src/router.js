@@ -22,6 +22,7 @@ import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
 import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPage.vue";
 import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
 import ExpensePage from "./components/pages/ExpensePage.vue";
+import TermsOfUserPage from "./components/pages/TermsOfUsePage.vue";
 
 const routes = [
   {
@@ -168,6 +169,12 @@ const routes = [
     components: { default: ExpensePage, sidebar: sideNav, topNav: topNav },
     name: "Uitgaven",
     meta: { title: "Cody | Uitgaven", sidebar: true },
+  },
+  {
+    path: "/settings/terms",
+    components: { default: TermsOfUserPage, sidebar: sideNav, topNav: topNav },
+    name: "Gebruikersvoorwaarden",
+    meta: { title: "Cody | Gebruikersvoorwaarden", sidebar: true },
   },
   {
     path: "/:catchAll(.*)",
