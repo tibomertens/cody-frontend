@@ -21,6 +21,8 @@ import ForgotPasswordPage from "./components/pages/ForgotPasswordPage.vue";
 import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
 import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPage.vue";
 import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
+import ExpensePage from "./components/pages/ExpensePage.vue";
+import TermsOfUserPage from "./components/pages/TermsOfUsePage.vue";
 import AccountDataPage from "./components/pages/AccountDataPage.vue";
 import AccountEditPage from "./components/pages/AccountEditPage.vue";
 import AccountChangePasswordPage from "./components/pages/AccountChangePasswordPage.vue";
@@ -28,7 +30,6 @@ import GoalEditPage from "./components/pages/GoalEditPage.vue";
 import NotFound404Page from "./components/shared/404.vue";
 import PrivacyPage from "./components/pages/PrivacyPage.vue";
 import FAQPage from "./components/pages/FAQPage.vue";
-
 
 const routes = [
   {
@@ -219,6 +220,18 @@ const routes = [
     components: { default: PromotorsAdminPage, sidebar: sideNav, topNav: topNav },
     name: "Renovator details",
     meta: { title: "Cody | Renovator details", sidebar: true },
+  },
+  {
+    path: "/account/expenses",
+    components: { default: ExpensePage, sidebar: sideNav, topNav: topNav },
+    name: "Uitgaven",
+    meta: { title: "Cody | Uitgaven", sidebar: true },
+  },
+  {
+    path: "/settings/terms",
+    components: { default: TermsOfUserPage, sidebar: sideNav, topNav: topNav },
+    name: "Gebruikersvoorwaarden",
+    meta: { title: "Cody | Gebruikersvoorwaarden", sidebar: true },
   },
   {
     path: "/settings/privacy",

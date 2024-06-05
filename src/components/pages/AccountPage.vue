@@ -98,9 +98,10 @@
         </div>
       </div>
 
-      <a href="#">
-        <div @click="alertFunc()"
-          class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center hover:bg-[#3390FF] active:bg-[#0056CC] transition duration-200 ease-in-out">
+      <a href="/account/expenses">
+        <div
+          class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center"
+        >
           Bekijk al je uitgaven
         </div>
       </a>
