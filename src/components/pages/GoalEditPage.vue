@@ -100,8 +100,8 @@ const save = async () => {
 </script>
 
 <template>
-  <div class="flex justify-center my-[32px]">
-    <div class="w-[60%] xs:w-[415px]">
+  <div class="flex justify-center h-calc-100vh-164 items-center">
+    <div class="xs:w-[400px] w-full mx-[32px] ">
         <h2 class="text-subtitle pb-[20px] font-bold">Huidig label</h2>
         <div class="pb-[32px]">
           <img
@@ -118,6 +118,7 @@ const save = async () => {
           :default="`label ${goalLabel}`"
           :display="false"
           class="mb-[20px]"
+          width="full"
         />
         <Dropdown
           :items="goalYears"
@@ -125,6 +126,7 @@ const save = async () => {
           @itemSelected="yearChange"
           :default="goalYear"
           :display="false"
+          width="full"
         />
         <Btn
           v-if="showButton"

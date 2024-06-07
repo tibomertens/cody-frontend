@@ -43,7 +43,8 @@ export default {
       },
       height: {
         'calc-100vh-71': 'calc(100vh - 71.2px)',
-        'calc-100vh-176': 'calc(100vh - 176.8px)'
+        'calc-100vh-176': 'calc(100vh - 176.8px)',
+        'calc-100vh-164': 'calc(100vh - 164.6px)',
       },
     },
   },
