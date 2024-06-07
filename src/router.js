@@ -49,6 +49,10 @@ const routes = [
     meta: { title: "Cody | Account", sidebar: true },
   },
   {
+    path: "/profile",
+    redirect: "/",
+  },
+  {
     path: "/login",
     components: { default: login },
     meta: { title: "Cody | Inloggen", sidebar: false },
