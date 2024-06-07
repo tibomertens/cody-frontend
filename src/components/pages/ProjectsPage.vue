@@ -182,20 +182,14 @@ const handleFilter = (filteredRenovations) => {
 };
 
 const handleSearch = (q) => {
-  if (q === undefined) {
-    // return all renovations, removing the previous search results
-    console.log(beforeSearch.value);
-    renovations.value = beforeSearch.value;
-    console.log(renovations.value);
-    return renovations.value;
-  } else {
-    return renovations.value.filter(renovation => renovation.title.toLowerCase().includes(q.toLowerCase()));
-  };
+  if (q === undefined) return beforeSearch.value;
+  renovations.value = beforeSearch.value;
+  return renovations.value.filter(renovation => renovation.title.toLowerCase().includes(q.toLowerCase()));
 };
 
 const updateSearch = async (searchQuery) => {
   try {
-    if (searchQuery === '') {
+    if (searchQuery === '' || searchQuery === undefined) {
       renovations.value = handleSearch();
     } else {
       renovations.value = handleSearch(searchQuery);
