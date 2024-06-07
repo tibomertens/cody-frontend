@@ -11,6 +11,8 @@ import Calendar from "../widgets/Calendar.vue";
 import { getActiveRenovations, getUserRenovation } from "../../functions/renovation.js";
 import { convertDate } from "../../functions/helpers.js";
 
+import Empty_state from '../widgets/Empty_state.vue';
+
 const router = useRouter();
 
 const token = localStorage.getItem("token");
@@ -145,7 +147,7 @@ const getStateFetcher = (renovation) => async () => {
     </section>
     <section>
       <h2 class="text-subtitle font-bold pb-[20px]">Actieve projecten</h2>
-      <div v-if="renovationsLoaded">
+      <div v-if="renovationsLoaded && activeRenovations.length > 0">
         <router-link v-for="(renovation, i) in activeRenovations" :key="i" :to="'/projects/' + renovation._id">
           <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
             :activeSrc="getActiveSrcArray(renovation)" :doneSrc="getDoneSrcArray(renovation)" :label="labelArray"
@@ -154,7 +156,10 @@ const getStateFetcher = (renovation) => async () => {
             :stateFetcher="getStateFetcher(renovation)" />
         </router-link>
       </div>
-      <div v-else class="pulsing rounded-[5px] h-[196px]"></div>
+      <div v-else-if="!renovationsLoaded" class="pulsing rounded-[5px] h-[196px]"></div>
+      <div v-else>
+        <Empty_state :text="'Er zijn geen actieve projecten'" />
+      </div>
     </section>
   </div>
 </template>
