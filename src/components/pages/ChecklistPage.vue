@@ -149,7 +149,7 @@ onMounted(() => {
       Huidig label
     </h2>
     <div class="ml-[10%] mr-[10%] xl:ml-[20%] pb-[32px]">
-      <Dropdown :items="labelOptions" :labelData="labelData" @itemSelected="handleSelectedLabel" />
+      <Dropdown :items="labelOptions" :labelData="labelData" @itemSelected="handleSelectedLabel" :display="false" />
     </div>
     <h2 class="text-subtitle font-bold ml-[10%] xl:ml-[20%] pb-[20px]">
       Duid aan
