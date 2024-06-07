@@ -115,6 +115,10 @@ const getStateFetcher = (renovation) => async () => {
   let data = await getUserRenovation(userId.value, renovation._id);
   return data.status;
 };
+
+const navigateTo = (path) => {
+  router.push(path);
+};
 </script>
 
 <template>
@@ -123,13 +127,13 @@ const getStateFetcher = (renovation) => async () => {
       <h2 class="text-subtitle font-bold pb-[20px]">Algemene info</h2>
       <div class="xs:flex gap-[32px] xs:h-[196px]">
         <div v-if="!mainDataLoaded" class="pulsing xs:w-1/2 rounded-[5px] w-full h-[196px] mb-[32px]"></div>
-        <div v-if="mainDataLoaded"
-          class="bg-offWhite-light xs:w-1/2 mb-[32px] xs:mb-0 h-[196px] flex justify-center rounded items-center">
+        <div v-if="mainDataLoaded" @click="navigateTo('/account')"
+          class="bg-offWhite-light xs:w-1/2 mb-[32px] xs:mb-0 h-[196px] flex justify-center rounded items-center cursor-pointer">
           <div><img :src="'/' + userData.label + '-label.svg'" alt="epc label" class="w-[140px]"></div>
         </div>
         <div v-if="!mainDataLoaded" class="pulsing xs:w-1/2 rounded-[5px] w-full h-[196px]"></div>
-        <div v-if="mainDataLoaded"
-          class="bg-offWhite-light xs:w-1/2 h-[196px] flex justify-center rounded items-center gap-[32px]">
+        <div v-if="mainDataLoaded" @click="navigateTo('/account')"
+          class="bg-offWhite-light xs:w-1/2 h-[196px] flex justify-center rounded items-center gap-[32px] cursor-pointer">
           <div class="w-[60px] xs:w-[80px]">
             <img src="/wallet.svg" alt="budget icon">
           </div>
