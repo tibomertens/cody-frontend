@@ -101,7 +101,7 @@ const search = (query) => {
         <ul>
           <li v-if="dataIsLoaded" v-for="promotor in filteredPromotors" :key="promotor.id">
             <div v-if="!promotor.is_big">
-              <PromotorCard :promotor="promotor" class="transition-shadow duration-300 hover:shadow-lg" />
+              <PromotorCard :promotor="promotor" class="transition-shadow duration-300 hover:shadow-xl" />
             </div>
             <div v-else>
               <PromotorCardPremium :promotor="promotor" />
