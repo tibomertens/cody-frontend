@@ -14,6 +14,7 @@ let goalYear = ref("");
 let showButton = ref(false);
 let error = ref(null);
 let success = ref(null);
+let dataIsLoaded = ref(false);
 
 const energyLabels = ref([
   { name: "A+", title: "Label A+" },
@@ -70,6 +71,7 @@ const getData = async () => {
     label.value = userData.value.label;
     goalLabel.value = userData.value.goalLabel;
     goalYear.value = userData.value.goalLabel_by_year;
+    dataIsLoaded.value = true;
   }
 };
 
@@ -103,13 +105,14 @@ const save = async () => {
   <div class="flex justify-center h-calc-100vh-164 items-center">
     <div class="xs:w-[400px] w-full mx-[32px] ">
         <h2 class="text-subtitle pb-[20px] font-bold">Huidig label</h2>
-        <div class="pb-[32px]">
+        <div v-if="dataIsLoaded" class="pb-[32px]">
           <img
             class="xs:w-[120px] xs:h-[52px] w-[90px] h-[40px]"
             :src="`/${label}-label.svg`"
             alt="Huidig label"
           />
         </div>
+        <div v-else class="pulsing xs:w-[120px] xs:h-[52px] w-[90px] h-[40px] mb-[32px] rounded"></div>
         <h2 class="text-subtitle pb-[20px] font-bold">Doel instellen</h2>
         <Dropdown
           :items="energyLabels"
