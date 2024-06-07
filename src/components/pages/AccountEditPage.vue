@@ -89,7 +89,7 @@ const handleClick = async () => {
 
 <template>
   <div class="flex justify-center my-[10%]">
-    <div class="w-[60%] xs:w-[400px]">
+    <div class="xs:w-[400px] w-full mx-[32px] ">
       <div class="flex items-center">
         <h2 class="text-subtitle font-bold">Mijn gegevens</h2>
       </div>
