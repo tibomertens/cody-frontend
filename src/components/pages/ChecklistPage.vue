@@ -176,7 +176,7 @@ onMounted(() => {
       <Btn :name="'Doorgaan'" @click="checkLabelNotEmpty()" :width="'full'" />
     </div>
     <CalculatedLabelModal :showModal="showModal" :labelData="labelData" :items="selectedItems" :userId="userId"
-      @closeModal="closeModal" :path="currentPath" />
+      @closeModal="closeModal" :path="currentPath" :showDisplayDisclaimer="false" />
     <div v-if="error" class="text-red-500 text-center pb-[32px]">
       {{ error }}
     </div>

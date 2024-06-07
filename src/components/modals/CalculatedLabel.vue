@@ -5,7 +5,7 @@
       <div>
         <div class="flex justify-between">
           <h2 class="text-subtitle font-bold mb-4">Berekend label</h2>
-          <p @click="toggleDisclaimer"
+          <p @click="toggleDisclaimer" :class="{ 'hidden': props.showDisplayDisclaimer === false}"
             class="disclaimer font-light text-sm cursor-pointer underline text-primary-dark relative top-[5px]">
             Disclaimer
           </p>
@@ -53,6 +53,11 @@ const router = useRouter();
 
 const props = defineProps({
   showModal: Boolean,
+  showDisplayDisclaimer: {
+    type: Boolean,
+    default: true,
+    required: false
+  },
   labelData: Object,
   userId: String,
   items: Object,
