@@ -107,7 +107,7 @@ let isIOS = /iphone|ipad|ipod/.test(userAgent);
       <div class="hidden xl:block mt-[56px]">
         <router-link to="/" :class="{ 'font-normal': currentRoute !== '/', 'font-bold': currentRoute === '/' }">
           <div class="pl-5 ml-5 py-[12px] rounded-l-[5px] flex" :class="{ 'bg-primary-light': currentRoute === '/' }">
-            <div class="pr-3">
+            <div class="pr-3 relative pt-[1px]">
               <img :src="currentRoute !== '/' ? '/home.svg' : '/homeSelect.svg'" alt="home icon" class="w-[20px]" />
             </div>
             Dashboard
@@ -172,9 +172,9 @@ let isIOS = /iphone|ipad|ipod/.test(userAgent);
         }">
           <div class="pl-5 ml-5 py-[12px] rounded-l-[5px] flex"
             :class="{ 'bg-primary-light': currentRoute === '/promotors' }">
-            <div class="pr-3 self-center">
+            <div class="pr-3 self-center relative top-[1px]">
               <img :src="currentRoute !== '/promotors' ? '/helmetNoFill.svg' : '/helmetFill.svg'" alt="helmet icon"
-                class="w-[20px]" />
+                class="w-[18px]" />
             </div>
             Renovatoren
           </div>
@@ -183,12 +183,12 @@ let isIOS = /iphone|ipad|ipod/.test(userAgent);
           'font-normal': currentRoute !== '/account',
           'font-bold': currentRoute === '/account',
         }">
-          <div class="p-5 ml-5 py-[12px] rounded-l-[5px]" :class="{ 'bg-primary-light': currentRoute === '/account' }">
-            <i class="pr-3 w-[20px]" :class="{
-              'fa-regular': currentRoute !== '/account',
-              'fa-solid': currentRoute === '/account',
-              'fa-user': true,
-            }"></i>
+          <div class="p-5 ml-5 py-[12px] rounded-l-[5px] flex"
+            :class="{ 'bg-primary-light': currentRoute === '/account' }">
+            <div class="pr-3 self-center relative right-[1px]">
+              <img :src="currentRoute !== '/account' ? '/profile_icon.svg' : '/profile_icon_fill.svg'"
+                alt="account icon" class="w-[20px]" />
+            </div>
             Account
           </div>
         </router-link>
@@ -205,7 +205,7 @@ let isIOS = /iphone|ipad|ipod/.test(userAgent);
     <div ref="dropdown" class="dropdown pt-[50px] sm:pt-[0px] bg-offWhite-light hidden relative z-50">
       <router-link to="/" :class="{ 'font-normal': currentRoute !== '/', 'font-bold': currentRoute === '/' }">
         <div class="w-full p-5 flex" :class="{ 'bg-primary-light': currentRoute === '/' }">
-          <div class="pr-3">
+          <div class="pr-3 relative top-[1px]">
             <img :src="currentRoute !== '/' ? '/home.svg' : '/homeSelect.svg'" alt="home icon" class="w-[20px]" />
           </div>
           Home
@@ -264,9 +264,9 @@ let isIOS = /iphone|ipad|ipod/.test(userAgent);
         'font-bold': currentRoute === '/promotors',
       }">
         <div class="w-full p-5 flex" :class="{ 'bg-primary-light': currentRoute === '/promotors' }">
-          <div class="pr-3 self-center">
+          <div class="pr-3 self-center relative top-[1px]">
             <img :src="currentRoute !== '/promotors' ? '/helmetNoFill.svg' : '/helmetFill.svg'" alt="helmet icon"
-              class="w-[20px]" />
+              class="w-[18px]" />
           </div>
           Renovatoren
         </div>
@@ -275,12 +275,11 @@ let isIOS = /iphone|ipad|ipod/.test(userAgent);
         'font-normal': currentRoute !== '/account',
         'font-bold': currentRoute === '/account',
       }">
-        <div class="w-full p-5" :class="{ 'bg-primary-light': currentRoute === '/account' }">
-          <i class="pr-3 w-[20px]" :class="{
-            'fa-regular': currentRoute !== '/account',
-            'fa-solid': currentRoute === '/account',
-            'fa-user': true,
-          }"></i>
+        <div class="w-full p-5 flex" :class="{ 'bg-primary-light': currentRoute === '/account' }">
+          <div class="pr-3 self-center relative right-[1px]">
+            <img :src="currentRoute !== '/account' ? '/profile_icon.svg' : '/profile_icon_fill.svg'" alt="account icon"
+              class="w-[20px]" />
+          </div>
           Account <span class="text-secondary-red font-bold ml-[12px] cursor-pointer"
             :class="{ 'hidden': currentRoute !== '/account' }" @click="logout">Uitloggen</span>
         </div>
