@@ -46,7 +46,7 @@ let originalRenovations = props.renovations;
 let filteredRenovations = ref([]);
 let activeAddedValueFilter = ref('Maak een keuze');
 let activeTypeFilterToShow = ref('Maak een keuze');
-let activeBudgetFilter = ref(false);
+let activeBudgetFilter = ref('');
 let activeTypeFilter = ref('Maak een keuze');
 
 const handleAddedValue = (selectedItem) => {
