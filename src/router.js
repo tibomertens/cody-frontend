@@ -123,8 +123,8 @@ const routes = [
   {
     path: "/settings/account/edit",
     components: { default: AccountEditPage, sidebar: sideNav, topNav: topNav },
-    name: "Account instellingen aanpassen",
-    meta: { title: "Cody | account instellingen", sidebar: true },
+    name: "Account aanpassen",
+    meta: { title: "Cody | account aanpassen", sidebar: true },
   },
   {
     path: "/settings/account/changepassword",
