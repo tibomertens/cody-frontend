@@ -59,7 +59,7 @@ const close = () => {
   <div class="flex justify-center my-[32px]">
     <div class="w-[60%] xs:w-[400px]">
       <div class="flex items-center">
-        <h2 class="text-title font-bold">Mijn gegevens</h2>
+        <h2 class="text-subtitle font-bold">Mijn gegevens</h2>
         <a href="/settings/account/edit">
           <div>
             <img
