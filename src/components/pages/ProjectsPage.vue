@@ -25,6 +25,7 @@ let userId = ref('');
 let empty_text = ref('Er zijn geen projecten gevonden, probeer een andere filter.');
 let unexpected_error = ref(false);
 let beforeSearch = ref([]);
+let searchQuery = ref('');
 
 const screenWidth = ref(window.innerWidth);
 
@@ -97,6 +98,9 @@ watch(route, () => {
   renovationsLoaded.value = false;
   unexpected_error.value = false;
   renovations.value = [];
+  searchQuery.value = '';
+  document.querySelector('#searchbar input').value = '';
+  beforeSearch.value = [];
   fetchData();
 });
 
@@ -187,12 +191,14 @@ const handleSearch = (q) => {
   return renovations.value.filter(renovation => renovation.title.toLowerCase().includes(q.toLowerCase()));
 };
 
-const updateSearch = async (searchQuery) => {
+const updateSearch = async (q) => {
+  searchQuery.value = q;
+
   try {
-    if (searchQuery === '' || searchQuery === undefined) {
+    if (searchQuery.value === '' || searchQuery.value === undefined) {
       renovations.value = handleSearch();
     } else {
-      renovations.value = handleSearch(searchQuery);
+      renovations.value = handleSearch(searchQuery.value);
     }
   } catch (error) {
     console.error(error);
@@ -204,7 +210,7 @@ const updateSearch = async (searchQuery) => {
 <template>
   <section class="m-[32px] md:m-[40px]">
     <div class="mb-[32px] md:mb-[40px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] md:gap-[40px]">
-      <Searchbar class="lg:col-span-2" :placeholder="'Zoeken op naam...'" @search="updateSearch" />
+      <Searchbar class="lg:col-span-2" :placeholder="'Zoeken op naam...'" @search="updateSearch" id="searchbar" />
       <div v-if="renovationsLoaded">
         <AdvancedFilter class="lg:col-span-1" :renovations="renovations.value" @filtered="handleFilter"
           :userBudget="budget" />
