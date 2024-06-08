@@ -2,7 +2,7 @@
     <form>
         <div class="grid grid-cols-1 xs:grid-cols-2 gap-x-[32px] gap-y-[12px]">
             <Dropdown :label="'Tier:'" :items="tiers" @itemSelected="handleTierSelected" :bold="true" :width="'full'"
-                class="mt-[26px]" />
+                class="mt-[26px]" :display="false"/>
             <Input :label="'Telefoonnummer:'" :type="'text'" @input-change="handlePhoneChange"
                 :error="hasError"></Input>
             <Input :label="'E-mail:'" :type="'email'" @input-change="handleEmailChange" :error="hasError"></Input>
