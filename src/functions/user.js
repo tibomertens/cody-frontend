@@ -206,7 +206,6 @@ export const confirmEmail = async (token) => {
   let apiEndpoint = `${
     import.meta.env.VITE_API_URL
   }/api/v1/users/confirm/${token}`;
-  console.log(apiEndpoint);
 
   try {
     const response = await fetch(apiEndpoint, {

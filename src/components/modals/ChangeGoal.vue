@@ -1,29 +1,13 @@
 <template>
-  <div
-    v-if="showModal === true"
+  <div v-if="showModal === true"
     class="fixed inset-0 z-50 flex items-center justify-center bg-offBlack bg-opacity-50 w-full"
-    @click="handleOutsideClick"
-  >
+    @click="handleOutsideClick">
     <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
       <h2 class="text-subtitle font-bold mb-[32px]">Wijzig doel</h2>
-      <Dropdown
-        :label="'Doel EPC-label'"
-        :items="goals"
-        @itemSelected="handleLabelGoal"
-        :width="'full'"
-        :bold="true"
-        :display="false"
-        :error= hasError
-        :default="goalValue"
-      />
-      <Input
-        label="Doeljaar"
-        :placeholder="'Bv. 2036'"
-        @input-change="goalYearHandler"
-        :error= hasError
-        :value="goalYear"
-        class="pb-[32px]"
-      />
+      <Dropdown :label="'Doel EPC-label'" :items="goals" @itemSelected="handleLabelGoal" :width="'full'" :bold="true"
+        :display="false" :error=hasError :default="goalValue" />
+      <Input label="Doeljaar" :placeholder="'Bv. 2036'" @input-change="goalYearHandler" :error=hasError
+        :value="goalYear" class="pb-[32px]" />
       <Btn name="Opslaan" @click="handleClick" :width="'full'" />
       <p v-if="error" class="text-secondary-red">{{ error }}</p>
     </div>

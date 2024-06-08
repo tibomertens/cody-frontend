@@ -1,13 +1,7 @@
 <template>
   <div class="legend-container">
-    <span
-      v-for="(legendValue, index) in legendValues"
-      :key="`legend-badge-${index}`"
-    >
-      <span
-        :style="{ 'background-color': legendValue.color }"
-        class="badge"
-      ></span>
+    <span v-for="(legendValue, index) in legendValues" :key="`legend-badge-${index}`">
+      <span :style="{ 'background-color': legendValue.color }" class="badge"></span>
       <span>{{ legendValue.label }}</span>
     </span>
   </div>
@@ -33,6 +27,7 @@ export default {
   gap: 14px;
   justify-content: center;
 }
+
 .badge {
   border-radius: 4.5px;
   padding: 0;

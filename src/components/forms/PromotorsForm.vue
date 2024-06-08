@@ -2,7 +2,7 @@
     <form>
         <div class="grid grid-cols-1 xs:grid-cols-2 gap-x-[32px] gap-y-[12px]">
             <Dropdown :label="'Tier:'" :items="tiers" @itemSelected="handleTierSelected" :bold="true" :width="'full'"
-                class="mt-[26px]" :display="false"/>
+                class="mt-[26px]" :display="false" />
             <Input :label="'Telefoonnummer:'" :type="'text'" @input-change="handlePhoneChange"
                 :error="hasError"></Input>
             <Input :label="'E-mail:'" :type="'email'" @input-change="handleEmailChange" :error="hasError"></Input>
@@ -22,7 +22,8 @@
         <div v-if="error" class="text-secondary-red">{{ error }}</div>
 
         <div v-if="success">
-            <p class="text-secondary-green">U ontvangt een mail zodra uw verzoek is behandelt. Deze mail bevat een eventueel contract en meer
+            <p class="text-secondary-green">U ontvangt een mail zodra uw verzoek is behandelt. Deze mail bevat een
+                eventueel contract en meer
                 informatie over de verdere samenwerking. </p>
         </div>
 

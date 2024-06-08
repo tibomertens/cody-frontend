@@ -38,7 +38,6 @@ const closeDropdown = () => {
 };
 
 onMounted(() => {
-  console.log('clicked');
   // Get references to elements
   const dropdownEl = dropdown.value;
   const hamburgerEl = hamburger.value;
@@ -49,8 +48,6 @@ onMounted(() => {
 
   // Add event listener for hamburger click
   hamburgerEl.addEventListener("click", () => {
-    console.log('clicked');
-
     dropdownEl.classList.toggle("hidden");
     hamburgerEl.classList.toggle("active");
 

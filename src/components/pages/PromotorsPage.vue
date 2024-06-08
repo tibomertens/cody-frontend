@@ -72,8 +72,10 @@ onMounted(async () => {
 
   let fetchedLocations = await getAllLocations();
   populateLocations(fetchedLocations);
+
   promotors.value = await getAllPromotors();
   filterPromotorsAndSearch();
+
   if (promotors.value != null) {
     dataIsLoaded.value = true;
   }
@@ -112,8 +114,8 @@ const filterPromotorsAndSearch = () => {
 };
 
 const deleteFilter = () => {
-    searchTerm.value = ''; // Clear the search term
-    emit('filtered', ''); // Emit an empty string to reset the filter
+  searchTerm.value = ''; // Clear the search term
+  emit('filtered', ''); // Emit an empty string to reset the filter
 };
 
 const search = (query) => {
@@ -127,14 +129,14 @@ const search = (query) => {
     <div class="mb-[32px] md:mb-[40px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] md:gap-[40px]">
       <Searchbar class="lg:col-span-2 mt-[36px]" :placeholder="'Zoeken op naam...'" @search="search" />
       <div class=" mt-[36px]">
-        <SearchDropdown :items="locations" @itemSelected="handleSelectedLocation" :display="false" :displayLabel="false" :width="'full'"
-          @filtered="handleSelectedLocation" />
+        <SearchDropdown :items="locations" @itemSelected="handleSelectedLocation" :display="false" :displayLabel="false"
+          :width="'full'" @filtered="handleSelectedLocation" />
       </div>
     </div>
     <div :class="{ 'hidden': !pageTitle }" class="flex gap-[8px]">
-      <h1 class="text-body"  > <span class="text-body font-bold">Geselecteerde
+      <h1 class="text-body"> <span class="text-body font-bold">Geselecteerde
           filter:</span> {{ pageTitle }}</h1>
-      <a href="" class="text-secondary-red font-bold" @click="deleteFilter" > X</a>
+      <a href="" class="text-secondary-red font-bold" @click="deleteFilter"> X</a>
     </div>
     <div>
       <div v-if="!empty">

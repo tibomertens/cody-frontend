@@ -15,7 +15,6 @@ const q = ref('');
 const search = () => {
   emit('search', q.value)
 }
-
 </script>
 
 <template>

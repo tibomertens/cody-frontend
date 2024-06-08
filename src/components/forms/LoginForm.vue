@@ -31,17 +31,17 @@ const login = async () => {
   let result = await loginUser(updatedEmail.value, updatedPassword.value);
   loadingState.value = false;
 
-    if (result.success) {
-      // Handle successful login, e.g., show a success message or redirect to another screen
-      // Save the JWT token in the local storage
-      localStorage.setItem("token", result.token);
-      // Redirect to the orders page
-      router.push("/");
-    } else {
-      // Handle authentication error
-      hasError.value = true;
-      error.value = result.message;
-    }
+  if (result.success) {
+    // Handle successful login, e.g., show a success message or redirect to another screen
+    // Save the JWT token in the local storage
+    localStorage.setItem("token", result.token);
+    // Redirect to the orders page
+    router.push("/");
+  } else {
+    // Handle authentication error
+    hasError.value = true;
+    error.value = result.message;
+  }
 };
 </script>
 

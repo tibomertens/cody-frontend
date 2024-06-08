@@ -84,7 +84,8 @@
         @updateTask="handleTaskChange" />
     <ExpandedTask :showModal="showExpandedModal" @closeModal="closeModal" :task="clickedTask"
         @updateTask="openUpdateModal" @removeTask="handleTaskChange" />
-    <AddTask :showModal="showAddModal" :selectedDate="selectedDate" @closeModal="closeModal" @addTask="handleTaskChange" :userId="userId" />
+    <AddTask :showModal="showAddModal" :selectedDate="selectedDate" @closeModal="closeModal" @addTask="handleTaskChange"
+        :userId="userId" />
 </template>
 
 
@@ -275,7 +276,6 @@ const openUpdateModal = () => {
 };
 
 const openAddModel = (date) => {
-    console.log(date);
     if (!date) {
         selectedDate.value = currentDate.value;
         showAddModal.value = true;

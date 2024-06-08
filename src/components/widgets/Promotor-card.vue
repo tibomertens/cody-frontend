@@ -64,7 +64,8 @@ const navigate = () => {
 </script>
 
 <template>
-    <div @click="navigate" class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] py-[12px] px-[32px] rounded-md cursor-pointer">
+    <div @click="navigate"
+        class="sm:flex sm:flex-wrap lg:justify-between bg-offWhite-light my-[32px] py-[12px] px-[32px] rounded-md cursor-pointer">
         <div class="flex justify-center pt-[10px] font-bold sm:w-[50%] lg:w-[15%]">
             {{ promotor.name }}
         </div>

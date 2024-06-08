@@ -18,8 +18,8 @@
                 </ul>
             </div>
         </div>
-        <div class="bg-primary-dark rounded-[5px] text-white h-[51px] flex justify-center items-center w-[51px] cursor-pointer" @click="addItem"><img
-                src="/saved-fill.svg" class="w-[65%]" alt="save icon"></div>
+        <div class="bg-primary-dark rounded-[5px] text-white h-[51px] flex justify-center items-center w-[51px] cursor-pointer"
+            @click="addItem"><img src="/saved-fill.svg" class="w-[65%]" alt="save icon"></div>
     </div>
 </template>
 

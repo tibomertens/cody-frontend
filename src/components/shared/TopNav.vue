@@ -39,14 +39,15 @@ const alertFunc = () => {
             v-if="!isRouteActive('/account') && !isRouteActive('/') && !isRouteActive('/promotors') && !isRouteActive('/projects') && !isRouteActive('/projects/active') && !isRouteActive('/projects/recommended') && !isRouteActive('/projects/completed') && !isRouteActive('/projects/saved')" />
           <h1 class="text-[1.2em] xl:text-title font-bold mb-[4px]">{{ currentRouteName() }}</h1>
           <router-link v-if="isRouteActive('/account')" to="/settings/account">
-            <img src="/edit_no_fill.svg" alt="edit icon"  class="w-[30px]">
+            <img src="/edit_no_fill.svg" alt="edit icon" class="w-[30px]">
           </router-link>
         </div>
 
-        <router-link v-if="!isRouteActive('/account')" to="/settings/account" class="flex items-center ml-2 pr-[40px] xl:pr-0">
+        <router-link v-if="!isRouteActive('/account')" to="/settings/account"
+          class="flex items-center ml-2 pr-[40px] xl:pr-0">
           <img src="/settings.svg" alt="settings">
         </router-link>
-        
+
       </div>
       <div class="flex gap-6 md:gap-[2rem] overflow-x-auto xl:mt-[12px] font-bold text-[1.2rem]"
         v-if="isRouteActive('/settings/account') || isRouteActive('/settings/doel') || isRouteActive('/settings/faq') || isRouteActive('/settings/privacy-policy') || isRouteActive('/settings/terms-of-service')">

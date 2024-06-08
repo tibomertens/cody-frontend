@@ -42,7 +42,6 @@ const confirmAction = () => {
 
 const finalBudgetHandler = (value) => {
   newExpense.value = value;
-  console.log(newExpense.value);
 };
 
 const handleOutsideClick = (event) => {
@@ -53,7 +52,6 @@ const handleOutsideClick = (event) => {
 
 const handleClick = async () => {
   try {
-    console.log(props.renovation._id, props.userId, props.renovation);
     let result;
 
     loadingBtn.value = true;
@@ -64,7 +62,7 @@ const handleClick = async () => {
       result = await updateUserData(props.userId, props.renovation.renovation._id, { budget: newExpense.value });
     }
     loadingBtn.value = false;
-    
+
     if (result.success) {
       confirmAction();
     };

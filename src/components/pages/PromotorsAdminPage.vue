@@ -53,8 +53,8 @@
     </div>
     <div v-else class="pulsing rounded-[5px] h-[330px] m-[32px] lg:m-[40px]"></div>
     <Confirm :showConfirm="showConfirm" title="Renovator afwijzen"
-        desc="Weet je zeker dat je deze renovator wilt afwijzen of de samenwerking stopzetten?" @closeConfirm="showConfirm = false"
-        @confirmAction="declinePromotorFunc" />
+        desc="Weet je zeker dat je deze renovator wilt afwijzen of de samenwerking stopzetten?"
+        @closeConfirm="showConfirm = false" @confirmAction="declinePromotorFunc" />
 </template>
 
 <script setup>

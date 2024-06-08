@@ -4,8 +4,8 @@
     :disabled="loading" @click="handleClick">
     <p class="relative bottom-[1px] flex gap-2">
       {{ props.name }}
-    <div v-if="loading" class="animate-spin w-[26px] h-[26px] relative top-[2px]"><img src="/loading-animation.png"
-        alt="loading animation"></div>
+      <div v-if="loading" class="animate-spin w-[26px] h-[26px] relative top-[2px]"><img src="/loading-animation.png"
+          alt="loading animation"></div>
     </p>
   </a>
 </template>

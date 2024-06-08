@@ -76,8 +76,10 @@ const handleCellar = (selectedItem) => {
       </div>
     </div>
     <div class="mt-[32px] xs:flex gap-[24px]">
-      <Dropdown v-if="selectedItem !== 'BovenKelder'" :width="selectedItem !== 'VolleGrond' ? 'full' : ''" :label="'Volle grond:'" :items="noCellarOptions" @itemSelected="handleNoCellar" />
-      <Dropdown v-if="selectedItem !== 'VolleGrond'" :width="selectedItem !== 'BovenKelder' ? 'full' : ''" :label="'Met kelder:'" :items="CellarOptions" @itemSelected="handleCellar" class="mt-[24px] xs:mt-0" />
+      <Dropdown v-if="selectedItem !== 'BovenKelder'" :width="selectedItem !== 'VolleGrond' ? 'full' : ''"
+        :label="'Volle grond:'" :items="noCellarOptions" @itemSelected="handleNoCellar" />
+      <Dropdown v-if="selectedItem !== 'VolleGrond'" :width="selectedItem !== 'BovenKelder' ? 'full' : ''"
+        :label="'Met kelder:'" :items="CellarOptions" @itemSelected="handleCellar" class="mt-[24px] xs:mt-0" />
     </div>
   </section>
 </template>

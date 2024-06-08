@@ -130,7 +130,9 @@ export const updateReview = async (
 };
 
 export const report = async (id, is_reported) => {
-  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/reviews/report/${id}`;
+  let apiEndpoint = `${
+    import.meta.env.VITE_API_URL
+  }/api/v1/reviews/report/${id}`;
 
   try {
     const response = await fetch(apiEndpoint, {

@@ -95,7 +95,6 @@ const add = async () => {
 
 const updateDate = (x) => {
     date.value = x;
-    console.log(date.value);
 };
 
 const updateTitle = (x) => {
@@ -126,12 +125,11 @@ watch(
     () => props.selectedDate,
     (value) => {
         if (!value) return;
-        console.log(value);
+
         if (value === "today" || value === "Invalid Date") {
             date.value = getCurrentDate();
         } else {
             date.value = formatDateForInput(new Date(value));
-            console.log(date.value);
         }
     }
 );

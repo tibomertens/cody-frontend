@@ -39,7 +39,7 @@ onMounted(async () => {
 </script>
 
 <template>
-<TableExpense />
+    <TableExpense />
 </template>
 
 <style scoped></style>

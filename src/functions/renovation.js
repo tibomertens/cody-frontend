@@ -1,7 +1,6 @@
 import "dotenv";
 
 export const getRenovations = async () => {
-  console.log(import.meta.env.VITE_CODY_API_KEY)
   try {
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/v1/renovations`,
@@ -446,12 +445,13 @@ export const getCompletedRenovationsByMonth = async (userId) => {
     console.error("Error:", error);
     throw error;
   }
-}
+};
 
 export const getAllUserRenovations = async (userId) => {
   try {
-    let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}/renovations`;
-    console.log('API Endpoint:', apiEndpoint); // Log the URL for debugging
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/renovations`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
@@ -471,4 +471,4 @@ export const getAllUserRenovations = async (userId) => {
     console.error("Error:", error);
     throw error;
   }
-}
+};

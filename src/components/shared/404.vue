@@ -5,7 +5,8 @@
         </div>
         <div class="sm:relative top-[12px]">
             <h1 class="font-bold text-[7em] text-offBlack mb-0">404</h1>
-            <p class="max-w-[400px]">Deze pagina bestaat niet. Ga terug naar het dashboard of gebruik een andere url.</p>
+            <p class="max-w-[400px]">Deze pagina bestaat niet. Ga terug naar het dashboard of gebruik een andere url.
+            </p>
             <Btn name="Ga naar dashboard" class="mt-[26px]" @click="navigateToDashboard" />
         </div>
     </div>

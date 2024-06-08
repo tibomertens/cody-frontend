@@ -17,7 +17,7 @@ const props = defineProps({
     itemAlias: {
         type: String,
         required: true
-    } 
+    }
 });
 
 const emit = defineEmits(['itemSelected']);

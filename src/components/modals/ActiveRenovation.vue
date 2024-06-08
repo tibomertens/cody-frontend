@@ -6,7 +6,8 @@
             @click="handleOutsideClick">
             <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
                 <h2 class="font-bold text-subtitle mb-[12px]">Gegevens invullen</h2>
-                <Input :label="'Startdatum'" @input-change="updateDate" :value="currentDate" :type="'date'" :error="inputHasError" />
+                <Input :label="'Startdatum'" @input-change="updateDate" :value="currentDate" :type="'date'"
+                    :error="inputHasError" />
                 <Input :label="'Budget voor deze renovatie'" :placeholder="'bv. 2350'" pre-fix="€"
                     @input-change="updateBudget" :error="inputHasError" />
                 <Input :label="'Aantal te renoveren delen'" :placeholder="'bv. 12 muren'" @input-change="updateAmount"
@@ -131,8 +132,6 @@ const executeUpdateState = async () => {
         amount_total: amount.value,
         status: "Actief"
     };
-
-    console.log(budget.value, props.userBudget, executeWithWarning.value);
 
     if ((parseInt(budget.value) > parseInt(props.userBudget)) && !executeWithWarning.value) {
         warning.value = "Het budget dat je wilt instellen is hoger dan je huidige budget";

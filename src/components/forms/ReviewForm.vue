@@ -69,7 +69,7 @@ const CreateReview = async () => {
 
     hasError.value = false;
     error.value = "";
-    
+
     reviewData.value = await createNewReview(promotorId.value, userId.value, selectedStars.value, updatedTitle.value, updatedExperience.value);
 
     loadingState.value = false;
@@ -102,7 +102,7 @@ const CreateReview = async () => {
     <div class="pt-[20px] pb-[40px] mb-[40px]">
         <Btn :name="'Plaats je review'" @click="CreateReview" :loading="loadingState" />
     </div>
-    
+
 </template>
 
 

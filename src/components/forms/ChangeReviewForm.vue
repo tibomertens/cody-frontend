@@ -33,7 +33,6 @@ onMounted(async () => {
     selectedStars.value = reviewData.value.rating;
     updatedTitle.value = reviewData.value.title; // Initialize with existing review title
     updatedExperience.value = reviewData.value.description; // Initialize with existing review description
-    console.log(reviewData.value.promotorId);
 });
 
 // Method to handle star click event
@@ -44,7 +43,6 @@ const handleStarClick = (index) => {
 
 const updateTitle = (value) => {
     updatedTitle.value = value;
-    console.log(updatedTitle.value);
 };
 
 const updateExperience = (value) => {

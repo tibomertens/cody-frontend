@@ -133,7 +133,11 @@ const routes = [
   },
   {
     path: "/settings/account/changepassword",
-    components: { default: AccountChangePasswordPage, sidebar: sideNav, topNav: topNav },
+    components: {
+      default: AccountChangePasswordPage,
+      sidebar: sideNav,
+      topNav: topNav,
+    },
     name: "Wachtwoord aanpassen",
     meta: { title: "Cody | wachtwoord aanpassen", sidebar: true },
   },
@@ -170,7 +174,7 @@ const routes = [
     meta: { title: "Cody | Subscriptie aanvragen", sidebar: false },
   },
   {
-    path: "/reviews/:id",  
+    path: "/reviews/:id",
     components: { default: Reviews, sidebar: sideNav, topNav: topNav },
     name: "Reviews",
     meta: { title: "Cody | Review", sidebar: true },
@@ -240,10 +244,10 @@ const routes = [
   },
   {
     path: "/:catchAll(.*)",
-    components: { default: NotFound404Page, sidebar: sideNav, topNav: topNav},
+    components: { default: NotFound404Page, sidebar: sideNav, topNav: topNav },
     name: "404",
     meta: { title: "Cody | 404", sidebar: true },
-  }
+  },
 ];
 
 const router = createRouter({
@@ -255,7 +259,7 @@ const router = createRouter({
     } else {
       return { top: 0 };
     }
-  }
+  },
 });
 
 export default router;

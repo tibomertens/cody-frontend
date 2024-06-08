@@ -34,8 +34,6 @@ onMounted(async () => {
     try {
       const user = await getUser(token); // Fetch the user here
       userId.value = user._id;
-      console.log(user);
-      console.log(userId.value);
 
       await getData();
       dataIsLoaded.value = true;
@@ -48,7 +46,7 @@ onMounted(async () => {
 const getData = async () => {
   try {
     const result = await getAllUserRenovations(userId.value);
-    console.log(result);
+
     // Sort renovations by start date in descending order
     renovations.value = result.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
   } catch (error) {
@@ -81,38 +79,47 @@ const closeFinalBudgetModal = () => {
           <div class="font-bold pl-[12px]">Einddatum</div>
         </div>
         <div v-if="dataIsLoaded" v-for="(renovation, index) in renovations" :key="index">
-          <div v-if="renovation.status !== 'Aanbevolen' && renovation.status !== 'Extra'" class="flex justify-between items-center py-2 rounded w-[1118px]">
+          <div v-if="renovation.status !== 'Aanbevolen' && renovation.status !== 'Extra'"
+            class="flex justify-between items-center py-2 rounded w-[1118px]">
             <div class="w-[20px] md:w-[32px]">
               <a href="#" @click="openEditFinalBudgetPopup(renovation, userId.value)">
-                <div ><img src="/edit_no_fill.svg" alt="potlood" /></div>
+                <div><img src="/edit_no_fill.svg" alt="potlood" /></div>
               </a>
             </div>
             <div class="grid grid-cols-7 bg-offWhite-light p-4 rounded w-[1084px] justify-between">
               <div class="col-span-1 truncate">{{ formatFinancialNumber(renovation.budget) }}</div>
-              <div class="col-span-1 truncate">{{ renovation.budget_final ? formatFinancialNumber(renovation.budget_final) : '-' }}</div>
-              <a ref="#" @click="router.push(`/projects/${renovation.renovation._id}`)" class="col-span-2 text-primary-dark font-bold truncate pointer-events-auto" style="margin-right: 24px;">{{ renovation.renovation_title }}</a>
-              <div class="col-span-1 truncate"><i class="fa-solid fa-circle text-[8px]" :class="{'text-primary-dark':renovation.status === 'Voltooid' , 'text-secondary-green':renovation.status === 'Actief' , 'text-secondary-yellow':renovation.status === 'Gepauzeerd' }"></i> {{ renovation.status }} </div>
+              <div class="col-span-1 truncate">{{ renovation.budget_final ?
+                formatFinancialNumber(renovation.budget_final) : '-' }}</div>
+              <a ref="#" @click="router.push(`/projects/${renovation.renovation._id}`)"
+                class="col-span-2 text-primary-dark font-bold truncate pointer-events-auto"
+                style="margin-right: 24px;">{{ renovation.renovation_title }}</a>
+              <div class="col-span-1 truncate"><i class="fa-solid fa-circle text-[8px]"
+                  :class="{ 'text-primary-dark': renovation.status === 'Voltooid', 'text-secondary-green': renovation.status === 'Actief', 'text-secondary-yellow': renovation.status === 'Gepauzeerd' }"></i>
+                {{ renovation.status }} </div>
               <div class="col-span-1 truncate">{{ convertDate(renovation.startDate) }}</div>
               <div class="col-span-1 truncate">{{ renovation.endDate ? convertDate(renovation.endDate) : '-' }}</div>
             </div>
           </div>
         </div>
         <div v-else>
-          <div class="flex justify-between items-center py-2 w-[1118px] rounded pulsing bg-offWhite-light h-[56px] mb-[20px]"></div>
-          <div class="flex justify-between items-center py-2 w-[1118px] rounded pulsing bg-offWhite-light h-[56px] mb-[20px]"></div>
-          <div class="flex justify-between items-center py-2 w-[1118px] rounded pulsing bg-offWhite-light h-[56px] mb-[20px]"></div>
-          <div class="flex justify-between items-center py-2 w-[1118px] rounded pulsing bg-offWhite-light h-[56px] mb-[20px]"></div>
+          <div
+            class="flex justify-between items-center py-2 w-[1118px] rounded pulsing bg-offWhite-light h-[56px] mb-[20px]">
+          </div>
+          <div
+            class="flex justify-between items-center py-2 w-[1118px] rounded pulsing bg-offWhite-light h-[56px] mb-[20px]">
+          </div>
+          <div
+            class="flex justify-between items-center py-2 w-[1118px] rounded pulsing bg-offWhite-light h-[56px] mb-[20px]">
+          </div>
+          <div
+            class="flex justify-between items-center py-2 w-[1118px] rounded pulsing bg-offWhite-light h-[56px] mb-[20px]">
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <ChangeFinalBudget
-    :showFinalBudgetModal="showFinalBudgetModal"
-    :userId="userId"
-    @closeFinalBudgetModal="closeFinalBudgetModal"
-    @confirmAction="getData"
-    :renovation="currentRenovation"
-  />
+  <ChangeFinalBudget :showFinalBudgetModal="showFinalBudgetModal" :userId="userId"
+    @closeFinalBudgetModal="closeFinalBudgetModal" @confirmAction="getData" :renovation="currentRenovation" />
 </template>
 
 <style scoped></style>

@@ -67,7 +67,7 @@ const handleFlatRoof = (selectedItem) => {
     <h2 class="text-subtitle font-bold mt-[24px] mb-[12px]">Dak isolatie</h2>
     <div class="grid grid-cols-1 gap-[32px] xs:grid-cols-2 ml:grid-cols-3">
       <Type :item-name="'Hellend dak'" :image-url="'/hellendDak.svg'" :selected="selectedItem"
-        @itemSelected="handleItemSelected" item-alias="Dak_hellend"/>
+        @itemSelected="handleItemSelected" item-alias="Dak_hellend" />
       <Type :item-name="'Plat dak'" :image-url="'/platDak.svg'" :selected="selectedItem"
         @itemSelected="handleItemSelected" item-alias="Dak_plat" />
       <div class="xs:col-span-2 ml:col-span-1">
@@ -76,8 +76,10 @@ const handleFlatRoof = (selectedItem) => {
       </div>
     </div>
     <div class="mt-[32px] xs:flex gap-[24px]">
-      <Dropdown v-if="selectedItem !== 'Dak_plat'" :width="selectedItem !== 'Dak_hellend' ? 'full' : ''" :label="'Hellend dak:'" :items="PithedRoofOptions" @itemSelected="handlePitchedRoof" />
-      <Dropdown v-if="selectedItem !== 'Dak_hellend'" :width="selectedItem !== 'Dak_plat' ? 'full' : ''" :label="'Plat dak:'" :items="FlatRoofOptions" @itemSelected="handleFlatRoof" class="mt-[24px] xs:mt-0" />
+      <Dropdown v-if="selectedItem !== 'Dak_plat'" :width="selectedItem !== 'Dak_hellend' ? 'full' : ''"
+        :label="'Hellend dak:'" :items="PithedRoofOptions" @itemSelected="handlePitchedRoof" />
+      <Dropdown v-if="selectedItem !== 'Dak_hellend'" :width="selectedItem !== 'Dak_plat' ? 'full' : ''"
+        :label="'Plat dak:'" :items="FlatRoofOptions" @itemSelected="handleFlatRoof" class="mt-[24px] xs:mt-0" />
     </div>
   </section>
 </template>

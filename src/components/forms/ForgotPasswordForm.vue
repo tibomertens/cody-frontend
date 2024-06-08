@@ -61,7 +61,8 @@ const sendMail = async () => {
     <div v-if="success" class="">
       <p>{{ success }}</p>
       <!-- open gmail -->
-      <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" class="text-primary-dark underline">Open hier je mail</a>
+      <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" class="text-primary-dark underline">Open hier je
+        mail</a>
     </div>
   </form>
 </template>

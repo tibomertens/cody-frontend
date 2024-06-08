@@ -5,7 +5,7 @@
       <div>
         <div class="flex justify-between">
           <h2 class="text-subtitle font-bold mb-4">Berekend label</h2>
-          <p @click="toggleDisclaimer" :class="{ 'hidden': props.showDisplayDisclaimer === false}"
+          <p @click="toggleDisclaimer" :class="{ 'hidden': props.showDisplayDisclaimer === false }"
             class="disclaimer font-light text-sm cursor-pointer underline text-primary-dark relative top-[5px]">
             Disclaimer
           </p>
@@ -23,8 +23,8 @@
           :error="dropdownHasError" :errorMessage="goalError" />
         <Input :label="'Doeljaar'" :width="'full'" :placeholder="'Bv. 2036'" @input-change="updateGoalYear"
           :error="inputHasError" />
-        <Input :label="'Stel uw budget in'" :pre-fix="'€'" :width="'full'" :placeholder="'Bv. 9500'" @input-change="updateBudget"
-          :error="inputHasError" />
+        <Input :label="'Stel uw budget in'" :pre-fix="'€'" :width="'full'" :placeholder="'Bv. 9500'"
+          @input-change="updateBudget" :error="inputHasError" />
         <p v-if="yearError" class="text-secondary-red">{{ yearError }}</p>
       </div>
       <div class="mt-[46px] flex justify-end">
@@ -184,7 +184,7 @@ const addLabelToUser = async () => {
       const update = await updateRecommendations(props.items, props.userId);
 
       loadingState.value = false;
-      
+
       if (update) {
         router.push("/");
       } else {

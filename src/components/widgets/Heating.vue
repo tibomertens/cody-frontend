@@ -105,9 +105,9 @@ const handleSolarPanels = (selectedItem) => {
     <h2 class="text-subtitle font-bold mt-[24px] mb-[12px]">Verwarming</h2>
     <div>
       <div class="xs:flex gap-[24px] mb-[24px]">
-        <Dropdown :label="'Mijn woning wordt verwarmd met:'" :width="'full'" :items="verwarmingEnergieDrager" class="mb-[24px] xs:mb-0"
-          @itemSelected="handleSelectedHeatingSystem" />
-          <Dropdown :label="'Ik verwarm mijn sanitair water met:'" :width="'full'" :items="verwarmSanitairWarmWaterMet"
+        <Dropdown :label="'Mijn woning wordt verwarmd met:'" :width="'full'" :items="verwarmingEnergieDrager"
+          class="mb-[24px] xs:mb-0" @itemSelected="handleSelectedHeatingSystem" />
+        <Dropdown :label="'Ik verwarm mijn sanitair water met:'" :width="'full'" :items="verwarmSanitairWarmWaterMet"
           @itemSelected="handleSelectedWaterHeatingSystem" />
       </div>
       <div v-if="!hideDropdowns" class="xs:flex gap-[24px]">

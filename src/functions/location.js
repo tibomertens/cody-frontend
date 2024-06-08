@@ -1,8 +1,6 @@
 import "dotenv";
 
 export const getAllLocations = async () => {
-  console.log(import.meta.env.VITE_CODY_API_KEY);
-
   try {
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/v1/locations`,

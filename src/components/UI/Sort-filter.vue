@@ -11,8 +11,8 @@
             <div class="p-[24px] pt-0 flex flex-col gap-[16px]">
                 <Dropdown :width="'full'" :label="'Klantenscore'" :bold="true" :items="addedValueArray"
                     :default="activeAddedValueFilter" @item-selected="handleAddedValue" />
-                <Dropdown :width="'full'" :label="'Datum'" :bold="true" :items="typeArray"
-                    :default="activeTypeFilter" @item-selected="handleType" />
+                <Dropdown :width="'full'" :label="'Datum'" :bold="true" :items="typeArray" :default="activeTypeFilter"
+                    @item-selected="handleType" />
             </div>
         </div>
     </div>
@@ -69,10 +69,12 @@ const toggleDropdown = () => {
 
 const handleAddedValue = async (selectedItem) => {
     promotorId.value = route.params.id;
+
     reviews.value = await getReviewsByPromotor(promotorId.value);
     addedValue.value = selectedItem;
-    console.log("Reviews before sorting:", reviews.value); 
+
     emits('filtered', reviews.value);
+
     if (selectedItem === 'Hoogste rating') {
         reviews.value.sort((reviewA, reviewB) => reviewB.rating - reviewA.rating);
         activeAddedValueFilter.value = 'Hoog naar laag';
@@ -87,7 +89,7 @@ const handleAddedValue = async (selectedItem) => {
         toggleDropdown();
     } else {
         activeAddedValueFilter.value = 'Maak een keuze';
-         activeTypeFilter.value = 'Recent naar oud';
+        activeTypeFilter.value = 'Recent naar oud';
         emits('delete-filter');
         toggleDropdown();
     }
@@ -95,10 +97,12 @@ const handleAddedValue = async (selectedItem) => {
 
 const handleType = async (selectedItem) => {
     promotorId.value = route.params.id;
+
     reviews.value = await getReviewsByPromotor(promotorId.value);
     type.value = selectedItem;
-    console.log("Reviews before sorting:", reviews.value); 
+
     emits('filtered', reviews.value);
+
     if (selectedItem === 'Recent naar oud') {
         reviews.value.sort((reviewA, reviewB) => new Date(reviewB.date) - new Date(reviewA.date));
         activeTypeFilter.value = 'Recent naar oud';
@@ -121,4 +125,3 @@ const handleType = async (selectedItem) => {
 </script>
 
 <style scoped></style>
-

@@ -163,11 +163,13 @@ watchEffect(async () => {
 </script>
 
 <template>
-    <div v-if="loaded" class="w-full bg-offWhite-light mb-[40px] rounded-[6px] active:bg-[#dddddd] transition duration-200 ease-in-out" :class="{
-        'border-l-4 border-secondary-green': text[0] === 'Laagste impact',
-        'border-l-4 border-secondary-yellow': text[0] === 'Middelmatige impact',
-        'border-l-4 border-secondary-red': text[0] === 'Hoogste impact'
-    }">
+    <div v-if="loaded"
+        class="w-full bg-offWhite-light mb-[40px] rounded-[6px] active:bg-[#dddddd] transition duration-200 ease-in-out"
+        :class="{
+            'border-l-4 border-secondary-green': text[0] === 'Laagste impact',
+            'border-l-4 border-secondary-yellow': text[0] === 'Middelmatige impact',
+            'border-l-4 border-secondary-red': text[0] === 'Hoogste impact'
+        }">
         <div class="p-[32px]">
             <div>
                 <h2 class="font-bold text-[1.1em] md:text-subtitle">{{ name }}</h2>
@@ -178,10 +180,12 @@ watchEffect(async () => {
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 ml:grid-cols-3 gap-[20px] mt-[32px]"
                 :class="{ 'ml:!grid-cols-2': props.suggestion === true }">
-                <ProjectInfo v-if="srcs[0] && state !== 'Aanbevolen' && state !== 'Extra'" :src="srcs[0]" :text="texts[0]" :label="labels[0]" :budget=true :suggestion="props.suggestion" />
-                <ProjectInfo v-if="srcs[0] && state === 'Aanbevolen' || state === 'Extra'" :src="srcs[0]" :text="texts[0]" :label="labels[0]" :budget=false />
-                <ProjectInfo v-if="state === 'Aanbevolen' || state === 'Extra' && srcs[0]" :src="srcs[2]" :text="texts[2]"
-                    :label="label[2]" :budget="true"/>
+                <ProjectInfo v-if="srcs[0] && state !== 'Aanbevolen' && state !== 'Extra'" :src="srcs[0]"
+                    :text="texts[0]" :label="labels[0]" :budget=true :suggestion="props.suggestion" />
+                <ProjectInfo v-if="srcs[0] && state === 'Aanbevolen' || state === 'Extra'" :src="srcs[0]"
+                    :text="texts[0]" :label="labels[0]" :budget=false />
+                <ProjectInfo v-if="state === 'Aanbevolen' || state === 'Extra' && srcs[0]" :src="srcs[2]"
+                    :text="texts[2]" :label="label[2]" :budget="true" />
                 <div v-else class="rounded-[5px] bg-offWhite-dark flex justify-center items-center">
                     <DonutChart :percent="percentRenovated" :bg="'#FDFDFD'" :paused="paused" />
                 </div>

@@ -21,7 +21,8 @@
         <ReviewCard :review="review" @review-deleted="removeReview" :loggedInUserId="userId" />
       </div>
     </div>
-    <Empty_state v-if="userReviews.length === 0 && otherReviews.length === 0" :text="'Geen reviews gevonden voor dit bedrijf'" />
+    <Empty_state v-if="userReviews.length === 0 && otherReviews.length === 0"
+      :text="'Geen reviews gevonden voor dit bedrijf'" />
   </div>
 
   <div v-else>
@@ -73,7 +74,7 @@ onMounted(async () => {
       router.push("/determinelabelchoice");
       return;
     }
-    
+
     userId.value = userData.value._id;
     splitReviews();
   } else {

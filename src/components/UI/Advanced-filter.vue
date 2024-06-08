@@ -51,7 +51,7 @@ let activeTypeFilter = ref('Maak een keuze');
 
 const handleAddedValue = (selectedItem) => {
     addedValue.value = selectedItem;
-    console.log(selectedItem)
+    
     if (selectedItem === 'Hoogste impact') {
         activeAddedValueFilter.value = 'Hoog';
     } else if (selectedItem === 'Laagste impact') {

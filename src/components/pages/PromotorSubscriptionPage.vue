@@ -38,7 +38,8 @@
     <section class="form-container !mt-[97.22px] pt-[46px]">
         <div>
             <h1 class="text-title font-bold">Samenwerken met Cody?</h1>
-            <p class="pt-[24px] pb-[12px]">Wilt u als bedrijf op onze app komen te staan? Word aanbevolen door ons bij renovaties binnen uw
+            <p class="pt-[24px] pb-[12px]">Wilt u als bedrijf op onze app komen te staan? Word aanbevolen door ons bij
+                renovaties binnen uw
                 bedrijfsexpertise om meer klanten te bereiken! Bekijk de verschillende formules op onze website en dien
                 hier je verzoek in. </p>
             <p><span class="font-bold">Heb je nog extra vragen?</span> Mail gerust naar <a href="mailto:vragen@cody.be"

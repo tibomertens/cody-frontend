@@ -554,7 +554,7 @@ const fetchUser = async () => {
                 router.push('/determinelabelchoice');
                 return;
             }
-            
+
             userId.value = userData.value._id;
         } else {
             router.push('/login');

@@ -19,7 +19,6 @@ import Mascot from "../shared/Mascot.vue";
             </div>
         </div>
     </div>
-
 </template>
 
 <style scoped></style>

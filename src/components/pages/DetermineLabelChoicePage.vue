@@ -28,7 +28,8 @@ const route = useRoute();
     <div class="w-full border-b-4 border-offBlack opacity-10 my-10 lg:border-s-4 lg:border-b-0 lg:w-1 lg:mx-10"></div>
     <div class="lg:w-1/2 lg:content-center flex flex-col justify-center items-center lg:pt-[27px]">
       <h2 class="text-title font-bold text-center pb-3">Ik heb geen EPC-rapport</h2>
-      <p class="text-body text-center pb-[32px] justify-center md:w-[80%]">Je hebt nog geen idee wat je score of label is en
+      <p class="text-body text-center pb-[32px] justify-center md:w-[80%]">Je hebt nog geen idee wat je score of label
+        is en
         je
         hebt nog geen professionele hulp gehad maar wilt wel al aan de slag of eens kijken wat je te wachten staat. Dat
         kan perfect met de officiële indicatieve test van de overheid! </p>
