@@ -126,7 +126,7 @@
     </div>
     <div v-else class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
   </section>
-  <ChangeGoal :showModal="showModal" :userId="userId" @closeModal="closeModal" />
+  <ChangeGoal :showModal="showModal" :userId="userId" :userData="userData" @closeModal="closeModal" />
   <ChangeBudget :showBudgetModal="showBudgetModal" :userId="userId" @closeBudgetModal="closeBudgetModal" />
   <Confirm :showConfirm="showConfirm" title="Gefeliciteerd!"
     desc="Je hebt je doel behaald! Wil je een nieuw doel instellen?" @closeConfirm="showConfirm = false"
@@ -179,7 +179,6 @@ onMounted(async () => {
 
   // Calculate cumulative sum
   calculateCumulativeSum();
-  goalYear.value = userData.value.goalLabel_by_year;
 
   checkGoal();
 });
@@ -217,6 +216,7 @@ const getData = async () => {
   if (userData.value !== null) {
     currentLabel.value = userData.value.label;
     goalLabel.value = userData.value.goalLabel;
+    goalYear.value = userData.value.goalLabel_by_year;
     currentBudget = userData.value.budget_current;
     spentBudget = userData.value.budget_spent;
     userId.value = userData.value._id;
