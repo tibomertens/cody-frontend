@@ -6,9 +6,6 @@ import { registerUser } from "../../functions/user";
 
 // Import necessary functions from 'vue' for script setup
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
 
 // Create refs for email and password
 const updatedEmail = ref("");
@@ -16,6 +13,8 @@ const updatedPassword = ref("");
 const updatedFamilyname = ref("");
 const hasError = ref(false);
 const error = ref(null);
+const confirm = ref(false);
+const confirmMessage = ref("");
 
 const checkboxChecked = ref(false); // Add a ref for tracking checkbox state
 
@@ -24,6 +23,9 @@ let loadingState = ref(false);
 //function to change value checkbox
 const selectedCheckbox = () => {
   checkboxChecked.value = !checkboxChecked.value;
+};
+
+const checkCheckbox = () => {
   console.log(checkboxChecked.value);
 };
 
@@ -60,9 +62,12 @@ const register = async () => {
     error.value = "Gelieve alle velden in te vullen";
     return;
   }
-  if (!checkCheckbox()) {
-    return;
-  }
+
+  let result = await registerUser(updatedEmail.value, updatedPassword.value, updatedFamilyname.value, checkboxChecked.value);
+
+  if (result.success) {
+    confirm.value = true;
+    confirmMessage.value = result.message;
 
   loadingState.value = true;
   let result = await registerUser(updatedEmail.value, updatedPassword.value, updatedFamilyname.value);
@@ -79,7 +84,6 @@ const register = async () => {
     hasError.value = true;
     error.value = result.message;
   }
-
 };
 </script>
 
@@ -94,6 +98,11 @@ const register = async () => {
     <div v-if="error" class="text-secondary-red">{{ error }}</div>
     <div class="mt-8 mb-4">
       <Btn :name="'Registreer'" @click="register" :width="'full'" :loading="loadingState" />
+    </div>
+    <div v-if="confirm">
+      <p>{{ confirmMessage }}</p>
+      <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" class="text-primary-dark underline">Open hier je
+        mail</a>
     </div>
   </form>
 </template>

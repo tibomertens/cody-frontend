@@ -8,8 +8,7 @@ export const isValidToken = (token) => {
     return true;
   }
 };
-
-export const registerUser = async (email, password, familyname) => {
+export const registerUser = async (email, password, familyname, allowEmails) => {
   let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users`;
 
   try {
@@ -23,12 +22,9 @@ export const registerUser = async (email, password, familyname) => {
         email: email,
         password: password,
         username: familyname,
+        allowEmails: allowEmails,
       }),
     });
-
-    if (!response.ok) {
-      throw new Error("Mislukt om te registreren");
-    }
 
     const data = await response.json();
     return data;
@@ -201,6 +197,26 @@ export const resetpassword = async (body) => {
   }
 };
 
+export const confirmEmail = async (token) => {
+  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/confirm/${token}`;
+  console.log(apiEndpoint);
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 export const updateUser = async (token, body) => {
   const decoded = jwtDecode(token);
   let userId = decoded.id;
@@ -253,4 +269,3 @@ export const deleteUser = async (token) => {
     throw error;
   }
 }
-

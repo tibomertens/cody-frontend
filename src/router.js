@@ -28,6 +28,7 @@ import AccountEditPage from "./components/pages/AccountEditPage.vue";
 import AccountChangePasswordPage from "./components/pages/AccountChangePasswordPage.vue";
 import GoalEditPage from "./components/pages/GoalEditPage.vue";
 import NotFound404Page from "./components/shared/404.vue";
+import ConfirmEmailPage from "./components/pages/ConfirmEmailPage.vue";
 import PrivacyPage from "./components/pages/PrivacyPage.vue";
 import FAQPage from "./components/pages/FAQPage.vue";
 
@@ -230,6 +231,12 @@ const routes = [
     components: { default: FAQPage, sidebar: sideNav, topNav: topNav },
     name: "FAQ",
     meta: { title: "Cody | FAQ", sidebar: true },
+  },
+  {
+    path: "/confirm/:token",
+    components: { default: ConfirmEmailPage },
+    name: "Bevestig account",
+    meta: { title: "Cody | Bevestig account", sidebar: false },
   },
   {
     path: "/:catchAll(.*)",
