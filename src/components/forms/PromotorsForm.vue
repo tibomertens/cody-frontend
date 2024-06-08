@@ -22,7 +22,7 @@
         <div v-if="error" class="text-secondary-red">{{ error }}</div>
 
         <div v-if="success">
-            <p>U ontvangt een mail zodra uw verzoek is behandelt. Deze mail bevat een eventueel contract en meer
+            <p class="text-secondary-green">U ontvangt een mail zodra uw verzoek is behandelt. Deze mail bevat een eventueel contract en meer
                 informatie over de verdere samenwerking. </p>
         </div>
 
