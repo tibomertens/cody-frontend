@@ -4,7 +4,7 @@ import Btn from "../UI/Button-Btn.vue";
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
-import { isValidToken, getUser, updateUser } from "../../functions/user";
+import { isValidToken, getUser, updateUser, checkEmailConfirmed, checkLabelUser } from "../../functions/user";
 
 const router = useRouter();
 const token = localStorage.getItem("token");
@@ -18,6 +18,24 @@ let loadingBtn = ref(false);
 onMounted(async () => {
   if (!isValidToken(token)) {
     router.push("/login");
+  } else {
+    let userData = await getUser(token);
+    if (userData === null) {
+      router.push("/login");
+      return;
+    }
+
+    let emailConfirmed = await checkEmailConfirmed(userData.value);
+    if (!emailConfirmed) {
+      router.push("/login");
+      return;
+    }
+
+    let hasLabel = await checkLabelUser(userData.value);
+    if (!hasLabel) {
+      router.push("/determinelabelchoice");
+      return;
+    }
   }
 });
 

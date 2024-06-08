@@ -104,6 +104,32 @@ export const getCompletedRenovations = async (userId) => {
   }
 };
 
+export const getPausedRenovations = async (userId) => {
+  try {
+    let apiEndpoint = `${
+      import.meta.env.VITE_API_URL
+    }/api/v1/users/${userId}/paused`;
+
+    const response = await fetch(apiEndpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch completed renovation data");
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 export const getSavedRenovations = async (userId) => {
   try {
     let apiEndpoint = `${

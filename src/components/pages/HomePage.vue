@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
-import { isValidToken, getUser } from "../../functions/user.js";
+import { isValidToken, getUser, checkLabelUser, checkEmailConfirmed } from "../../functions/user.js";
 import { formatFinancialNumber } from "../../functions/helpers.js";
 
 import Project from "../widgets/Project.vue";
@@ -25,6 +25,19 @@ let mainDataLoaded = ref(false);
 onMounted(async () => {
   if (isValidToken(token)) {
     userData.value = await getUser(token);
+
+    let emailConfirmed = await checkEmailConfirmed(userData.value);
+    if (!emailConfirmed) {
+      router.push("/login");
+      return;
+    }
+
+    let hasLabel = await checkLabelUser(userData.value);
+    if (!hasLabel) {
+      router.push("/determinelabelchoice");
+      return;
+    }
+
     mainDataLoaded.value = true;
 
     if (userData.value !== null) {

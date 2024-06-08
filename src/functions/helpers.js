@@ -65,7 +65,7 @@ export function formatFinancialNumber(value) {
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
   // Concatenate parts with euro symbol
-  formattedNumber = parts.join(",") + " €";
+  formattedNumber = "€ " + parts.join(",");
 
   return formattedNumber;
 }

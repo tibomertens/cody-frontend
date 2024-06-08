@@ -181,7 +181,7 @@ import { onMounted, ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 import { updateState, updateAmount, updateSavedRenovation, updateNotes, getSuggestions, getUserRenovationById, getUserRenovation } from "../../functions/renovation";
-import { isValidToken, getUser } from '../../functions/user.js';
+import { isValidToken, getUser, checkEmailConfirmed, checkLabelUser } from '../../functions/user.js';
 import { convertDate } from '../../functions/helpers.js';
 
 import Btn from '../UI/Btn.vue';
@@ -543,6 +543,18 @@ const fetchUser = async () => {
     if (isValidToken(token)) {
         userData.value = await getUser(token);
         if (userData.value !== null) {
+            let emailConfirmed = await checkEmailConfirmed(userData.value);
+            if (!emailConfirmed) {
+                router.push('/login');
+                return;
+            }
+
+            let hasLabel = await checkLabelUser(userData.value);
+            if (!hasLabel) {
+                router.push('/determinelabelchoice');
+                return;
+            }
+            
             userId.value = userData.value._id;
         } else {
             router.push('/login');
