@@ -3,8 +3,9 @@ import Btn from "../UI/Button-Btn.vue";
 import Dropdown from "../UI/Dropdown.vue";
 import { ref } from "vue";
 import { onMounted } from "vue";
-import { getUser, isValidToken } from "../../functions/user";
+import { getUser, isValidToken, checkEmailConfirmed, checkLabelUser } from "../../functions/user";
 import { addLabel } from "../../functions/label";
+import { useRouter } from "vue-router";
 
 let token = localStorage.getItem("token");
 let userData = ref({});
@@ -15,6 +16,7 @@ let showButton = ref(false);
 let error = ref(null);
 let success = ref(null);
 let dataIsLoaded = ref(false);
+let loadingBtn = ref(false);
 
 const energyLabels = ref([
   { name: "A+", title: "Label A+" },
@@ -56,6 +58,8 @@ const goalYears = ref([
   { name: "2050", title: "2050" },
 ]);
 
+const router = useRouter();
+
 onMounted(async () => {
   if (isValidToken(token)) {
     await getData();
@@ -67,11 +71,25 @@ onMounted(async () => {
 const getData = async () => {
   let result = await getUser(token);
   if (result) {
+    let emailConfirmed = await checkEmailConfirmed(result.value);
+    if (!emailConfirmed) {
+      router.push("/login");
+      return;
+    }
+
+    let hasLabel = await checkLabelUser(result.value);
+    if (!hasLabel) {
+      router.push("/determinelabelchoice");
+      return;
+    }
+
     userData.value = result;
     label.value = userData.value.label;
     goalLabel.value = userData.value.goalLabel;
     goalYear.value = userData.value.goalLabel_by_year;
     dataIsLoaded.value = true;
+  } else {
+    router.push("/login");
   }
 };
 
@@ -86,18 +104,24 @@ const yearChange = (selectedYear) => {
 };
 
 const save = async () => {
-    let items = {
-      goalLabel: goalLabel.value,
-      goalLabel_by_year: goalYear.value,
-    };
-    const result = await addLabel(items, userData.value._id);
-    if (result) {
-      showButton.value = false;
-      success.value = "Gegevens opgeslagen";
-    } else {
-      error.value = "Er is iets misgegaan met het opslaan van de gegevens";
-    }
+  loadingBtn.value = true;
+
+  let items = {
+    goalLabel: goalLabel.value,
+    goalLabel_by_year: goalYear.value,
+  };
+
+  const result = await addLabel(items, userData.value._id);
+
+  loadingBtn.value = false;
   
+  if (result) {
+    showButton.value = false;
+    success.value = "Gegevens opgeslagen";
+  } else {
+    error.value = "Er is iets misgegaan met het opslaan van de gegevens";
+  }
+
 };
 </script>
 
@@ -137,11 +161,11 @@ const save = async () => {
           @click="save"
           class="mt-[32px]"
           width="full"
+          :loading="loadingBtn"
         />
         <p v-if="error" class="text-secondary-red font-bold mt-[20px]">{{ error }}</p>
         <p v-if="success" class="text-secondary-green font-bold mt-[20px]">{{ success }}</p>
     </div>
-    
   </div>
 </template>
 

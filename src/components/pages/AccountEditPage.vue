@@ -5,7 +5,7 @@ import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { isValidToken } from "../../functions/user";
-import { getUser, updateUser } from "../../functions/user";
+import { getUser, updateUser, checkEmailConfirmed, checkLabelUser } from "../../functions/user";
 
 const router = useRouter();
 const token = localStorage.getItem("token");
@@ -14,6 +14,7 @@ let familyName = ref("");
 let email = ref("");
 let hasError = ref(false);
 let errorMessage = ref("");
+let loadingBtn = ref(false);
 
 onMounted(async () => {
   if (isValidToken(token)) {
@@ -26,9 +27,24 @@ onMounted(async () => {
 const getData = async () => {
   let result = await getUser(token);
   if (result) {
+
+    let emailConfirmed = await checkEmailConfirmed(result.value);
+    if (!emailConfirmed) {
+      router.push("/login");
+      return;
+    }
+
+    let hasLabel = await checkLabelUser(result.value);
+    if (!hasLabel) {
+      router.push("/determinelabelchoice");
+      return;
+    }
+
     data.value = result;
     familyName.value = data.value.username;
     email.value = data.value.email;
+  } else {
+    router.push("/login");
   }
 };
 
@@ -62,6 +78,7 @@ const handleClick = async () => {
     errorMessage.value = "Vul een correct emailadres in.";
     return;
   }
+  loadingBtn.value = true;
 
   let body = {
     username: familyName.value,
@@ -71,18 +88,20 @@ const handleClick = async () => {
   let result;
   try {
     result = await updateUser(token, body);
+
+    loadingBtn.value = false;
+    if (result) {
+      if (result.emailUpdated) {
+        router.push("/login");
+      } else {
+        router.push("/account");
+      }
+    }
   } catch (error) {
     console.error(error);
     hasError.value = true;
     errorMessage.value = "Failed to update user data.";
     return;
-  }
-
-  if (result) {
-    router.push("/account");
-  } else {
-    hasError.value = true;
-    errorMessage.value = "Failed to update user data.";
   }
 };
 </script>
@@ -102,7 +121,7 @@ const handleClick = async () => {
       <div v-if="hasError" class="text-secondary-red mt-2">
         {{ errorMessage }}
       </div>
-      <Btn class="mt-8" name="Gegevens opslaan" @click="handleClick" />
+      <Btn class="mt-8" name="Gegevens opslaan" @click="handleClick" :loading="loadingBtn" />
     </div>
   </div>
 </template>

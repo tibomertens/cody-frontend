@@ -1,7 +1,7 @@
 <template>
     <section>
         <div class="inner">
-            <div class="mt-[32px] lg:mt-[40px]">
+            <div v-if="loaded" class="mt-[32px] lg:mt-[40px]">
                 <div class="md:flex gap-[24px] items-center">
                     <div class="flex gap-[24px] items-center flex-wrap">
                         <h1 v-if="renovation.title" class="text-[1.5rem] md:text-title font-bold relative bottom-[1px]">
@@ -9,7 +9,7 @@
                         </h1>
                         <div class="flex gap-[24px] items-center">
                             <a @click.prevent href="#"
-                                class="px-[16px] pt-[6px] pb-[8px] font-bold bg-offWhite-light inline-block rounded-[5px]"
+                                class="px-[16px] pt-[6px] pb-[8px] font-bold bg-offWhite-light inline-block rounded-[5px] cursor-auto"
                                 :class="{ 'text-primary-dark border-2 border-primary-dark': currentState === 'Aanbevolen' || currentState === 'Extra', 'text-secondary-yellow border-2 border-secondary-yellow': currentState === 'Actief' || currentState === 'Gepauzeerd', 'text-secondary-green border-2 border-secondary-green': currentState === 'Voltooid' }">{{
                                     currentState }}</a>
                             <div class="w-[20px] h-[20px] cursor-pointer" @click="pinRenovation"><img
@@ -32,6 +32,7 @@
                     <Btn :name="stateBtnName" :loading="loadingState" @click="changeState" />
                 </div>
             </div>
+            <div v-else class="pulsing rounded-[5px] h-[250px] mt-[32px] lg:mt-[40px]"></div>
             <div class="mt-[32px] md:mt-[40px] mb-[20px]">
                 <div class="flex gap-[6px] items-center">
                     <h2 class="text-subtitle font-bold">Gegevens</h2>
@@ -180,7 +181,7 @@ import { onMounted, ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 import { updateState, updateAmount, updateSavedRenovation, updateNotes, getSuggestions, getUserRenovationById, getUserRenovation } from "../../functions/renovation";
-import { isValidToken, getUser } from '../../functions/user.js';
+import { isValidToken, getUser, checkEmailConfirmed, checkLabelUser } from '../../functions/user.js';
 import { convertDate } from '../../functions/helpers.js';
 
 import Btn from '../UI/Btn.vue';
@@ -542,6 +543,18 @@ const fetchUser = async () => {
     if (isValidToken(token)) {
         userData.value = await getUser(token);
         if (userData.value !== null) {
+            let emailConfirmed = await checkEmailConfirmed(userData.value);
+            if (!emailConfirmed) {
+                router.push('/login');
+                return;
+            }
+
+            let hasLabel = await checkLabelUser(userData.value);
+            if (!hasLabel) {
+                router.push('/determinelabelchoice');
+                return;
+            }
+            
             userId.value = userData.value._id;
         } else {
             router.push('/login');

@@ -23,7 +23,7 @@
           :error="dropdownHasError" :errorMessage="goalError" />
         <Input :label="'Doeljaar'" :width="'full'" :placeholder="'Bv. 2036'" @input-change="updateGoalYear"
           :error="inputHasError" />
-        <Input :label="'Stel uw budget in'" :width="'full'" :placeholder="'Bv. 9500'" @input-change="updateBudget"
+        <Input :label="'Stel uw budget in'" :pre-fix="'€'" :width="'full'" :placeholder="'Bv. 9500'" @input-change="updateBudget"
           :error="inputHasError" />
         <p v-if="yearError" class="text-secondary-red">{{ yearError }}</p>
       </div>

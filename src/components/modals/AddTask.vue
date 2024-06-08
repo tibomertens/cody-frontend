@@ -4,10 +4,9 @@
         <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
             <h2 class="font-bold text-subtitle mb-[12px]">Gegevens invullen</h2>
             <Input :label="'Titel:'" @input-change="updateTitle" :error="inputHasError" />
-            <Input :label="'Datum:'" @input-change="updateDate" :error="inputHasError"
+            <Input :label="'Datum:'" @input-change="updateDate" :value="date" :error="inputHasError"
                 type="datetime-local" />
-            <Input :label="'Description'" @input-change="updateDescription"
-                :error="inputHasError" />
+            <Input :label="'Description'" @input-change="updateDescription" :error="inputHasError" />
             <div class="w-full mt-[32px] grid gap-[24px]">
                 <Btn :name="'Opslaan'" :width="'full'" @click="add" />
                 <p v-if="error" class="text-secondary-red">{{ error }}</p>
@@ -17,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 import Btn from "../UI/Btn.vue";
 import Input from "../UI/Input.vue";
@@ -33,6 +32,10 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    selectedDate: {
+        type: String,
+        required: false,
+    },
 });
 
 const showModal = ref(false);
@@ -42,6 +45,18 @@ let inputHasError = ref(false);
 let title = ref("");
 let date = ref("");
 let description = ref("");
+
+onMounted(() => {
+    date.value = getCurrentDate();
+});
+
+const getCurrentDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
 
 const emit = defineEmits(["closeModal", "addTask"]);
 
@@ -80,6 +95,7 @@ const add = async () => {
 
 const updateDate = (x) => {
     date.value = x;
+    console.log(date.value);
 };
 
 const updateTitle = (x) => {
@@ -105,6 +121,30 @@ watch(
         id.value = value;
     }
 );
+
+watch(
+    () => props.selectedDate,
+    (value) => {
+        if (!value) return;
+        console.log(value);
+        if (value === "today" || value === "Invalid Date") {
+            date.value = getCurrentDate();
+        } else {
+            date.value = formatDateForInput(new Date(value));
+            console.log(date.value);
+        }
+    }
+);
+
+function formatDateForInput(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
 
 const handleOutsideClick = (event) => {
     if (event.target === event.currentTarget) {

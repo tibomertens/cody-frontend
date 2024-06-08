@@ -1,5 +1,5 @@
 <template>
-    <div
+    <div v-if="!pageLoading"
         class="bg-offWhite-light rounded-[5px] p-[24px] m-[32px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px]">
         <div class="md:col-span-1 flex justify-center items-center"><img class="max-h-[200px] md:max-h-[400px]"
                 :src="promotorData.logo" alt="logo"></div>
@@ -51,6 +51,7 @@
             </div>
         </div>
     </div>
+    <div v-else class="pulsing rounded-[5px] h-[330px] m-[32px] lg:m-[40px]"></div>
     <Confirm :showConfirm="showConfirm" title="Renovator afwijzen"
         desc="Weet je zeker dat je deze renovator wilt afwijzen of de samenwerking stopzetten?" @closeConfirm="showConfirm = false"
         @confirmAction="declinePromotorFunc" />
@@ -76,6 +77,7 @@ const promotorData = ref({});
 let loading = ref(false);
 let loadingAccept = ref(false);
 let loadingStop = ref(false);
+let pageLoading = ref(true);
 
 let showConfirm = ref(false);
 
@@ -91,6 +93,7 @@ onMounted(async () => {
 
         if (adminData.value !== false) {
             await getPromotorData();
+            pageLoading.value = false;
         } else {
             router.push('/admin/login');
         }

@@ -33,9 +33,20 @@ export const formatDate = (dateTime) => {
 
 export const formatTime = (dateTime) => {
   const date = new Date(dateTime);
-  const hours = String(date.getHours()).padStart(2, "0");
+
+  // Get the current hour and adjust for timezone difference by subtracting 2 hours
+  let hours = date.getHours() - 2;
+
+  // Handle wrapping around to the previous day
+  if (hours < 0) {
+    hours += 24;
+  }
+
+  // Pad the hours and minutes with leading zeros
+  const paddedHours = String(hours).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
-  return `${hours}:${minutes}`;
+
+  return `${paddedHours}:${minutes}`;
 };
 
 export function formatFinancialNumber(value) {
@@ -54,7 +65,7 @@ export function formatFinancialNumber(value) {
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
   // Concatenate parts with euro symbol
-  formattedNumber = parts.join(",") + " €";
+  formattedNumber = "€ " + parts.join(",");
 
   return formattedNumber;
 }

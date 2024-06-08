@@ -86,7 +86,7 @@ const handleSelectedItems = (key, value) => {
 <template>
     <section class="ml-[32px] mr-[32px] pt-[40px] md:ml-[10%] md:mr-[10%] xl:ml-[25%] xl:mr-[25%]">
         <div class="flex gap-[24px] align-middle">
-            <BackArrow />
+            <BackArrow class="relative top-[11px] xl:top-[9px]" />
             <h1 class="text-title font-bold">Indicatieve test</h1>
         </div>
         <HomeType @itemSelected="handleSelectedItems('typeWoning', $event)"

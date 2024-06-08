@@ -32,7 +32,7 @@ const alertFunc = () => {
 
 <template>
   <div class="bg-offWhite-light w-full z-10 relative ">
-    <div class="xl:ml-10 xl:mr-10 pl-[40px] xl:pl-0">
+    <div class="lg:mx-[40px] ml-[32px]">
       <div class="py-[12px] flex items-center justify-between">
         <div class="flex gap-[12px] items-center">
           <BackArrow
@@ -66,7 +66,7 @@ const alertFunc = () => {
           :class="{ 'text-primary-medium': isRouteActive('/settings/privacy-policy'), 'border-b-4 border-primary-medium': isRouteActive('/settings/privacy-policy') }">
           <span>Privacy</span>
         </router-link>
-        <router-link @click="toggleActiveLink" to="/settings/terms-of-service" class="flex"
+        <router-link @click="toggleActiveLink" to="/settings/terms-of-service" class="flex pr-6"
           :class="{ 'text-primary-medium': isRouteActive('/settings/terms-of-service'), 'border-b-4 border-primary-medium': isRouteActive('/settings/terms-of-service') }">
           <span>Gebruiksvoorwaarden</span>
         </router-link>

@@ -9,14 +9,22 @@ import Empty_state from "../widgets/Empty_state.vue";
 
 import { getAllPromotors } from "../../functions/promotor";
 import { getAllLocations } from "../../functions/location";
+import { getUser, isValidToken, checkEmailConfirmed, checkLabelUser } from "../../functions/user";
+
+import { useRouter } from "vue-router";
 
 const promotors = ref([]);
 const locations = ref([]);
 const pageTitle = ref("");
 const empty = ref(false);
 
-let dataIsLoaded = ref(false);
+const token = localStorage.getItem("token");
+let userData = ref({});
+let userId = ref("");
 
+const router = useRouter();
+
+let dataIsLoaded = ref(false);
 
 const selectedLocation = ref(null); // Keep track of the selected location
 
@@ -38,6 +46,30 @@ const populateLocations = (data) => {
 };
 
 onMounted(async () => {
+  if (!isValidToken(token)) {
+    router.push("/login");
+  } else {
+    userData.value = await getUser(token);
+    if (userData.value === null) {
+      router.push("/login");
+      return;
+    }
+
+    let emailConfirmed = await checkEmailConfirmed(userData.value);
+    if (!emailConfirmed) {
+      router.push("/login");
+      return;
+    }
+
+    let hasLabel = await checkLabelUser(userData.value);
+    if (!hasLabel) {
+      router.push("/determinelabelchoice");
+      return;
+    }
+
+    userId.value = userData.value._id;
+  }
+
   let fetchedLocations = await getAllLocations();
   populateLocations(fetchedLocations);
   promotors.value = await getAllPromotors();
