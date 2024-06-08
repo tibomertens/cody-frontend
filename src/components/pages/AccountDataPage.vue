@@ -72,9 +72,9 @@ const close = () => {
 </script>
 <template>
   <div class="flex justify-center my-[32px]">
-    <div class="w-[60%] xs:w-[400px]">
+    <div class="xs:w-[400px] w-full mx-[32px]">
       <div class="flex items-center">
-        <h2 class="text-title font-bold">Mijn gegevens</h2>
+        <h2 class="text-subtitle font-bold">Mijn gegevens</h2>
         <a href="/settings/account/edit">
           <div>
             <img src="/edit_no_fill.svg" alt="edit icon" class="w-[32px] ml-2" />

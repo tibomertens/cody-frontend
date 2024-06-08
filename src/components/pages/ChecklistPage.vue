@@ -115,7 +115,7 @@ const checkLabelNotEmpty = async () => {
   if (!selectedLabel.value) {
     error.value = "Selecteer een label om door te gaan.";
     return;
-  } else if (selectedItems.length !== 9) {
+  } else if (selectedItems.length !== 0) {
     showModal.value = true;
   } else {
     showConfirm.value = true;
@@ -149,7 +149,7 @@ onMounted(() => {
       Huidig label
     </h2>
     <div class="ml-[10%] mr-[10%] xl:ml-[20%] pb-[32px]">
-      <Dropdown :items="labelOptions" :labelData="labelData" @itemSelected="handleSelectedLabel" />
+      <Dropdown :items="labelOptions" :labelData="labelData" @itemSelected="handleSelectedLabel" :display="false" />
     </div>
     <h2 class="text-subtitle font-bold ml-[10%] xl:ml-[20%] pb-[20px]">
       Duid aan
@@ -172,14 +172,14 @@ onMounted(() => {
       :paragraph="'Bespaar energie en kosten door te investeren in geavanceerde systemen voor sanitair warm water, die efficiëntie en duurzaamheid bevorderen.'" />
     <ChecklistFrame @select="addSelectedItem" :title="'Beglazing'"
       :paragraph="'Verhoog de isolatiewaarde van je huis door energiezuinige beglazing te installeren, waardoor warmteverlies wordt verminderd en de energie-efficiëntie toeneemt.'" />
-    <div class="flex justify-center pb-[32px] mx-[10%] xl:mx-[20%]">
+      <div v-if="error" class="text-red-500 text-center pb-[20px]">
+        {{ error }}
+      </div>
+      <div class="flex justify-center pb-[32px] mx-[10%] xl:mx-[20%]">
       <Btn :name="'Doorgaan'" @click="checkLabelNotEmpty()" :width="'full'" />
     </div>
     <CalculatedLabelModal :showModal="showModal" :labelData="labelData" :items="selectedItems" :userId="userId"
-      @closeModal="closeModal" :path="currentPath" />
-    <div v-if="error" class="text-red-500 text-center pb-[32px]">
-      {{ error }}
-    </div>
+      @closeModal="closeModal" :path="currentPath" :showDisplayDisclaimer="false" />
     <Confirm :showConfirm="showConfirm" :title="'Weet je zeker dat je niets wilt aanduiden?'"
       @closeConfirm="closeConfirm" @confirmAction="showModal = true" />
   </div>

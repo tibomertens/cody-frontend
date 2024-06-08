@@ -15,6 +15,7 @@ let goalYear = ref("");
 let showButton = ref(false);
 let error = ref(null);
 let success = ref(null);
+let dataIsLoaded = ref(false);
 let loadingBtn = ref(false);
 
 const energyLabels = ref([
@@ -86,6 +87,7 @@ const getData = async () => {
     label.value = userData.value.label;
     goalLabel.value = userData.value.goalLabel;
     goalYear.value = userData.value.goalLabel_by_year;
+    dataIsLoaded.value = true;
   } else {
     router.push("/login");
   }
@@ -124,21 +126,46 @@ const save = async () => {
 </script>
 
 <template>
-  <div class="flex justify-center my-[32px]">
-    <div class="w-[60%] xs:w-[415px]">
-      <h2 class="text-subtitle pb-[20px] font-bold">Huidig label</h2>
-      <div class="pb-[32px]">
-        <img class="xs:w-[120px] xs:h-[52px] w-[90px] h-[40px]" :src="`/${label}-label.svg`" alt="Huidig label" />
-      </div>
-      <h2 class="text-subtitle pb-[20px] font-bold">Doel instellen</h2>
-      <Dropdown :items="energyLabels" label="Energielabel" @itemSelected="labelChange" :default="`label ${goalLabel}`"
-        :display="false" class="mb-[20px]" />
-      <Dropdown :items="goalYears" label="Doeljaar" @itemSelected="yearChange" :default="goalYear" :display="false" />
-      <Btn v-if="showButton" name="Opslaan" @click="save" class="mt-[32px]" width="full" :loading="loadingBtn" />
-      <p v-if="error" class="text-secondary-red font-bold mt-[20px]">{{ error }}</p>
-      <p v-if="success" class="text-secondary-green font-bold mt-[20px]">{{ success }}</p>
+  <div class="flex justify-center h-calc-100vh-164 items-center">
+    <div class="xs:w-[400px] w-full mx-[32px] ">
+        <h2 class="text-subtitle pb-[20px] font-bold">Huidig label</h2>
+        <div v-if="dataIsLoaded" class="pb-[32px]">
+          <img
+            class="xs:w-[120px] xs:h-[52px] w-[90px] h-[40px]"
+            :src="`/${label}-label.svg`"
+            alt="Huidig label"
+          />
+        </div>
+        <div v-else class="pulsing xs:w-[120px] xs:h-[52px] w-[90px] h-[40px] mb-[32px] rounded"></div>
+        <h2 class="text-subtitle pb-[20px] font-bold">Doel instellen</h2>
+        <Dropdown
+          :items="energyLabels"
+          label="Energielabel"
+          @itemSelected="labelChange"
+          :default="`label ${goalLabel}`"
+          :display="false"
+          class="mb-[20px]"
+          width="full"
+        />
+        <Dropdown
+          :items="goalYears"
+          label="Doeljaar"
+          @itemSelected="yearChange"
+          :default="goalYear"
+          :display="false"
+          width="full"
+        />
+        <Btn
+          v-if="showButton"
+          name="Opslaan"
+          @click="save"
+          class="mt-[32px]"
+          width="full"
+          :loading="loadingBtn"
+        />
+        <p v-if="error" class="text-secondary-red font-bold mt-[20px]">{{ error }}</p>
+        <p v-if="success" class="text-secondary-green font-bold mt-[20px]">{{ success }}</p>
     </div>
-
   </div>
 </template>
 
