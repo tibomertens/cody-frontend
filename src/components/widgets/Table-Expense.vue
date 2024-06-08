@@ -81,7 +81,7 @@ const closeFinalBudgetModal = () => {
           <div class="font-bold">Startdatum</div>
           <div class="font-bold">Einddatum</div>
         </div>
-        <div v-for="(renovation, index) in renovations" :key="index">
+        <div v-if="dataIsLoaded" v-for="(renovation, index) in renovations" :key="index">
           <div v-if="renovation.status !== 'Aanbevolen' && renovation.status !== 'extra'" class="flex justify-between items-center py-2 rounded w-[1118px]">
             <div class="w-[20px]">
               <a href="#" @click="openEditFinalBudgetPopup(renovation, userId.value)">
@@ -98,6 +98,12 @@ const closeFinalBudgetModal = () => {
             </div>
           </div>
         </div>
+        <div v-else>
+          <div class="flex justify-between items-center py-2 w-[1118px] rounded pulsing bg-offWhite-light h-[56px] mb-[20px]"></div>
+          <div class="flex justify-between items-center py-2 w-[1118px] rounded pulsing bg-offWhite-light h-[56px] mb-[20px]"></div>
+          <div class="flex justify-between items-center py-2 w-[1118px] rounded pulsing bg-offWhite-light h-[56px] mb-[20px]"></div>
+          <div class="flex justify-between items-center py-2 w-[1118px] rounded pulsing bg-offWhite-light h-[56px] mb-[20px]"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -109,22 +115,5 @@ const closeFinalBudgetModal = () => {
     :renovation="currentRenovation"
   />
 </template>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <style scoped></style>
