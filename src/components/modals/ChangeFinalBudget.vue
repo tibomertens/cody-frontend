@@ -4,7 +4,7 @@
     @click="handleOutsideClick">
     <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
       <h2 class="text-subtitle font-bold mb-[32px]">Wijzig Uitgaven</h2>
-      <Input label="Bedrag" @input-change="finalBudgetHandler" class="pb-[32px]" :error="hasError"
+      <Input label="Bedrag" :pre-fix="'€'" @input-change="finalBudgetHandler" class="pb-[32px]" :error="hasError"
         :placeholder="formattedPlaceholder" />
       <Btn name="Opslaan" @click="handleClick" :width="'full'" :loading="loadingBtn" />
       <p v-if="error" class="text-secondary-red">{{ error }}</p>

@@ -96,10 +96,10 @@ const ChangeReview = async () => {
         <div v-if="isCharacterLimitReached" class="text-red-500">Je hebt het limiet van {{ maxCharacters }} karakters
             bereikt.</div>
     </div>
+    <div v-if="hasError" class="text-red-500">{{ error }}</div>
     <div class="pt-[20px] mb-[40px]">
         <Btn :name="'Slaag aanpassingen op'" @click="ChangeReview" :loading="loadingState" />
     </div>
-    <div v-if="hasError" class="text-red-500">{{ error }}</div>
 </template>
 
 <style scoped></style>
