@@ -8,8 +8,8 @@ import Error_state from '../widgets/Error_state.vue';
 import { ref, reactive, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import { isValidToken, getUser } from '../../functions/user.js';
-import { getRenovations, getRecommendedRenovations, getActiveRenovations, getSavedRenovations, getCompletedRenovations, getUserRenovation } from '../../functions/renovation.js';
+import { isValidToken, getUser, checkEmailConfirmed, checkLabelUser } from '../../functions/user.js';
+import { getRenovations, getRecommendedRenovations, getActiveRenovations, getSavedRenovations, getCompletedRenovations, getUserRenovation, getPausedRenovations } from '../../functions/renovation.js';
 import { convertDate } from '../../functions/helpers.js';
 
 const route = useRoute();
@@ -19,6 +19,8 @@ const token = localStorage.getItem('token');
 
 let userData = reactive({});
 let renovations = reactive([]);
+let pausedRenovations = reactive([]);
+let pausedRenovationsLoaded = ref(false);
 let renovationsLoaded = ref(false);
 let budget = ref(0);
 let userId = ref('');
@@ -34,6 +36,18 @@ const fetchData = async () => {
     if (isValidToken(token)) {
       userData.value = await getUser(token);
 
+      let emailConfirmed = await checkEmailConfirmed(userData.value);
+      if (!emailConfirmed) {
+        router.push('/login');
+        return;
+      }
+
+      let hasLabel = await checkLabelUser(userData.value);
+      if (!hasLabel) {
+        router.push('/determinelabelchoice');
+        return;
+      }
+
       if (userData.value !== null) {
         budget.value = userData.value.budget_current;
         userId.value = userData.value._id;
@@ -45,6 +59,8 @@ const fetchData = async () => {
         renovations.value = await getRecommendedRenovations(userId.value);
       } else if (route.path === '/projects/active') {
         renovations.value = await getActiveRenovations(userId.value);
+        pausedRenovations.value = await getPausedRenovations(userId.value);
+        pausedRenovationsLoaded.value = true;
       } else if (route.path === '/projects/completed') {
         renovations.value = await getCompletedRenovations(userId.value);
       } else if (route.path === '/projects/saved') {
@@ -218,7 +234,7 @@ const updateSearch = async (q) => {
     </div>
     <Error_state v-if="unexpected_error" />
     <div v-if="renovationsLoaded">
-      <Empty_state :text="empty_text" v-if="renovations.value.length === 0" />
+      <Empty_state :text="empty_text" v-if="renovations.value.length === 0 && pausedRenovations.value.length === 0" />
       <router-link v-else v-for="(renovation, i) in renovations.value" :key="i" :to="'/projects/' + renovation._id">
         <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
           :activeSrc="getActiveSrcArray(renovation)" :doneSrc="getDoneSrcArray(renovation)" :label="labelArray"
@@ -226,6 +242,18 @@ const updateSearch = async (q) => {
           :activeText="getActiveTextArray(renovation)" :doneText="getDoneTextArray(renovation)"
           :stateFetcher="getStateFetcher(renovation)" />
       </router-link>
+    </div>
+    <div v-if="pausedRenovationsLoaded">
+      <div v-if="pausedRenovations.value.length > 0">
+        <h2 class="font-bold text-subtitle mb-[24px]">Gepauzeerde renovaties</h2>
+        <router-link v-for="(renovation, i) in pausedRenovations.value" :key="i" :to="'/projects/' + renovation._id">
+          <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
+            :activeSrc="getActiveSrcArray(renovation)" :doneSrc="getDoneSrcArray(renovation)" :label="labelArray"
+            :activeLabel="activeLabelArray" :doneLabel="doneLabelArray" :text="getTextArray(renovation)"
+            :activeText="getActiveTextArray(renovation)" :doneText="getDoneTextArray(renovation)"
+            :stateFetcher="getStateFetcher(renovation)" />
+        </router-link>
+      </div>
     </div>
     <div v-if="!renovationsLoaded && !unexpected_error" class="pulsing rounded-[5px] h-[196px] mb-[32px]"></div>
     <div v-if="!renovationsLoaded && !unexpected_error" class="pulsing rounded-[5px] h-[196px] mb-[32px]"></div>

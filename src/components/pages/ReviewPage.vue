@@ -38,7 +38,7 @@
 import { ref, onMounted } from "vue";
 import ReviewCard from "../widgets/Review-card.vue";
 import { getReviewsByPromotor } from "../../functions/reviews";
-import { getUser, isValidToken } from "../../functions/user";
+import { getUser, isValidToken, checkEmailConfirmed, checkLabelUser } from "../../functions/user";
 import { useRoute, useRouter } from "vue-router";
 import SortFilter from "../UI/Sort-filter.vue";
 import ButtonBtn from "../UI/Button-Btn.vue";
@@ -61,6 +61,19 @@ onMounted(async () => {
 
   if (isValidToken(token)) {
     userData.value = await getUser(token);
+
+    let emailConfirmed = await checkEmailConfirmed(userData.value);
+    if (!emailConfirmed) {
+      router.push("/login");
+      return;
+    }
+
+    let hasLabel = await checkLabelUser(userData.value);
+    if (!hasLabel) {
+      router.push("/determinelabelchoice");
+      return;
+    }
+    
     userId.value = userData.value._id;
     splitReviews();
   } else {
