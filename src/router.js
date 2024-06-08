@@ -7,7 +7,6 @@ import sideNav from "./components/shared/SideNav.vue";
 import topNav from "./components/shared/TopNav.vue";
 import Projects from "./components/pages/ProjectsPage.vue";
 import checklist from "./components/pages/ChecklistPage.vue";
-import Settings from "./components/pages/SettingsPage.vue";
 import promotors from "./components/pages/PromotorsPage.vue";
 import DetermineLabelChoicePage from "./components/pages/DetermineLabelChoicePage.vue";
 import RenovationDetailPage from "./components/pages/RenovationDetailsPage.vue";
