@@ -8,7 +8,12 @@ export const isValidToken = (token) => {
     return true;
   }
 };
-export const registerUser = async (email, password, familyname, allowEmails) => {
+export const registerUser = async (
+  email,
+  password,
+  familyname,
+  allowEmails
+) => {
   let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users`;
 
   try {
@@ -198,7 +203,9 @@ export const resetpassword = async (body) => {
 };
 
 export const confirmEmail = async (token) => {
-  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/confirm/${token}`;
+  let apiEndpoint = `${
+    import.meta.env.VITE_API_URL
+  }/api/v1/users/confirm/${token}`;
   console.log(apiEndpoint);
 
   try {
@@ -220,7 +227,9 @@ export const confirmEmail = async (token) => {
 export const updateUser = async (token, body) => {
   const decoded = jwtDecode(token);
   let userId = decoded.id;
-  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/update/${userId}`;
+  let apiEndpoint = `${
+    import.meta.env.VITE_API_URL
+  }/api/v1/users/update/${userId}`;
 
   try {
     const response = await fetch(apiEndpoint, {
@@ -268,4 +277,26 @@ export const deleteUser = async (token) => {
     console.error("Error:", error);
     throw error;
   }
-}
+};
+
+export const checkLabelUser = async (userData) => {
+  // check if this userData has a label, return true if it does
+  if (userData === null || userData === undefined) return false;
+
+  if (userData.label) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const checkEmailConfirmed = async (userData) => {
+  // check if this userData has a label, return true if it does
+  if (userData === null || userData === undefined) return false;
+
+  if (userData.emailConfirmed) {
+    return true;
+  } else {
+    return false;
+  }
+};

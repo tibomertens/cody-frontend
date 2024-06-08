@@ -137,7 +137,7 @@
 import { ref, onMounted, nextTick } from "vue";
 import { useRouter } from "vue-router";
 
-import { isValidToken, getUser } from "../../functions/user.js";
+import { isValidToken, getUser, checkEmailConfirmed, checkLabelUser } from "../../functions/user.js";
 import { formatFinancialNumber } from "../../functions/helpers.js";
 import { getCompletedRenovationsByMonth } from "../../functions/renovation.js";
 import ChangeGoal from "../modals/ChangeGoal.vue";
@@ -214,6 +214,18 @@ const getData = async () => {
   userData.value = await getUser(token);
 
   if (userData.value !== null) {
+    let emailConfirmed = await checkEmailConfirmed(userData.value);
+    if (!emailConfirmed) {
+      router.push("/login");
+      return;
+    }
+
+    let hasLabel = await checkLabelUser(userData.value);
+    if (!hasLabel) {
+      router.push("/determinelabelchoice");
+      return;
+    }
+
     currentLabel.value = userData.value.label;
     goalLabel.value = userData.value.goalLabel;
     goalYear.value = userData.value.goalLabel_by_year;

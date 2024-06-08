@@ -8,7 +8,7 @@ import Error_state from '../widgets/Error_state.vue';
 import { ref, reactive, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import { isValidToken, getUser } from '../../functions/user.js';
+import { isValidToken, getUser, checkEmailConfirmed, checkLabelUser } from '../../functions/user.js';
 import { getRenovations, getRecommendedRenovations, getActiveRenovations, getSavedRenovations, getCompletedRenovations, getUserRenovation, getPausedRenovations } from '../../functions/renovation.js';
 import { convertDate } from '../../functions/helpers.js';
 
@@ -35,6 +35,18 @@ const fetchData = async () => {
   try {
     if (isValidToken(token)) {
       userData.value = await getUser(token);
+
+      let emailConfirmed = await checkEmailConfirmed(userData.value);
+      if (!emailConfirmed) {
+        router.push('/login');
+        return;
+      }
+
+      let hasLabel = await checkLabelUser(userData.value);
+      if (!hasLabel) {
+        router.push('/determinelabelchoice');
+        return;
+      }
 
       if (userData.value !== null) {
         budget.value = userData.value.budget_current;

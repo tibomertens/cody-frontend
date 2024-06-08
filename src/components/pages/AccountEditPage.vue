@@ -5,7 +5,7 @@ import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { isValidToken } from "../../functions/user";
-import { getUser, updateUser } from "../../functions/user";
+import { getUser, updateUser, checkEmailConfirmed, checkLabelUser } from "../../functions/user";
 
 const router = useRouter();
 const token = localStorage.getItem("token");
@@ -27,9 +27,24 @@ onMounted(async () => {
 const getData = async () => {
   let result = await getUser(token);
   if (result) {
+
+    let emailConfirmed = await checkEmailConfirmed(result.value);
+    if (!emailConfirmed) {
+      router.push("/login");
+      return;
+    }
+
+    let hasLabel = await checkLabelUser(result.value);
+    if (!hasLabel) {
+      router.push("/determinelabelchoice");
+      return;
+    }
+
     data.value = result;
     familyName.value = data.value.username;
     email.value = data.value.email;
+  } else {
+    router.push("/login");
   }
 };
 

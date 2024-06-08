@@ -3,8 +3,9 @@ import Btn from "../UI/Button-Btn.vue";
 import Dropdown from "../UI/Dropdown.vue";
 import { ref } from "vue";
 import { onMounted } from "vue";
-import { getUser, isValidToken } from "../../functions/user";
+import { getUser, isValidToken, checkEmailConfirmed, checkLabelUser } from "../../functions/user";
 import { addLabel } from "../../functions/label";
+import { useRouter } from "vue-router";
 
 let token = localStorage.getItem("token");
 let userData = ref({});
@@ -55,6 +56,8 @@ const goalYears = ref([
   { name: "2050", title: "2050" },
 ]);
 
+const router = useRouter();
+
 onMounted(async () => {
   if (isValidToken(token)) {
     await getData();
@@ -66,10 +69,24 @@ onMounted(async () => {
 const getData = async () => {
   let result = await getUser(token);
   if (result) {
+    let emailConfirmed = await checkEmailConfirmed(result.value);
+    if (!emailConfirmed) {
+      router.push("/login");
+      return;
+    }
+
+    let hasLabel = await checkLabelUser(result.value);
+    if (!hasLabel) {
+      router.push("/determinelabelchoice");
+      return;
+    }
+
     userData.value = result;
     label.value = userData.value.label;
     goalLabel.value = userData.value.goalLabel;
     goalYear.value = userData.value.goalLabel_by_year;
+  } else {
+    router.push("/login");
   }
 };
 
@@ -84,59 +101,37 @@ const yearChange = (selectedYear) => {
 };
 
 const save = async () => {
-    let items = {
-      goalLabel: goalLabel.value,
-      goalLabel_by_year: goalYear.value,
-    };
-    const result = await addLabel(items, userData.value._id);
-    if (result) {
-      showButton.value = false;
-      success.value = "Gegevens opgeslagen";
-    } else {
-      error.value = "Er is iets misgegaan met het opslaan van de gegevens";
-    }
-  
+  let items = {
+    goalLabel: goalLabel.value,
+    goalLabel_by_year: goalYear.value,
+  };
+  const result = await addLabel(items, userData.value._id);
+  if (result) {
+    showButton.value = false;
+    success.value = "Gegevens opgeslagen";
+  } else {
+    error.value = "Er is iets misgegaan met het opslaan van de gegevens";
+  }
+
 };
 </script>
 
 <template>
   <div class="flex justify-center my-[32px]">
     <div class="w-[60%] xs:w-[415px]">
-        <h2 class="text-subtitle pb-[20px] font-bold">Huidig label</h2>
-        <div class="pb-[32px]">
-          <img
-            class="xs:w-[120px] xs:h-[52px] w-[90px] h-[40px]"
-            :src="`/${label}-label.svg`"
-            alt="Huidig label"
-          />
-        </div>
-        <h2 class="text-subtitle pb-[20px] font-bold">Doel instellen</h2>
-        <Dropdown
-          :items="energyLabels"
-          label="Energielabel"
-          @itemSelected="labelChange"
-          :default="`label ${goalLabel}`"
-          :display="false"
-          class="mb-[20px]"
-        />
-        <Dropdown
-          :items="goalYears"
-          label="Doeljaar"
-          @itemSelected="yearChange"
-          :default="goalYear"
-          :display="false"
-        />
-        <Btn
-          v-if="showButton"
-          name="Opslaan"
-          @click="save"
-          class="mt-[32px]"
-          width="full"
-        />
-        <p v-if="error" class="text-secondary-red font-bold mt-[20px]">{{ error }}</p>
-        <p v-if="success" class="text-secondary-green font-bold mt-[20px]">{{ success }}</p>
+      <h2 class="text-subtitle pb-[20px] font-bold">Huidig label</h2>
+      <div class="pb-[32px]">
+        <img class="xs:w-[120px] xs:h-[52px] w-[90px] h-[40px]" :src="`/${label}-label.svg`" alt="Huidig label" />
+      </div>
+      <h2 class="text-subtitle pb-[20px] font-bold">Doel instellen</h2>
+      <Dropdown :items="energyLabels" label="Energielabel" @itemSelected="labelChange" :default="`label ${goalLabel}`"
+        :display="false" class="mb-[20px]" />
+      <Dropdown :items="goalYears" label="Doeljaar" @itemSelected="yearChange" :default="goalYear" :display="false" />
+      <Btn v-if="showButton" name="Opslaan" @click="save" class="mt-[32px]" width="full" />
+      <p v-if="error" class="text-secondary-red font-bold mt-[20px]">{{ error }}</p>
+      <p v-if="success" class="text-secondary-green font-bold mt-[20px]">{{ success }}</p>
     </div>
-    
+
   </div>
 </template>
 

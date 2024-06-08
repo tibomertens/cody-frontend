@@ -18,7 +18,5 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-
 import FAQCard from '../widgets/FAQ-card.vue';
 </script>
