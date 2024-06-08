@@ -71,18 +71,19 @@ const handleClick = async () => {
   let result;
   try {
     result = await updateUser(token, body);
+
+    if (result) {
+      if (result.emailUpdated) {
+        router.push("/login");
+      } else {
+        router.push("/account");
+      }
+    }
   } catch (error) {
     console.error(error);
     hasError.value = true;
     errorMessage.value = "Failed to update user data.";
     return;
-  }
-
-  if (result) {
-    router.push("/account");
-  } else {
-    hasError.value = true;
-    errorMessage.value = "Failed to update user data.";
   }
 };
 </script>
