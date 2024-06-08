@@ -14,6 +14,7 @@ let familyName = ref("");
 let email = ref("");
 let hasError = ref(false);
 let errorMessage = ref("");
+let loadingBtn = ref(false);
 
 onMounted(async () => {
   if (isValidToken(token)) {
@@ -62,6 +63,7 @@ const handleClick = async () => {
     errorMessage.value = "Vul een correct emailadres in.";
     return;
   }
+  loadingBtn.value = true;
 
   let body = {
     username: familyName.value,
@@ -72,6 +74,7 @@ const handleClick = async () => {
   try {
     result = await updateUser(token, body);
 
+    loadingBtn.value = false;
     if (result) {
       if (result.emailUpdated) {
         router.push("/login");
@@ -103,7 +106,7 @@ const handleClick = async () => {
       <div v-if="hasError" class="text-secondary-red mt-2">
         {{ errorMessage }}
       </div>
-      <Btn class="mt-8" name="Gegevens opslaan" @click="handleClick" />
+      <Btn class="mt-8" name="Gegevens opslaan" @click="handleClick" :loading="loadingBtn" />
     </div>
   </div>
 </template>
