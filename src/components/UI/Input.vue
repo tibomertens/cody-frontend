@@ -68,7 +68,7 @@ const inputId = computed(() => `input-${props.label.replace(/\s+/g, '-').toLower
         :class="{ 'border-2 border-secondary-red': hasError, 'border-2 border-offWhite-light': !hasError, 'pl-[48px]': props.preFix, 'bg-offWhite-dark': props.dark }"
         class="w-[100%] p-2 pl-[24px] rounded-md focus:border-primary-dark focus:outline-none" v-model="inputValue"
         @input="updateInput" :placeholder="props.placeholder" tabindex="0" />
-      <p v-if="props.preFix" class="font-bold absolute inset-y-0 left-0 pl-[24px] pt-[16.5px] pointer-events-none">{{
+      <p v-if="props.preFix" class="font-bold absolute inset-y-0 left-0 pl-[24px] pt-[17.5px] pointer-events-none">{{
         props.preFix }}</p>
     </div>
   </div>

@@ -6,7 +6,7 @@
     >
     <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
     <h2 class="text-subtitle font-bold mb-[32px]" >Wijzig budget</h2>
-    <Input label="Hoeveel budget wilt u toevoegen?" @input-change="budgetHandler" class="pb-[32px]" :error="hasError"/>
+    <Input label="Hoeveel budget wilt u toevoegen?" @input-change="budgetHandler" :placeholder="'bv. 2000'" :pre-fix="'€'" class="pb-[32px]" :error="hasError"/>
     <Btn name="Opslaan" @click="handleClick" :width="'full'"/>
     <p v-if="error" class="text-secondary-red">{{ error }}</p>
     </div>
