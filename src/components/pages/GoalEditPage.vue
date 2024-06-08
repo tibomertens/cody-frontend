@@ -15,6 +15,7 @@ let goalYear = ref("");
 let showButton = ref(false);
 let error = ref(null);
 let success = ref(null);
+let loadingBtn = ref(false);
 
 const energyLabels = ref([
   { name: "A+", title: "Label A+" },
@@ -101,11 +102,17 @@ const yearChange = (selectedYear) => {
 };
 
 const save = async () => {
+  loadingBtn.value = true;
+
   let items = {
     goalLabel: goalLabel.value,
     goalLabel_by_year: goalYear.value,
   };
+
   const result = await addLabel(items, userData.value._id);
+
+  loadingBtn.value = false;
+  
   if (result) {
     showButton.value = false;
     success.value = "Gegevens opgeslagen";
@@ -127,7 +134,7 @@ const save = async () => {
       <Dropdown :items="energyLabels" label="Energielabel" @itemSelected="labelChange" :default="`label ${goalLabel}`"
         :display="false" class="mb-[20px]" />
       <Dropdown :items="goalYears" label="Doeljaar" @itemSelected="yearChange" :default="goalYear" :display="false" />
-      <Btn v-if="showButton" name="Opslaan" @click="save" class="mt-[32px]" width="full" />
+      <Btn v-if="showButton" name="Opslaan" @click="save" class="mt-[32px]" width="full" :loading="loadingBtn" />
       <p v-if="error" class="text-secondary-red font-bold mt-[20px]">{{ error }}</p>
       <p v-if="success" class="text-secondary-green font-bold mt-[20px]">{{ success }}</p>
     </div>

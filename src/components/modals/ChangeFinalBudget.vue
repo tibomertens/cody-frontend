@@ -6,7 +6,7 @@
       <h2 class="text-subtitle font-bold mb-[32px]">Wijzig Uitgaven</h2>
       <Input label="Bedrag" @input-change="finalBudgetHandler" class="pb-[32px]" :error="hasError"
         :placeholder="formattedPlaceholder" />
-      <Btn name="Opslaan" @click="handleClick" :width="'full'" />
+      <Btn name="Opslaan" @click="handleClick" :width="'full'" :loading="loadingBtn" />
       <p v-if="error" class="text-secondary-red">{{ error }}</p>
     </div>
   </div>
@@ -21,6 +21,7 @@ import { formatFinancialNumber } from "../../functions/helpers.js";
 import { updateUserData } from '../../functions/renovation';
 
 let newExpense = ref('');
+let loadingBtn = ref(false);
 
 const props = defineProps({
   showFinalBudgetModal: Boolean,
@@ -55,12 +56,15 @@ const handleClick = async () => {
     console.log(props.renovation._id, props.userId, props.renovation);
     let result;
 
+    loadingBtn.value = true;
     if (props.renovation.status === "Voltooid") {
       result = await updateUserData(props.userId, props.renovation.renovation._id, { budget_final: newExpense.value });
     }
-else {
+    else {
       result = await updateUserData(props.userId, props.renovation.renovation._id, { budget: newExpense.value });
     }
+    loadingBtn.value = false;
+    
     if (result.success) {
       confirmAction();
     };
