@@ -20,6 +20,7 @@ const token = localStorage.getItem('token');
 let userData = reactive({});
 let renovations = reactive([]);
 let pausedRenovations = reactive([]);
+let pausedRenovationsLoaded = ref(false);
 let renovationsLoaded = ref(false);
 let budget = ref(0);
 let userId = ref('');
@@ -47,6 +48,7 @@ const fetchData = async () => {
       } else if (route.path === '/projects/active') {
         renovations.value = await getActiveRenovations(userId.value);
         pausedRenovations.value = await getPausedRenovations(userId.value);
+        pausedRenovationsLoaded.value = true;
       } else if (route.path === '/projects/completed') {
         renovations.value = await getCompletedRenovations(userId.value);
       } else if (route.path === '/projects/saved') {
@@ -229,9 +231,9 @@ const updateSearch = async (q) => {
           :stateFetcher="getStateFetcher(renovation)" />
       </router-link>
     </div>
-    <div v-if="renovationsLoaded">
+    <div v-if="pausedRenovationsLoaded">
       <div v-if="pausedRenovations.value.length > 0">
-        <h2 class="font-bold text-subtitle mb-[32px]">Gepauzeerde renovaties</h2>
+        <h2 class="font-bold text-subtitle mb-[24px]">Gepauzeerde renovaties</h2>
         <router-link v-for="(renovation, i) in pausedRenovations.value" :key="i" :to="'/projects/' + renovation._id">
           <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
             :activeSrc="getActiveSrcArray(renovation)" :doneSrc="getDoneSrcArray(renovation)" :label="labelArray"
