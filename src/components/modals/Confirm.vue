@@ -8,7 +8,7 @@
       </div>
       <div class="mt-5">
         <div class="w-full">
-          <Btn @click="confirmAction" :width="'full'" name="Doorgaan" />
+          <Btn @click="confirmAction" :width="'full'" :name="props.firstBtn" />
         </div>
         <div class="w-full mt-4">
           <GhostBtn @click="closeConfirm" :width="'full'" name="Annuleren" />
@@ -23,9 +23,22 @@ import Btn from "../UI/Btn.vue";
 import GhostBtn from "../UI/Ghost-btn.vue";
 
 const props = defineProps({
-  showConfirm: Boolean,
-  title: String,
-  desc: String,
+  showConfirm: {
+    type: Boolean,
+    required: true,
+  },
+  title: {
+    type: String,
+    default: "Weet je het zeker?",
+  },
+  desc: {
+    type: String,
+    default: "",
+  },
+  firstBtn: {
+    type: String,
+    default: "Doorgaan",
+  },
 });
 
 const emit = defineEmits(["closeConfirm", "confirmAction"]);

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted, computed } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 
 const emit = defineEmits(['input-change']);
 
@@ -10,7 +10,7 @@ const props = defineProps({
   },
   type: {
     type: String,
-    required: true
+    default: "text"
   },
   error: {
     type: Boolean,
@@ -26,7 +26,7 @@ const props = defineProps({
   },
   value: {
     type: String,
-    required: false
+    default: ""
   },
   dark: {
     type: Boolean,
@@ -39,65 +39,39 @@ const props = defineProps({
   admin: {
     type: Boolean,
     default: false
-  },
+  }
 });
 
-let inputValue = ref("");
+let inputValue = ref(props.value);
 let hasError = ref(props.error);
-let heightClass = ref(""); // Add a reference for the height class
 
 const updateInput = () => {
   emit("input-change", inputValue.value);
 };
 
-watch(
-  () => props.error,
-  (newVal) => {
-    hasError.value = newVal;
-  }
-);
-
-onMounted(() => {
-  if (props.value !== false) {
-    inputValue.value = props.value;
-  }
-  
-  // Update height class based on the prop value
-  heightClass.value = props.height;
+watch(() => props.error, (newVal) => {
+  hasError.value = newVal;
 });
 
-watch(
-  () => props.value,
-  (newVal) => {
-    if (newVal !== false) {
-      inputValue.value = newVal;
-    } else {
-      inputValue.value = "";
-    }
-  }
-);
+watch(() => props.value, (newVal) => {
+  inputValue.value = newVal;
+});
 
 const inputId = computed(() => `input-${props.label.replace(/\s+/g, '-').toLowerCase()}`);
 </script>
 
 <template>
   <div class="input-container mt-8">
-    <div class="flex w-[100%] justify-between">
-      <label :for="inputId" class="text-body font-bold pb-2">{{ label }}</label>
-      <router-link to="/forgotpassword">
-        <a href="#" class="text-xs underline" :class="{ 'hidden': props.type !== 'password' || props.forget === true || props.admin === true }">Wachtwoord vergeten?</a>
-      </router-link>
-    </div>
-    <div class="relative">
+    <label :for="inputId" class="text-body font-bold">{{ label }}</label>
+    <div class="relative pt-2">
       <input :id="inputId" :type="type"
-        :class="{ 'border-2 border-secondary-red': hasError, 'border-2 border-offWhite-light': !hasError, 'pl-[48px]': props.preFix, 'bg-offWhite-dark': props.dark === true, 'border-none !p-[1.25px]': props.type === 'file' }"
-        class="w-[100%] p-2 rounded-md focus:border-primary-dark focus:outline-none pl-[24px]" v-model="inputValue"
-        @input="updateInput" :placeholder="props.placeholder" />
-      <p v-if="props.preFix" class="font-bold absolute inset-y-0 left-0 pl-[24px] pt-[9.5px] pointer-events-none">{{
+        :class="{ 'border-2 border-secondary-red': hasError, 'border-2 border-offWhite-light': !hasError, 'border-2 border-offWhite-dark': props.type === 'file' && !hasError, 'pl-[48px]': props.preFix, 'bg-offWhite-dark': props.dark }"
+        class="w-[100%] p-2 pl-[24px] rounded-md focus:border-primary-dark focus:outline-none" v-model="inputValue"
+        @input="updateInput" :placeholder="props.placeholder" tabindex="0" />
+      <p v-if="props.preFix" class="font-bold absolute inset-y-0 left-0 pl-[24px] pt-[17.5px] pointer-events-none">{{
         props.preFix }}</p>
     </div>
   </div>
 </template>
-
 
 <style scoped></style>

@@ -49,6 +49,10 @@ const routes = [
     meta: { title: "Cody | Account", sidebar: true },
   },
   {
+    path: "/profile",
+    redirect: "/",
+  },
+  {
     path: "/login",
     components: { default: login },
     meta: { title: "Cody | Inloggen", sidebar: false },
@@ -189,9 +193,9 @@ const routes = [
   },
   {
     path: "/admin/dashboard",
-    components: { default: AdminDashboard, sidebar: sideNav, topNav: topNav },
+    components: { default: AdminDashboard, topNav: topNav },
     name: "Admin Dashboard",
-    meta: { title: "Cody | Admin dashboard", sidebar: true },
+    meta: { title: "Cody | Admin dashboard", sidebar: false },
   },
   {
     path: "/admin",
@@ -199,9 +203,9 @@ const routes = [
   },
   {
     path: "/admin/promotors/:id",
-    components: { default: PromotorsAdminPage, sidebar: sideNav, topNav: topNav },
+    components: { default: PromotorsAdminPage, topNav: topNav },
     name: "Renovator details",
-    meta: { title: "Cody | Renovator details", sidebar: true },
+    meta: { title: "Cody | Renovator details", sidebar: false },
   },
   {
     path: "/account/expenses",

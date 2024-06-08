@@ -100,8 +100,7 @@
 
       <a href="/account/expenses">
         <div
-          class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center"
-        >
+          class="w-full h-[48px] bg-primary-dark rounded-b-lg text-offWhite-light font-bold md:text-btn text-body flex justify-center items-center">
           Bekijk al je uitgaven
         </div>
       </a>
@@ -127,8 +126,11 @@
     </div>
     <div v-else class="pulsing h-[314px] rounded-[5px] md:mx-[40px] ml-[5%] mb-[32px]"></div>
   </section>
-  <ChangeGoal :showModal="showModal" :userId="userId" @closeModal="closeModal" />
+  <ChangeGoal :showModal="showModal" :userId="userId" :userData="userData" @closeModal="closeModal" />
   <ChangeBudget :showBudgetModal="showBudgetModal" :userId="userId" @closeBudgetModal="closeBudgetModal" />
+  <Confirm :showConfirm="showConfirm" title="Gefeliciteerd!"
+    desc="Je hebt je doel behaald! Wil je een nieuw doel instellen?" @closeConfirm="showConfirm = false"
+    @confirmAction="openEditGoalPopup" :firstBtn="'Doel instellen'" />
 </template>
 
 <script setup>
@@ -141,6 +143,7 @@ import { getCompletedRenovationsByMonth } from "../../functions/renovation.js";
 import ChangeGoal from "../modals/ChangeGoal.vue";
 import ChangeBudget from "../modals/ChangeBudget.vue";
 import Graph from "../widgets/Line-graph.vue";
+import Confirm from "../modals/Confirm.vue";
 
 const router = useRouter();
 
@@ -160,6 +163,7 @@ let label = ref("");
 let showBudgetModal = ref(false);
 let chartDataArray = ref(new Array(12).fill(0)); // Initialize with 12 zeros, one for each month
 let goalYear = ref("");
+let showConfirm = ref(false);
 
 onMounted(async () => {
   if (isValidToken(token)) {
@@ -175,8 +179,18 @@ onMounted(async () => {
 
   // Calculate cumulative sum
   calculateCumulativeSum();
-  goalYear.value = userData.value.goalLabel_by_year;
+
+  checkGoal();
 });
+
+const checkGoal = () => {
+  if (userData.value.label === 'A+') {
+    return;
+  }
+  if (userData.value.goalLabel === userData.value.label) {
+    showConfirm.value = true;
+  }
+};
 
 const openEditBudgetPopup = () => {
   showBudgetModal.value = true;
@@ -202,6 +216,7 @@ const getData = async () => {
   if (userData.value !== null) {
     currentLabel.value = userData.value.label;
     goalLabel.value = userData.value.goalLabel;
+    goalYear.value = userData.value.goalLabel_by_year;
     currentBudget = userData.value.budget_current;
     spentBudget = userData.value.budget_spent;
     userId.value = userData.value._id;
