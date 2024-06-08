@@ -28,18 +28,22 @@ let userId = ref(null);
 let labelData = reactive({});
 let showModal = ref(false);
 let error = ref(null);
+let loadingState = ref(false);
 
-onMounted( async () => {
-  if (isValidToken(token)) {
-    userData = await getUser(token);
-    userId = userData._id;
-  } else {
-    router.push("/login");
-  }
+onMounted(async () => {
+    if (isValidToken(token)) {
+        userData = await getUser(token);
+        userId = userData._id;
+    } else {
+        router.push("/login");
+    }
 });
 
 const calculate = async (items) => {
+    loadingState.value = true;
     labelData = await calculateLabel(items);
+    loadingState.value = false;
+
     if (labelData.status === 400) {
         error.value = 'Gelieve alle velden in te vullen';
     } else if (labelData.status === 500) {
@@ -82,7 +86,7 @@ const handleSelectedItems = (key, value) => {
 <template>
     <section class="ml-[32px] mr-[32px] pt-[40px] md:ml-[10%] md:mr-[10%] xl:ml-[25%] xl:mr-[25%]">
         <div class="flex gap-[24px] align-middle">
-            <BackArrow />
+            <BackArrow class="relative top-[11px] xl:top-[9px]" />
             <h1 class="text-title font-bold">Indicatieve test</h1>
         </div>
         <HomeType @itemSelected="handleSelectedItems('typeWoning', $event)"
@@ -103,13 +107,14 @@ const handleSelectedItems = (key, value) => {
             @windows="handleSelectedItems('typeVenster', $event)" />
         <div>
             <div class="flex justify-center mt-[64px]">
-                <Btn :name="'Doorgaan'" @click="calculate(selectedItems)" :width="''" />
+                <Btn :name="'Doorgaan'" @click="calculate(selectedItems)" :width="''" :loading="loadingState" />
             </div>
             <div class="pt-[12px] pb-[64px] flex justify-center">
                 <p v-if="error" class="text-secondary-red">{{ error }}</p>
             </div>
         </div>
-        <CalculatedLabelModal :showModal="showModal" :labelData="labelData" :userId="userId" :items="selectedItems" @closeModal="closeModal" />
+        <CalculatedLabelModal :showModal="showModal" :labelData="labelData" :userId="userId" :items="selectedItems"
+            @closeModal="closeModal" />
     </section>
 </template>
 

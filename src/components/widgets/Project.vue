@@ -163,7 +163,7 @@ watchEffect(async () => {
 </script>
 
 <template>
-    <div v-if="loaded" class="w-full bg-offWhite-light mb-[40px] rounded-[6px]" :class="{
+    <div v-if="loaded" class="w-full bg-offWhite-light mb-[40px] rounded-[6px] active:bg-[#dddddd] transition duration-200 ease-in-out" :class="{
         'border-l-4 border-secondary-green': text[0] === 'Laagste impact',
         'border-l-4 border-secondary-yellow': text[0] === 'Middelmatige impact',
         'border-l-4 border-secondary-red': text[0] === 'Hoogste impact'

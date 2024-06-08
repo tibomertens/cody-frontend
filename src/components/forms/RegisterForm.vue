@@ -18,12 +18,19 @@ const confirmMessage = ref("");
 
 const checkboxChecked = ref(false); // Add a ref for tracking checkbox state
 
+let loadingState = ref(false);
+
 //function to change value checkbox
 const selectedCheckbox = () => {
   checkboxChecked.value = !checkboxChecked.value;
 };
 
 const checkCheckbox = () => {
+  console.log(checkboxChecked.value);
+};
+
+const checkCheckbox = () => {
+  console.log(checkboxChecked.value);
   if (checkboxChecked.value === false) {
     // If checkbox is not checked, set error state and return
     hasError.value = true;
@@ -61,6 +68,17 @@ const register = async () => {
   if (result.success) {
     confirm.value = true;
     confirmMessage.value = result.message;
+
+  loadingState.value = true;
+  let result = await registerUser(updatedEmail.value, updatedPassword.value, updatedFamilyname.value);
+  loadingState.value = false;
+
+  if (result.success) {
+    // Handle successful login, e.g., show a success message or redirect to another screen
+    // Save the JWT token in the local storage
+    localStorage.setItem("token", result.data.token);
+    // Redirect to the orders page
+    router.push("/determinelabelchoice");
   } else {
     // Handle authentication error
     hasError.value = true;
@@ -79,7 +97,7 @@ const register = async () => {
       @selectedItem="selectedCheckbox" class="text-xs font-medium mt-5" />
     <div v-if="error" class="text-secondary-red">{{ error }}</div>
     <div class="mt-8 mb-4">
-      <Btn :name="'Registreer'" @click="register" :width="'full'" />
+      <Btn :name="'Registreer'" @click="register" :width="'full'" :loading="loadingState" />
     </div>
     <div v-if="confirm">
       <p>{{ confirmMessage }}</p>

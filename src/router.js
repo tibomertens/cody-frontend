@@ -21,8 +21,16 @@ import ForgotPasswordPage from "./components/pages/ForgotPasswordPage.vue";
 import ResetPasswordPage from "./components/pages/ResetPasswordPage.vue";
 import PromotorSubscriptionPage from "./components/pages/PromotorSubscriptionPage.vue";
 import PromotorsAdminPage from "./components/pages/PromotorsAdminPage.vue";
+import ExpensePage from "./components/pages/ExpensePage.vue";
+import TermsOfUserPage from "./components/pages/TermsOfUsePage.vue";
+import AccountDataPage from "./components/pages/AccountDataPage.vue";
+import AccountEditPage from "./components/pages/AccountEditPage.vue";
+import AccountChangePasswordPage from "./components/pages/AccountChangePasswordPage.vue";
+import GoalEditPage from "./components/pages/GoalEditPage.vue";
 import NotFound404Page from "./components/shared/404.vue";
 import ConfirmEmailPage from "./components/pages/ConfirmEmailPage.vue";
+import PrivacyPage from "./components/pages/PrivacyPage.vue";
+import FAQPage from "./components/pages/FAQPage.vue";
 
 const routes = [
   {
@@ -40,6 +48,10 @@ const routes = [
     components: { default: account, sidebar: sideNav, topNav: topNav },
     name: "Account",
     meta: { title: "Cody | Account", sidebar: true },
+  },
+  {
+    path: "/profile",
+    redirect: "/",
   },
   {
     path: "/login",
@@ -108,6 +120,30 @@ const routes = [
     meta: { title: "Cody | Instellingen", sidebar: true },
   },
   {
+    path: "/settings/account",
+    components: { default: AccountDataPage, sidebar: sideNav, topNav: topNav },
+    name: "Account instellingen",
+    meta: { title: "Cody | account instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/account/edit",
+    components: { default: AccountEditPage, sidebar: sideNav, topNav: topNav },
+    name: "Account instellingen aanpassen",
+    meta: { title: "Cody | account instellingen", sidebar: true },
+  },
+  {
+    path: "/settings/account/changepassword",
+    components: { default: AccountChangePasswordPage, sidebar: sideNav, topNav: topNav },
+    name: "Wachtwoord aanpassen",
+    meta: { title: "Cody | wachtwoord aanpassen", sidebar: true },
+  },
+  {
+    path: "/settings/doel",
+    components: { default: GoalEditPage, sidebar: sideNav, topNav: topNav },
+    name: "Doel instellingen",
+    meta: { title: "Cody | doel instellingen", sidebar: true },
+  },
+  {
     path: "/promotors",
     components: { default: promotors, sidebar: sideNav, topNav: topNav },
     name: "Renovatoren",
@@ -158,9 +194,9 @@ const routes = [
   },
   {
     path: "/admin/dashboard",
-    components: { default: AdminDashboard, sidebar: sideNav, topNav: topNav },
+    components: { default: AdminDashboard, topNav: topNav },
     name: "Admin Dashboard",
-    meta: { title: "Cody | Admin dashboard", sidebar: true },
+    meta: { title: "Cody | Admin dashboard", sidebar: false },
   },
   {
     path: "/admin",
@@ -168,9 +204,33 @@ const routes = [
   },
   {
     path: "/admin/promotors/:id",
-    components: { default: PromotorsAdminPage, sidebar: sideNav, topNav: topNav },
+    components: { default: PromotorsAdminPage, topNav: topNav },
     name: "Renovator details",
-    meta: { title: "Cody | Renovator details", sidebar: true },
+    meta: { title: "Cody | Renovator details", sidebar: false },
+  },
+  {
+    path: "/account/expenses",
+    components: { default: ExpensePage, sidebar: sideNav, topNav: topNav },
+    name: "Uitgaven",
+    meta: { title: "Cody | Uitgaven", sidebar: true },
+  },
+  {
+    path: "/settings/terms-of-service",
+    components: { default: TermsOfUserPage, sidebar: sideNav, topNav: topNav },
+    name: "Gebruikersvoorwaarden",
+    meta: { title: "Cody | Gebruikersvoorwaarden", sidebar: true },
+  },
+  {
+    path: "/settings/privacy-policy",
+    components: { default: PrivacyPage, sidebar: sideNav, topNav: topNav },
+    name: "Privacy",
+    meta: { title: "Cody | Privacy", sidebar: true },
+  },
+  {
+    path: "/settings/faq",
+    components: { default: FAQPage, sidebar: sideNav, topNav: topNav },
+    name: "FAQ",
+    meta: { title: "Cody | FAQ", sidebar: true },
   },
   {
     path: "/confirm/:token",

@@ -14,12 +14,14 @@
         :bold="true"
         :display="false"
         :error= hasError
+        :default="goalValue"
       />
       <Input
         label="Doeljaar"
         :placeholder="'Bv. 2036'"
         @input-change="goalYearHandler"
         :error= hasError
+        :value="goalYear"
         class="pb-[32px]"
       />
       <Btn name="Opslaan" @click="handleClick" :width="'full'" />
@@ -45,6 +47,7 @@ const props = defineProps({
   userId: String,
   items: Object,
   path: String,
+  userData: Object,
 });
 
 const goals = [
@@ -70,6 +73,17 @@ watch(
   () => props.showModal,
   (value) => {
     showModal.value = value;
+  }
+);
+
+// watch to see if userData changes
+watch(
+  () => props.userData,
+  (value) => {
+    if (value) {
+      goalValue.value = value.goalLabel;
+      goalYear.value = value.goalLabel_by_year;
+    }
   }
 );
 

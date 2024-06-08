@@ -1,7 +1,7 @@
 <template>
     <section>
         <div class="inner">
-            <div class="mt-[32px] lg:mt-[40px]">
+            <div v-if="loaded" class="mt-[32px] lg:mt-[40px]">
                 <div class="md:flex gap-[24px] items-center">
                     <div class="flex gap-[24px] items-center flex-wrap">
                         <h1 v-if="renovation.title" class="text-[1.5rem] md:text-title font-bold relative bottom-[1px]">
@@ -9,7 +9,7 @@
                         </h1>
                         <div class="flex gap-[24px] items-center">
                             <a @click.prevent href="#"
-                                class="px-[16px] pt-[6px] pb-[8px] font-bold bg-offWhite-light inline-block rounded-[5px]"
+                                class="px-[16px] pt-[6px] pb-[8px] font-bold bg-offWhite-light inline-block rounded-[5px] cursor-auto"
                                 :class="{ 'text-primary-dark border-2 border-primary-dark': currentState === 'Aanbevolen' || currentState === 'Extra', 'text-secondary-yellow border-2 border-secondary-yellow': currentState === 'Actief' || currentState === 'Gepauzeerd', 'text-secondary-green border-2 border-secondary-green': currentState === 'Voltooid' }">{{
                                     currentState }}</a>
                             <div class="w-[20px] h-[20px] cursor-pointer" @click="pinRenovation"><img
@@ -22,14 +22,17 @@
                     <p v-if="renovation.description" class="font-light">{{ renovation.description }}</p>
                 </div>
                 <div v-if="currentState === 'Actief'" class="flex flex-col xs:flex-row gap-[16px] xs:gap-[20px]">
-                    <Btn :name="stateBtnName" @click="changeState" :width="'full'" />
-                    <GhostBtn :name="'Pauzeer de renovatie'" :width="'full'" @click="pauseRenovation" />
-                    <GhostBtn :name="'Stop de renovatie'" :width="'full'" @click="showConfirmPop" />
+                    <Btn :name="stateBtnName" @click="changeState" :loading="loadingState" :width="'full'" />
+                    <GhostBtn :name="'Pauzeer de renovatie'" :loading="loadingStatePause" :width="'full'"
+                        @click="pauseRenovation" />
+                    <GhostBtn :name="'Stop de renovatie'" :loading="loadingStateStop" :width="'full'"
+                        @click="showConfirmPop" />
                 </div>
                 <div v-else>
-                    <Btn :name="stateBtnName" @click="changeState" />
+                    <Btn :name="stateBtnName" :loading="loadingState" @click="changeState" />
                 </div>
             </div>
+            <div v-else class="pulsing rounded-[5px] h-[250px] mt-[32px] lg:mt-[40px]"></div>
             <div class="mt-[32px] md:mt-[40px] mb-[20px]">
                 <div class="flex gap-[6px] items-center">
                     <h2 class="text-subtitle font-bold">Gegevens</h2>
@@ -119,7 +122,7 @@
                     <textarea
                         class="w-full rounded-lg h-[250px] pl-[12px] pt-[12px] mb-[12px] resize-none bg-offWhite-light border-2 outline-none border-offWhite-light focus:border-primary-dark"
                         v-model="notes"></textarea>
-                    <Btn :name="'Opslaan'" @click="updateNotesVal" :width="'full'" />
+                    <Btn :name="'Opslaan'" :loading="loadingStateNotes" @click="updateNotesVal" :width="'full'" />
                     <p v-if="notesSaved" class="text-secondary-green font-bold">Saved</p>
                 </div>
                 <div v-else>
@@ -142,7 +145,7 @@
                 </router-link>
             </div>
             <div class="mt-[32px] md:mt-[40px]">
-                <h2 class="text-subtitle font-bold mb-[20px]">Soortgelijke suggesties</h2>
+                <h2 class="text-subtitle font-bold mb-[20px]">Soortgelijke projecten</h2>
                 <div class="flex gap-[24px] overflow-x-auto">
                     <div v-for="renovation in suggestions" class="flex-none w-full max-w-[550px]">
                         <router-link :to="'/projects/' + renovation._id">
@@ -230,6 +233,10 @@ let label = ref([]);
 let text = ref([]);
 let originalStartDate = ref('');
 
+let loadingState = ref(false);
+let loadingStatePause = ref(false);
+let loadingStateStop = ref(false);
+let loadingStateNotes = ref(false);
 
 const router = useRouter();
 
@@ -240,6 +247,8 @@ const showConfirmPop = () => {
 };
 
 const endRenovation = async () => {
+    loadingStateStop.value = true;
+
     let body = {
         startDate: null,
         budget: null,
@@ -249,6 +258,8 @@ const endRenovation = async () => {
     };
     await updateState(userId.value, renovationId.value, body);
     await fetchData();
+
+    loadingStateStop.value = false;
 };
 
 const getStateFetcher = (renovation) => async () => {
@@ -394,6 +405,8 @@ const getTextArray = (renovation, userRenovation) => {
 };
 
 const updateNotesVal = async () => {
+    loadingStateNotes.value = true;
+
     let body = {
         notes: notes.value
     };
@@ -403,6 +416,8 @@ const updateNotesVal = async () => {
     setTimeout(() => {
         notesSaved.value = false;
     }, 2000);
+
+    loadingStateNotes.value = false;
 };
 
 onMounted(async () => {
@@ -433,6 +448,8 @@ const updateData = async () => {
 };
 
 const changeState = async () => {
+    loadingState.value = true;
+
     if (currentState.value === 'Aanbevolen' || currentState.value === 'Extra') {
         showActiveModal.value = true;
     } else if (currentState.value === 'Actief') {
@@ -445,11 +462,15 @@ const changeState = async () => {
             status: "Actief"
         };
         await updateState(userId.value, renovationId.value, body);
-        await fetchData();  // Ensure this does not cause recursive updates
+        await fetchData();
     }
+
+    loadingState.value = false;
 };
 
 const pauseRenovation = async () => {
+    loadingStatePause.value = true;
+
     let body = {
         startDate: userRenovation.value.startDate,
         budget: userRenovation.value.budget,
@@ -458,6 +479,8 @@ const pauseRenovation = async () => {
     };
     await updateState(userId.value, renovationId.value, body);
     await fetchData();
+
+    loadingStatePause.value = false;
 };
 
 const lowerAmount = async () => {
@@ -501,6 +524,8 @@ const closeModal = () => {
 };
 
 const handleUpdatedState = async () => {
+    loadingState.value = true;
+
     if (currentState.value === 'Voltooid') {
         let body = {
             amount_done: totalAmount.value
@@ -510,6 +535,8 @@ const handleUpdatedState = async () => {
     } else {
         await fetchData();
     }
+
+    loadingState.value = false;
 };
 
 const fetchUser = async () => {

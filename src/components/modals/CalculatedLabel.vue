@@ -1,7 +1,7 @@
 <template>
   <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-offBlack bg-opacity-50 w-full"
     @click="handleOutsideClick">
-    <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px]">
+    <div class="bg-offWhite-dark p-8 rounded-lg shadow-md w-[85%] xs:w-[450px] max-h-[90vh] overflow-y-auto">
       <div>
         <div class="flex justify-between">
           <h2 class="text-subtitle font-bold mb-4">Berekend label</h2>
@@ -23,12 +23,12 @@
           :error="dropdownHasError" :errorMessage="goalError" />
         <Input :label="'Doeljaar'" :width="'full'" :placeholder="'Bv. 2036'" @input-change="updateGoalYear"
           :error="inputHasError" />
-        <Input :label="'Stel uw budget in'" :width="'full'" :placeholder="'Bv. 9500'" @input-change="updateBudget"
+        <Input :label="'Stel uw budget in'" :pre-fix="'€'" :width="'full'" :placeholder="'Bv. 9500'" @input-change="updateBudget"
           :error="inputHasError" />
         <p v-if="yearError" class="text-secondary-red">{{ yearError }}</p>
       </div>
       <div class="mt-[46px] flex justify-end">
-        <Btn name="Opslaan" :width="'full'" @click="addLabelToUser" />
+        <Btn name="Opslaan" :width="'full'" @click="addLabelToUser" :loading="loadingState" />
         <p v-if="error" class="text-secondary-red">{{ error }}</p>
       </div>
     </div>
@@ -70,6 +70,8 @@ let budgetError = ref(null);
 let error = ref(null);
 let inputHasError = ref(false);
 let dropdownHasError = ref(false);
+
+let loadingState = ref(false);
 
 const emit = defineEmits(["closeModal"]);
 
@@ -141,17 +143,26 @@ const addLabelToUser = async () => {
       label: props.labelData.label,
       budget_current: parseInt(budgetValue.value),
     };
+
+    loadingState.value = true;
     const labelAdded = await addLabel(items, props.userId);
+
     if (labelAdded) {
       const update = await updateChecklistRecommendations(
         props.items,
         props.userId
       );
+
+      loadingState.value = false;
+
       if (update) {
         router.push("/");
       } else {
         error.value = "Er is iets misgegaan, probeer het later opnieuw";
       }
+    } else {
+      loadingState.value = false;
+      error.value = "Er is iets misgegaan, probeer het later opnieuw";
     }
   } else if (router.currentRoute.value.path.toLowerCase() === "/test/berekenindicatief") {
     const items = {
@@ -160,14 +171,23 @@ const addLabelToUser = async () => {
       label: props.labelData.label,
       budget_current: parseInt(budgetValue.value),
     };
+
+    loadingState.value = true;
     const labelAdded = await addLabel(items, props.userId);
+
     if (labelAdded) {
       const update = await updateRecommendations(props.items, props.userId);
+
+      loadingState.value = false;
+      
       if (update) {
         router.push("/");
       } else {
         error.value = "Er is iets misgegaan, probeer het later opnieuw";
       }
+    } else {
+      loadingState.value = false;
+      error.value = "Er is iets misgegaan, probeer het later opnieuw";
     }
   }
 };

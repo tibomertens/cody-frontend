@@ -1,5 +1,5 @@
 <template>
-    <div class="adv-filter relative z-1">
+    <div class="adv-filter relative z-1 cursor-pointer">
         <div class="w-full h-[48px] bg-offWhite-light rounded-[5px] border-2 border-primary-dark flex items-center justify-between"
             @click="toggleDropdown" :class="{ 'rounded-b-[0] border-b-0': isDropdownOpen }">
             <p class="adv-filter-text text-primary-dark font-bold text-btn ml-[24px] relative bottom-[1px] z-1">Filters
@@ -46,7 +46,7 @@ let originalRenovations = props.renovations;
 let filteredRenovations = ref([]);
 let activeAddedValueFilter = ref('Maak een keuze');
 let activeTypeFilterToShow = ref('Maak een keuze');
-let activeBudgetFilter = ref(false);
+let activeBudgetFilter = ref('');
 let activeTypeFilter = ref('Maak een keuze');
 
 const handleAddedValue = (selectedItem) => {

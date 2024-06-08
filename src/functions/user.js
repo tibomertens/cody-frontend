@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import "dotenv";
 
 export const isValidToken = (token) => {
   if (!token) {
@@ -15,6 +16,7 @@ export const registerUser = async (email, password, familyname, allowEmails) => 
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify({
         email: email,
@@ -42,6 +44,7 @@ export const getUser = async (token) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -60,7 +63,7 @@ export const getUser = async (token) => {
 export const getAdmin = async (token) => {
   const decoded = jwtDecode(token);
   let isAdmin = decoded.admin;
-  
+
   if (!isAdmin) {
     return false;
   }
@@ -73,6 +76,7 @@ export const getAdmin = async (token) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
     });
 
@@ -96,6 +100,7 @@ export const loginAdmin = async (email, password) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify({ email, password }),
     });
@@ -120,6 +125,7 @@ export const loginUser = async (email, password) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify({
         email: email,
@@ -149,6 +155,7 @@ export const sendpasswordresetmail = async (email) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify({
         email: email,
@@ -168,13 +175,16 @@ export const sendpasswordresetmail = async (email) => {
 };
 
 export const resetpassword = async (body) => {
-  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/resetpassword`;
+  let apiEndpoint = `${
+    import.meta.env.VITE_API_URL
+  }/api/v1/users/resetpassword`;
 
   try {
     const response = await fetch(apiEndpoint, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -206,3 +216,56 @@ export const confirmEmail = async (token) => {
     throw error;
   }
 };
+
+export const updateUser = async (token, body) => {
+  const decoded = jwtDecode(token);
+  let userId = decoded.id;
+  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/update/${userId}`;
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update user data");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const deleteUser = async (token) => {
+  const decoded = jwtDecode(token);
+  let userId = decoded.id;
+  let apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}`;
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "cody-api-key": import.meta.env.VITE_CODY_API_KEY,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete user data");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}

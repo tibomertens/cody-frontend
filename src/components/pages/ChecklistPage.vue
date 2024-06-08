@@ -172,8 +172,8 @@ onMounted(() => {
       :paragraph="'Bespaar energie en kosten door te investeren in geavanceerde systemen voor sanitair warm water, die efficiëntie en duurzaamheid bevorderen.'" />
     <ChecklistFrame @select="addSelectedItem" :title="'Beglazing'"
       :paragraph="'Verhoog de isolatiewaarde van je huis door energiezuinige beglazing te installeren, waardoor warmteverlies wordt verminderd en de energie-efficiëntie toeneemt.'" />
-    <div class="flex justify-center pb-[32px]">
-      <Btn :name="'Doorgaan'" @click="checkLabelNotEmpty()" :width="''" />
+    <div class="flex justify-center pb-[32px] mx-[10%] xl:mx-[20%]">
+      <Btn :name="'Doorgaan'" @click="checkLabelNotEmpty()" :width="'full'" />
     </div>
     <CalculatedLabelModal :showModal="showModal" :labelData="labelData" :items="selectedItems" :userId="userId"
       @closeModal="closeModal" :path="currentPath" />

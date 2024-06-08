@@ -21,10 +21,10 @@
                     <tbody>
                         <tr v-for="week in calendar" :key="week">
                             <td v-for="day in week" :key="day.date"
-                                class="min-w-[100px] max-w-[100px] h-[100px] border border-primary-light align-top bg-offWhite-light p-[4px] overflow-hidden"
-                                :class="{ 'calendar-cell': true }">
+                                class="min-w-[100px] max-w-[100px] h-[100px] border cursor-pointer border-primary-light align-top bg-offWhite-light p-[4px] overflow-hidden"
+                                :class="{ 'calendar-cell': true }" @click="openAddModel(day)">
                                 <template v-if="!day.fromNextMonth && !day.fromPrevMonth">
-                                    <div class="cursor-pointer" @click="openAddModel"
+                                    <div
                                         :class="{ 'bg-primary-dark w-[28px] h-[28px] flex justify-center items-center font-bold text-offWhite-light rounded-full': isCurrentDate(day.date) }">
                                         <span class="relative bottom-[1px]">{{ day.date }}</span>
                                     </div>
@@ -34,7 +34,7 @@
                                     :class="{ 'relative !top-[4px]': !isCurrentDate(day.date) }">
                                     <li v-for="task in dayTasks(day.date)" :key="task.id"
                                         class="bg-primary-light text-sm font-semibold rounded-md px-2 py-1 mb-4 whitespace-nowrap overflow-hidden truncate cursor-pointer"
-                                        @click="openExpandModal(task)">{{ task.title }}</li>
+                                        @click.stop="openExpandModal(task)">{{ task.title }}</li>
                                 </ul>
                             </td>
                         </tr>
@@ -42,12 +42,12 @@
                 </table>
             </div>
             <div
-                class="upcoming bg-primary-light min-h-[500px] col-span-2 px-[20px] pb-[32px] pt-[28px] font-bold flex flex-col justify-between rounded-[5px]">
-                <div>
-                    <h3 class="text-btn">Aankomende Activiteiten</h3>
-                    <div class="flex flex-col gap-[16px] mt-[20px] max-h-[440px] overflow-y-auto">
+                class="upcoming bg-primary-light min-h-[500px] col-span-2 px-[20px] pb-[32px] pt-[28px] font-bold flex flex-col justify-between rounded-[5px] h-full">
+                <div class="h-full">
+                    <h3 class="text-btn">Aankomende activiteiten</h3>
+                    <div class="flex flex-col gap-[16px] max-h-[440px] overflow-y-auto h-full mt-[20px]">
                         <!-- Add max height and overflow-y-auto to make the container scrollable -->
-                        <div v-for="task in upcomingTasks"
+                        <div v-if="upcomingTasks.length > 0" v-for="task in upcomingTasks"
                             class="bg-offWhite-light rounded-[5px] py-[12px] px-[12px] cursor-pointer"
                             @click="openExpandModal(task)">
                             <div class="flex justify-between">
@@ -58,13 +58,22 @@
                                 <p class="font-light">{{ task.title }}</p>
                             </div>
                         </div>
+                        <div v-else class="h-full">
+                            <div class="flex justify-center items-center h-full">
+                                <h3>Er zijn geen aankomende activiteiten</h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <a class="h-[48px] mt-[6px] 1.5xl:mt-[0px] w-full cursor-pointer bg-primary-dark rounded-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center"
-                        @click="openAddModel">
-                        <p class="relative bottom-[1px]"><span class="relative bottom-[1px] right-[4px]">+</span> Nieuwe
-                            activiteit
+                    <a class="h-[48px] mt-[6px] 1.5xl:mt-[0px] w-full cursor-pointer bg-primary-dark rounded-[5px] text-white font-bold text-[1.1rem] md:text-btn text-center flex items-center justify-center hover:bg-[#3390FF] active:bg-[#0056CC] transition duration-200 ease-in-out"
+                        @click="openAddModel()">
+                        <p class="relative bottom-[1px] flex gap-2"><span
+                                class="relative bottom-[1px] right-[4px]">+</span> Nieuwe
+                            activiteit <div v-if="!taskLoaded"
+                                class="animate-spin w-[26px] h-[26px] relative top-[2px]">
+                                <img src="/loading-animation.png" alt="loading animation">
+                            </div>
                         </p>
                     </a>
                 </div>
@@ -75,7 +84,7 @@
         @updateTask="handleTaskChange" />
     <ExpandedTask :showModal="showExpandedModal" @closeModal="closeModal" :task="clickedTask"
         @updateTask="openUpdateModal" @removeTask="handleTaskChange" />
-    <AddTask :showModal="showAddModal" @closeModal="closeModal" @addTask="handleTaskChange" :userId="userId" />
+    <AddTask :showModal="showAddModal" :selectedDate="selectedDate" @closeModal="closeModal" @addTask="handleTaskChange" :userId="userId" />
 </template>
 
 
@@ -107,8 +116,11 @@ let showExpandedModal = ref(false);
 let showAddModal = ref(false);
 
 let calendarLoaded = ref(false);
+let taskLoaded = ref(true);
 
 const tasksCache = {};
+
+const selectedDate = ref("today");
 
 onMounted(async () => {
     if (isValidToken(token)) {
@@ -262,7 +274,14 @@ const openUpdateModal = () => {
     showUpdateModal.value = true;
 };
 
-const openAddModel = () => {
+const openAddModel = (date) => {
+    console.log(date);
+    if (!date) {
+        selectedDate.value = currentDate.value;
+        showAddModal.value = true;
+        return;
+    }
+    selectedDate.value = new Date(selectedYear.value, selectedMonth.value, date.date);
     showAddModal.value = true;
 };
 
@@ -273,12 +292,16 @@ const closeModal = () => {
 };
 
 const handleTaskChange = async () => {
+    taskLoaded.value = false;
+
     // Clear the entire cache
     for (const year in tasksCache) {
         delete tasksCache[year];
     }
     // Re-fetch tasks
     await generateCalendar();
+
+    taskLoaded.value = true;
 };
 </script>
 
@@ -313,5 +336,20 @@ const handleTaskChange = async () => {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+    scale: 0.7;
 }
 </style>

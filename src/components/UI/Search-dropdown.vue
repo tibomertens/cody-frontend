@@ -1,5 +1,5 @@
 <template>
-    <div class="relative">
+    <div class="relative cursor-pointer">
       <div class="absolute right-0 bottom-[60px]">
             <p class="text-secondary-red underline cursor-pointer text-[0.9rem] " @click="deleteFilter">Verwijder</p>
         </div>
@@ -24,7 +24,8 @@
 
 <script setup>
 import { ref, computed, defineEmits, onMounted } from 'vue';
-import { getAllLocations, getAllPromotors } from '../../functions/promotor';
+import { getAllPromotors } from '../../functions/promotor';
+import { getAllLocations } from '../../functions/location';
 
 const emit = defineEmits(['filtered']);
 

@@ -11,6 +11,8 @@ import Calendar from "../widgets/Calendar.vue";
 import { getActiveRenovations, getUserRenovation } from "../../functions/renovation.js";
 import { convertDate } from "../../functions/helpers.js";
 
+import Empty_state from '../widgets/Empty_state.vue';
+
 const router = useRouter();
 
 const token = localStorage.getItem("token");
@@ -113,6 +115,10 @@ const getStateFetcher = (renovation) => async () => {
   let data = await getUserRenovation(userId.value, renovation._id);
   return data.status;
 };
+
+const navigateTo = (path) => {
+  router.push(path);
+};
 </script>
 
 <template>
@@ -121,13 +127,13 @@ const getStateFetcher = (renovation) => async () => {
       <h2 class="text-subtitle font-bold pb-[20px]">Algemene info</h2>
       <div class="xs:flex gap-[32px] xs:h-[196px]">
         <div v-if="!mainDataLoaded" class="pulsing xs:w-1/2 rounded-[5px] w-full h-[196px] mb-[32px]"></div>
-        <div v-if="mainDataLoaded"
-          class="bg-offWhite-light xs:w-1/2 mb-[32px] xs:mb-0 h-[196px] flex justify-center rounded items-center">
+        <div v-if="mainDataLoaded" @click="navigateTo('/account')"
+          class="bg-offWhite-light xs:w-1/2 mb-[32px] xs:mb-0 h-[196px] flex justify-center rounded items-center cursor-pointer">
           <div><img :src="'/' + userData.label + '-label.svg'" alt="epc label" class="w-[140px]"></div>
         </div>
         <div v-if="!mainDataLoaded" class="pulsing xs:w-1/2 rounded-[5px] w-full h-[196px]"></div>
-        <div v-if="mainDataLoaded"
-          class="bg-offWhite-light xs:w-1/2 h-[196px] flex justify-center rounded items-center gap-[32px]">
+        <div v-if="mainDataLoaded" @click="navigateTo('/account')"
+          class="bg-offWhite-light xs:w-1/2 h-[196px] flex justify-center rounded items-center gap-[32px] cursor-pointer">
           <div class="w-[60px] xs:w-[80px]">
             <img src="/wallet.svg" alt="budget icon">
           </div>
@@ -145,7 +151,7 @@ const getStateFetcher = (renovation) => async () => {
     </section>
     <section>
       <h2 class="text-subtitle font-bold pb-[20px]">Actieve projecten</h2>
-      <div v-if="renovationsLoaded">
+      <div v-if="renovationsLoaded && activeRenovations.length > 0">
         <router-link v-for="(renovation, i) in activeRenovations" :key="i" :to="'/projects/' + renovation._id">
           <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
             :activeSrc="getActiveSrcArray(renovation)" :doneSrc="getDoneSrcArray(renovation)" :label="labelArray"
@@ -154,7 +160,10 @@ const getStateFetcher = (renovation) => async () => {
             :stateFetcher="getStateFetcher(renovation)" />
         </router-link>
       </div>
-      <div v-else class="pulsing rounded-[5px] h-[196px]"></div>
+      <div v-else-if="!renovationsLoaded" class="pulsing rounded-[5px] h-[196px]"></div>
+      <div v-else>
+        <Empty_state :text="'Er zijn geen actieve projecten'" />
+      </div>
     </section>
   </div>
 </template>

@@ -3,15 +3,14 @@
         <div class="grid grid-cols-1 xs:grid-cols-2 gap-x-[32px] gap-y-[12px]">
             <Dropdown :label="'Tier:'" :items="tiers" @itemSelected="handleTierSelected" :bold="true" :width="'full'"
                 class="mt-[26px]" />
-            <Input :label="'Telefoonnummer:'" :type="'number'" @input-change="handlePhoneChange"
+            <Input :label="'Telefoonnummer:'" :type="'text'" @input-change="handlePhoneChange"
                 :error="hasError"></Input>
             <Input :label="'E-mail:'" :type="'email'" @input-change="handleEmailChange" :error="hasError"></Input>
             <Input :label="'Website url:'" :type="'text'" @input-change="handleWebsiteChange" :error="hasError"></Input>
             <Input :label="'Straat:'" :type="'text'" @input-change="handleStreetChange" :error="hasError"></Input>
-            <Input :label="'Huisnummer:'" :type="'number'" @input-change="handleStreetNumberChange"
+            <Input :label="'Huisnummer:'" :type="'text'" @input-change="handleStreetNumberChange"
                 :error="hasError"></Input>
-            <Input :label="'Postcode:'" :type="'number'" @input-change="handlePostalCodeChange"
-                :error="hasError"></Input>
+            <Input :label="'Postcode:'" :type="'text'" @input-change="handlePostalCodeChange" :error="hasError"></Input>
             <Input :label="'Gemeente:'" :type="'text'" @input-change="handleCityChange" :error="hasError"></Input>
             <Input :label="'Bedrijfsnaam:'" :type="'text'" @input-change="handleCompanyNameChange"
                 :error="hasError"></Input>
@@ -23,12 +22,12 @@
         <div v-if="error" class="text-secondary-red">{{ error }}</div>
 
         <div v-if="success">
-            <p>U ontvangt een mail zodra uw verzoek is behandelt. Deze mail bevat een eventueel contract en meer
+            <p class="text-secondary-green">U ontvangt een mail zodra uw verzoek is behandelt. Deze mail bevat een eventueel contract en meer
                 informatie over de verdere samenwerking. </p>
         </div>
 
         <div class="mt-8 mb-4">
-            <Btn :name="'Plaats verzoek'" @click="upload" :width="'full'" />
+            <Btn :name="'Plaats verzoek'" @click="upload" :width="'full'" :loading="loadingState" />
         </div>
     </form>
 </template>
@@ -58,7 +57,16 @@ let logo = ref('');
 let message = ref('');
 let tier = ref('');
 
+let loadingState = ref(false);
+
 const upload = async () => {
+    // check if postalcode is a number
+    if (isNaN(postalCode.value)) {
+        hasError.value = true;
+        error.value = 'Gelieve een geldige postcode in te vullen';
+        return;
+    }
+
     // check if postalcode is a belgian postalcode without using length 
     if (postalCode.value < 1000 || postalCode.value > 9992) {
         hasError.value = true;
@@ -73,8 +81,24 @@ const upload = async () => {
         return;
     }
 
+    // check if phone is a phone number
+    if (phone.value.length < 9) {
+        hasError.value = true;
+        error.value = 'Gelieve een geldig telefoonnummer in te vullen';
+        return;
+    }
+
+    // check if huisnummer is a number
+    if (isNaN(streetNumber.value)) {
+        hasError.value = true;
+        error.value = 'Gelieve een geldig huisnummer in te vullen';
+        return;
+    }
+
     // convert phonenumber to string
     phone.value = phone.value.toString();
+
+    loadingState.value = true;
 
     const uploadedUrl = await uploadImage(logo.value);
 
@@ -91,6 +115,8 @@ const upload = async () => {
         message: message.value,
         tier: tier.value
     });
+
+    loadingState.value = false;
 
     if (result.success) {
         hasError.value = false;

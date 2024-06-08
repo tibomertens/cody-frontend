@@ -2,7 +2,7 @@
     <div class="m-[32px] lg:m-[40px]">
         <div v-if="reviews.length > 0">
             <h2 class="text-subtitle font-bold">Gerapporteerde reviews</h2>
-            <div class="mt-[24px] mb-[32px] flex gap-[32px] overflow-x-auto">
+            <div v-if="loaded" class="mt-[24px] mb-[32px] flex gap-[32px] overflow-x-auto">
                 <div v-for="(review, index) in reviews" :key="index"
                     class="bg-offWhite-light rounded-[5px] p-[24px] w-[400px]">
                     <h3 class="font-bold text-[1em] md:text-[1.2em]">{{ review.title }}</h3>
@@ -33,10 +33,15 @@
                     </div>
                 </div>
             </div>
+            <div v-else class="flex gap-[32px] mt-[24px] mb-[32px] overflow-x-auto">
+                <div class="w-[400px] h-[250px] rounded-[5px] pulsing"></div>
+                <div class="w-[400px] h-[250px] rounded-[5px] pulsing"></div>
+                <div class="w-[400px] h-[250px] rounded-[5px] pulsing"></div>
+            </div>
         </div>
         <div v-if="unacceptedPromotors.length > 0">
             <h2 class="text-subtitle font-bold">Renovatoren verzoeken</h2>
-            <div class="mt-[24px] mb-[32px] flex gap-[32px] overflow-x-auto">
+            <div v-if="loaded" class="mt-[24px] mb-[32px] flex gap-[32px] overflow-x-auto">
                 <div v-for="promotor in unacceptedPromotors" class="bg-offWhite-light rounded-[5px] p-[24px] w-[400px]">
                     <h3 class="font-bold text-[1em] md:text-[1.2em]">{{ promotor.name }}</h3>
                     <p class="text-[0.8em] md:text-body mt-[12px] overflow-hidden line-clamp-3"><span
@@ -56,10 +61,15 @@
                     </div>
                 </div>
             </div>
+            <div v-else class="flex gap-[32px] mt-[24px] mb-[32px] overflow-x-auto">
+                <div class="w-[400px] h-[250px] rounded-[5px] pulsing"></div>
+                <div class="w-[400px] h-[250px] rounded-[5px] pulsing"></div>
+                <div class="w-[400px] h-[250px] rounded-[5px] pulsing"></div>
+            </div>
         </div>
         <div v-if="acceptedPromotors.length > 0">
             <h2 class="text-subtitle font-bold">Geaccepteerde renovatoren</h2>
-            <div class="mt-[24px] mb-[32px] flex gap-[32px] overflow-x-auto">
+            <div v-if="loaded" class="mt-[24px] mb-[32px] flex gap-[32px] overflow-x-auto">
                 <div v-for="promotor in acceptedPromotors" class="bg-offWhite-light rounded-[5px] p-[24px] w-[400px]">
                     <h3 class="font-bold text-[1em] md:text-[1.2em]">{{ promotor.name }}</h3>
                     <p class="text-[0.8em] md:text-body mt-[12px] overflow-hidden line-clamp-3"><span
@@ -78,6 +88,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div v-else class="flex gap-[32px] mt-[24px] mb-[32px] overflow-x-auto">
+                <div class="w-[400px] h-[250px] rounded-[5px] pulsing"></div>
+                <div class="w-[400px] h-[250px] rounded-[5px] pulsing"></div>
+                <div class="w-[400px] h-[250px] rounded-[5px] pulsing"></div>
             </div>
         </div>
         <Confirm :showConfirm="showConfirm" title="Review verwijderen"
@@ -104,6 +119,7 @@ const canDelete = ref(false);
 
 const token = localStorage.getItem("token");
 let adminData = ref({});
+let loaded = ref(false);
 
 const reviews = ref([]);
 let currentReview = ref({});
@@ -118,6 +134,7 @@ onMounted(async () => {
         if (adminData.value !== false) {
             await getReviews();
             await getPromotors();
+            loaded.value = true;
         } else {
             router.push('/admin/login');
         }
@@ -174,7 +191,7 @@ const handleAcceptReview = async (review) => {
 
 const remove = async () => {
     canDelete.value = true;
-    handleDelete();
+    handleDeleteReview();
 };
 
 const goToDetails = (promotor) => {
