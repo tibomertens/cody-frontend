@@ -1,6 +1,6 @@
 <template>
     <div @click="toggle" class="cursor-pointer bg-offWhite-light rounded-[5px] duration-300">
-      <div class="flex justify-between items-center p-[24px] font-bold">
+      <div class="flex justify-between items-center p-[24px] gap-[12px] font-bold">
         <span>{{ question }}</span>
         <img :class="{ 'rotate-180': isOpen }" class="transition-transform duration-300" src="/dropdown.svg" alt="Dropdown Icon" />
       </div>
