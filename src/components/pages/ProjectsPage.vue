@@ -238,6 +238,7 @@ const updateSearch = async (q) => {
     </div>
     <Error_state v-if="unexpected_error" />
     <div v-if="renovationsLoaded">
+      <h2 v-if="route.path === '/projects/active'" class="font-bold text-subtitle mb-[16px]">Actieve renovaties</h2>
       <Empty_state :text="empty_text" v-if="renovations.value.length === 0 && pausedRenovations.value.length === 0" />
       <router-link v-else v-for="(renovation, i) in renovations.value" :key="i" :to="'/projects/' + renovation._id">
         <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
@@ -249,7 +250,7 @@ const updateSearch = async (q) => {
     </div>
     <div v-if="pausedRenovationsLoaded">
       <div v-if="pausedRenovations.value.length > 0">
-        <h2 class="font-bold text-subtitle mb-[24px]">Gepauzeerde renovaties</h2>
+        <h2 class="font-bold text-subtitle mb-[16px]">Gepauzeerde renovaties</h2>
         <router-link v-for="(renovation, i) in pausedRenovations.value" :key="i" :to="'/projects/' + renovation._id">
           <Project :name="renovation.title" :desc="renovation.description" :src="getSrcArray(renovation)"
             :activeSrc="getActiveSrcArray(renovation)" :doneSrc="getDoneSrcArray(renovation)" :label="labelArray"
