@@ -127,8 +127,8 @@ const search = (query) => {
 <template>
   <section class="m-[32px] md:m-[40px]">
     <div class="mb-[32px] md:mb-[40px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] md:gap-[40px]">
-      <Searchbar class="lg:col-span-2 mt-[36px]" :placeholder="'Zoeken op naam...'" @search="search" />
-      <div class=" mt-[36px]">
+      <Searchbar class="lg:col-span-2" :placeholder="'Zoeken op naam...'" @search="search"/>
+      <div class="">
         <SearchDropdown :items="locations" @itemSelected="handleSelectedLocation" :display="false" :displayLabel="false"
           :width="'full'" @filtered="handleSelectedLocation" />
       </div>
