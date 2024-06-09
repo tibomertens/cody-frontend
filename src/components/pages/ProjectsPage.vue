@@ -57,16 +57,20 @@ const fetchData = async () => {
 
       if (route.path === '/projects/recommended') {
         renovations.value = await getRecommendedRenovations(userId.value);
+        pausedRenovations.value = ref([]);
       } else if (route.path === '/projects/active') {
         renovations.value = await getActiveRenovations(userId.value);
         pausedRenovations.value = await getPausedRenovations(userId.value);
         pausedRenovationsLoaded.value = true;
       } else if (route.path === '/projects/completed') {
         renovations.value = await getCompletedRenovations(userId.value);
+        pausedRenovations.value = ref([]);
       } else if (route.path === '/projects/saved') {
         renovations.value = await getSavedRenovations(userId.value);
+        pausedRenovations.value = ref([]);
       } else {
         renovations.value = await getRenovations();
+        pausedRenovations.value = ref([]);
       }
 
       // Define the order of impact levels
