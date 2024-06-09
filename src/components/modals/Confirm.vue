@@ -10,7 +10,7 @@
         <div class="w-full">
           <Btn @click="confirmAction" :width="'full'" :name="props.firstBtn" />
         </div>
-        <div class="w-full mt-4">
+        <div v-if="!noCancel" class="w-full mt-4">
           <GhostBtn @click="closeConfirm" :width="'full'" name="Annuleren" />
         </div>
       </div>
@@ -39,6 +39,10 @@ const props = defineProps({
     type: String,
     default: "Doorgaan",
   },
+  noCancel: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(["closeConfirm", "confirmAction"]);
@@ -53,6 +57,7 @@ const confirmAction = () => {
 };
 
 const handleOutsideClick = (event) => {
+  if (props.noCancel) return;
   if (event.target === event.currentTarget) {
     closeConfirm();
   }

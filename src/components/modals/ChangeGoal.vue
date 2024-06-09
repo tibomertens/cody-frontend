@@ -50,7 +50,7 @@ let goalYear = ref(null);
 let error = ref(null);
 let hasError = ref(false);
 
-const emit = defineEmits(["closeModal"]);
+const emit = defineEmits(["closeModal, confirm"]);
 
 // watch to see if showModal prop changes
 watch(
@@ -122,5 +122,7 @@ const patchData = async () => {
 // Define your event handlers
 const handleClick = async () => {
   await patchData();
+  emit("confirm");
+  emit("closeModal");
 };
 </script>

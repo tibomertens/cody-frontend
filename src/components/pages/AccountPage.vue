@@ -128,9 +128,9 @@
   </section>
   <ChangeGoal :showModal="showModal" :userId="userId" :userData="userData" @closeModal="closeModal" />
   <ChangeBudget :showBudgetModal="showBudgetModal" :userId="userId" @closeBudgetModal="closeBudgetModal" />
-  <Confirm :showConfirm="showConfirm" title="Gefeliciteerd!"
-    desc="Je hebt je doel behaald! Wil je een nieuw doel instellen?" @closeConfirm="showConfirm = false"
-    @confirmAction="openEditGoalPopup" :firstBtn="'Doel instellen'" />
+  <Confirm :showConfirm="showConfirm" title="Gefeliciteerd!" desc="Je hebt je doel behaald! Stel een nieuwe doel in"
+    @closeConfirm="showConfirm = false" @confirmAction="openEditGoalPopup" :firstBtn="'Doel instellen'"
+    :noCancel="true" />
 </template>
 
 <script setup>
@@ -205,8 +205,9 @@ const openEditGoalPopup = () => {
   showModal.value = true;
 };
 
-const closeModal = () => {
-  getData();
+const closeModal = async () => {
+  await getData();
+  checkGoal();
   showModal.value = false;
 };
 
