@@ -26,15 +26,15 @@ onMounted(async () => {
 
 const getData = async () => {
   let result = await getUser(token);
+  
   if (result) {
-
-    let emailConfirmed = await checkEmailConfirmed(result.value);
+    let emailConfirmed = await checkEmailConfirmed(result);
     if (!emailConfirmed) {
       router.push("/login");
       return;
     }
 
-    let hasLabel = await checkLabelUser(result.value);
+    let hasLabel = await checkLabelUser(result);
     if (!hasLabel) {
       router.push("/determinelabelchoice");
       return;
