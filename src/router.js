@@ -113,12 +113,6 @@ const routes = [
     meta: { title: "Cody | Project details", sidebar: true },
   },
   {
-    path: "/settings",
-    components: { default: Settings, sidebar: sideNav, topNav: topNav },
-    name: "Instellingen",
-    meta: { title: "Cody | Instellingen", sidebar: true },
-  },
-  {
     path: "/settings/account",
     components: { default: AccountDataPage, sidebar: sideNav, topNav: topNav },
     name: "Account instellingen",
