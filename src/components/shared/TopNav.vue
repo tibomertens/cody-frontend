@@ -44,7 +44,7 @@ const alertFunc = () => {
         </div>
 
         <router-link v-if="!isRouteActive('/account')" to="/settings/account"
-          class="flex items-center ml-2 pr-[40px] xl:pr-0">
+          class="flex items-center ml-2 pr-[40px] lg:pr-0">
           <img src="/settings.svg" alt="settings">
         </router-link>
 
