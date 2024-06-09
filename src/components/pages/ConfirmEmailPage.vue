@@ -9,7 +9,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { confirmEmail, checkEmailConfirmed } from '../../functions/user.js';
+import { confirmEmail, checkLabelUser } from '../../functions/user.js';
 
 let checkingEmail = ref(true);
 let emailConfirmed = ref(false);
@@ -30,11 +30,12 @@ const checkEmail = async () => {
     if (result.success) {
         checkingEmail.value = false;
         emailConfirmed.value = true;
+        console.log(result);
 
         localStorage.setItem("token", result.token);
-        let emailConfirmed = await checkEmailConfirmed(result.user);
+        let hasLabel = await checkLabelUser(result.user);
 
-        if (!emailConfirmed) {
+        if (hasLabel) {
             router.push("/account");
             return;
         }
