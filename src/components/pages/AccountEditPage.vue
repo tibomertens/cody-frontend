@@ -94,7 +94,7 @@ const handleClick = async () => {
       if (result.emailUpdated) {
         router.push("/login");
       } else {
-        router.push("/account");
+        router.push("/settings/account");
       }
     }
   } catch (error) {
