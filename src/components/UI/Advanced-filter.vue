@@ -51,7 +51,7 @@ let activeTypeFilter = ref('Maak een keuze');
 
 const handleAddedValue = (selectedItem) => {
     addedValue.value = selectedItem;
-    
+
     if (selectedItem === 'Hoogste impact') {
         activeAddedValueFilter.value = 'Hoog';
     } else if (selectedItem === 'Laagste impact') {
@@ -154,7 +154,7 @@ const deleteFilters = () => {
     budget.value = '';
     activeAddedValueFilter.value = 'Maak een keuze';
     activeTypeFilter.value = 'Maak een keuze';
-    activeBudgetFilter.value = false;
+    activeBudgetFilter.value = '';
     filteredRenovations.value = [...originalRenovations.value];
     emit('filtered', filteredRenovations.value);
 };
