@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-center items-center h-screen flex-row">
         <p v-if="checkingEmail">We zijn je email aan het bevestigen!</p>
-        <p v-else-if="emailConfirmed">Je email is bevestigd!</p>
+        <p v-else-if="emailConfirmed">Je e-mailadres is bevestigd! Je kunt nu terugkeren naar de app op je telefoon om in te loggen, of verdergaan via de web-app.</p>
         <button v-else>{{ error }}</button>
     </div>
 </template>
@@ -39,8 +39,6 @@ const checkEmail = async () => {
             router.push("/account");
             return;
         }
-
-        router.push("/determinelabelchoice");
     } else {
         checkingEmail.value = false;
         error.value = result.message;
