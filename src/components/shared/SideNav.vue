@@ -205,7 +205,7 @@ let isIOS = /iphone|ipad|ipod/.test(userAgent);
           <div class="pr-3 relative top-[1px]">
             <img :src="currentRoute !== '/' ? '/home.svg' : '/homeSelect.svg'" alt="home icon" class="w-[20px]" />
           </div>
-          Home
+          Dashboard
         </div>
       </router-link>
       <router-link to="/projects" :class="{
