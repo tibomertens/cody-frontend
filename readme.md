@@ -1,7 +1,20 @@
-# Vue 3 + Vite
+# Cody Frontend repository
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Overview
 
-## Recommended IDE Setup
+This repository contains the source code for a school project. The project is an application designed to help homeowners receive a better EPC-label for their house. It is available for download on the Apple App Store and can also be accessed via the web.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Download
+
+You can download the app from the Apple App Store using the following link:
+[Download Cody on the App Store](https://apps.apple.com/be/app/cody/id6503445867?l=nl)
+
+## Web Usage
+
+Alternatively, you can use the app on the web:
+[Use Cody on the Web](https://docs.codyepc.com)
+
+## Languages
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)
