@@ -41,11 +41,14 @@ export const createPromotor = async (body) => {
 };
 
 export const uploadImage = async (file) => {
+  // Check if file is provided
   if (file) {
+    // Create a new FormData object and append the file and upload_preset
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET); // Configure this in your Cloudinary settings
 
+    // Send a POST request to the Cloudinary API to upload the image
     try {
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${
@@ -59,7 +62,8 @@ export const uploadImage = async (file) => {
 
       const data = await response.json();
 
-      return data.secure_url; // Save the Cloudinary URL
+      // Return the secure_url of the uploaded image to then store it in the database
+      return data.secure_url;
     } catch (error) {
       console.error("Error uploading image:", error);
     }

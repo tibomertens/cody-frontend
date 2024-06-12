@@ -1,13 +1,25 @@
 <template>
     <div>
+        <!-- Navigation controls for month selection -->
         <div class="flex justify-between">
             <div class="gap-[12px] items-center mb-[12px] hidden 1.5xl:flex">
-                <div @click="prevMonth" class="cursor-pointer"><img src="/arrow_left.svg" alt="previous month"></div>
+                <!-- Previous month button -->
+                <div @click="prevMonth" class="cursor-pointer">
+                    <img src="/arrow_left.svg" alt="previous month">
+                </div>
+                <!-- Current month and year display -->
                 <h2 class="text-subtitle font-bold relative bottom-[2px]">{{ monthYear }}</h2>
-                <div @click="nextMonth" class="cursor-pointer"><img src="/arrow_right.svg" alt="next month"></div>
+                <!-- Next month button -->
+                <div @click="nextMonth" class="cursor-pointer">
+                    <img src="/arrow_right.svg" alt="next month">
+                </div>
             </div>
         </div>
+
+        <!-- Loading state for calendar -->
         <div v-if="!calendarLoaded" class="h-[603.67px] w-full bg-[#ececec] rounded-[5px] pulsing"></div>
+
+        <!-- Calendar grid -->
         <div v-if="calendarLoaded"
             class="grid gap-[20px] 1.5xl:grid-cols-7 bg-offWhite-light overflow-x-auto !rounded-t-[5px] xl:!rounded-[5px]">
             <div
@@ -46,7 +58,6 @@
                 <div class="h-full">
                     <h3 class="text-btn">Aankomende activiteiten</h3>
                     <div class="flex flex-col gap-[16px] max-h-[440px] overflow-y-auto h-full mt-[20px]">
-                        <!-- Add max height and overflow-y-auto to make the container scrollable -->
                         <div v-if="upcomingTasks.length > 0" v-for="task in upcomingTasks"
                             class="bg-offWhite-light rounded-[5px] py-[12px] px-[12px] cursor-pointer"
                             @click="openExpandModal(task)">
@@ -80,6 +91,7 @@
             </div>
         </div>
     </div>
+    <!-- Modals for task operations -->
     <UpdateTask :showModal="showUpdateModal" @closeModal="closeModal" :task="clickedTask"
         @updateTask="handleTaskChange" />
     <ExpandedTask :showModal="showExpandedModal" @closeModal="closeModal" :task="clickedTask"
@@ -88,17 +100,16 @@
         :userId="userId" />
 </template>
 
-
 <script setup>
 import { ref, onMounted } from 'vue';
 import UpdateTask from '../modals/UpdateTask.vue';
 import ExpandedTask from '../modals/ExpandedTask.vue';
 import AddTask from '../modals/AddTask.vue';
-
 import { getTasks } from '../../functions/tasks';
 import { isValidToken, getUser } from '../../functions/user';
 import { formatDate, formatTime } from '../../functions/helpers';
 
+// Reactive references
 const currentDate = ref(new Date());
 const monthYear = ref('');
 const daysOfWeek = ref(['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag']);
@@ -107,27 +118,32 @@ const userId = ref('');
 const userData = ref(null);
 const selectedMonth = ref('');
 const selectedYear = ref('');
-let upcomingTasks = ref([]);
-let clickedTask = ref(null);
+const upcomingTasks = ref([]);
+const clickedTask = ref(null);
 
+// Token from localStorage
 const token = localStorage.getItem('token');
 
-let showUpdateModal = ref(false);
-let showExpandedModal = ref(false);
-let showAddModal = ref(false);
+// Modal visibility states
+const showUpdateModal = ref(false);
+const showExpandedModal = ref(false);
+const showAddModal = ref(false);
 
-let calendarLoaded = ref(false);
-let taskLoaded = ref(true);
+// Calendar and task load states
+const calendarLoaded = ref(false);
+const taskLoaded = ref(true);
 
+// Cache for tasks
 const tasksCache = {};
 
+// Default selected date
 const selectedDate = ref("today");
 
+// Lifecycle hook for initial setup
 onMounted(async () => {
     if (isValidToken(token)) {
         userData.value = await getUser(token);
         userId.value = userData.value._id;
-
         if (userData.value !== null) {
             generateCalendar();
         } else {
@@ -138,39 +154,31 @@ onMounted(async () => {
     }
 });
 
+// Generate tasks for a specific day, fetching if not in cache
 const generateTasksForDay = async (date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
 
-    // Check if tasks for this month are already cached
     if (!tasksCache[year]) {
         tasksCache[year] = {};
     }
     if (!tasksCache[year][month]) {
-        // Fetch tasks for the current month if not in cache
         const result = await getTasks(userId.value);
         let tasks = [];
         if (result.success) {
             tasks = result.data;
         }
-
-        // Cache tasks for the month
         tasksCache[year][month] = tasks;
-
-        // Update upcoming tasks
         upcomingTasks.value = await getUpcomingTasks(tasks);
     }
-
-    // Get cached tasks for the specific day
     const tasks = tasksCache[year][month];
     return tasks.filter(task => {
         const taskDate = new Date(task.date);
-        return taskDate.getFullYear() === year &&
-            taskDate.getMonth() === month &&
-            taskDate.getDate() === date.getDate();
+        return taskDate.getFullYear() === year && taskDate.getMonth() === month && taskDate.getDate() === date.getDate();
     });
 };
 
+// Retrieve tasks for a specific date from the calendar
 const dayTasks = (date) => {
     for (const week of calendar.value) {
         for (const day of week) {
@@ -182,10 +190,9 @@ const dayTasks = (date) => {
     return [];
 };
 
+// Filter upcoming tasks
 const getUpcomingTasks = (tasks) => {
     const today = new Date();
-
-    // Filter tasks that are due today or in the future, then sort them by date.
     const upcomingTasks = tasks.filter(task => {
         const taskDate = new Date(task.date);
         return taskDate >= today;
@@ -194,29 +201,28 @@ const getUpcomingTasks = (tasks) => {
         const dateB = new Date(b.date);
         return dateA - dateB;
     });
-
-    // Return only the first 3 tasks.
-    return upcomingTasks;
+    return upcomingTasks.slice(0, 3);
 };
 
+// Check if a date is the current date
 const isCurrentDate = (day) => {
     const today = new Date();
-
-    return selectedYear.value === today.getFullYear() &&
-        selectedMonth.value === today.getMonth() &&
-        day === today.getDate();
+    return selectedYear.value === today.getFullYear() && selectedMonth.value === today.getMonth() && day === today.getDate();
 };
 
+// Navigate to the next month
 const nextMonth = () => {
     currentDate.value.setMonth(currentDate.value.getMonth() + 1);
     generateCalendar();
 };
 
+// Navigate to the previous month
 const prevMonth = () => {
     currentDate.value.setMonth(currentDate.value.getMonth() - 1);
     generateCalendar();
 };
 
+// Generate the calendar for the current month
 const generateCalendar = async () => {
     const year = currentDate.value.getFullYear();
     const month = currentDate.value.getMonth();
@@ -234,14 +240,12 @@ const generateCalendar = async () => {
     const newCalendar = [];
     let week = [];
     let currentDay = new Date(firstDayOfMonth);
-
     currentDay.setDate(currentDay.getDate() - firstDayOfWeek);
 
     while (currentDay <= lastDayOfMonth) {
         const fromPrevMonth = currentDay.getMonth() !== month;
         week.push({ date: currentDay.getDate(), tasks: [], fromPrevMonth });
 
-        // Retrieve tasks for the current day from cache or fetch if not available
         const tasksForDay = await generateTasksForDay(currentDay);
         week[week.length - 1].tasks = tasksForDay;
 
@@ -249,7 +253,6 @@ const generateCalendar = async () => {
             newCalendar.push(week);
             week = [];
         }
-
         currentDay.setDate(currentDay.getDate() + 1);
     }
 
@@ -266,15 +269,18 @@ const generateCalendar = async () => {
     calendarLoaded.value = true;
 };
 
+// Open modal to expand task details
 const openExpandModal = (task) => {
     clickedTask.value = task;
     showExpandedModal.value = true;
 };
 
+// Open modal to update task
 const openUpdateModal = () => {
     showUpdateModal.value = true;
 };
 
+// Open modal to add a new task
 const openAddModel = (date) => {
     if (!date) {
         selectedDate.value = currentDate.value;
@@ -285,22 +291,20 @@ const openAddModel = (date) => {
     showAddModal.value = true;
 };
 
+// Close all modals
 const closeModal = () => {
     showUpdateModal.value = false;
     showExpandedModal.value = false;
     showAddModal.value = false;
 };
 
+// Handle task changes and refresh calendar
 const handleTaskChange = async () => {
     taskLoaded.value = false;
-
-    // Clear the entire cache
     for (const year in tasksCache) {
         delete tasksCache[year];
     }
-    // Re-fetch tasks
     await generateCalendar();
-
     taskLoaded.value = true;
 };
 </script>
