@@ -20,6 +20,7 @@ const logout = () => {
 const handleClickOutside = (event) => {
   const dropdownEl = dropdown.value;
   const hamburgerEl = hamburger.value;
+
   if (dropdownEl && !dropdownEl.contains(event.target) && !hamburgerEl.contains(event.target)) {
     dropdownEl.classList.add("hidden");
     hamburgerEl.classList.remove("active");
@@ -29,9 +30,11 @@ const handleClickOutside = (event) => {
 const closeDropdown = () => {
   const dropdownEl = dropdown.value;
   const hamburgerEl = hamburger.value;
+
   if (dropdownEl) {
     dropdownEl.classList.add("hidden");
   }
+  
   if (hamburgerEl) {
     hamburgerEl.classList.remove("active");
   }
