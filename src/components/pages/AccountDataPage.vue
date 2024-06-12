@@ -70,6 +70,11 @@ const remove = () => {
 const close = () => {
   showConfirm.value = false;
 };
+
+const logout = () => {
+  localStorage.removeItem("token");
+  router.push("/login");
+};
 </script>
 <template>
   <div class="flex justify-center my-[32px]">
@@ -81,6 +86,7 @@ const close = () => {
             <img src="/edit_no_fill.svg" alt="edit icon" class="w-[32px] ml-2" />
           </div>
         </a>
+        <p class="text-secondary-red underline font-bold ml-[12px] sm:hidden" @click="logout">Uitloggen</p>
       </div>
       <div class="w-full xs:w-[400px]">
         <h3 class="text-body font-bold pb-2 mt-8">Familienaam</h3>
