@@ -18,6 +18,8 @@ const confirmMessage = ref("");
 
 const checkboxChecked = ref(false); // Add a ref for tracking checkbox state
 
+const btnLoaded = ref(false);
+
 //function to change value checkbox
 const selectedCheckbox = () => {
   checkboxChecked.value = !checkboxChecked.value;
@@ -42,9 +44,11 @@ const register = async () => {
     error.value = "Gelieve alle velden in te vullen";
     return;
   }
+  btnLoaded.value = true;
 
   let result = await registerUser(updatedEmail.value, updatedPassword.value, updatedFamilyname.value, checkboxChecked.value);
 
+  btnLoaded.value = false;
   if (result.success) {
     confirm.value = true;
     confirmMessage.value = result.message;
@@ -67,7 +71,7 @@ const register = async () => {
         @selectedItem="selectedCheckbox" class="text-xs font-medium mt-5" />
       <div v-if="error" class="text-secondary-red">{{ error }}</div>
       <div class="mt-8 mb-4">
-        <Btn :name="'Registreer'" @click="register" :width="'full'" />
+        <Btn :name="'Registreer'" @click="register" :width="'full'" :loading="btnLoaded" />
       </div>
     </div>
     <div v-if="confirm">
