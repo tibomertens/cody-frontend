@@ -93,8 +93,9 @@ const closeFinalBudgetModal = () => {
               <a ref="#" @click="router.push(`/projects/${renovation.renovation._id}`)"
                 class="col-span-2 text-primary-dark font-bold truncate pointer-events-auto"
                 style="margin-right: 24px;">{{ renovation.renovation_title }}</a>
-              <div class="col-span-1 truncate"><i class="fa-solid fa-circle text-[8px] relative bottom-[2px] pr-[4px]"
-                  :class="{ 'text-primary-dark': renovation.status === 'Voltooid', 'text-secondary-green': renovation.status === 'Actief', 'text-secondary-yellow': renovation.status === 'Gepauzeerd' }"></i>
+              <div class="col-span-1 truncate"><i
+                  class="fa-solid fa-circle text-[8px] relative bottom-[2px] pr-[4px] text-secondary-yellow"
+                  :class="{ '!text-secondary-green': renovation.status === 'Voltooid', '!text-secondary-yellow': renovation.status === 'Actief', 'text-secondary-yellow': renovation.status === 'Gepauzeerd' }"></i>
                 {{ renovation.status }} </div>
               <div class="col-span-1 truncate">{{ convertDate(renovation.startDate) }}</div>
               <div class="col-span-1 truncate">{{ renovation.endDate ? convertDate(renovation.endDate) : '-' }}</div>
