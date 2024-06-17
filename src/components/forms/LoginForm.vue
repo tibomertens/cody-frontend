@@ -48,7 +48,7 @@ const login = async () => {
 <template>
   <form>
     <Input :label="'Email'" :type="'email'" @input-change="updateEmail" :error="hasError"></Input>
-    <Input :label="'Wachtwoord'" :type="'password'" @input-change="updatePassword" :error="hasError"></Input>
+    <Input :label="'Wachtwoord'" :type="'password'" @input-change="updatePassword" :error="hasError" :forget="true"></Input>
     <div v-if="error" class="text-secondary-red">{{ error }}</div>
     <div class="mt-8 mb-4">
       <Btn :name="'Login'" @click="login" :width="'full'" :loading="loadingState" />
